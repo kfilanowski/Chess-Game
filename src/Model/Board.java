@@ -70,7 +70,7 @@ public class Board implements BoardIF{
 
     @Override
     public PieceIF getPiece(Rank r, File f) {
-        return board[r.getNum2()][f.getNum()].getPiece();
+        return board[r.getIndex()][f.getIndex()].getPiece();
     }
 
     @Override
