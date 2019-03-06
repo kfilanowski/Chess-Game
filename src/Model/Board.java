@@ -1,5 +1,6 @@
 package Model;
 
+import Enums.ChessPieceType;
 import Enums.File;
 import Enums.Rank;
 import Interfaces.BoardIF;
@@ -8,7 +9,7 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
 public class Board implements BoardIF{
-    public char [][] board = new char [8][8];
+    public SquareIF [][] board;
 
     public static void main(String [] args){
         Board killme = new Board();
@@ -18,42 +19,28 @@ public class Board implements BoardIF{
 
     @Override
     public void init_board() {
+        board = new SquareIF[8][8];
         setup();
         draw();
     }
 
     @Override
     public void setup() {
-        board [0][0] = 'R';
-        board [0][7] = 'R';
-        board [7][0] = 'R';
-        board [7][7] = 'R';
-
-        board [0][1] = 'N';
-        board [7][1] = 'N';
-        board [0][6] = 'N';
-        board [7][6] = 'N';
-
-        board [0][2] = 'B';
-        board [0][5] = 'B';
-        board [7][2] = 'B';
-        board [7][5] = 'B';
-
-        board [0][4] = 'K';
-        board [7][4] = 'K';
-
-        board [0][3] = 'Q';
-        board [7][3] = 'Q';
-
-
+        PieceIF piece = new Piece();
+        piece.setChessPieceType(ChessPieceType.King);
+        board[7][7].setPiece(piece);
     }
 
     @Override
     public void draw() {
+        StringBuilder str = new StringBuilder();
+        int count = 8;
+
         for(int i = 0; i < board.length ; i++) {
-            System.out.println();
+            str.append(count);
+            count--;
             for (int j = 0; j < board.length; j++) {
-                System.out.print(board[i][j]);
+                str.append(board[i][j]);
             }
         }
     }
@@ -70,22 +57,22 @@ public class Board implements BoardIF{
 
     @Override
     public int getWidth() {
-        return 0;
+        return board.length;
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return board.length;
     }
 
     @Override
     public PieceIF getPiece(Rank r, File f) {
-        return null;
+        return board[r.getNum2()][f.getNum()].getPiece();
     }
 
     @Override
     public PieceIF getPiece(int col, int row) {
-        return null;
+        return board[col][row].getPiece();
     }
 
 
