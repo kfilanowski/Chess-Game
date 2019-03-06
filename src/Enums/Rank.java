@@ -11,18 +11,18 @@ public enum Rank {
     R8(8, 7);
 
     private int num;
-    private int num2;
+    private int index;
 
-    private Rank(int num, int num2){
+    private Rank(int num, int index){
         this.num = num;
-        this.num2 = num2;
+        this.index = index;
     }
 
     public int getNum() {
         return num;
     }
 
-    public int getNum2() {
-        return num2;
+    public int getIndex() {
+        return index;
     }
 }

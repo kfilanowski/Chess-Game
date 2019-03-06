@@ -11,18 +11,18 @@ public enum File {
         H('h', 7);
 
         private char file;
-        private int num;
+        private int index;
 
-        private File(char file, int num){
+        private File(char file, int index){
             this.file = file;
-            this.num = num;
+            this.index = index;
         }
 
-        public int getNum() {
-            return num;
+        public int getIndex() {
+            return index;
         }
 
-        public int getFile() {
+        public char getFile() {
             return file;
         }
 }
