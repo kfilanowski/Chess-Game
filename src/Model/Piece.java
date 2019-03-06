@@ -17,4 +17,10 @@ public class Piece extends BlackAndWhite implements PieceIF {
         return this.type;
     }
 
+    @Override
+    public String toString(){
+        String pieceType = getChessPieceType().getSymbol();
+        return pieceType;
+    }
+
 }

@@ -9,7 +9,7 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
 public class Board implements BoardIF{
-    public SquareIF [][] board;
+    public SquareIF [][] board = new SquareIF[8][8];;
 
     public static void main(String [] args){
         Board killme = new Board();
@@ -19,17 +19,19 @@ public class Board implements BoardIF{
 
     @Override
     public void init_board() {
-        board = new SquareIF[8][8];
-        setup();
-        draw();
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board.length; j++){
+                board[i][j] = new Square();
+            }
+        }
+
     }
 
     @Override
     public void setup() {
-        PieceIF piece = new Piece();
-        piece.setChessPieceType(ChessPieceType.King);
-        board[7][7].setPiece(piece);
+
     }
+
 
     @Override
     public void draw() {
@@ -37,12 +39,13 @@ public class Board implements BoardIF{
         int count = 8;
 
         for(int i = 0; i < board.length ; i++) {
-            str.append(count);
+            str.append("\n" + count);
             count--;
             for (int j = 0; j < board.length; j++) {
-                str.append(board[i][j]);
+                str.append(board[i][j].getPiece());
             }
         }
+        System.out.println(str);
     }
 
     @Override
