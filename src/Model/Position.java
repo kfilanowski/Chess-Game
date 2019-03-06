@@ -51,7 +51,7 @@ public class Position {
      * Gets the file that the players see on the board, that is, a,b,c,d,e,f,g,h.
      * @return the file value of this position that the players see on the board
      */
-    public char getFile(){
+    public String getFile(){
         return this.file.getFile();
     }
 
