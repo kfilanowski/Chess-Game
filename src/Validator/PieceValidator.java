@@ -15,6 +15,7 @@ public abstract class PieceValidator extends Piece {
 
     /**
      * Constructor for PieceValidator.
+     * 
      * @param board - The current state of the board.
      */
     public PieceValidator(BoardIF[][] board) {
@@ -24,6 +25,7 @@ public abstract class PieceValidator extends Piece {
     /** 
      * Checks to see if the move to be attempted is a valid move 
      * by the standards of Chess for this particular movement type.
+     * 
      * @param from - The position the piece currently has before movement.
      * @param to - The position the piece is being asked to move to.
      * @return - True if the piece movement is valid, otherwise returns false.
@@ -33,6 +35,7 @@ public abstract class PieceValidator extends Piece {
     /**
      * Returns an array of all possible positions that the piece can
      * legally move to.
+     * 
      * @param pos - The current position of the piece.
      * @return - An array of Position objects, each position being a
      *           space on the board that the piece can legally move to.
