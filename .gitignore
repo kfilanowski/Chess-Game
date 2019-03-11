@@ -1,2 +1,9 @@
 # Ignore VSCode settings files.
 src/.vscode/settings.json
+.settings/*
+.vscode/*
+target/*
+pom.xml
+.project
+.classpath
+.idea/file.template.settings.xml
