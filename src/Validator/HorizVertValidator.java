@@ -1,7 +1,10 @@
 package Validator;
 
 import Model.Position;
-import Interfaces.BoardIF;
+import java.util.ArrayList;
+
+import Interfaces.PieceIF;
+import Interfaces.SquareIF;
 
 /**
  * Models the piece's ability to move horizontally and vertically.
@@ -16,7 +19,7 @@ public class HorizVertValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-    public HorizVertValidator(BoardIF[][] board) {
+    public HorizVertValidator(SquareIF[][] board) {
         super(board);
     }
 
@@ -30,6 +33,30 @@ public class HorizVertValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
+        int fromFile = from.getFileIndex(), fromRank = from.getRankIndex();
+        int toFile   = to.getFileIndex(),   toRank   = to.getRankIndex();
+
+        // Check to see if the movement is not horizontal or vertical.
+        if (fromFile != toFile && fromRank != toRank) return false;
+
+        // Ensure that the Piece is not moving past other units
+        if (fromRank == toRank) {
+            for (int i = fromRank + 1; i < toRank - 1; i++)
+                if (board[fromFile][i].getPiece() != null) return false;
+        } else {
+            for (int i = fromFile + 1; i < toFile - 1; i++)
+                if (board[i][fromRank].getPiece() != null) return false;
+        }
+
+        // Ensure the final spot is not an ally or an opposing team's King.
+        PieceIF fromPiece = board[fromFile][fromRank].getPiece();
+        PieceIF toPiece = board[toFile][toRank].getPiece();
+        if (toPiece != null) {
+            if (fromPiece.getColor() == toPiece.getColor()
+                || toPiece.getChessPieceType().getName() == "King") {
+                return false;
+            }
+        }
 		return true;
 	}
 
@@ -43,6 +70,7 @@ public class HorizVertValidator extends PieceValidator {
      */
 	@Override
 	public Position[] showMoves(Position pos) {
+        ArrayList<Position> posArray = new ArrayList<>();
 		return null;
     }
 }

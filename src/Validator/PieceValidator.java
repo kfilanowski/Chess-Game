@@ -2,7 +2,7 @@ package Validator;
 
 import Model.Piece;
 import Model.Position;
-import Interfaces.BoardIF;
+import Interfaces.SquareIF;;
 
 /**
  * The Decorator abstract class for each movement type in Chess.
@@ -11,14 +11,14 @@ import Interfaces.BoardIF;
  */
 public abstract class PieceValidator extends Piece {
     /** The current state of the board required validity checking. */
-    protected BoardIF[][] board;
+    protected SquareIF[][] board;
 
     /**
      * Constructor for PieceValidator.
      * 
      * @param board - The current state of the board.
      */
-    public PieceValidator(BoardIF[][] board) {
+    public PieceValidator(SquareIF[][] board) {
         this.board = board;
     }
 

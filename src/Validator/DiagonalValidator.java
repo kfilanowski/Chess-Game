@@ -1,7 +1,7 @@
 package Validator;
 
 import Model.Position;
-import Interfaces.BoardIF;
+import Interfaces.SquareIF;
 
 /**
  * Models the piece's ability to move diagonally.
@@ -16,7 +16,7 @@ public class DiagonalValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-    public DiagonalValidator(BoardIF[][] board) {
+    public DiagonalValidator(SquareIF[][] board) {
         super(board);
     }
 
