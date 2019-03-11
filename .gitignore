@@ -7,3 +7,6 @@ pom.xml
 .project
 .classpath
 .idea/file.template.settings.xml
+\.idea/
+
+*.xml
