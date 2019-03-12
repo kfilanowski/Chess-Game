@@ -2,7 +2,7 @@ package Validator;
 
 import Model.Position;
 import java.util.ArrayList;
-
+import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
@@ -19,7 +19,7 @@ public class HorizVertValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-    public HorizVertValidator(SquareIF[][] board) {
+    public HorizVertValidator(BoardIF board) {
         super(board);
     }
 
@@ -39,19 +39,27 @@ public class HorizVertValidator extends PieceValidator {
         // Check to see if the movement is not horizontal or vertical.
         if (fromFile != toFile && fromRank != toRank) return false;
 
-        // Ensure that the Piece is not moving past other units
-        if (fromRank == toRank) {
-            for (int i = fromRank + 1; i < toRank - 1; i++)
-                if (board[fromFile][i].getPiece() != null) return false;
-        } else {
-            for (int i = fromFile + 1; i < toFile - 1; i++)
-                if (board[i][fromRank].getPiece() != null) return false;
-        }
+        // Check to see if the positions are the same
+        if (fromFile == toFile && fromRank == toRank) return false;
 
+        // Ensure that the Piece is not moving past other units
+        SquareIF[][] squares = board.getSquares();
+        if (fromFile == toFile) {
+            for (int i = Math.min(fromRank, toRank) + 1;
+                     i < Math.max(fromRank, toRank) - 1;
+                     i++)
+                if (squares[i][fromFile].getPiece() != null) return false;
+        } else {
+            for (int j = Math.min(fromFile, toFile) + 1;
+                     j < Math.max(fromFile, toFile) - 1;
+                     j++)
+                if (squares[fromRank][j].getPiece() != null) return false;
+        }
+        
         // Ensure the final spot is not an ally or an opposing team's King.
-        PieceIF fromPiece = board[fromFile][fromRank].getPiece();
-        PieceIF toPiece = board[toFile][toRank].getPiece();
-        if (toPiece != null) {
+        PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
+        PieceIF toPiece = squares[toRank][toFile].getPiece();
+        if (fromPiece != null && toPiece != null) {
             if (fromPiece.getColor() == toPiece.getColor()
                 || toPiece.getChessPieceType().getName() == "King") {
                 return false;
@@ -71,6 +79,36 @@ public class HorizVertValidator extends PieceValidator {
 	@Override
 	public Position[] showMoves(Position pos) {
         ArrayList<Position> posArray = new ArrayList<>();
-		return null;
+        SquareIF[][] squares = board.getSquares();
+        int file = pos.getFileIndex(), rank = pos.getRankIndex();
+
+        // Check Up.
+        for (int i = pos.getRankIndex(); i > 0; i--) {
+            if (squares[i][file].getPiece() == null) {
+                //posArray.add(new Position(, file, squares[i][file]));
+            }
+        }
+
+        // Check Down.
+        for (int i = pos.getRankIndex(); i < squares.length; i++) {
+            if (squares[i][file].getPiece() == null) {
+                // posArray.add(new Position(, file, squares[i][file]));
+            }
+        }
+
+        // Check to the left.
+        for (int i = pos.getFileIndex(); i > 0; i--) {
+            if (squares[rank][i].getPiece() == null) {
+                // posArray.add(new Position(, file, squares[rank][i]));
+            }
+        }
+
+        // Check to the right.
+        for (int i = pos.getFileIndex(); i < squares.length; i++) {
+            if (squares[rank][i].getPiece() == null) {
+                // posArray.add(new Position(, file, squares[i][file]));
+            }
+        }
+		return (Position[]) posArray.toArray();
     }
 }

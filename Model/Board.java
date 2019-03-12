@@ -1,6 +1,5 @@
 package Model;
 
-import Enums.ChessPieceType;
 import Enums.File;
 import Enums.Rank;
 import Interfaces.BoardIF;
@@ -9,7 +8,7 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
 public class Board implements BoardIF{
-    public SquareIF [][] board = new SquareIF[8][8];;
+    public SquareIF[][] board = new SquareIF[8][8];;
 
     public static void main(String [] args){
         Board killme = new Board();
@@ -42,7 +41,10 @@ public class Board implements BoardIF{
             str.append("\n" + count);
             count--;
             for (int j = 0; j < board.length; j++) {
-                str.append(board[i][j].getPiece());
+                if (board[i][j].getPiece() != null)
+                    str.append(" " + board[i][j].getPiece() + " ");
+                else
+                    str.append(" . ");
             }
         }
         System.out.println(str);
@@ -50,7 +52,7 @@ public class Board implements BoardIF{
 
     @Override
     public SquareIF[][] getSquares() {
-        return new SquareIF[0][];
+        return board;
     }
 
     @Override

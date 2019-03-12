@@ -1,7 +1,7 @@
 package Validator;
 
 import Model.Position;
-import Interfaces.SquareIF;
+import Interfaces.BoardIF;
 
 /**
  * Models the piece's ability to move like a Pawn,
@@ -17,7 +17,7 @@ public class PawnValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-    public PawnValidator(SquareIF[][] board) {
+    public PawnValidator(BoardIF board) {
         super(board);
     }
 

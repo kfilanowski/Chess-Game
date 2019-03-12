@@ -1,7 +1,7 @@
 package Validator;
 
 import Model.Position;
-import Interfaces.SquareIF;
+import Interfaces.BoardIF;
 
 /**
  * Models the piece's ability to move like a Knight,
@@ -17,7 +17,7 @@ public class KnightValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-    public KnightValidator(SquareIF[][] board) {
+    public KnightValidator(BoardIF board) {
         super(board);
     }
 

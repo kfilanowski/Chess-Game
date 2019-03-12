@@ -2,18 +2,19 @@ package Model;
 
 import Enums.File;
 import Enums.Rank;
+import Interfaces.SquareIF;
 
 public class Position {
     private Rank rank;
     private File file;
-    private Square square;
+    private SquareIF square;
 
     /**
      * Constructs a new Postion class utilizing the Rank and File enums.
      * @param rank the rank enumeration given to this class i.e. 1,2,3,4,5,6,7,8
      * @param file the file enumeration given to this class i.e. a,b,c,d,e,f,g,h
      */
-    public Position(Rank rank, File file, Square square){
+    public Position(Rank rank, File file, SquareIF square){
         this.rank = rank;
         this.file = file;
         this.square = square;
@@ -24,7 +25,7 @@ public class Position {
      * Gets the chess square that this position references.
      * @return the Square object that this position class references.
      */
-    public Square getSquare(){
+    public SquareIF getSquare(){
         return this.square;
     }
 
