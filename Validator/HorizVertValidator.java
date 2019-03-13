@@ -47,24 +47,22 @@ public class HorizVertValidator extends PieceValidator {
         if (fromFile == toFile) {
             for (int i = Math.min(fromRank, toRank) + 1;
                      i < Math.max(fromRank, toRank) - 1;
-                     i++)
+                     i++) {
                 if (squares[i][fromFile].getPiece() != null) return false;
+            }
         } else {
             for (int j = Math.min(fromFile, toFile) + 1;
                      j < Math.max(fromFile, toFile) - 1;
-                     j++)
+                     j++) {
                 if (squares[fromRank][j].getPiece() != null) return false;
+            }
         }
         
         // Ensure the final spot is not an ally or an opposing team's King.
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
         PieceIF toPiece = squares[toRank][toFile].getPiece();
-        if (fromPiece != null && toPiece != null) {
-            if (fromPiece.getColor() == toPiece.getColor()
-                || toPiece.getChessPieceType().getName() == "King") {
-                return false;
-            }
-        }
+        if (checkMoveOnAllyOrKing(fromPiece, toPiece)) return false;
+
 		return true;
 	}
 
@@ -79,15 +77,16 @@ public class HorizVertValidator extends PieceValidator {
 	@Override
 	public Position[] showMoves(Position pos) {
         ArrayList<Position> posArray = new ArrayList<>();
-        SquareIF[][] squares = board.getSquares();
+        /*SquareIF[][] squares = board.getSquares();
         int file = pos.getFileIndex(), rank = pos.getRankIndex();
 
+        
         // Check Up.
-        for (int i = pos.getRankIndex(); i > 0; i--) {
-            if (squares[i][file].getPiece() == null) {
-                //posArray.add(new Position(, file, squares[i][file]));
-            }
+        int i = pos.getRankIndex();
+        while (i > 0 && squares[--i][file].getPiece() == null) {
+            //posArray.add(new Position(Rank., file, squares[i][file]));
         }
+        // TODO: Helper method to check if the position at I is an opponent piece.
 
         // Check Down.
         for (int i = pos.getRankIndex(); i < squares.length; i++) {
@@ -109,6 +108,8 @@ public class HorizVertValidator extends PieceValidator {
                 // posArray.add(new Position(, file, squares[i][file]));
             }
         }
-		return (Position[]) posArray.toArray();
+        */
+        return null;
+		//return (Position[]) posArray.toArray();
     }
 }
