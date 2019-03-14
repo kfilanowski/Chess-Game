@@ -8,5 +8,6 @@ pom.xml
 .classpath
 .idea/file.template.settings.xml
 \.idea/
+test/
 
 *.xml
