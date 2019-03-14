@@ -44,18 +44,19 @@ public class HorizVertValidator extends PieceValidator {
 
         // Ensure that the Piece is not moving past other units
         SquareIF[][] squares = board.getSquares();
+        int min, max;
         if (fromFile == toFile) {
-            for (int i = Math.min(fromRank, toRank) + 1;
-                     i < Math.max(fromRank, toRank) - 1;
-                     i++) {
-                if (squares[i][fromFile].getPiece() != null) return false;
-            }
+            min = Math.min(fromRank, toRank) + 1;
+            max = Math.max(fromRank, toRank) - 1;
+            for (int i = min; i < max; i++)
+                if (squares[i][fromFile].getPiece() != null) 
+                    return false;
         } else {
-            for (int j = Math.min(fromFile, toFile) + 1;
-                     j < Math.max(fromFile, toFile) - 1;
-                     j++) {
-                if (squares[fromRank][j].getPiece() != null) return false;
-            }
+            min = Math.min(fromFile, toFile) + 1;
+            max = Math.max(fromFile, toFile) - 1;
+            for (int i = min; i < max; i++)
+                if (squares[fromRank][i].getPiece() != null)
+                    return false;
         }
         
         // Ensure the final spot is not an ally or an opposing team's King.
