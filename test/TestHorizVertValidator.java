@@ -1,8 +1,10 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.*;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
 
 import Enums.*;
 import Interfaces.BoardIF;
@@ -33,13 +35,13 @@ public class TestHorizVertValidator {
 
         // Add pieces to the board.
         SquareIF[][] squares = board.getSquares();
-        squares[5][5].setPiece(new Piece(ChessPieceType.Pawn, GameColor.Black));
-        squares[7][5].setPiece(new Piece(ChessPieceType.Queen, GameColor.White));
-        squares[0][3].setPiece(new Piece(ChessPieceType.Rook, GameColor.Black));
-        squares[2][6].setPiece(new Piece(ChessPieceType.Pawn, GameColor.White));
+        squares[5][5].setPiece(new Piece(ChessPieceType.Pawn,   GameColor.Black));
+        squares[7][5].setPiece(new Piece(ChessPieceType.Queen,  GameColor.White));
+        squares[0][3].setPiece(new Piece(ChessPieceType.Rook,   GameColor.Black));
+        squares[2][6].setPiece(new Piece(ChessPieceType.Pawn,   GameColor.White));
         squares[4][7].setPiece(new Piece(ChessPieceType.Bishop, GameColor.White));
         squares[7][1].setPiece(new Piece(ChessPieceType.Bishop, GameColor.White));
-        squares[7][3].setPiece(new Piece(ChessPieceType.King, GameColor.Black));
+        squares[7][3].setPiece(new Piece(ChessPieceType.King,   GameColor.Black));
 
         // Instantiate the validator.
         valid = new HorizVertValidator(board);
@@ -63,10 +65,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Vertical Movement - No obstructions")
     public void testValidateMove1() {
-        Position from = new Position(Rank.R4, File.A, new Square());
-        Position to = new Position(Rank.R1, File.A, new Square());
+        Position from  = new Position(Rank.R4, File.A, new Square());
+        Position to    = new Position(Rank.R1, File.A, new Square());
         Position from2 = new Position(Rank.R1, File.A, new Square());
-        Position to2 = new Position(Rank.R4, File.A, new Square());
+        Position to2   = new Position(Rank.R4, File.A, new Square());
         assertAll("A4 -> A1, A1 -> A4", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -81,7 +83,7 @@ public class TestHorizVertValidator {
     @DisplayName("Same Boundry Case")
     public void testValidateMove2() {
         Position from = new Position(Rank.R2, File.A, new Square());
-        Position to = new Position(Rank.R2, File.A, new Square());
+        Position to   = new Position(Rank.R2, File.A, new Square());
         assertFalse(valid.validateMove(from, to));
     }
 
@@ -92,10 +94,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Vertical Movement - Closest Boundry Case")
     public void testValidateMove3() {
-        Position from = new Position(Rank.R2, File.C, new Square());
-        Position to = new Position(Rank.R3, File.C, new Square());
+        Position from  = new Position(Rank.R2, File.C, new Square());
+        Position to    = new Position(Rank.R3, File.C, new Square());
         Position from2 = new Position(Rank.R3, File.C, new Square());
-        Position to2 = new Position(Rank.R2, File.C, new Square());
+        Position to2   = new Position(Rank.R2, File.C, new Square());
         assertAll("C2 -> C3, C3 -> C2", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -109,10 +111,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Vertical Movement - Furthest Boundry Case")
     public void testValidateMove4() {
-        Position from = new Position(Rank.R8, File.A, new Square());
-        Position to = new Position(Rank.R1, File.A, new Square());
+        Position from  = new Position(Rank.R8, File.A, new Square());
+        Position to    = new Position(Rank.R1, File.A, new Square());
         Position from2 = new Position(Rank.R1, File.A, new Square());
-        Position to2 = new Position(Rank.R8, File.A, new Square());
+        Position to2   = new Position(Rank.R8, File.A, new Square());
         assertAll("A8 -> A1, A1 -> A8", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -125,10 +127,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Vertical Movement - Obstructed Case")
     public void testValidateMove5() {
-        Position from = new Position(Rank.R8, File.F, new Square());
-        Position to = new Position(Rank.R1, File.F, new Square());
+        Position from  = new Position(Rank.R8, File.F, new Square());
+        Position to    = new Position(Rank.R1, File.F, new Square());
         Position from2 = new Position(Rank.R1, File.F, new Square());
-        Position to2 = new Position(Rank.R8, File.F, new Square());
+        Position to2   = new Position(Rank.R8, File.F, new Square());
         assertAll("F8 -> F1, F1 -> F8", 
             () -> assertFalse(valid.validateMove(from, to)),
             () -> assertFalse(valid.validateMove(from2, to2))
@@ -141,10 +143,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Horizontal Movement - No obstructions")
     public void testValidateMove6() {
-        Position from = new Position(Rank.R2, File.A, new Square());
-        Position to = new Position(Rank.R2, File.D, new Square());
+        Position from  = new Position(Rank.R2, File.A, new Square());
+        Position to    = new Position(Rank.R2, File.D, new Square());
         Position from2 = new Position(Rank.R2, File.D, new Square());
-        Position to2 = new Position(Rank.R2, File.A, new Square());
+        Position to2   = new Position(Rank.R2, File.A, new Square());
         assertAll("A2 -> D2, D2 -> A2", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -158,10 +160,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Horizontal Movement - Closest Boundry Case")
     public void testValidateMove7() {
-        Position from = new Position(Rank.R7, File.A, new Square());
-        Position to = new Position(Rank.R7, File.B, new Square());
+        Position from  = new Position(Rank.R7, File.A, new Square());
+        Position to    = new Position(Rank.R7, File.B, new Square());
         Position from2 = new Position(Rank.R7, File.B, new Square());
-        Position to2 = new Position(Rank.R7, File.A, new Square());
+        Position to2   = new Position(Rank.R7, File.A, new Square());
         assertAll("A7 -> B7, B7 -> A7", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -176,7 +178,7 @@ public class TestHorizVertValidator {
     @DisplayName("Horionztal Movement - Furthest Boundry Case")
     public void testValidateMove8() {
         Position from = new Position(Rank.R7, File.A, new Square());
-        Position to = new Position(Rank.R7, File.H, new Square());
+        Position to   = new Position(Rank.R7, File.H, new Square());
         assertTrue(valid.validateMove(from, to));
     }
 
@@ -186,10 +188,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Horizontal Movement - Obstructed Case")
     public void testValidateMove9() {
-        Position from = new Position(Rank.R1, File.H, new Square());
-        Position to = new Position(Rank.R1, File.A, new Square());
+        Position from  = new Position(Rank.R1, File.H, new Square());
+        Position to    = new Position(Rank.R1, File.A, new Square());
         Position from2 = new Position(Rank.R1, File.A, new Square());
-        Position to2 = new Position(Rank.R1, File.H, new Square());
+        Position to2   = new Position(Rank.R1, File.H, new Square());
         assertAll("H1 -> A1, A1 -> H1", 
             () -> assertFalse(valid.validateMove(from, to)),
             () -> assertFalse(valid.validateMove(from2, to2))
@@ -202,10 +204,10 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Diagonal Movement Case")
     public void testValidateMove10() {
-        Position from = new Position(Rank.R1, File.A, new Square());
-        Position to = new Position(Rank.R7, File.H, new Square());
+        Position from  = new Position(Rank.R1, File.A, new Square());
+        Position to    = new Position(Rank.R7, File.H, new Square());
         Position from2 = new Position(Rank.R2, File.B, new Square());
-        Position to2 = new Position(Rank.R1, File.A, new Square());
+        Position to2   = new Position(Rank.R1, File.A, new Square());
         assertAll("A1 -> H7, B2 -> A1", 
             () -> assertFalse(valid.validateMove(from, to)),
             () -> assertFalse(valid.validateMove(from2, to2))
@@ -219,7 +221,7 @@ public class TestHorizVertValidator {
     @DisplayName("Moving onto an Opponent piece")
     public void testValidateMove11() {
         Position from = new Position(Rank.R8, File.F, new Square());
-        Position to = new Position(Rank.R6, File.F, new Square());
+        Position to   = new Position(Rank.R6, File.F, new Square());
         assertTrue(valid.validateMove(from, to));
     }
 
@@ -230,7 +232,7 @@ public class TestHorizVertValidator {
     @DisplayName("Moving onto an ally piece")
     public void testValidateMove12() {
         Position from = new Position(Rank.R8, File.B, new Square());
-        Position to = new Position(Rank.R8, File.F, new Square());
+        Position to   = new Position(Rank.R8, File.F, new Square());
         assertFalse(valid.validateMove(from, to));
     }
 
@@ -240,8 +242,8 @@ public class TestHorizVertValidator {
     @Test
     @DisplayName("Moving onto a King piece")
     public void testValidateMove13() {
-        Position from = new Position(Rank.R8, File.B, new Square());
-        Position to = new Position(Rank.R8, File.D, new Square());
+        Position from  = new Position(Rank.R8, File.B, new Square());
+        Position to    = new Position(Rank.R8, File.D, new Square());
         Position from2 = new Position(Rank.R8, File.F, new Square());
         assertAll("B8 -> D8, F8 -> D8",
             () -> assertFalse(valid.validateMove(from, to)),
