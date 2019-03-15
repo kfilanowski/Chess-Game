@@ -1,11 +1,15 @@
 package Model;
 
+import Enums.ChessPieceType;
 import Enums.File;
+import Enums.GameColor;
 import Enums.Rank;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+
+import java.util.ArrayList;
 
 public class Board implements BoardIF{
     public SquareIF[][] board = new SquareIF[8][8];;
@@ -18,9 +22,21 @@ public class Board implements BoardIF{
 
     @Override
     public void init_board() {
+        int count = 0;
+
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board.length; j++){
-                board[i][j] = new Square();
+                if(count % 2 == 0){
+                    Square temp = new Square();
+                    temp.setColor(GameColor.White);
+                    board[i][j] = temp;
+                    count++;
+                }else{
+                    Square temp = new Square();
+                    temp.setColor(GameColor.Black);
+                    board[i][j] = temp;
+                    count++;
+                }
             }
         }
 
@@ -28,7 +44,9 @@ public class Board implements BoardIF{
 
     @Override
     public void setup() {
-
+        PieceIF wrook1 = new Piece(ChessPieceType.Rook);
+        ((Piece) wrook1).setColor(GameColor.White);
+        board[0][0].setPiece(wrook1);
     }
 
 

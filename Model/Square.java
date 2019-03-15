@@ -3,7 +3,6 @@ package Model;
 import Enums.ChessPieceType;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
-
 public class Square extends BlackAndWhite implements SquareIF {
     private ChessPieceType pieceType;
     private PieceIF piece;
@@ -24,4 +23,5 @@ public class Square extends BlackAndWhite implements SquareIF {
     public void setPiece(PieceIF piece) {
         this.piece = piece;
     }
+
 }
