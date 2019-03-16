@@ -2,12 +2,14 @@ package Validator;
 
 import Model.Position;
 import Interfaces.BoardIF;
+import Interfaces.PieceIF;
+import Interfaces.SquareIF;
 
 /**
  * Models the piece's ability to move diagonally.
  * 
  * @author Kevin Filanowski
- * @version March 10, 2019
+ * @version March 14, 2019
  */
 public class DiagonalValidator extends PieceValidator {
 
@@ -30,7 +32,32 @@ public class DiagonalValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
-		return true;
+		int fromFile = from.getFileIndex(), fromRank = from.getRankIndex();
+        int toFile   = to.getFileIndex(),   toRank   = to.getRankIndex();
+
+        // Check to see if the movement is not diagonal.
+        if (Math.abs(fromFile - toFile) != Math.abs(fromRank - toRank))
+            return false;
+        
+        // Check to see if the positions are the same.
+        if (fromFile == toFile && fromRank == toRank) return false;
+
+        // Ensure the final spot is not an ally or an opposing team's King.
+        SquareIF[][] squares = board.getSquares();
+        PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
+        PieceIF toPiece   = squares[toRank][toFile].getPiece();
+        if (checkMoveOnAllyOrKing(fromPiece, toPiece)) return false;
+
+        // Ensure that the Piece is not moving past other units.
+        int i = fromRank, j = fromFile;
+        while (i != toRank && j != toFile) {
+            i = (i < toRank) ? i + 1 : i - 1;
+            j = (j < toFile) ? j + 1 : j - 1;
+            if (i != toRank && j != toFile)
+                if (squares[i][j].getPiece() != null) 
+                    return false;
+        }
+        return true;
 	}
 
     /**
