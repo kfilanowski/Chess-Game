@@ -33,8 +33,10 @@ public class HorizVertValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
-        int fromFile = from.getFileIndex(), fromRank = from.getRankIndex();
-        int toFile   = to.getFileIndex(),   toRank   = to.getRankIndex();
+        int fromFile = from.getFile().getIndex();
+        int fromRank = from.getRank().getIndex();
+        int toFile = to.getFile().getIndex();
+        int toRank = to.getRank().getIndex();
 
         // Check to see if the movement is not horizontal or vertical.
         if (fromFile != toFile && fromRank != toRank) return false;
