@@ -25,4 +25,17 @@ public enum Rank {
     public int getIndex() {
         return index;
     }
+
+    /**
+     * Retrieve a Rank enumeration based on the index.
+     * 
+     * @param index - The index of the enumeration.
+     * @return - A Rank enumeration corrosponding to this index.
+     */
+    public static Rank getRankFromIndex(int index) {
+        for (Rank r: Rank.values()) {
+            if (r.getIndex() == index) { return r; }
+        }
+        return null;
+    }
 }

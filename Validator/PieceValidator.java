@@ -2,6 +2,7 @@ package Validator;
 
 import Model.Piece;
 import Model.Position;
+import Enums.ChessPieceType;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 
@@ -45,16 +46,28 @@ public abstract class PieceValidator extends Piece {
     public abstract Position[] showMoves(Position pos);
 
     /**
-     * Checks if a piece is moving onto a piece of the same color or a King.
+     * Checks if a piece is moving onto a piece of the same color.
+     * 
      * @param from - The piece that is initiating the movement.
      * @param to   - The piece that is being contested by the from piece.
      * @return     - True if the from piece attempts to move on the same square
-     *               where a piece of the same color or a King resides.
+     *               where a piece of the same color resides.
      */
-    public boolean checkMoveOnAllyOrKing(PieceIF from, PieceIF to) {
-        if (from == null || to == null) return false;
-        if (from.getColor() == to.getColor() 
-            || to.getChessPieceType().getName() == "King") {
+    public boolean checkMoveOnAlly(PieceIF from, PieceIF to) {
+        if (from == null || to == null) { return false; }
+        if (from.getColor() == to.getColor()) { return true; }
+        return false;
+    }
+
+    /**
+     * Checks if a piece is a King piece.
+     * 
+     * @param p - The piece to check.
+     * @return - True if the piece is a King piece, false otherwise.
+     */
+    public boolean checkIfKing(PieceIF p) {
+        if (p == null) { return false; }
+        if (p.getChessPieceType().getName().equals(ChessPieceType.King.getName())) {
             return true;
         }
         return false;

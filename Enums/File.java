@@ -25,4 +25,19 @@ public enum File {
         public String getFile() {
             return file;
         }
+
+    /**
+     * Retrieve a File enumeration based on the index.
+     * 
+     * @param index - The index of the enumeration.
+     * @return - A File enumeration corrosponding to this index.
+     */
+    public static File getFileFromIndex(int index) {
+        for (File f : File.values()) {
+            if (f.getIndex() == index) {
+                return f;
+            }
+        }
+        return null;
+    }
 }
