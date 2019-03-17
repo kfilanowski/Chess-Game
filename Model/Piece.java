@@ -9,7 +9,7 @@ public class Piece extends BlackAndWhite implements PieceIF {
     ChessPieceType type;
 
     public Piece() {
-        
+        type = null;
     }
 
     public Piece(ChessPieceType type) {
