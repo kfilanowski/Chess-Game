@@ -80,5 +80,15 @@ public class Board implements BoardIF{
         return board[col][row].getPiece();
     }
 
+    /**
+     * Retrieve a square at a specified rank and file.
+     * @param rank - The rank the square falls on.
+     * @param file - The file the square falls on.
+     * @return - A SquareIF from the board that falls on the specified
+     *           rank and file.
+     */
+    public SquareIF getSquare(Rank rank, File file) {
+        return board[rank.getIndex()][file.getIndex()];
+    }
 
 }

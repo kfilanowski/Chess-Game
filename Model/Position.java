@@ -4,6 +4,15 @@ import Enums.File;
 import Enums.Rank;
 import Interfaces.SquareIF;
 
+/**
+ * The position class acts as a specified location on the Chess board.
+ * A position holds a Rank and File object, as well as a square
+ * that is located on that Rank and File.
+ * 
+ * @author unassigned
+ * @author Kevin Filanowski
+ * @version March 17, 2019
+ */
 public class Position {
     private Rank rank;
     private File file;
@@ -20,49 +29,30 @@ public class Position {
         this.square = square;
     }
 
-
     /**
      * Gets the chess square that this position references.
-     * @return the Square object that this position class references.
+     * 
+     * @return - The Square object that this position class references.
      */
     public SquareIF getSquare(){
-        return this.square;
+        return square;
     }
-
 
     /**
      * Gets the rank that the players see on the board, that is, 1,2,3,4,5,6,7,8.
-     * @return The rank value of this position that the players see on the board
+     * 
+     * @return - The rank object of this position.
      */
-    public int getRank(){
-        return this.rank.getNum();
+    public Rank getRank(){
+        return rank;
     }
-
-    /**
-     * Gets the rank index, that is, the index that the players do not see that is used to
-     * access squares on the board.
-     * @return the rank index that the backend game logic uses to run the game
-     */
-    public int getRankIndex(){
-        return this.rank.getIndex();
-    }
-
 
     /**
      * Gets the file that the players see on the board, that is, a,b,c,d,e,f,g,h.
-     * @return the file value of this position that the players see on the board
+     * 
+     * @return - The file object of this position.
      */
-    public String getFile(){
-        return this.file.getFile();
+    public File getFile(){
+        return file;
     }
-
-    /**
-     * Gets the index value of the file (a,b,c,d,e,f,g,h) that the players see on the board
-     * that is used to access squares on the board.
-     * @return the file index that the backend game logic uses to run the game.
-     */
-    public int getFileIndex(){
-        return this.file.getIndex();
-    }
-
 }
