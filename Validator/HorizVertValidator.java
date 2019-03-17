@@ -74,20 +74,21 @@ public class HorizVertValidator extends PieceValidator {
      * move to.
      * 
      * @param pos - The current position of the piece.
-     * @return - An array of Position objects, each position being a space on
-     *           the board that the piece can legally move to.
+     * @return    - An array of Position objects, each position being a space on
+     *              the board that the piece can legally move to.
      */
 	@Override
 	public Position[] showMoves(Position pos) {
-        ArrayList<Position> posArray = new ArrayList<>();
+        ArrayList<Position> posArr = new ArrayList<>();
         /*SquareIF[][] squares = board.getSquares();
-        int file = pos.getFileIndex(), rank = pos.getRankIndex();
+        int file = pos.getFile().getIndex();
+        int rank = pos.getRank().getIndex();
 
         
         // Check Up.
         int i = pos.getRankIndex();
         while (i > 0 && squares[--i][file].getPiece() == null) {
-            //posArray.add(new Position(Rank., file, squares[i][file]));
+            posArr.add(new Position(pos.getRank(), pos.getFile(), squares[i][file]));
         }
         // TODO: Helper method to check if the position at I is an opponent piece.
 
