@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+import Enums.File;
+import Enums.Rank;
 
 /**
  * Models the piece's ability to move horizontally and vertically.
@@ -33,16 +35,17 @@ public class HorizVertValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
+        // For readability and brevity.
         int fromFile = from.getFile().getIndex();
         int fromRank = from.getRank().getIndex();
         int toFile = to.getFile().getIndex();
         int toRank = to.getRank().getIndex();
 
         // Check to see if the movement is not horizontal or vertical.
-        if (fromFile != toFile && fromRank != toRank) return false;
+        if (fromFile != toFile && fromRank != toRank) { return false; }
 
         // Check to see if the positions are the same
-        if (fromFile == toFile && fromRank == toRank) return false;
+        if (fromFile == toFile && fromRank == toRank) { return false; }
 
         // Ensure that the Piece is not moving past other units
         SquareIF[][] squares = board.getSquares();
@@ -50,28 +53,29 @@ public class HorizVertValidator extends PieceValidator {
         if (fromFile == toFile) {
             min = Math.min(fromRank, toRank) + 1;
             max = Math.max(fromRank, toRank) - 1;
-            for (int i = min; i < max; i++)
-                if (squares[i][fromFile].getPiece() != null) 
-                    return false;
+            for (int i = min; i < max; i++) {
+                if (squares[i][fromFile].getPiece() != null) { return false; }
+            }
         } else {
             min = Math.min(fromFile, toFile) + 1;
             max = Math.max(fromFile, toFile) - 1;
-            for (int i = min; i < max; i++)
-                if (squares[fromRank][i].getPiece() != null)
-                    return false;
+            for (int i = min; i < max; i++) {
+                if (squares[fromRank][i].getPiece() != null) { return false; }
+            }
         }
         
         // Ensure the final spot is not an ally or an opposing team's King.
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
         PieceIF toPiece = squares[toRank][toFile].getPiece();
-        if (checkMoveOnAllyOrKing(fromPiece, toPiece)) return false;
-
+        if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece)) {
+            return false; 
+        }
 		return true;
 	}
 
     /**
      * Returns an array of all possible positions that the piece can legally
-     * move to.
+     * move to, including capturing opponents.
      * 
      * @param pos - The current position of the piece.
      * @return    - An array of Position objects, each position being a space on
@@ -79,41 +83,76 @@ public class HorizVertValidator extends PieceValidator {
      */
 	@Override
 	public Position[] showMoves(Position pos) {
+        // To store all the positions.
         ArrayList<Position> posArr = new ArrayList<>();
-        /*SquareIF[][] squares = board.getSquares();
-        int file = pos.getFile().getIndex();
-        int rank = pos.getRank().getIndex();
+        SquareIF[][] squares = board.getSquares();
 
+        // For readability and brevity.
+        int fileIndex = pos.getFile().getIndex();
+        int rankIndex = pos.getRank().getIndex();
+        PieceIF piece = pos.getSquare().getPiece();
+        int size      = squares.length - 1;
         
-        // Check Up.
-        int i = pos.getRankIndex();
-        while (i > 0 && squares[--i][file].getPiece() == null) {
-            posArr.add(new Position(pos.getRank(), pos.getFile(), squares[i][file]));
+        // Check squares up from this position.
+        int i = rankIndex;
+        while (i > 0 && squares[--i][fileIndex].getPiece() == null) {
+            posArr.add(new Position(Rank.getRankFromIndex(i), 
+                                pos.getFile(), squares[i][fileIndex]));
         }
-        // TODO: Helper method to check if the position at I is an opponent piece.
-
-        // Check Down.
-        for (int i = pos.getRankIndex(); i < squares.length; i++) {
-            if (squares[i][file].getPiece() == null) {
-                // posArray.add(new Position(, file, squares[i][file]));
+        // Check the last piece.
+        if (i > 0) {
+            if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
+                && !checkIfKing(squares[i][fileIndex].getPiece())) {
+                posArr.add(new Position(Rank.getRankFromIndex(i),
+                                    pos.getFile(), squares[i][fileIndex]));
             }
         }
 
-        // Check to the left.
-        for (int i = pos.getFileIndex(); i > 0; i--) {
-            if (squares[rank][i].getPiece() == null) {
-                // posArray.add(new Position(, file, squares[rank][i]));
+        // Check squares right of this position.
+        i = fileIndex;
+        while (i < size && squares[rankIndex][++i].getPiece() == null) {
+            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
+                                squares[rankIndex][i]));
+        }
+        // Check the last piece.
+        if (i < size) {
+            if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
+                && !checkIfKing(squares[rankIndex][i].getPiece())) {
+                posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
+                                    squares[rankIndex][i]));
             }
         }
 
-        // Check to the right.
-        for (int i = pos.getFileIndex(); i < squares.length; i++) {
-            if (squares[rank][i].getPiece() == null) {
-                // posArray.add(new Position(, file, squares[i][file]));
+        // Check squares down from this position.
+        i = rankIndex;
+        while (i < size && squares[++i][fileIndex].getPiece() == null) {
+            posArr.add(new Position(Rank.getRankFromIndex(i),
+                                 pos.getFile(), squares[i][fileIndex]));
+        }
+        // Check the last piece.
+        if (i < size) {
+            if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
+                    && !checkIfKing(squares[i][fileIndex].getPiece())) {
+                posArr.add(new Position(Rank.getRankFromIndex(i),
+                                     pos.getFile(), squares[i][fileIndex]));
             }
         }
-        */
-        return null;
-		//return (Position[]) posArray.toArray();
+
+        // Check squares left of this position.
+        i = fileIndex;
+        while (i > 0 && squares[rankIndex][--i].getPiece() == null) {
+            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
+                                 squares[rankIndex][i]));
+        }
+        // Check the last piece.
+        if (i > 0) {
+            if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
+                    && !checkIfKing(squares[rankIndex][i].getPiece())) {
+                posArr.add(new Position(pos.getRank(), 
+                            File.getFileFromIndex(i), squares[rankIndex][i]));
+            }
+        }
+        // Convert to Position[] array and return.
+        return posArr.toArray(new Position[posArr.size()]);
     }
 }

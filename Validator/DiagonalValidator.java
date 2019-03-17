@@ -32,6 +32,7 @@ public class DiagonalValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
+        // For readability and brevity.
         int fromFile = from.getFile().getIndex();
         int fromRank = from.getRank().getIndex();
         int toFile = to.getFile().getIndex();
@@ -42,22 +43,24 @@ public class DiagonalValidator extends PieceValidator {
             return false;
         
         // Check to see if the positions are the same.
-        if (fromFile == toFile && fromRank == toRank) return false;
+        if (fromFile == toFile && fromRank == toRank) { return false; }
 
         // Ensure the final spot is not an ally or an opposing team's King.
         SquareIF[][] squares = board.getSquares();
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
         PieceIF toPiece   = squares[toRank][toFile].getPiece();
-        if (checkMoveOnAllyOrKing(fromPiece, toPiece)) return false;
+        if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece)) {
+            return false;
+        }
 
         // Ensure that the Piece is not moving past other units.
         int i = fromRank, j = fromFile;
         while (i != toRank && j != toFile) {
             i = (i < toRank) ? i + 1 : i - 1;
             j = (j < toFile) ? j + 1 : j - 1;
-            if (i != toRank && j != toFile)
-                if (squares[i][j].getPiece() != null) 
-                    return false;
+            if (i != toRank && j != toFile) {
+                if (squares[i][j].getPiece() != null) { return false; }
+            }
         }
         return true;
 	}

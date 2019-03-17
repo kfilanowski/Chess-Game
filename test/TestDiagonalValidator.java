@@ -1,3 +1,5 @@
+package test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -65,8 +67,8 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Same Boundry Case")
     public void testValidateMove1() {
-        Position from = new Position(Rank.R2, File.A, new Square());
-        Position to   = new Position(Rank.R2, File.A, new Square());
+        Position from = new Position(Rank.R2, File.A, null);
+        Position to   = new Position(Rank.R2, File.A, null);
         assertFalse(valid.validateMove(from, to));
     }
 
@@ -77,10 +79,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Positive Diagonal Movement (/) - No obstructions")
     public void testValidateMove2() {
-        Position from  = new Position(Rank.R7, File.A, new Square());
-        Position to    = new Position(Rank.R1, File.G, new Square());
-        Position from2 = new Position(Rank.R1, File.G, new Square());
-        Position to2   = new Position(Rank.R7, File.A, new Square());
+        Position from  = new Position(Rank.R7, File.A, null);
+        Position to    = new Position(Rank.R1, File.G, null);
+        Position from2 = new Position(Rank.R1, File.G, null);
+        Position to2   = new Position(Rank.R7, File.A, null);
         assertAll("A7 -> G1, G1 -> A7", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -94,10 +96,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Negative Diagonal Movement (\\) - No obstructions")
     public void testValidateMove3() {
-        Position from  = new Position(Rank.R1, File.B, new Square());
-        Position to    = new Position(Rank.R7, File.H, new Square());
-        Position from2 = new Position(Rank.R7, File.H, new Square());
-        Position to2   = new Position(Rank.R1, File.B, new Square());
+        Position from  = new Position(Rank.R1, File.B, null);
+        Position to    = new Position(Rank.R7, File.H, null);
+        Position from2 = new Position(Rank.R7, File.H, null);
+        Position to2   = new Position(Rank.R1, File.B, null);
         assertAll("B1 -> H7, H7 -> B1", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2)));
@@ -112,10 +114,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Positive Diagonal Movement (/) - Closest Boundry Case")
     public void testValidateMove4() {
-        Position from  = new Position(Rank.R2, File.A, new Square());
-        Position to    = new Position(Rank.R1, File.B, new Square());
-        Position from2 = new Position(Rank.R1, File.B, new Square());
-        Position to2   = new Position(Rank.R2, File.A, new Square());
+        Position from  = new Position(Rank.R2, File.A, null);
+        Position to    = new Position(Rank.R1, File.B, null);
+        Position from2 = new Position(Rank.R1, File.B, null);
+        Position to2   = new Position(Rank.R2, File.A, null);
         assertAll("A2 -> B1, B1 -> A2", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -129,10 +131,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Negative Diagonal Movement (\\) - Closest Boundry Case")
     public void testValidateMove5() {
-        Position from  = new Position(Rank.R1, File.A, new Square());
-        Position to    = new Position(Rank.R2, File.B, new Square());
-        Position from2 = new Position(Rank.R2, File.B, new Square());
-        Position to2   = new Position(Rank.R1, File.A, new Square());
+        Position from  = new Position(Rank.R1, File.A, null);
+        Position to    = new Position(Rank.R2, File.B, null);
+        Position from2 = new Position(Rank.R2, File.B, null);
+        Position to2   = new Position(Rank.R1, File.A, null);
         assertAll("A1 -> B2, B2 -> A1", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2)));
@@ -145,10 +147,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Positive Diagonal Movement (/) - Furthest Boundry Case")
     public void testValidateMove6() {
-        Position from  = new Position(Rank.R8, File.A, new Square());
-        Position to    = new Position(Rank.R1, File.H, new Square());
-        Position from2 = new Position(Rank.R1, File.H, new Square());
-        Position to2   = new Position(Rank.R8, File.A, new Square());
+        Position from  = new Position(Rank.R8, File.A, null);
+        Position to    = new Position(Rank.R1, File.H, null);
+        Position from2 = new Position(Rank.R1, File.H, null);
+        Position to2   = new Position(Rank.R8, File.A, null);
         assertAll("A8 -> H1, H1 -> A8", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2))
@@ -162,10 +164,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Negative Diagonal Movement (\\) - Furthest Boundry Case")
     public void testValidateMove7() {
-        Position from  = new Position(Rank.R1, File.A, new Square());
-        Position to    = new Position(Rank.R8, File.H, new Square());
-        Position from2 = new Position(Rank.R8, File.H, new Square());
-        Position to2   = new Position(Rank.R1, File.A, new Square());
+        Position from  = new Position(Rank.R1, File.A, null);
+        Position to    = new Position(Rank.R8, File.H, null);
+        Position from2 = new Position(Rank.R8, File.H, null);
+        Position to2   = new Position(Rank.R1, File.A, null);
         assertAll("A1 -> H8, H8 -> A1", 
             () -> assertTrue(valid.validateMove(from, to)),
             () -> assertTrue(valid.validateMove(from2, to2)));
@@ -178,10 +180,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Positive Diagonal Movement (/) - Obstructed Case")
     public void testValidateMove8() {
-        Position from  = new Position(Rank.R4, File.F, new Square());
-        Position to    = new Position(Rank.R2, File.H, new Square());
-        Position from2 = new Position(Rank.R2, File.H, new Square());
-        Position to2   = new Position(Rank.R4, File.F, new Square());
+        Position from  = new Position(Rank.R4, File.F, null);
+        Position to    = new Position(Rank.R2, File.H, null);
+        Position from2 = new Position(Rank.R2, File.H, null);
+        Position to2   = new Position(Rank.R4, File.F, null);
         assertAll("F4 -> H2, H2 -> F4", 
             () -> assertFalse(valid.validateMove(from, to)),
             () -> assertFalse(valid.validateMove(from2, to2))
@@ -195,10 +197,10 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Negative Diagonal Movement (\\) - Obstructed Case")
     public void testValidateMove9() {
-        Position from  = new Position(Rank.R1, File.C, new Square());
-        Position to    = new Position(Rank.R6, File.H, new Square());
-        Position from2 = new Position(Rank.R6, File.H, new Square());
-        Position to2   = new Position(Rank.R1, File.C, new Square());
+        Position from  = new Position(Rank.R1, File.C, null);
+        Position to    = new Position(Rank.R6, File.H, null);
+        Position from2 = new Position(Rank.R6, File.H, null);
+        Position to2   = new Position(Rank.R1, File.C, null);
         assertAll("C1 -> H6, H6 -> C1", 
             () -> assertFalse(valid.validateMove(from, to)),
             () -> assertFalse(valid.validateMove(from2, to2)));
@@ -210,16 +212,16 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Non-Diagonal Movement Case")
     public void testValidateMove10() {
-        Position from  = new Position(Rank.R4, File.D, new Square());
-        Position to    = new Position(Rank.R6, File.D, new Square());
-        Position from2 = new Position(Rank.R4, File.D, new Square());
-        Position to2   = new Position(Rank.R4, File.B, new Square());
-        Position from3 = new Position(Rank.R1, File.A, new Square());
-        Position to3   = new Position(Rank.R7, File.A, new Square());
-        Position from4 = new Position(Rank.R1, File.A, new Square());
-        Position to4   = new Position(Rank.R7, File.H, new Square());
-        Position from5 = new Position(Rank.R5, File.H, new Square());
-        Position to5   = new Position(Rank.R5, File.G, new Square());
+        Position from  = new Position(Rank.R4, File.D, null);
+        Position to    = new Position(Rank.R6, File.D, null);
+        Position from2 = new Position(Rank.R4, File.D, null);
+        Position to2   = new Position(Rank.R4, File.B, null);
+        Position from3 = new Position(Rank.R1, File.A, null);
+        Position to3   = new Position(Rank.R7, File.A, null);
+        Position from4 = new Position(Rank.R1, File.A, null);
+        Position to4   = new Position(Rank.R7, File.H, null);
+        Position from5 = new Position(Rank.R5, File.H, null);
+        Position to5   = new Position(Rank.R5, File.G, null);
         assertAll("D4 -> D6, D4 -> B4, A1 -> A7, A1 -> H7, H5 -> G5", 
             () -> assertFalse(valid.validateMove(from, to)),
             () -> assertFalse(valid.validateMove(from2, to2)),
@@ -235,8 +237,8 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Moving onto an Opponent piece")
     public void testValidateMove11() {
-        Position from = new Position(Rank.R8, File.D, new Square());
-        Position to   = new Position(Rank.R5, File.G, new Square());
+        Position from = new Position(Rank.R8, File.D, null);
+        Position to   = new Position(Rank.R5, File.G, null);
         assertTrue(valid.validateMove(from, to));
     }
 
@@ -246,8 +248,8 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Moving onto an ally piece")
     public void testValidateMove12() {
-        Position from = new Position(Rank.R8, File.B, new Square());
-        Position to   = new Position(Rank.R3, File.G, new Square());
+        Position from = new Position(Rank.R8, File.B, null);
+        Position to   = new Position(Rank.R3, File.G, null);
         assertFalse(valid.validateMove(from, to));
     }
 
@@ -257,8 +259,8 @@ public class TestDiagonalValidator {
     @Test
     @DisplayName("Moving onto a King piece")
     public void testValidateMove13() {
-        Position from  = new Position(Rank.R5, File.G, new Square());
-        Position to    = new Position(Rank.R8, File.D, new Square());
+        Position from  = new Position(Rank.R5, File.G, null);
+        Position to    = new Position(Rank.R8, File.D, null);
         assertFalse(valid.validateMove(from, to));
     }
 
