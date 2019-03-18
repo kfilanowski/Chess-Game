@@ -23,7 +23,7 @@ public class Position {
      * @param rank the rank enumeration given to this class i.e. 1,2,3,4,5,6,7,8
      * @param file the file enumeration given to this class i.e. a,b,c,d,e,f,g,h
      */
-    public Position(Rank rank, File file, SquareIF square){
+    public Position(Rank rank, File file, SquareIF square) {
         this.rank = rank;
         this.file = file;
         this.square = square;
@@ -54,5 +54,9 @@ public class Position {
      */
     public File getFile(){
         return file;
+    }
+
+    public String toString() {
+        return "rank:" + rank.getIndex() + " file:" + file.getIndex();
     }
 }
