@@ -1,6 +1,6 @@
 package Interfaces;
 
-public interface SquareIF {
+public interface SquareIF extends BlackAndWhiteIF{
 
     public void clear();
 

@@ -1,11 +1,16 @@
 package Model;
 
 import Enums.ChessPieceType;
+import Enums.GameColor;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 public class Square extends BlackAndWhite implements SquareIF {
     private ChessPieceType pieceType;
     private PieceIF piece;
+
+    public Square(GameColor color){
+        super.setColor(color);
+    }
 
     @Override
     public void clear() {
@@ -20,8 +25,12 @@ public class Square extends BlackAndWhite implements SquareIF {
     }
 
     @Override
-    public void setPiece(PieceIF piece) {
+    public void setPiece(PieceIF piece){
         this.piece = piece;
+    }
+
+    public String toString(){
+        return " ";
     }
 
 }
