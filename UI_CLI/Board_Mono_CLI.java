@@ -56,9 +56,9 @@ public class Board_Mono_CLI implements BoardStrategy {
                     }
                 }else{
                     if (squares[i][j].isBlack()) {
-                        str.append("\u001b[47m" + "\u2003"+ "\u001b[0m");
+                        str.append("\u001b[47m" + "\u2001"+ "\u001b[0m");
                     } else {
-                        str.append("\u001b[107m" + "\u2003" + "\u001b[0m");
+                        str.append("\u001b[107m" + "\u2001" + "\u001b[0m");
                     }
                 }
             }
