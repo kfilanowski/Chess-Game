@@ -1,5 +1,7 @@
 package Model;
 
+import Enums.ChessPieceType;
+import Enums.GameColor;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
@@ -12,6 +14,10 @@ import Interfaces.SquareIF;
  */
 public class Square extends BlackAndWhite implements SquareIF {
     private PieceIF piece;
+
+    public Square(GameColor color){
+        super.setColor(color);
+    }
 
     /**
      * Constructor that initializes an empty square.
@@ -54,7 +60,12 @@ public class Square extends BlackAndWhite implements SquareIF {
      * @param piece - A PieceIF object to set onto this square.
      */
     @Override
-    public void setPiece(PieceIF piece) {
+    public void setPiece(PieceIF piece){
         this.piece = piece;
     }
+
+    public String toString(){
+        return " ";
+    }
+
 }
