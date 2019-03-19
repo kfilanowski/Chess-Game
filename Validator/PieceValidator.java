@@ -68,7 +68,7 @@ public abstract class PieceValidator extends Piece {
     public boolean checkIfKing(PieceIF p) {
         if (p == null) { return false; }
         if (p.getChessPieceType().getName()
-            .equals(ChessPieceType.BLACK_KING.getName())) {
+            .equals(ChessPieceType.KING.getName())) {
             return true;
         }
         return false;

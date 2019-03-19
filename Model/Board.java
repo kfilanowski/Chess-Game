@@ -100,29 +100,29 @@ public class Board implements BoardIF{
         return board[rank.getIndex()][file.getIndex()];
     }
     private void setBlackPiece(){
-        board[0][0].setPiece(new Piece(ChessPieceType.BLACK_ROOK, GameColor.Black));
-        board[0][1].setPiece(new Piece(ChessPieceType.BLACK_KNIGHT, GameColor.Black));
-        board[0][2].setPiece(new Piece(ChessPieceType.BLACK_BISHOP, GameColor.Black));
-        board[0][3].setPiece(new Piece(ChessPieceType.BLACK_QUEEN, GameColor.Black));
-        board[0][4].setPiece(new Piece(ChessPieceType.BLACK_KING, GameColor.Black));
-        board[0][5].setPiece(new Piece(ChessPieceType.BLACK_BISHOP, GameColor.Black));
-        board[0][6].setPiece(new Piece(ChessPieceType.BLACK_KNIGHT, GameColor.Black));
-        board[0][7].setPiece(new Piece(ChessPieceType.BLACK_ROOK, GameColor.Black));
+        board[0][0].setPiece(new Piece(ChessPieceType.ROOK, GameColor.Black));
+        board[0][1].setPiece(new Piece(ChessPieceType.KNIGHT, GameColor.Black));
+        board[0][2].setPiece(new Piece(ChessPieceType.BISHOP, GameColor.Black));
+        board[0][3].setPiece(new Piece(ChessPieceType.QUEEN, GameColor.Black));
+        board[0][4].setPiece(new Piece(ChessPieceType.KING, GameColor.Black));
+        board[0][5].setPiece(new Piece(ChessPieceType.BISHOP, GameColor.Black));
+        board[0][6].setPiece(new Piece(ChessPieceType.KNIGHT, GameColor.Black));
+        board[0][7].setPiece(new Piece(ChessPieceType.ROOK, GameColor.Black));
         for(int i = 0; i < board.length; i++)
-            board[1][i].setPiece(new Piece(ChessPieceType.BLACK_PAWN, GameColor.Black));
+            board[1][i].setPiece(new Piece(ChessPieceType.PAWN, GameColor.Black));
     }
 
     private void setWhitePiece(){
-        board[7][0].setPiece(new Piece(ChessPieceType.WHITE_ROOK, GameColor.White));
-        board[7][1].setPiece(new Piece(ChessPieceType.WHITE_KNIGHT, GameColor.White));
-        board[7][2].setPiece(new Piece(ChessPieceType.WHITE_BISHOP, GameColor.White));
-        board[7][3].setPiece(new Piece(ChessPieceType.WHITE_QUEEN, GameColor.White));
-        board[7][4].setPiece(new Piece(ChessPieceType.WHITE_KING, GameColor.White));
-        board[7][5].setPiece(new Piece(ChessPieceType.WHITE_BISHOP, GameColor.White));
-        board[7][6].setPiece(new Piece(ChessPieceType.WHITE_KNIGHT, GameColor.White));
-        board[7][7].setPiece(new Piece(ChessPieceType.WHITE_ROOK, GameColor.White));
+        board[7][0].setPiece(new Piece(ChessPieceType.ROOK, GameColor.White));
+        board[7][1].setPiece(new Piece(ChessPieceType.KNIGHT, GameColor.White));
+        board[7][2].setPiece(new Piece(ChessPieceType.BISHOP, GameColor.White));
+        board[7][3].setPiece(new Piece(ChessPieceType.QUEEN, GameColor.White));
+        board[7][4].setPiece(new Piece(ChessPieceType.KING, GameColor.White));
+        board[7][5].setPiece(new Piece(ChessPieceType.BISHOP, GameColor.White));
+        board[7][6].setPiece(new Piece(ChessPieceType.KNIGHT, GameColor.White));
+        board[7][7].setPiece(new Piece(ChessPieceType.ROOK, GameColor.White));
         for(int i = 0; i < board.length; i++)
-            board[6][i].setPiece(new Piece(ChessPieceType.WHITE_PAWN, GameColor.White));
+            board[6][i].setPiece(new Piece(ChessPieceType.PAWN, GameColor.White));
     }
 
 
