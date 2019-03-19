@@ -32,28 +32,28 @@ public class Board_Mono_CLI implements BoardStrategy {
                     if (squares[i][j].isBlack()) {
 
                         if(squares[i][j].getPiece().isBlack()){
-                            str.append("\u001b[47m" + " " + "\u001b[30m\u001b[47m" + squares[i][j].getPiece() + " " + "\u001b[0m");
+                            str.append( "( " + squares[i][j].getPiece() + " )");//black squares
                         }else{
-                            str.append("\u001b[47m" + " " + "\u001b[31m\u001b[47m" + squares[i][j].getPiece() + " " + "\u001b[0m");
+                            str.append( "( " + squares[i][j].getPiece().toString().toLowerCase() + " )" );//Black piece
+                                                                                                          //is UpperCase
                         }
 
                     } else {
 
                         if(squares[i][j].getPiece().isBlack()){
-                            str.append("\u001b[107m" + " " + "\u001b[30m\u001b[107m" + squares[i][j].getPiece() +
-                                    " " + "\u001b[0m");
+                            str.append("[ " + squares[i][j].getPiece() + " ]");//white squares
                         }else{
-                            str.append("\u001b[107m" + " " + "\u001b[31m\u001b[107m" + squares[i][j].getPiece() +
-                                    " " + "\u001b[0m");
+                            str.append("[ " + squares[i][j].getPiece().toString().toLowerCase() + " ]");//white piece is
+                                                                                                        // lowercase
                         }
                     }
 
                 } else {
 
                     if (squares[i][j].isBlack()) {
-                        str.append("\u001b[47m" + "   " + "\u001b[0m");//prints a black space for the board
+                        str.append("(   )");//prints a black space for the board
                     } else {
-                        str.append("\u001b[107m" + "   " + "\u001b[0m");//prints a white space for the board
+                        str.append("[   ]");//prints a white space for the board
                     }
                 }
             }
@@ -61,7 +61,7 @@ public class Board_Mono_CLI implements BoardStrategy {
             str.append("\n");
             count--;//decrements the rank of the chess board
         }
-        str.append("   A  B  C  D  E  F  G  H");//Shows the File of the Chess pieces
+        str.append("    A    B    C    D    E    F    G    H");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
 
     }//end Draw()

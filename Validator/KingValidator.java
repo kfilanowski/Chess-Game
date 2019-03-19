@@ -26,7 +26,7 @@ public class KingValidator extends PieceValidator {
         Board board = new Board();
 
         board.init_board();
-        board.setWhitePiece();
+        //board.setWhitePiece();
         board.setDrawStrategy(new Board_Mono_CLI());
         board.draw();
         KingValidator king = new KingValidator(board);
