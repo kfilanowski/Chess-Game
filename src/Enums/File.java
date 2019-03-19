@@ -1,28 +1,43 @@
 package Enums;
 
 public enum File {
-        A('a', 0),
-        B('b', 1),
-        C('c', 2),
-        D('d', 3),
-        E('e', 4),
-        F('f', 5),
-        G('g', 6),
-        H('h', 7);
+        A("a", 0),
+        B("b", 1),
+        C("c", 2),
+        D("d", 3),
+        E("e", 4),
+        F("f", 5),
+        G("g", 6),
+        H("h", 7);
 
-        private char file;
-        private int num;
+        private String file;
+        private int index;
 
-        private File(char file, int num){
+        private File(String file, int index){
             this.file = file;
-            this.num = num;
+            this.index = index;
         }
 
-        public int getNum() {
-            return num;
+        public int getIndex() {
+            return index;
         }
 
-        public int getFile() {
+        public String getFile() {
             return file;
         }
+
+    /**
+     * Retrieve a File enumeration based on the index.
+     * 
+     * @param index - The index of the enumeration.
+     * @return - A File enumeration corrosponding to this index.
+     */
+    public static File getFileFromIndex(int index) {
+        for (File f : File.values()) {
+            if (f.getIndex() == index) {
+                return f;
+            }
+        }
+        return null;
+    }
 }

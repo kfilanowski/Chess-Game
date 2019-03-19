@@ -27,4 +27,6 @@ public interface BoardIF {
 
     public PieceIF getPiece(int col, int row);
 
+    //public SquareIF getSquare(Rank rank, File file);
+
 }

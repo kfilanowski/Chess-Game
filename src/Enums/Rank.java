@@ -11,18 +11,31 @@ public enum Rank {
     R8(8, 7);
 
     private int num;
-    private int num2;
+    private int index;
 
-    private Rank(int num, int num2){
+    private Rank(int num, int index){
         this.num = num;
-        this.num2 = num2;
+        this.index = index;
     }
 
     public int getNum() {
         return num;
     }
 
-    public int getNum2() {
-        return num2;
+    public int getIndex() {
+        return index;
+    }
+
+    /**
+     * Retrieve a Rank enumeration based on the index.
+     * 
+     * @param index - The index of the enumeration.
+     * @return - A Rank enumeration corrosponding to this index.
+     */
+    public static Rank getRankFromIndex(int index) {
+        for (Rank r: Rank.values()) {
+            if (r.getIndex() == index) { return r; }
+        }
+        return null;
     }
 }
