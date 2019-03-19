@@ -21,11 +21,11 @@ public class Board_Mono_CLI implements BoardStrategy {
 
         int count = 8;
 
-        for (int i = 0; i < squares.length; i++) {
+        for (int i = 0; i < squares.length; i++) {//rows of the chess board
 
-            str.append("\u001b[0m" + count + " ");
+            str.append("\u001b[0m" + count + " ");//shows the rank of the chess board
 
-            for (int j = 0; j < squares.length; j++) {
+            for (int j = 0; j < squares.length; j++) {//columns of the chessboard
 
                 if (squares[i][j].getPiece() != null) {
 
@@ -40,26 +40,29 @@ public class Board_Mono_CLI implements BoardStrategy {
                     } else {
 
                         if(squares[i][j].getPiece().isBlack()){
-                            str.append("\u001b[107m" + " " + "\u001b[30m\u001b[107m" + squares[i][j].getPiece() + " " + "\u001b[0m");
+                            str.append("\u001b[107m" + " " + "\u001b[30m\u001b[107m" + squares[i][j].getPiece() +
+                                    " " + "\u001b[0m");
                         }else{
-                            str.append("\u001b[107m" + " " + "\u001b[31m\u001b[107m" + squares[i][j].getPiece() + " " + "\u001b[0m");
+                            str.append("\u001b[107m" + " " + "\u001b[31m\u001b[107m" + squares[i][j].getPiece() +
+                                    " " + "\u001b[0m");
                         }
                     }
 
                 } else {
 
                     if (squares[i][j].isBlack()) {
-                        str.append("\u001b[47m" + "   " + "\u001b[0m");
+                        str.append("\u001b[47m" + "   " + "\u001b[0m");//prints a black space for the board
                     } else {
-                        str.append("\u001b[107m" + "   " + "\u001b[0m");
+                        str.append("\u001b[107m" + "   " + "\u001b[0m");//prints a white space for the board
                     }
                 }
             }
 
             str.append("\n");
-            count--;
+            count--;//decrements the rank of the chess board
         }
-            System.out.println(str);
+        str.append("   A  B  C  D  E  F  G  H");//Shows the File of the Chess pieces
+        System.out.println(str);//draws the Chess board
 
     }
 
