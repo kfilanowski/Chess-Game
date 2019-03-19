@@ -64,6 +64,6 @@ public class Board_Mono_CLI implements BoardStrategy {
         str.append("   A  B  C  D  E  F  G  H");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
 
-    }
+    }//end Draw()
 
-}
+}//end Class()
