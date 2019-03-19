@@ -1,9 +1,7 @@
 package Validator;
 
 import Model.Position;
-
 import java.util.ArrayList;
-
 import Enums.Rank;
 import Enums.File;
 import Interfaces.BoardIF;
@@ -90,6 +88,7 @@ public class DiagonalValidator extends PieceValidator {
         PieceIF piece = pos.getSquare().getPiece();
         int size = squares.length - 1;
 
+        
         // Check squares diagonally - positive slope up - from this position.
         int i = rankIndex;
         int j = fileIndex;
@@ -110,39 +109,47 @@ public class DiagonalValidator extends PieceValidator {
         i = rankIndex;
         j = fileIndex;
         while (i > 0 && j > 0 && squares[--i][--j].getPiece() == null) {
-            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i), squares[rankIndex][i]));
+            posArr.add(new Position(Rank.getRankFromIndex(i),
+                                 File.getFileFromIndex(j), squares[i][j]));
         }
         // Check the last piece.
-        if (i < size) {
-            if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
-                    && !checkIfKing(squares[rankIndex][i].getPiece())) {
-                posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i), squares[rankIndex][i]));
+        if (i > 0 && j > 0) {
+            if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
+                    && !checkIfKing(squares[i][j].getPiece())) {
+                posArr.add(new Position(Rank.getRankFromIndex(i),
+                                     File.getFileFromIndex(j), squares[i][j]));
             }
         }
 
-        // Check squares down from this position.
+        // Check squares diagonally - positive slope down - from this position.
         i = rankIndex;
-        while (i < size && squares[++i][fileIndex].getPiece() == null) {
-            posArr.add(new Position(Rank.getRankFromIndex(i), pos.getFile(), squares[i][fileIndex]));
+        j = fileIndex;
+        while (i < size && j > 0 && squares[++i][--j].getPiece() == null) {
+            posArr.add(new Position(Rank.getRankFromIndex(i),
+                                 File.getFileFromIndex(j), squares[i][j]));
         }
         // Check the last piece.
-        if (i < size) {
-            if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
-                    && !checkIfKing(squares[i][fileIndex].getPiece())) {
-                posArr.add(new Position(Rank.getRankFromIndex(i), pos.getFile(), squares[i][fileIndex]));
+        if (i < size && j > 0) {
+            if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
+                    && !checkIfKing(squares[i][j].getPiece())) {
+                posArr.add(new Position(Rank.getRankFromIndex(i),
+                                     File.getFileFromIndex(j), squares[i][j]));
             }
         }
 
-        // Check squares left of this position.
-        i = fileIndex;
-        while (i > 0 && squares[rankIndex][--i].getPiece() == null) {
-            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i), squares[rankIndex][i]));
+        // Check squares diagonally - negative slope down - from this position.
+        i = rankIndex;
+        j = fileIndex;
+        while (i < size && j < size && squares[++i][++j].getPiece() == null) {
+            posArr.add(new Position(Rank.getRankFromIndex(i),
+                                File.getFileFromIndex(j), squares[i][j]));
         }
         // Check the last piece.
-        if (i > 0) {
-            if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
-                    && !checkIfKing(squares[rankIndex][i].getPiece())) {
-                posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i), squares[rankIndex][i]));
+        if (i < size && j < size) {
+            if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
+                    && !checkIfKing(squares[i][j].getPiece())) {
+                posArr.add(new Position(Rank.getRankFromIndex(i),
+                                 File.getFileFromIndex(j), squares[i][j]));
             }
         }
         // Convert to Position[] array and return.

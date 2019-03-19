@@ -33,8 +33,8 @@ public class Piece extends BlackAndWhite implements PieceIF {
 
     @Override
     public String toString(){
-        char pieceType = getChessPieceType().getUni();
-        return pieceType + "";
+        String pieceType = getChessPieceType().getSymbol();
+        return pieceType;
     }
 
 }

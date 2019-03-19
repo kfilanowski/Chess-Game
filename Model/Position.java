@@ -57,6 +57,6 @@ public class Position {
     }
 
     public String toString() {
-        return "rank:" + rank.getIndex() + " file:" + file.getIndex();
+        return "rankIndex:" + rank.getIndex() + " fileIndex:" + file.getIndex();
     }
 }

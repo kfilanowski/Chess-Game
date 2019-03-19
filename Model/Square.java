@@ -1,6 +1,5 @@
 package Model;
 
-import Enums.ChessPieceType;
 import Enums.GameColor;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
