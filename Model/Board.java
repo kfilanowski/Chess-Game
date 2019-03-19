@@ -17,15 +17,11 @@ public class Board implements BoardIF{
     public SquareIF[][] board = new SquareIF[8][8];
     BoardStrategy bs;
 
-    public static void main(String [] args){
-        Board chess_board = new Board();
-        chess_board.init_board();
-        chess_board.setup();
-        chess_board.setDrawStrategy(new Board_Mono_CLI());
-        chess_board.draw();
+    public void go(){
+        init_board();
+        setup();
+        draw();
     }
-
-
     @Override
     public void init_board() {
         int count = 0; //helps alternate the chess board

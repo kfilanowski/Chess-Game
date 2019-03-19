@@ -4,70 +4,66 @@ import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
 
+/**
+ * This is the class that will draw the board in Black and White
+ */
 public class Board_Mono_CLI implements BoardStrategy {
 
-/**    public void draw(BoardIF board) {
-
-
-        SquareIF[][] squares = board.getSquares();
-
-        StringBuilder str = new StringBuilder();
-        int count = 8;
-
-
-        for (int i = 0; i < squares.length; i++) {
-           str.append("\n" + count + "  ");
-            count--;
-            for (int j = 0; j < squares.length; j++) {
-                if (squares[i][j].isWhite()) {
-                    str.append();
-                }
-                if (squares[i][j].getPiece() != null)
-                    if (squares[i][j].getPiece().isWhite()) {
-                        str.append(" " + squares[i][j].getPiece() + " ");
-                    } else {
-                        str.append(" " + squares[i][j].getPiece() + " ");
-                    }
-                else
-                    str.append(" . ");
-            }
-        }
-        str.append("\n\n    A  B  C  D  E  F  G  H");
-        System.out.println(str);
-
-    }
-*/
+    /**
+     * Draws the board in black and white with the squares and the pieces are black and white
+     * @param board - the board object that is printed on the command line interface.
+     */
     @Override
-    public void draw(BoardIF board){
+    public void draw(BoardIF board) {
         SquareIF[][] squares = board.getSquares();
 
         StringBuilder str = new StringBuilder();
 
         int count = 8;
 
-        for(int i = 0; i < squares.length; i++){
-            str.append("\u001b[0m" + count + " ");
-            for(int j = 0; j < squares.length; j++){
-                if(squares[i][j].getPiece() != null) {
+        for (int i = 0; i < squares.length; i++) {//rows of the chess board
+
+            str.append("\u001b[0m" + count + " ");//shows the rank of the chess board
+
+            for (int j = 0; j < squares.length; j++) {//columns of the chessboard
+
+                if (squares[i][j].getPiece() != null) {
+
                     if (squares[i][j].isBlack()) {
-                        str.append("\u001b[47m" + squares[i][j].getPiece() + "\u001b[0m");
+
+                        if(squares[i][j].getPiece().isBlack()){
+                            str.append("\u001b[47m" + " " + "\u001b[30m\u001b[47m" + squares[i][j].getPiece() + " " + "\u001b[0m");
+                        }else{
+                            str.append("\u001b[47m" + " " + "\u001b[31m\u001b[47m" + squares[i][j].getPiece() + " " + "\u001b[0m");
+                        }
+
                     } else {
-                        str.append("\u001b[107m" + squares[i][j].getPiece() + "\u001b[0m");
+
+                        if(squares[i][j].getPiece().isBlack()){
+                            str.append("\u001b[107m" + " " + "\u001b[30m\u001b[107m" + squares[i][j].getPiece() +
+                                    " " + "\u001b[0m");
+                        }else{
+                            str.append("\u001b[107m" + " " + "\u001b[31m\u001b[107m" + squares[i][j].getPiece() +
+                                    " " + "\u001b[0m");
+                        }
                     }
-                }else{
+
+                } else {
+
                     if (squares[i][j].isBlack()) {
-                        str.append("\u001b[47m" + "\u2001"+ "\u001b[0m");
+                        str.append("\u001b[47m" + "   " + "\u001b[0m");//prints a black space for the board
                     } else {
-                        str.append("\u001b[107m" + "\u2001" + "\u001b[0m");
+                        str.append("\u001b[107m" + "   " + "\u001b[0m");//prints a white space for the board
                     }
                 }
             }
+
             str.append("\n");
-            count--;
+            count--;//decrements the rank of the chess board
         }
+        str.append("   A  B  C  D  E  F  G  H");//Shows the File of the Chess pieces
+        System.out.println(str);//draws the Chess board
 
-        System.out.println(str);
+    }//end Draw()
 
-    }
-
-}
+}//end Class()
