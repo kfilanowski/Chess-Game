@@ -174,6 +174,7 @@ public class DiagonalValidator extends PieceValidator {
         return both;
     }
 
+
     @Override
     public String toString(){
         return p.toString();
