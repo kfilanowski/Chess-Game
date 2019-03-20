@@ -1,5 +1,6 @@
 package Validator;
 
+import Enums.GameColor;
 import Model.Position;
 import java.util.ArrayList;
 import Enums.Rank;
@@ -15,7 +16,7 @@ import Interfaces.SquareIF;
  * @version March 14, 2019
  */
 public class DiagonalValidator extends PieceValidator {
-    PieceIF p;
+    //PieceIF p;
     /**
      * Constructor for DiagonalValidator.
      * 
@@ -173,7 +174,13 @@ public class DiagonalValidator extends PieceValidator {
         return both;
     }
 
-//    public String toString(){
-//        return super.valid_piece.toString();
-//    }
+    @Override
+    public String toString(){
+        return p.toString();
+    }
+
+    @Override
+    public GameColor getColor() {
+        return p.getColor();
+    }
 }

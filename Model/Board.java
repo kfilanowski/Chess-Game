@@ -8,40 +8,45 @@ import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
-import UI_CLI.Board_Color_CLI;
-import UI_CLI.Board_Mono_CLI;
-import Validator.DiagonalValidator;
-import Validator.HorizVertValidator;
-import Validator.KnightValidator;
-import Validator.PieceValidator;
-import java.util.Arrays;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
+import Validator.*;
 
+/**
+ * @author - Jacob Ginn
+ * @version - 3/19/2019
+ * This is the board class that holds the methods to initialize , setup, and which draw method that will be used
+ * when the board is printed in the command line interface.
+ */
 public class Board implements BoardIF{
     public SquareIF[][] board = new SquareIF[8][8];
     BoardStrategy bs;
 
+    /**
+     * This class is used by the driver to initialize a board, setup the board, and to draw the board.
+     */
     public void go(){
         init_board();
         setup();
         draw();
     }
+
+    /**
+     * This sets up the the board with squares that will hold pieces and the piece validators.
+     */
     @Override
     public void init_board() {
         int count = 0; //helps alternate the chess board
 
-        for(int i = 0; i < board.length; i++){
-            if (i % 2 == 1) {
+        for(int i = 0; i < board.length; i++){//rows of the board
+            if (i % 2 == 1) {//achieves  the checker pattern
                 count = 1;
             }
-            for(int j = 0; j < board.length; j++){
+            for(int j = 0; j < board.length; j++){//columns of the board
                 if(count % 2 == 0){
-                    board[i][j] = new Square(GameColor.WHITE);
+                    board[i][j] = new Square(GameColor.WHITE);//makes a square of color WHITE
                     count++;
 
                 }else{
-                    board[i][j] = new Square(GameColor.BLACK);
+                    board[i][j] = new Square(GameColor.BLACK);//makes a square of color BLACK
                     count++;
                 }
             }
@@ -51,44 +56,77 @@ public class Board implements BoardIF{
 
     }
 
+    /**
+     * This is the default setup of the board that sets black and white pieces on the board.
+     */
     @Override
     public void setup() {
         setWhitePiece();
         setBlackPiece();
     }
 
-
+    /**
+     * This method calls the draw method in either color or mono colored.
+     */
     @Override
     public void draw() {
     bs.draw(this);
     }
 
+    /**
+     * This returns the complete board that the game is being played on.
+     * @return - the board that chess is being played on
+     */
     @Override
     public SquareIF[][] getSquares() {
         return board;
     }
 
+    /**
+     * Sets whether the users want to play in colored ot mono-colored mode.
+     * @param d - the draw strategy that is being used.
+     */
     @Override
     public void setDrawStrategy(BoardStrategy d){
         this.bs = d;
 
     }
 
+    /**
+     * gets the width of the board
+     * @return - the width of the board
+     */
     @Override
     public int getWidth() {
         return board.length;
     }
 
+    /**
+     * gets the height of the board
+     * @return - the height of the board
+     */
     @Override
     public int getHeight() {
         return board.length;
     }
 
+    /**
+     * Gets the piece on the Square that is inputted
+     * @param r - The rank of input position
+     * @param f - The file of input position
+     * @return - the piece in that position
+     */
     @Override
     public PieceIF getPiece(Rank r, File f) {
         return board[r.getIndex()][f.getIndex()].getPiece();
     }
 
+    /**
+     * gets the piece on the Sqare that is inputted
+     * @param col - The column of the input position
+     * @param row - The row of the input position
+     * @return - the piece in that position
+     */
     @Override
     public PieceIF getPiece(int col, int row) {
         return board[col][row].getPiece();
@@ -104,43 +142,96 @@ public class Board implements BoardIF{
     public SquareIF getSquare(Rank rank, File file) {
         return board[rank.getIndex()][file.getIndex()];
     }
+
+    /**
+     * Sets the Black pieces on the board
+     */
     private void setBlackPiece(){
-//        //board[0][0].setPiece(new Piece(ChessPieceType.ROOK, GameColor.Black));
-//        board[0][0].setPiece(new HorizVertValidator(this, new Piece(ChessPieceType.ROOK, GameColor.BLACK)));
-//        board[0][1].setPiece(new KnightValidator(this, new Piece(ChessPieceType.KNIGHT, GameColor.BLACK)));
-//        board[0][2].setPiece(new DiagonalValidator(this, new Piece(ChessPieceType.BISHOP, GameColor.BLACK)));
-//        board[0][3].setPiece(new HorizVertValidator(new DiagonalValidator(this, new Piece(ChessPieceType.QUEEN, GameColor.BLACK))));
-//
-//
-//        board[0][0].setPiece(new HorizVertValidator(this, new Piece(ChessPieceType.ROOK, GameColor.BLACK)));
-//        board[0][0].setPiece(new HorizVertValidator(this, new Piece(ChessPieceType.ROOK, GameColor.BLACK)));
-//        board[0][0].setPiece(new HorizVertValidator(this, new Piece(ChessPieceType.ROOK, GameColor.BLACK)));
-//        board[0][0].setPiece(new HorizVertValidator(this, new Piece(ChessPieceType.ROOK, GameColor.BLACK)));
-//        board[0][0].setPiece(new HorizVertValidator(this, new Piece(ChessPieceType.ROOK, GameColor.BLACK)));
-//
-//        System.out.println(Arrays.toString(((PieceValidator) board[0][2].getPiece()).showMoves(new Position(Rank.R1, File.C, board[0][2]))));
-//
-//        //for(int i = 0; i < board.length; i++)
-//        //    board[1][i].setPiece(new Piece(ChessPieceType.PAWN, GameColor.BLACK));
-//        System.out.println(Arrays.toString(((PieceValidator) board[0][0].getPiece()).showMoves(new Position(Rank.R1, File.A, board[0][0]))));
-        PieceIF piece = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
-        piece = new HorizVertValidator(this, piece);
-        piece = new DiagonalValidator(this, piece);
-        System.out.println(Arrays.toString(((PieceValidator) piece).showMoves(new Position(Rank.R1, File.D, board[0][3]))));
+
+        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
+        queen = new HorizVertValidator(this, queen);
+        queen = new DiagonalValidator(this, queen);
+        board[0][3].setPiece(queen);
+
+        System.out.println(board[0][3].getPiece());
+
+        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
+        rook = new HorizVertValidator(this, rook);
+        board[0][0].setPiece(rook);
+
+        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
+        bishop = new DiagonalValidator(this, bishop);
+        board[0][1].setPiece(bishop);
+
+        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
+        knight = new KnightValidator(this, knight);
+        board[0][2].setPiece(knight);
+
+        PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.BLACK);
+        bKing = new KingValidator(this, bKing);
+        board[0][4].setPiece(bKing);
+
+        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
+        bishop2 = new DiagonalValidator(this, bishop2);
+        board[0][5].setPiece(bishop2);
+
+        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
+        knight2 = new KnightValidator(this, knight2);
+        board[0][6].setPiece(knight2);
+
+        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
+        rook2 = new HorizVertValidator(this, rook2);
+        board[0][7].setPiece(rook2);
+
+        for(int i = 0; i < board.length; i++){
+            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
+            pawn = new PawnValidator(this, pawn);
+            board[1][i].setPiece(pawn);
+        }
     }
 
+    /**
+     * sets the White pieces on the board
+     */
     private void setWhitePiece(){
-        board[7][0].setPiece(new Piece(ChessPieceType.ROOK, GameColor.WHITE));
-        board[7][1].setPiece(new Piece(ChessPieceType.KNIGHT, GameColor.WHITE));
-        board[7][2].setPiece(new Piece(ChessPieceType.BISHOP, GameColor.WHITE));
-        board[7][3].setPiece(new Piece(ChessPieceType.QUEEN, GameColor.WHITE));
-        board[7][4].setPiece(new Piece(ChessPieceType.KING, GameColor.WHITE));
-        board[7][5].setPiece(new Piece(ChessPieceType.BISHOP, GameColor.WHITE));
-        board[7][6].setPiece(new Piece(ChessPieceType.KNIGHT, GameColor.WHITE));
-        board[7][7].setPiece(new Piece(ChessPieceType.ROOK, GameColor.WHITE));
-        for(int i = 0; i < board.length; i++)
-            board[6][i].setPiece(new Piece(ChessPieceType.PAWN, GameColor.WHITE));
+
+        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.WHITE);
+        queen = new HorizVertValidator(this, queen);
+        queen = new DiagonalValidator(this, queen);
+        board[7][3].setPiece(queen);
+
+        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
+        rook = new HorizVertValidator(this, rook);
+        board[7][0].setPiece(rook);
+
+        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
+        bishop = new DiagonalValidator(this, bishop);
+        board[7][1].setPiece(bishop);
+
+        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
+        knight = new KnightValidator(this, knight);
+        board[7][2].setPiece(knight);
+
+        PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.WHITE);
+        bKing = new KingValidator(this, bKing);
+        board[7][4].setPiece(bKing);
+
+        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
+        bishop2 = new DiagonalValidator(this, bishop2);
+        board[7][5].setPiece(bishop2);
+
+        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
+        knight2 = new KnightValidator(this, knight2);
+        board[7][6].setPiece(knight2);
+
+        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
+        rook2 = new HorizVertValidator(this, rook2);
+        board[7][7].setPiece(rook2);
+
+        for(int i = 0; i < board.length; i++){
+            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.WHITE);
+            pawn = new PawnValidator(this, pawn);
+            board[6][i].setPiece(pawn);
+        }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package Validator;
 
 import Enums.File;
+import Enums.GameColor;
 import Enums.Rank;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
@@ -58,9 +59,10 @@ public class KingValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-//    public KingValidator(BoardIF board, PieceIF valid_piece) {
-//        super(board, valid_piece);
-//    }
+    public KingValidator(BoardIF board, PieceIF p) {
+        this.p = p;
+        this.board = board;
+    }
 
     /**
      * Checks to see if the move to be attempted is a valid move by the 
@@ -479,9 +481,14 @@ public class KingValidator extends PieceValidator {
 	    return true;
     }
 
-//    public String toString(){
-//        return super.valid_piece.getChessPieceType().toString();
-//    }
+    @Override
+    public String toString(){
+        return p.toString();
+    }
 
+    @Override
+    public GameColor getColor() {
+        return p.getColor();
+    }
 
 }

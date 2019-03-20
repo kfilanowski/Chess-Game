@@ -1,5 +1,6 @@
 package UI_CLI;
 
+import Enums.GameColor;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
@@ -11,7 +12,7 @@ import Validator.PieceValidator;
 public class Board_Mono_CLI implements BoardStrategy {
 
     /**
-     * Draws the board in black and white with the squares and the pieces are black and white
+     * Draws the board in black and white with the squares and the pieces are in color.
      * @param board - the board object that is printed on the command line interface.
      */
     @Override
@@ -32,17 +33,19 @@ public class Board_Mono_CLI implements BoardStrategy {
 
                     if (squares[i][j].isBlack()) {
 
-                        if( squares[i][j].getPiece().isBlack() ){
-                            str.append( "( " + squares[i][j].getPiece() + " )");//black squares
+                        if( squares[i][j].getPiece().getColor() == GameColor.BLACK ){
+                            System.out.println("kill me");
+                            str.append( "( " + squares[i][j].getPiece().toString().toUpperCase() + " )");//black squares
                         }else{
-                            str.append( "( " + ((PieceValidator) squares[i][j].getPiece()) + " )" );//Black piece
-                                                                                                          //is UpperCase
+                            str.append( "( " + squares[i][j].getPiece().toString().toLowerCase() + " )" );//Black piece
+                                                                                                          // is UpperCase
                         }
 
                     } else {
 
-                        if(squares[i][j].getPiece().isBlack()){
-                            str.append("[ " + squares[i][j].getPiece() + " ]");//white squares
+                        if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
+                            System.out.println("Kill me");
+                            str.append("[ " + squares[i][j].getPiece().toString().toUpperCase() + " ]");//white squares
                         }else{
                             str.append("[ " + squares[i][j].getPiece().toString().toLowerCase() + " ]");//white piece is
                                                                                                         // lowercase

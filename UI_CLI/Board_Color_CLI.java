@@ -1,5 +1,6 @@
 package UI_CLI;
 
+import Enums.GameColor;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
@@ -27,7 +28,7 @@ public class Board_Color_CLI implements BoardStrategy {
 
                     if (squares[i][j].isBlack()) {
 
-                        if(squares[i][j].getPiece().isBlack()){
+                        if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
                             str.append("\u001b[47m" + " " + "\u001b[30m\u001b[47m" + squares[i][j].getPiece() + " " + "\u001b[0m");
                         }else{
                             str.append("\u001b[47m" + " " + "\u001b[31m\u001b[47m" + squares[i][j].getPiece() + " " + "\u001b[0m");
@@ -35,7 +36,7 @@ public class Board_Color_CLI implements BoardStrategy {
 
                     } else {
 
-                        if(squares[i][j].getPiece().isBlack()){
+                        if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
                             str.append("\u001b[107m" + " " + "\u001b[30m\u001b[107m" + squares[i][j].getPiece() +
                                     " " + "\u001b[0m");
                         }else{

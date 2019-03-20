@@ -1,5 +1,6 @@
 package Validator;
 
+import Enums.GameColor;
 import Interfaces.PieceIF;
 import Model.Position;
 import Interfaces.BoardIF;
@@ -18,9 +19,10 @@ public class PawnValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-//    public PawnValidator(BoardIF board, PieceIF valid_piece) {
-//        super(board, valid_piece);
-//    }
+	public PawnValidator(BoardIF board, PieceIF p) {
+		this.p = p;
+		this.board = board;
+	}
 
     /**
      * Checks to see if the move to be attempted is a valid move by the 
@@ -48,7 +50,13 @@ public class PawnValidator extends PieceValidator {
 		return null;
     }
 
-//    public String toString(){
-//        return super.valid_piece.getChessPieceType().toString();
-//    }
+	@Override
+	public String toString(){
+		return p.toString();
+	}
+
+	@Override
+	public GameColor getColor() {
+		return p.getColor();
+	}
 }

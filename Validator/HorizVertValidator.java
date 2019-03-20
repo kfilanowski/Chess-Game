@@ -15,7 +15,7 @@ import Enums.Rank;
  * @version March 10, 2019
  */
 public class HorizVertValidator extends PieceValidator {
-    PieceIF p;
+   // PieceIF p;
 
 //    /**
 //     * Constructor for HorizVertValidator.
@@ -173,5 +173,15 @@ public class HorizVertValidator extends PieceValidator {
 
         // Convert to Position[] array and return.
         return both;
+    }
+
+    @Override
+    public String toString(){
+	    return p.toString();
+    }
+
+    @Override
+    public GameColor getColor() {
+	    return p.getColor();
     }
 }
