@@ -236,6 +236,8 @@ public class Board implements BoardIF{
             board[6][i].setPiece(pawn);
         }
     }
+
+    /** For next sprint */
     public boolean checkForCheck(GameColor color){
         boolean finalResult = false;
         boolean go = true;
@@ -280,7 +282,7 @@ public class Board implements BoardIF{
         return finalResult;
     }
 
-
+    /** For next sprint */
     private boolean checkLefRight(int direction, int rank, int file, GameColor color){
         boolean result = false;
 
@@ -316,6 +318,7 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /** For next sprint */
     private boolean checkUpDown(int direction, int rank, int file, GameColor color){
         boolean result = false;
 
@@ -352,6 +355,7 @@ public class Board implements BoardIF{
        return result;
     }
 
+    /** For next sprint */
     private boolean checkUpRightDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;

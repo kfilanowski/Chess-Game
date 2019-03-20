@@ -20,7 +20,11 @@ public class commandParse {
         input = new Scanner(System.in);
     }
 
-
+    /**
+     * Method that parses the command line arguments and calls the move helper method
+     * @param board - An instance of the chess board
+     * @param command - The array that holds the command line arguments
+     */
     public void parse(BoardIF board, String[] command){
         boolean go = true;
         SquareIF[][] squares = board.getSquares();
@@ -82,6 +86,12 @@ public class commandParse {
         return refinedPos;
     }
 
+    /**
+     * Helper method that is used to move a piece on the board
+     * @param board - An instance of the chess board
+     * @param from - The starting position that we want to move from
+     * @param to - The final position that we want to move to
+     */
     private void move(BoardIF board, Position from, Position to){
         int fromFile = from.getFile().getIndex();
         int fromRank = from.getRank().getIndex();

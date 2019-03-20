@@ -56,6 +56,10 @@ public class Position {
         return file;
     }
 
+    /**
+     * Gets our Position and changes it into string form
+     * @return - The position as a string
+     */
     public String toString() {
         return "rankIndex:" + rank.getRankNum() + " fileIndex:" + file.getFile();
     }

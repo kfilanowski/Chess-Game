@@ -63,6 +63,10 @@ public class Square extends BlackAndWhite implements SquareIF {
         this.piece = piece;
     }
 
+    /**
+     * Method that gets the square in string form
+     * @return - String form of a square
+     */
     public String toString(){
         return " ";
     }
