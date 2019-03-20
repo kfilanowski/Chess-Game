@@ -1,29 +1,29 @@
 package Enums;
 
 public enum Rank {
-    R1(1, 0),
-    R2(2, 1),
-    R3(3, 2),
-    R4(4, 3),
-    R5(5, 4),
-    R6(6, 5),
-    R7(7, 6),
-    R8(8, 7);
+    R1(8, 0),
+    R2(7, 1),
+    R3(6, 2),
+    R4(5, 3),
+    R5(4, 4),
+    R6(3, 5),
+    R7(2, 6),
+    R8(1, 7);
 
-    private int num;
+    private int rankNum;
     private int index;
 
-    private Rank(int num, int index){
-        this.num = num;
+    private Rank(int rankNum, int index){
+        this.rankNum = rankNum;
         this.index = index;
     }
 
-    public int getNum() {
-        return num;
+    public int getRankNum() {
+        return this.rankNum;
     }
 
     public int getIndex() {
-        return index;
+        return this.index;
     }
 
     /**
@@ -35,6 +35,13 @@ public enum Rank {
     public static Rank getRankFromIndex(int index) {
         for (Rank r: Rank.values()) {
             if (r.getIndex() == index) { return r; }
+        }
+        return null;
+    }
+
+    public static Rank getRankFromNum(int rankNum){
+        for (Rank r: Rank.values()) {
+            if (r.getRankNum() == rankNum) { return r; }
         }
         return null;
     }

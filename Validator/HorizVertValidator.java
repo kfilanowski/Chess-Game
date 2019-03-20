@@ -15,7 +15,7 @@ import Enums.Rank;
  * @version March 10, 2019
  */
 public class HorizVertValidator extends PieceValidator {
-   // PieceIF p;
+   //PieceIF p;
 
 //    /**
 //     * Constructor for HorizVertValidator.

@@ -73,7 +73,7 @@ public class Board implements BoardIF{
      */
     @Override
     public void draw() {
-    bs.draw(this);
+        bs.draw(this);
     }
 
     /**
@@ -152,8 +152,9 @@ public class Board implements BoardIF{
     private void setBlackPiece(){
 
         PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
-        queen = new HorizVertValidator(this, queen);
         queen = new DiagonalValidator(this, queen);
+        queen = new HorizVertValidator(this, queen);
+
         board[0][3].setPiece(queen);
 
         PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
