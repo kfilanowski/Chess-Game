@@ -175,7 +175,7 @@ public class DiagonalValidator extends PieceValidator {
     }
 
     /**
-     * Returns 
+     * Returns
      * @return
      */
     @Override
