@@ -6,6 +6,7 @@ import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
 
 public class Board_Color_CLI implements BoardStrategy {
+
     /**
      * Draws the board in black and white with the squares and the pieces are black and white
      * @param board - the board object that is printed on the command line interface.

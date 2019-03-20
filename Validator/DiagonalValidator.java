@@ -1,6 +1,5 @@
 package Validator;
 
-import Enums.GameColor;
 import Model.Position;
 import java.util.ArrayList;
 import Enums.Rank;
@@ -13,14 +12,14 @@ import Interfaces.SquareIF;
  * Models the piece's ability to move diagonally.
  * 
  * @author Kevin Filanowski
- * @version March 14, 2019
+ * @version March 20, 2019
  */
 public class DiagonalValidator extends PieceValidator {
-     //PieceIF p;
     /**
      * Constructor for DiagonalValidator.
      * 
      * @param board - The current state of the board.
+     * @param p - The PieceIF decorator or 
      */
 //    public DiagonalValidator(BoardIF board,PieceIF valid_piece) {
 //        super(board, valid_piece);
@@ -71,7 +70,8 @@ public class DiagonalValidator extends PieceValidator {
                 if (squares[i][j].getPiece() != null) { return false; }
             }
         }
-        return true;
+
+        return p.validateMove(from, to) & true;
 	}
 
     /**
@@ -174,13 +174,9 @@ public class DiagonalValidator extends PieceValidator {
         return both;
     }
 
+
     @Override
     public String toString(){
         return p.toString();
-    }
-
-    @Override
-    public GameColor getColor() {
-        return p.getColor();
     }
 }
