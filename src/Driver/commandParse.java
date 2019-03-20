@@ -8,6 +8,11 @@ import Model.Position;
 
 import java.util.Scanner;
 
+/**
+ * Parses commands for the user so that the user can play chess.
+ * @author Jeriah Caplinger
+ * @version 3/19/2019
+ */
 public class commandParse {
     private Scanner input;
 
@@ -15,31 +20,64 @@ public class commandParse {
         input = new Scanner(System.in);
     }
 
-    public boolean parse(BoardIF board){
-        boolean result = false;
+
+    public void parse(BoardIF board){
+        boolean go = true;
         SquareIF[][] squares = board.getSquares();
 
-        String[] command = input.nextLine().split(" ");
-        if(command[0].equals("/move")){
+        while(go) {
+            String[] command = input.nextLine().split(" ");
+            // if it is a move command i.e. /move b4 c8 (specifies we are moving the piece at b4 to c8
+            if (command[0].toLowerCase().equals("/move") && command.length == 3) {
+                Position from = getPosition(command[1], squares);
+                Position to = getPosition(command[2], squares);
 
+                //TODO pass in positions to a validator
+
+                // we can stop our while loop now that we have correct input
+                go = false;
+            }else if(command[0].toLowerCase().equals("/show moves") && command.length == 2){
+                Position from = getPosition(command[1], squares);
+                //TODO: pass in Position to a validator to show the moves
+                go = false;
+            }else if(command[0].toLowerCase().equals("/undo") && command.length == 1){
+                //TODO: handle undo somehow
+                System.out.println("undo");
+            }
         }
     }
 
-    private Position getPosition(String pos, SquareIF squares){
+    /**
+     * Helper method that gets a position based on provided user input
+     * @param pos the requested position i.e. b6 or B6 or f5 or F5
+     * @param squares the squares on the chess board
+     * @return a Position object representing the requested position from the user
+     *          or null if the requested position is invalid
+     */
+    private Position getPosition(String pos, SquareIF[][] squares){
         Position refinedPos;
         pos = pos.toLowerCase();
         String[] posArray = pos.split("");
 
+        // we attempt to get the position
         try {
             File file = File.getFileFromLetter(posArray[0]);
-            int rank = Integer.parseInt(posArray[1]);
-            refinedPos = new Position(Rank.getRankFromIndex(rank), File.getFileFromLetter(posArray[0]),
-                    squares[Rank.getRankFromIndex(rank)][File.getFileFromLetter(posArray[0])]);
+            int parseRank = Integer.parseInt(posArray[1]);
+            Rank rank = Rank.getRankFromIndex(parseRank);
 
+            // if we have a valid file and rank
+            if(file != null && rank != null){
+                refinedPos = new Position(rank, file,
+                        squares[rank.getIndex()][file.getIndex()]);
+
+            // otherwise it is not a valid file and/or rank and we return null
+            }else{
+                refinedPos = null;
+            }
+         // if we were not supplied a number
         }catch(NumberFormatException nfe){
             refinedPos = null;
         }
-
+        return refinedPos;
     }
-
 }

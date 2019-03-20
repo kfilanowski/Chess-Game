@@ -11,7 +11,6 @@ import Model.Board;
 import Model.Position;
 import UI_CLI.Board_Color_CLI;
 import UI_CLI.Board_Mono_CLI;
-import Validator.KnightValidator;
 import Validator.PawnValidator;
 
 /**
@@ -38,7 +37,7 @@ public class Driver {
 
         ((Board) chess_board).go();
 
-        //*****************************TESTING***********************************
+        /*//*****************************TESTING***********************************
         SquareIF[][] squares = chess_board.getSquares();
         Position from = new Position(Rank.R2, File.B, squares[Rank.R2.getIndex()][File.B.getIndex()]);
 
@@ -50,7 +49,7 @@ public class Driver {
 
         pawn.showMoves(from);
 
-        //***********************************************************************
+        *///***********************************************************************
 
 
     }

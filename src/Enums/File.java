@@ -57,4 +57,14 @@ public enum File {
         return null;
     }
 
+    public static int getMaxIndex(){
+        int max = -1;
+        for (File f: File.values()){
+            if(f.getIndex() > max){
+                max = f.getIndex();
+            }
+        }
+        return max;
+    }
+
 }
