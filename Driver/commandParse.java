@@ -100,7 +100,6 @@ public class commandParse {
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
             board.draw();
-
         }else{
             System.out.println("Cannot move piece");
         }
