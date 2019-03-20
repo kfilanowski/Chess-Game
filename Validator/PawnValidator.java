@@ -75,7 +75,7 @@ public class PawnValidator extends PieceValidator {
         }
 
         // For black, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.Black && fromRank == 6 && toRank == 4
+        if(fromPiece.getColor() == GameColor.BLACK && fromRank == 6 && toRank == 4
                 && toFile == fromFile){
             // check if the two spaces are empty
             if( squares[fromRank - 1][fromFile].getPiece() == null &&
@@ -85,7 +85,7 @@ public class PawnValidator extends PieceValidator {
         }
 
         // For white, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.White && fromRank == 1 && toRank == 3
+        if(fromPiece.getColor() == GameColor.WHITE && fromRank == 1 && toRank == 3
                 && toFile == fromFile){
             // check if the two spaces are empty
             if(squares[fromRank + 1][fromFile].getPiece() == null &&
@@ -121,9 +121,9 @@ public class PawnValidator extends PieceValidator {
         PieceIF fromPiece = squares[pos.getRank().getIndex()][pos.getFile().getIndex()].getPiece();
 
         // we call a helper method to add the positions
-        if(fromPiece.getColor() == GameColor.White) {
+        if(fromPiece.getColor() == GameColor.WHITE) {
             addPositions(pos, squares, WHITE_ADD_ONE, posArr);
-        }else if(fromPiece.getColor() == GameColor.Black){
+        }else if(fromPiece.getColor() == GameColor.BLACK){
             addPositions(pos, squares, BLACK_ADD_ONE, posArr);
         }
 

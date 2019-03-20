@@ -276,6 +276,7 @@ public class Board implements BoardIF{
         // Check Knight
 
         finalResult = cl || cr || cu || cd;
+        return finalResult;
     }
 
 
@@ -354,7 +355,7 @@ public class Board implements BoardIF{
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
         int i = rank;
-        int j = file;d
+        int j = file;
         boolean go = true;
         while (i > 0 &&  j < board.length && go) {
             i--;
