@@ -5,6 +5,7 @@ import Enums.Rank;
 import Interfaces.BoardIF;
 import Interfaces.SquareIF;
 import Model.Position;
+import javafx.geometry.Pos;
 
 import java.util.Scanner;
 
@@ -32,7 +33,7 @@ public class commandParse {
                 Position from = getPosition(command[1], squares);
                 Position to = getPosition(command[2], squares);
 
-                //TODO pass in positions to a validator
+
 
                 // we can stop our while loop now that we have correct input
                 go = false;
@@ -79,5 +80,15 @@ public class commandParse {
             refinedPos = null;
         }
         return refinedPos;
+    }
+
+    public void move(BoardIF board, String[] command, Position from, Position to){
+        int fromFile = from.getFile().getFileFromLetter((command[1])).getIndex();
+        int fromRank = from.getRank().getRankFromIndex(Integer.parseInt(command[2])).getIndex();
+
+        boolean test = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from,to);
+        System.out.println(test);
+
+
     }
 }

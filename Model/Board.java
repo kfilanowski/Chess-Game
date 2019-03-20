@@ -184,11 +184,11 @@ public class Board implements BoardIF{
         rook2 = new HorizVertValidator(this, rook2);
         board[0][7].setPiece(rook2);
 
-        for(int i = 0; i < board.length; i++){
-            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
-            pawn = new PawnValidator(this, pawn);
-            board[1][i].setPiece(pawn);
-        }
+//        for(int i = 0; i < board.length; i++){
+//            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
+//            pawn = new PawnValidator(this, pawn);
+//            board[1][i].setPiece(pawn);
+//        }
     }
 
     /**
