@@ -3,6 +3,8 @@ package Model;
 import Enums.ChessPieceType;
 import Enums.GameColor;
 import Interfaces.PieceIF;
+import Validator.PieceValidator;
+import javafx.geometry.Pos;
 
 
 public class Piece extends BlackAndWhite implements PieceIF {
@@ -40,5 +42,11 @@ public class Piece extends BlackAndWhite implements PieceIF {
     public Position[] showMoves(Position pos) {
         return new Position[0];
     }
+
+    public boolean validateMove(Position from, Position to){
+        return this.validateMove(from,to);
+    }
+
+
 
 }

@@ -36,7 +36,18 @@ public class Driver {
                 break;
         }
 
+//        String[] str = new String[5];
+//        str[0] = "/move";
+//        str[1] = "a1";
+//        str[2] = "a2";
+
+
         ((Board) chess_board).go();
+        commandParse test = new commandParse();
+        //SquareIF[][] testChess = chess_board.getSquares();
+        test.parse(chess_board, args);
+        chess_board.draw();
+
 
     }
 }

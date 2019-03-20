@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Models the piece's ability to move like a King,
  * and perform King-like functions.
  * 
- * @author Kevin Filanowski
+ * @author Matt Lutz
  * @version March 10, 2019
  */
 public class KingValidator extends PieceValidator {
@@ -111,6 +111,11 @@ public class KingValidator extends PieceValidator {
 
     }
 
+    /**
+     * Gets the moves for the king if its on the bottom edge of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
     private ArrayList<Position> checkKingBottom(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
@@ -153,6 +158,11 @@ public class KingValidator extends PieceValidator {
 
     }
 
+    /**
+     * Gets the moves for the king if its on the top edge of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
     private ArrayList<Position> checkKingTop(Position pos) {
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
@@ -192,6 +202,11 @@ public class KingValidator extends PieceValidator {
 
     }
 
+    /**
+     * Gets the moves for the king if its on the left edge of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
     public ArrayList<Position> checkKingLeft(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
@@ -230,6 +245,11 @@ public class KingValidator extends PieceValidator {
         return positions;
 	}
 
+    /**
+     * Gets the moves for the king if its on the right edge of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
 	public ArrayList<Position> checkKingRight(Position pos){
 
         ArrayList<Position> positions = new ArrayList<>();
@@ -272,6 +292,11 @@ public class KingValidator extends PieceValidator {
         return positions;
 	}
 
+    /**
+     * Gets the moves for the king if its in the middle of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
 	public ArrayList<Position> checkKingMiddle(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
@@ -331,6 +356,11 @@ public class KingValidator extends PieceValidator {
         return positions;
     }
 
+    /**
+     * Gets the moves for the king if its in the middle of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
     private ArrayList<Position> checkBottomLeft(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
@@ -359,6 +389,11 @@ public class KingValidator extends PieceValidator {
         return positions;
     }
 
+    /**
+     * Gets the moves for the king if its in the top left corner of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
     private ArrayList<Position> checkTopLeft(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
@@ -388,6 +423,11 @@ public class KingValidator extends PieceValidator {
 
     }
 
+    /**
+     * Gets the moves for the king if its in the bottom right corner of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
     private ArrayList<Position> checkBottomRight(Position pos){
 
         ArrayList<Position> positions = new ArrayList<>();
@@ -417,6 +457,11 @@ public class KingValidator extends PieceValidator {
         return positions;
     }
 
+    /**
+     * Gets the moves for the king if its in the top right corner of the board
+     * @param pos - current position of the king
+     * @return - an arrayList of valid positions that the king can move to
+     */
     private ArrayList<Position> checkTopRight(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
@@ -447,15 +492,22 @@ public class KingValidator extends PieceValidator {
 
 	}
 
+    //For sprint 2
 	private boolean castleValidation(){
 	    return true;
     }
 
+    /**
+     * ToString for the King Validator
+     */
     @Override
     public String toString(){
         return p.toString();
     }
 
+    /**
+     * Gets the color of the king piece
+     */
     @Override
     public GameColor getColor() {
         return p.getColor();

@@ -3,14 +3,16 @@ package Driver;
 import Enums.File;
 import Enums.Rank;
 import Interfaces.BoardIF;
+import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
 import Model.Position;
+import javafx.geometry.Pos;
 
 import java.util.Scanner;
 
 /**
  * Parses commands for the user so that the user can play chess.
- * @author Jeriah Caplinger
+ * @author Jeriah Caplinger && Matt Lutz
  * @version 3/19/2019
  */
 public class commandParse {
@@ -21,18 +23,19 @@ public class commandParse {
     }
 
 
-    public void parse(BoardIF board){
+    public void parse(BoardIF board, String[] command){
         boolean go = true;
         SquareIF[][] squares = board.getSquares();
 
         while(go) {
-            String[] command = input.nextLine().split(" ");
+            command = input.nextLine().split(" ");
             // if it is a move command i.e. /move b4 c8 (specifies we are moving the piece at b4 to c8
             if (command[0].toLowerCase().equals("/move") && command.length == 3) {
                 Position from = getPosition(command[1], squares);
                 Position to = getPosition(command[2], squares);
+                move(board, from, to);
 
-                //TODO pass in positions to a validator
+
 
                 // we can stop our while loop now that we have correct input
                 go = false;
@@ -63,7 +66,7 @@ public class commandParse {
         try {
             File file = File.getFileFromLetter(posArray[0]);
             int parseRank = Integer.parseInt(posArray[1]);
-            Rank rank = Rank.getRankFromIndex(parseRank);
+            Rank rank = Rank.getRankFromNum(parseRank);
 
             // if we have a valid file and rank
             if(file != null && rank != null){
@@ -79,5 +82,30 @@ public class commandParse {
             refinedPos = null;
         }
         return refinedPos;
+    }
+
+    private void move(BoardIF board, Position from, Position to){
+        int fromFile = from.getFile().getIndex();
+        int fromRank = from.getRank().getIndex();
+        //System.out.println("This is the file: " + fromFile);
+        //System.out.println("This is the rank: " + fromRank);
+
+
+        int toFile = to.getFile().getIndex();
+        int toRank = to.getRank().getIndex();
+        //System.out.println("This is the file: " + toFile);
+        //System.out.println("This is the rank: " + toRank);
+        boolean test = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from,to);
+
+        if(test){
+
+            board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
+            board.getSquares()[fromRank][fromFile].setPiece(null);
+
+        }else{
+            System.out.println("Cannot move piece");
+        }
+
+
     }
 }

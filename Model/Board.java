@@ -73,7 +73,7 @@ public class Board implements BoardIF{
      */
     @Override
     public void draw() {
-    bs.draw(this);
+        bs.draw(this);
     }
 
     /**
@@ -152,8 +152,9 @@ public class Board implements BoardIF{
     private void setBlackPiece(){
 
         PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
-        queen = new HorizVertValidator(this, queen);
         queen = new DiagonalValidator(this, queen);
+        queen = new HorizVertValidator(this, queen);
+
         board[0][3].setPiece(queen);
 
         PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
@@ -184,11 +185,11 @@ public class Board implements BoardIF{
         rook2 = new HorizVertValidator(this, rook2);
         board[0][7].setPiece(rook2);
 
-        for(int i = 0; i < board.length; i++){
-            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
-            pawn = new PawnValidator(this, pawn);
-            board[1][i].setPiece(pawn);
-        }
+//        for(int i = 0; i < board.length; i++){
+//            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
+//            pawn = new PawnValidator(this, pawn);
+//            board[1][i].setPiece(pawn);
+//        }
     }
 
     /**

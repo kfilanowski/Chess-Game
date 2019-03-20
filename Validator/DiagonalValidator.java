@@ -16,7 +16,7 @@ import Interfaces.SquareIF;
  * @version March 14, 2019
  */
 public class DiagonalValidator extends PieceValidator {
-    //PieceIF p;
+     //PieceIF p;
     /**
      * Constructor for DiagonalValidator.
      * 
