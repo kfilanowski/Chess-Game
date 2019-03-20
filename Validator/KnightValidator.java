@@ -1,5 +1,6 @@
 package Validator;
 
+import Interfaces.PieceIF;
 import Model.Position;
 import Interfaces.BoardIF;
 
@@ -17,9 +18,9 @@ public class KnightValidator extends PieceValidator {
      * 
      * @param board - The current state of the board.
      */
-    public KnightValidator(BoardIF board) {
-        super(board);
-    }
+//    public KnightValidator(BoardIF board, PieceIF valid_piece) {
+//        super(board, valid_piece);
+//    }
 
     /**
      * Checks to see if the move to be attempted is a valid move by the 
@@ -46,4 +47,8 @@ public class KnightValidator extends PieceValidator {
 	public Position[] showMoves(Position pos) {
 		return null;
     }
+
+//    public String toString(){
+//        return super.valid_piece.getChessPieceType().toString();
+//    }
 }

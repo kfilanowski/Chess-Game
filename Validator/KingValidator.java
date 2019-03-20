@@ -21,45 +21,46 @@ import java.util.ArrayList;
  */
 public class KingValidator extends PieceValidator {
 
-
-    public static void main (String[] args){
-        Board board = new Board();
-
-        board.init_board();
-        //board.setWhitePiece();
-        board.setDrawStrategy(new Board_Mono_CLI());
-        board.draw();
-        KingValidator king = new KingValidator(board);
-
-        Position from = new Position(Rank.getRankFromIndex(7), File.getFileFromIndex(7), board.getSquares()[7][7]);
-        Position to = new Position(Rank.getRankFromIndex(6), File.getFileFromIndex(4), board.getSquares()[6][4]);
-
-
-
-        if (king.validateMove(from, to)){
-            System.out.println("This is a valid move");
-        }else{
-            System.out.println("This is not a valid move");
-        }
-
-
-
-        Position[] positions = king.showMoves(from);
-
-        for(int i = 0; i <positions.length; i++){
-            System.out.println(positions[i]);
-        }
-
-
-    }
+//
+//    public static void main (String[] args){
+//        Board board = new Board();
+//        PieceIF valid_piece = new Piece();
+//
+//        board.init_board();
+//        //board.setWhitePiece();
+//        board.setDrawStrategy(new Board_Mono_CLI());
+//        board.draw();
+//        KingValidator king = new KingValidator(board, valid_piece);
+//
+//        Position from = new Position(Rank.getRankFromIndex(7), File.getFileFromIndex(7), board.getSquares()[7][7]);
+//        Position to = new Position(Rank.getRankFromIndex(6), File.getFileFromIndex(4), board.getSquares()[6][4]);
+//
+//
+//
+//        if (king.validateMove(from, to)){
+//            System.out.println("This is a valid move");
+//        }else{
+//            System.out.println("This is not a valid move");
+//        }
+//
+//
+//
+//        Position[] positions = king.showMoves(from);
+//
+//        for(int i = 0; i <positions.length; i++){
+//            System.out.println(positions[i]);
+//        }
+//
+//
+//    }
     /**
      * Constructor for KingValidator.
      * 
      * @param board - The current state of the board.
      */
-    public KingValidator(BoardIF board) {
-        super(board);
-    }
+//    public KingValidator(BoardIF board, PieceIF valid_piece) {
+//        super(board, valid_piece);
+//    }
 
     /**
      * Checks to see if the move to be attempted is a valid move by the 
@@ -477,6 +478,10 @@ public class KingValidator extends PieceValidator {
 	private boolean castleValidation(){
 	    return true;
     }
+
+//    public String toString(){
+//        return super.valid_piece.getChessPieceType().toString();
+//    }
 
 
 }

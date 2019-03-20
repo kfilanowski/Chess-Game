@@ -37,4 +37,8 @@ public class Piece extends BlackAndWhite implements PieceIF {
         return pieceType;
     }
 
+    public Position[] showMoves(Position pos) {
+        return new Position[0];
+    }
+
 }

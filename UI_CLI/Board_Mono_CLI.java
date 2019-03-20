@@ -3,6 +3,7 @@ package UI_CLI;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
+import Validator.PieceValidator;
 
 /**
  * This is the class that will draw the board in Black and White
@@ -31,10 +32,10 @@ public class Board_Mono_CLI implements BoardStrategy {
 
                     if (squares[i][j].isBlack()) {
 
-                        if(squares[i][j].getPiece().isBlack()){
+                        if( squares[i][j].getPiece().isBlack() ){
                             str.append( "( " + squares[i][j].getPiece() + " )");//black squares
                         }else{
-                            str.append( "( " + squares[i][j].getPiece().toString().toLowerCase() + " )" );//Black piece
+                            str.append( "( " + ((PieceValidator) squares[i][j].getPiece()) + " )" );//Black piece
                                                                                                           //is UpperCase
                         }
 

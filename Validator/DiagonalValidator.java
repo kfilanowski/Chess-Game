@@ -15,14 +15,19 @@ import Interfaces.SquareIF;
  * @version March 14, 2019
  */
 public class DiagonalValidator extends PieceValidator {
-
+    PieceIF p;
     /**
      * Constructor for DiagonalValidator.
      * 
      * @param board - The current state of the board.
      */
-    public DiagonalValidator(BoardIF board) {
-        super(board);
+//    public DiagonalValidator(BoardIF board,PieceIF valid_piece) {
+//        super(board, valid_piece);
+//    }
+
+    public DiagonalValidator(BoardIF board, PieceIF p) {
+        this.p = p;
+        this.board = board;
     }
 
     /**
@@ -152,7 +157,23 @@ public class DiagonalValidator extends PieceValidator {
                                  File.getFileFromIndex(j), squares[i][j]));
             }
         }
+
+        Position[] first = p.showMoves(pos);
+        Position[] second = posArr.toArray(new Position[posArr.size()]);
+        Position[] both = new Position[first.length + second.length];
+
+        for (int k = 0; k < first.length; k++) {
+            both[k] = first[k];
+        }
+        for (int k = first.length; k < both.length; k++) {
+            both[k] = second[k - first.length];
+        }
+
         // Convert to Position[] array and return.
-        return posArr.toArray(new Position[posArr.size()]);
+        return both;
     }
+
+//    public String toString(){
+//        return super.valid_piece.toString();
+//    }
 }

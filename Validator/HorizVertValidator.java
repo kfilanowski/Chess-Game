@@ -1,5 +1,6 @@
 package Validator;
 
+import Enums.GameColor;
 import Model.Position;
 import java.util.ArrayList;
 import Interfaces.BoardIF;
@@ -7,7 +8,6 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Enums.File;
 import Enums.Rank;
-
 /**
  * Models the piece's ability to move horizontally and vertically.
  * 
@@ -15,14 +15,21 @@ import Enums.Rank;
  * @version March 10, 2019
  */
 public class HorizVertValidator extends PieceValidator {
+    PieceIF p;
 
-    /**
-     * Constructor for HorizVertValidator.
-     * 
-     * @param board - The current state of the board.
-     */
-    public HorizVertValidator(BoardIF board) {
-        super(board);
+//    /**
+//     * Constructor for HorizVertValidator.
+//     *
+//     * @param board - The current state of the board.
+//     */
+//    public HorizVertValidator(BoardIF board, PieceIF valid_piece) {
+//        super(board, valid_piece);
+//
+//    }
+
+    public HorizVertValidator(BoardIF board, PieceIF p) {
+        this.p = p;
+        this.board = board;
     }
 
     /**
@@ -92,19 +99,19 @@ public class HorizVertValidator extends PieceValidator {
         int rankIndex = pos.getRank().getIndex();
         PieceIF piece = pos.getSquare().getPiece();
         int size      = squares.length - 1;
-        
+
         // Check squares up from this position.
         int i = rankIndex;
         while (i > 0 && squares[--i][fileIndex].getPiece() == null) {
-            posArr.add(new Position(Rank.getRankFromIndex(i), 
-                                pos.getFile(), squares[i][fileIndex]));
+            posArr.add(new Position(Rank.getRankFromIndex(i),
+                    pos.getFile(), squares[i][fileIndex]));
         }
         // Check the last piece.
         if (i > 0) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
-                && !checkIfKing(squares[i][fileIndex].getPiece())) {
+                    && !checkIfKing(squares[i][fileIndex].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                                    pos.getFile(), squares[i][fileIndex]));
+                        pos.getFile(), squares[i][fileIndex]));
             }
         }
 
@@ -112,14 +119,14 @@ public class HorizVertValidator extends PieceValidator {
         i = fileIndex;
         while (i < size && squares[rankIndex][++i].getPiece() == null) {
             posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
-                                squares[rankIndex][i]));
+                    squares[rankIndex][i]));
         }
         // Check the last piece.
         if (i < size) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
-                && !checkIfKing(squares[rankIndex][i].getPiece())) {
+                    && !checkIfKing(squares[rankIndex][i].getPiece())) {
                 posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
-                                    squares[rankIndex][i]));
+                        squares[rankIndex][i]));
             }
         }
 
@@ -127,14 +134,14 @@ public class HorizVertValidator extends PieceValidator {
         i = rankIndex;
         while (i < size && squares[++i][fileIndex].getPiece() == null) {
             posArr.add(new Position(Rank.getRankFromIndex(i),
-                                 pos.getFile(), squares[i][fileIndex]));
+                    pos.getFile(), squares[i][fileIndex]));
         }
         // Check the last piece.
         if (i < size) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
                     && !checkIfKing(squares[i][fileIndex].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                                     pos.getFile(), squares[i][fileIndex]));
+                        pos.getFile(), squares[i][fileIndex]));
             }
         }
 
@@ -142,17 +149,29 @@ public class HorizVertValidator extends PieceValidator {
         i = fileIndex;
         while (i > 0 && squares[rankIndex][--i].getPiece() == null) {
             posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
-                                 squares[rankIndex][i]));
+                    squares[rankIndex][i]));
         }
         // Check the last piece.
         if (i > 0) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
                     && !checkIfKing(squares[rankIndex][i].getPiece())) {
-                posArr.add(new Position(pos.getRank(), 
-                            File.getFileFromIndex(i), squares[rankIndex][i]));
+                posArr.add(new Position(pos.getRank(),
+                        File.getFileFromIndex(i), squares[rankIndex][i]));
             }
         }
+
+        Position[] first = p.showMoves(pos);
+        Position[] second = posArr.toArray(new Position[posArr.size()]);
+        Position[] both = new Position[first.length + second.length];
+
+        for (int j = 0; j < first.length; j++) {
+            both[j] = first[j];
+        }
+        for (int j = first.length; j < both.length; j++) {
+            both[j] = second[j - first.length];
+        }
+
         // Convert to Position[] array and return.
-        return posArr.toArray(new Position[posArr.size()]);
+        return both;
     }
 }

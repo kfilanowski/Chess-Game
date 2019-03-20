@@ -39,7 +39,7 @@ public class BlackAndWhite implements BlackAndWhiteIF {
      */
     @Override
     public boolean isBlack() {
-        return gameColor == GameColor.Black;
+        return gameColor == GameColor.BLACK;
     }
 
     /**
@@ -49,20 +49,20 @@ public class BlackAndWhite implements BlackAndWhiteIF {
      */
     @Override
     public boolean isWhite() {
-        return gameColor == GameColor.White;
+        return gameColor == GameColor.WHITE;
     }
 
     /**
      * Set the GameColor to black.
      */
     public void setBlack() {
-        gameColor = GameColor.Black;
+        gameColor = GameColor.BLACK;
     }
 
     /**
      * Set the GameColor to white.
      */
     public void setWhite() {
-        gameColor = GameColor.White;
+        gameColor = GameColor.WHITE;
     }
 }

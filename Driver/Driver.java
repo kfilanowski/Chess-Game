@@ -27,8 +27,10 @@ public class Driver {
                 break;
             case "bw"://if the user wants the black and white board
                 chess_board.setDrawStrategy(new Board_Mono_CLI());
+                break;
         }
 
         ((Board) chess_board).go();
+
     }
 }
