@@ -38,4 +38,14 @@ public enum Rank {
         }
         return null;
     }
+
+    public static int getMaxIndex(){
+        int max = -1;
+        for (Rank r: Rank.values()){
+            if(r.getIndex() > max){
+                max = r.getIndex();
+            }
+        }
+        return max;
+    }
 }
