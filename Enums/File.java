@@ -7,25 +7,25 @@ public enum File {
     /** Enum for file A*/
     A("a", 0),
 
-    /** Enum for file A*/
+    /** Enum for file B*/
     B("b", 1),
 
-    /** Enum for file A*/
+    /** Enum for file C*/
     C("c", 2),
 
-    /** Enum for file A*/
+    /** Enum for file D*/
     D("d", 3),
 
-    /** Enum for file A*/
+    /** Enum for file E*/
     E("e", 4),
 
-    /** Enum for file A*/
+    /** Enum for file F*/
     F("f", 5),
 
-    /** Enum for file A*/
+    /** Enum for file G*/
     G("g", 6),
 
-    /** Enum for file A*/
+    /** Enum for file H*/
     H("h", 7);
 
     /** String that holds the file */
