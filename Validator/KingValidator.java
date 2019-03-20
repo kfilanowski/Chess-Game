@@ -496,21 +496,4 @@ public class KingValidator extends PieceValidator {
 	private boolean castleValidation(){
 	    return true;
     }
-
-    /**
-     * ToString for the King Validator
-     */
-    @Override
-    public String toString(){
-        return p.toString();
-    }
-
-    /**
-     * Gets the color of the king piece
-     */
-    @Override
-    public GameColor getColor() {
-        return p.getColor();
-    }
-
 }

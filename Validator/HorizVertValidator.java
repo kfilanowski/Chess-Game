@@ -12,20 +12,9 @@ import Enums.Rank;
  * Models the piece's ability to move horizontally and vertically.
  * 
  * @author Kevin Filanowski
- * @version March 10, 2019
+ * @version March 20, 2019
  */
 public class HorizVertValidator extends PieceValidator {
-   //PieceIF p;
-
-//    /**
-//     * Constructor for HorizVertValidator.
-//     *
-//     * @param board - The current state of the board.
-//     */
-//    public HorizVertValidator(BoardIF board, PieceIF valid_piece) {
-//        super(board, valid_piece);
-//
-//    }
 
     public HorizVertValidator(BoardIF board, PieceIF p) {
         this.p = p;
@@ -47,12 +36,15 @@ public class HorizVertValidator extends PieceValidator {
         int fromRank = from.getRank().getIndex();
         int toFile = to.getFile().getIndex();
         int toRank = to.getRank().getIndex();
+        
+        // Allows for unwrapping, this is the reuslt of validateMove.
+        boolean result = true;
 
         // Check to see if the movement is not horizontal or vertical.
-        if (fromFile != toFile && fromRank != toRank) { return false; }
+        if (fromFile != toFile && fromRank != toRank) { result = false; }
 
         // Check to see if the positions are the same
-        if (fromFile == toFile && fromRank == toRank) { return false; }
+        if (fromFile == toFile && fromRank == toRank) { result = false; }
 
         // Ensure that the Piece is not moving past other units
         SquareIF[][] squares = board.getSquares();
@@ -60,14 +52,20 @@ public class HorizVertValidator extends PieceValidator {
         if (fromFile == toFile) {
             min = Math.min(fromRank, toRank) + 1;
             max = Math.max(fromRank, toRank) - 1;
-            for (int i = min; i < max; i++) {
-                if (squares[i][fromFile].getPiece() != null) { return false; }
+            if (min == max ) {
+                if (squares[min][fromFile].getPiece() != null) { result = false; }
+            }
+            for (int i = min; i <= max; i++) {
+                if (squares[i][fromFile].getPiece() != null) { result = false; }
             }
         } else {
             min = Math.min(fromFile, toFile) + 1;
             max = Math.max(fromFile, toFile) - 1;
-            for (int i = min; i < max; i++) {
-                if (squares[fromRank][i].getPiece() != null) { return false; }
+            if (min == max ) {
+                if (squares[fromRank][min].getPiece() != null) { result = false; }
+            }
+            for (int i = min; i <= max; i++) {
+                if (squares[fromRank][i].getPiece() != null) { result = false; }
             }
         }
         
@@ -75,9 +73,9 @@ public class HorizVertValidator extends PieceValidator {
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
         PieceIF toPiece = squares[toRank][toFile].getPiece();
         if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece)) {
-            return false; 
+            result = false; 
         }
-		return p.validateMove(from, to) & true;
+		return p.validateMove(from, to) || result;
 	}
 
     /**
@@ -173,15 +171,5 @@ public class HorizVertValidator extends PieceValidator {
 
         // Convert to Position[] array and return.
         return both;
-    }
-
-    @Override
-    public String toString(){
-	    return p.toString();
-    }
-
-    @Override
-    public GameColor getColor() {
-	    return p.getColor();
     }
 }

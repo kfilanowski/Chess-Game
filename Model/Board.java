@@ -57,9 +57,7 @@ public class Board implements BoardIF{
                 }
             }
             count = 0;
-
         }
-
     }
 
     /**
@@ -155,9 +153,8 @@ public class Board implements BoardIF{
     private void setBlackPiece(){
 
         PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
-        queen = new DiagonalValidator(this, queen);
         queen = new HorizVertValidator(this, queen);
-
+        queen = new DiagonalValidator(this, queen);
         board[0][3].setPiece(queen);
 
         PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
