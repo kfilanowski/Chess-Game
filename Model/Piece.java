@@ -44,9 +44,22 @@ public class Piece extends BlackAndWhite implements PieceIF {
     }
 
     public boolean validateMove(Position from, Position to){
-        return this.validateMove(from,to);
+        return true;
     }
 
-
+    /**
+     * Checks if a piece is a King piece.
+     * 
+     * @param p - The piece to check.
+     * @return - True if the piece is a King piece, false otherwise.
+     */
+    public boolean checkIfKing(PieceIF p) {
+        if (p == null) { return false; }
+        if (p.getChessPieceType().getName()
+                        .equals(ChessPieceType.KING.getName())) {
+            return true;
+        }
+        return false;
+    }
 
 }
