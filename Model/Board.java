@@ -153,8 +153,6 @@ public class Board implements BoardIF{
         queen = new DiagonalValidator(this, queen);
         board[0][3].setPiece(queen);
 
-        System.out.println(board[0][3].getPiece());
-
         PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
         rook = new HorizVertValidator(this, rook);
         board[0][0].setPiece(rook);
