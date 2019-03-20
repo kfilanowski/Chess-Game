@@ -3,8 +3,7 @@ package Model;
 import Enums.ChessPieceType;
 import Enums.GameColor;
 import Interfaces.PieceIF;
-import Validator.PieceValidator;
-import javafx.geometry.Pos;
+
 
 
 public class Piece extends BlackAndWhite implements PieceIF {

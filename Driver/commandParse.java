@@ -3,16 +3,14 @@ package Driver;
 import Enums.File;
 import Enums.Rank;
 import Interfaces.BoardIF;
-import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
 import Model.Position;
-import javafx.geometry.Pos;
 
 import java.util.Scanner;
 
 /**
  * Parses commands for the user so that the user can play chess.
- * @author Jeriah Caplinger && Matt Lutz
+ * @author Jeriah Caplinger && Matt Lutz && Jacob Ginn
  * @version 3/19/2019
  */
 public class commandParse {
@@ -38,7 +36,7 @@ public class commandParse {
 
 
                 // we can stop our while loop now that we have correct input
-                go = false;
+//                go = false;
             }else if(command[0].toLowerCase().equals("/show moves") && command.length == 2){
                 Position from = getPosition(command[1], squares);
                 //TODO: pass in Position to a validator to show the moves
@@ -96,11 +94,12 @@ public class commandParse {
         //System.out.println("This is the file: " + toFile);
         //System.out.println("This is the rank: " + toRank);
         boolean test = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from,to);
-
+        //System.out.println(test);
         if(test){
 
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
+            board.draw();
 
         }else{
             System.out.println("Cannot move piece");

@@ -46,7 +46,7 @@ public class Driver {
         commandParse test = new commandParse();
         //SquareIF[][] testChess = chess_board.getSquares();
         test.parse(chess_board, args);
-        chess_board.draw();
+        //chess_board.draw();
 
 
     }
