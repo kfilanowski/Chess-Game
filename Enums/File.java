@@ -40,4 +40,31 @@ public enum File {
         }
         return null;
     }
+
+    /**
+     * Retrieve a File enumeration based on the index.
+     *
+     * @param letter - The index of the enumeration.
+     * @return - A File enumeration corrosponding to this index.
+     */
+    public static File getFileFromLetter(String letter) {
+        letter = letter.toLowerCase();
+        for (File f : File.values()) {
+            if (f.getFile().equals(letter)) {
+                return f;
+            }
+        }
+        return null;
+    }
+
+    public static int getMaxIndex(){
+        int max = -1;
+        for (File f: File.values()){
+            if(f.getIndex() > max){
+                max = f.getIndex();
+            }
+        }
+        return max;
+    }
+
 }

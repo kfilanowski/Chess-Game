@@ -1,11 +1,17 @@
 package Driver;
 
+import Enums.File;
+import Enums.Rank;
 import Interfaces.BoardIF;
 
 import java.util.Scanner;
+
+import Interfaces.SquareIF;
 import Model.Board;
+import Model.Position;
 import UI_CLI.Board_Color_CLI;
 import UI_CLI.Board_Mono_CLI;
+import Validator.PawnValidator;
 
 /**
  * Driver for the chess program. It will ask the user if it wants to play on a black and white
