@@ -62,6 +62,13 @@ public abstract class PieceValidator extends Piece {
      */
     public boolean checkMoveOnAlly(PieceIF from, PieceIF to) {
         if (from == null || to == null) { return false; }
+        // Unwrap until we get to piece.
+        while (from.getClass() != Piece.class) {
+            from = ((PieceValidator)from).p;
+        }
+        while (to.getClass() != Piece.class) {
+            to = ((PieceValidator) to).p;
+        }
         if (from.getColor() == to.getColor()) { return true; }
         return false;
     }
@@ -74,6 +81,14 @@ public abstract class PieceValidator extends Piece {
      */
     public boolean checkIfKing(PieceIF p) {
         if (p == null) { return false; }
-        return ((PieceValidator)p).p.checkIfKing(((PieceValidator)p).p);
+        // Unwrap until we get to piece.
+        while (p.getClass() != Piece.class) {
+            p = ((PieceValidator) p).p;
+        }
+        if (p.getChessPieceType().getName()
+                        .equals(ChessPieceType.KING.getName())) {
+            return true;
+        }
+        return false;
     }
 }

@@ -77,7 +77,7 @@ public class HorizVertValidator extends PieceValidator {
         if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece)) {
             return false; 
         }
-		return true;
+		return p.validateMove(from, to) & true;
 	}
 
     /**

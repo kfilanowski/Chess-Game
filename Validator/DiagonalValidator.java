@@ -1,6 +1,5 @@
 package Validator;
 
-import Enums.GameColor;
 import Model.Position;
 import java.util.ArrayList;
 import Enums.Rank;
@@ -179,9 +178,4 @@ public class DiagonalValidator extends PieceValidator {
     public String toString(){
         return p.toString();
     }
-
-    // @Override
-    // public GameColor getColor() {
-    //     return p.getColor();
-    // }
 }
