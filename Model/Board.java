@@ -159,11 +159,11 @@ public class Board implements BoardIF{
 
         PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
         bishop = new DiagonalValidator(this, bishop);
-        board[0][1].setPiece(bishop);
+        board[0][2].setPiece(bishop);
 
         PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
         knight = new KnightValidator(this, knight);
-        board[0][2].setPiece(knight);
+        board[0][1].setPiece(knight);
 
         PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.BLACK);
         bKing = new KingValidator(this, bKing);
@@ -204,11 +204,11 @@ public class Board implements BoardIF{
 
         PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
         bishop = new DiagonalValidator(this, bishop);
-        board[7][1].setPiece(bishop);
+        board[7][2].setPiece(bishop);
 
         PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
         knight = new KnightValidator(this, knight);
-        board[7][2].setPiece(knight);
+        board[7][1].setPiece(knight);
 
         PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.WHITE);
         bKing = new KingValidator(this, bKing);
