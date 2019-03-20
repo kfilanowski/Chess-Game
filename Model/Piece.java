@@ -37,15 +37,4 @@ public class Piece extends BlackAndWhite implements PieceIF {
         String pieceType = getChessPieceType().getSymbol();
         return pieceType;
     }
-
-    public Position[] showMoves(Position pos) {
-        return new Position[0];
-    }
-
-    public boolean validateMove(Position from, Position to){
-        return this.validateMove(from,to);
-    }
-
-
-
 }
