@@ -4,7 +4,6 @@ import Enums.GameColor;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
-import Validator.PieceValidator;
 
 /**
  * This is the class that will draw the board in Black and White

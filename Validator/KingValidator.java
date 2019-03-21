@@ -21,9 +21,7 @@ import java.util.ArrayList;
  * @version March 10, 2019
  */
 public class KingValidator extends PieceValidator {
-
-
-
+    
     /**
      * Constructor for KingValidator.
      * 

@@ -8,14 +8,12 @@ import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
-import UI_CLI.Board_Color_CLI;
-import UI_CLI.Board_Mono_CLI;
 import Validator.HorizVertValidator;
 import Validator.*;
 
 /**
  * @author - Jacob Ginn
- * @version - 3/19/2019
+ * @version - 3/20/2019
  * This is the board class that holds the methods to initialize , setup, and which draw method that will be used
  * when the board is printed in the command line interface.
  */

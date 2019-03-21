@@ -7,9 +7,8 @@ import Interfaces.SquareIF;
 /**
  * Represents a square on a Chess board.
  * 
- * @author unassigned
  * @author Kevin Filanowski
- * @version March 17, 2019
+ * @version March 20, 2019
  */
 public class Square extends BlackAndWhite implements SquareIF {
     private PieceIF piece;
@@ -70,5 +69,4 @@ public class Square extends BlackAndWhite implements SquareIF {
     public String toString(){
         return " ";
     }
-
 }

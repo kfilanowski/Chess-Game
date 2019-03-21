@@ -9,9 +9,8 @@ import Interfaces.SquareIF;
  * A position holds a Rank and File object, as well as a square
  * that is located on that Rank and File.
  * 
- * @author unassigned
  * @author Kevin Filanowski
- * @version March 17, 2019
+ * @version March 20, 2019
  */
 public class Position {
     private Rank rank;
@@ -64,6 +63,11 @@ public class Position {
         return "rankIndex:" + rank.getIndex() + " fileIndex:" + file.getIndex();
     }
 
+    /**
+     * Checks equality between positions by comparing the rank and the file.
+     * @param obj - The positon object.
+     * @return - True if the objects are equal, false otherwise.
+     */
     public boolean equals(Object obj){
         if(obj instanceof Position){
             Position other = (Position) obj;

@@ -9,6 +9,8 @@ import Interfaces.PieceIF;
  * Class that models a piece by extending BlackAndWhite
  * and implementing a PieceIF. It has a ChessPieceType enum
  * and uses a GameColor enum.
+ * @author Kevin Filanowski
+ * @version March 20, 2019
  */
 public class Piece extends BlackAndWhite implements PieceIF {
     ChessPieceType type;
