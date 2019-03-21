@@ -1,11 +1,11 @@
 package Interfaces;
 
 /**
+ * This gives the basic outline of a square that a piece will be placed
+ * 
  * @author Matt Lutz 100%
- * this gives the basic outline of a square that a piece will be placed
  */
 public interface SquareIF {
-
     /**
      * Clears the Chess Square by setting the piece to null.
      */

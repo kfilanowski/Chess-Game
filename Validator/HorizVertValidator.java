@@ -15,6 +15,12 @@ import Enums.Rank;
  */
 public class HorizVertValidator extends PieceValidator {
 
+    /**
+     * Constructor for HorizVertValidator.
+     * 
+     * @param board - The current state of the board.
+     * @param p     - The PieceIF decorator.
+     */
     public HorizVertValidator(BoardIF board, PieceIF p) {
         this.p = p;
         this.board = board;

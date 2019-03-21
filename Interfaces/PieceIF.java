@@ -1,18 +1,18 @@
 package Interfaces;
 import Model.Position;
-
 import Enums.ChessPieceType;
 
 /**
- * @author Matt Lutz 50%
- * @author Jacob Ginn 50%
+ * @author Matt Lutz 40%
+ * @author Jacob Ginn 40%
+ * @author Kevin Filanowski 20%
  * PieceIF that models a piece by extending BlackAndWhiteIF
- * and using ChessPieceType
+ * and using ChessPieceType.
  */
 public interface PieceIF extends BlackAndWhiteIF {
     /**
-     * Gets the ChessPieceType of a piece
-     * @return - The ChessPieceType of a piece
+     * Gets the ChessPieceType of a piece.
+     * @return - The ChessPieceType of a piece.
      */
     public ChessPieceType getChessPieceType();
 
@@ -34,6 +34,6 @@ public interface PieceIF extends BlackAndWhiteIF {
      * @return - True or False depending on whether or not the move was valid
      */
     default boolean validateMove(Position from, Position to){
-        return true;
+        return false;
     }
 }

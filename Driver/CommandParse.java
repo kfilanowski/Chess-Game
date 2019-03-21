@@ -5,20 +5,23 @@ import Enums.Rank;
 import Interfaces.BoardIF;
 import Interfaces.SquareIF;
 import Model.Position;
-
 import java.util.Scanner;
 
 /**
  * Parses commands for the user so that the user can play chess.
- * @author Jeriah Caplinger 45% && Matt Lutz 45%  && Jacob Ginn 10%
- * @version 3/19/2019
+ * @author Jeriah Caplinger 45% 
+ * @author Matt Lutz 45% 
+ * @author Jacob Ginn 10%
+ * @version 3/20/2019
  */
 public class CommandParse {
-
     /** Scanner that gets the input from the command line */
     private Scanner input;
 
-    public CommandParse(){
+    /**
+     * The default constructor for CommandParse.
+     */
+    public CommandParse() {
         input = new Scanner(System.in);
     }
 
@@ -27,7 +30,7 @@ public class CommandParse {
      * @param board - An instance of the chess board
      * @param command - The array that holds the command line arguments
      */
-    public void parse(BoardIF board, String[] command){
+    public void parse(BoardIF board, String[] command) {
         boolean go = true;
         SquareIF[][] squares = board.getSquares();
 
@@ -35,24 +38,25 @@ public class CommandParse {
             command = input.nextLine().split(" ");
             // if it is a move command i.e. /move b4 c8 (specifies we are moving the piece at b4 to c8
             if (command[0].toLowerCase().equals("/move") && command.length == 3) {
+                
                 Position from = getPosition(command[1], squares);
                 Position to = getPosition(command[2], squares);
 
                 //if either the to position or the from position is incorrect it tells the
                 //user to input a correct square
-                if(from == null || to == null){
+                if(from == null || to == null || from.getSquare().getPiece() == null) {
                     System.out.println("Please enter only one letter: a - h and one number: 1 - 8 i.e. a1 or E5\n");
-                }else{
+                } else {
                     move(board, from, to);
                 }
 
                 // we can stop our while loop now that we have correct input
 //                go = false;
-            }else if(command[0].toLowerCase().equals("/show moves") && command.length == 2){
+            } else if(command[0].toLowerCase().equals("/show moves") && command.length == 2) {
                 Position from = getPosition(command[1], squares);
                 //TODO: pass in Position to a validator to show the moves
                 go = false;
-            }else if(command[0].toLowerCase().equals("/undo") && command.length == 1){
+            } else if(command[0].toLowerCase().equals("/undo") && command.length == 1) {
                 //TODO: handle undo somehow
                 System.out.println("undo");
             }
@@ -93,6 +97,8 @@ public class CommandParse {
          // if we were not supplied a number
         }catch(NumberFormatException nfe){
             refinedPos = null;
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            refinedPos = null;
         }
         return refinedPos;
     }
@@ -120,7 +126,5 @@ public class CommandParse {
         }else{
             System.out.println("Cannot move piece");
         }
-
-
     }
 }

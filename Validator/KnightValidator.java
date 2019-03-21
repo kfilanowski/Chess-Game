@@ -134,7 +134,6 @@ public class KnightValidator extends PieceValidator {
 
         // Convert to Position[] array and return.
         return posArr.toArray(new Position[posArr.size()]);
-
     }
 
     /**

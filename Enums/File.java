@@ -48,11 +48,18 @@ public enum File {
         this.index = index;
     }
 
-
+    /**
+     * Returns the index of the file.
+     * @return - Index of the file.
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * Returns the String file.
+     * @return - The string file.
+     */
     public String getFile() {
         return file;
     }
@@ -101,5 +108,4 @@ public enum File {
         }
         return max;
     }
-
 }

@@ -9,12 +9,16 @@ import Interfaces.SquareIF;
  * A position holds a Rank and File object, as well as a square
  * that is located on that Rank and File.
  * 
- * @author Kevin Filanowski
+ * @author Kevin Filanowski 70%
+ * @author Jeriah Caplinger 30%
  * @version March 20, 2019
  */
 public class Position {
+    /** The rank of this position. */
     private Rank rank;
+    /** The file of this position. */
     private File file;
+    /** The square at this position. */
     private SquareIF square;
 
     /**

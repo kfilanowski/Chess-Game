@@ -19,9 +19,8 @@ public class DiagonalValidator extends PieceValidator {
      * Constructor for DiagonalValidator.
      * 
      * @param board - The current state of the board.
-     * @param p - The PieceIF decorator or 
+     * @param p - The PieceIF decorator.
      */
-
     public DiagonalValidator(BoardIF board, PieceIF p) {
         this.p = p;
         this.board = board;
@@ -92,7 +91,6 @@ public class DiagonalValidator extends PieceValidator {
         int rankIndex = pos.getRank().getIndex();
         PieceIF piece = pos.getSquare().getPiece();
         int size = squares.length - 1;
-
         
         // Check squares diagonally - positive slope up - from this position.
         int i = rankIndex;

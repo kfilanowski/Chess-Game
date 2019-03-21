@@ -6,7 +6,7 @@ import Interfaces.BlackAndWhiteIF;
 /**
  * Represents the two different colors to a Chess match.
  * 
- * @author Kevin Filanowski
+ * @author Kevin Filanowski 100%
  * @version March 20, 2019
  */
 public class BlackAndWhite implements BlackAndWhiteIF {

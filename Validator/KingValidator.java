@@ -1,16 +1,11 @@
 package Validator;
 
 import Enums.File;
-import Enums.GameColor;
 import Enums.Rank;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
-import Model.Piece;
 import Model.Position;
-import Model.Board;
-import UI_CLI.Board_Mono_CLI;
-
 import java.util.ArrayList;
 
 /**
@@ -42,7 +37,6 @@ public class KingValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
-
 	    // For readability and brevity.
         int fromFile = from.getFile().getIndex();
         int fromRank = from.getRank().getIndex();
@@ -150,10 +144,7 @@ public class KingValidator extends PieceValidator {
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
                     File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex + 1][fileIndex - 1]));
         }
-
         return positions;
-
-
     }
 
     /**
@@ -197,7 +188,6 @@ public class KingValidator extends PieceValidator {
         }
 
         return positions;
-
     }
 
     /**
@@ -418,7 +408,6 @@ public class KingValidator extends PieceValidator {
         }
 
         return positions;
-
     }
 
     /**
@@ -486,8 +475,6 @@ public class KingValidator extends PieceValidator {
         }
 
         return positions;
-
-
 	}
 
     //For sprint 2

@@ -73,5 +73,4 @@ public interface BoardIF {
      *           rank and file.
      */
     public SquareIF getSquare(Rank rank, File file);
-
 }
