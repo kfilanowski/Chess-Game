@@ -2,6 +2,7 @@ package Enums;
 
 /**
  * Enum that represents the file of a position on the board
+ * @author Jeriah Caplinger
  */
 public enum File {
     /** Enum for file A*/

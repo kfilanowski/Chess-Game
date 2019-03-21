@@ -47,53 +47,56 @@ public class PawnValidator extends PieceValidator {
         int toRank = to.getRank().getIndex();
         int toFile = to.getFile().getIndex();
 
-        System.out.println("from rank: " + fromRank + " to file: " + fromFile + " to rank: " + toRank + " to file: " + toFile);
-        System.out.println("from rank: " + from.getRank() + " to file: " + from.getFile() + " to rank: " + to.getRank() + " to file: " + to.getFile());
+//        System.out.println("from rank: " + fromRank + " to file: " + fromFile + " to rank: " + toRank + " to file: " + toFile);
+//        System.out.println("from rank: " + from.getRank() + " to file: " + from.getFile() + " to rank: " + to.getRank() + " to file: " + to.getFile());
         SquareIF[][] squares = board.getSquares();
         PieceIF fromPiece = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece();
+        int moveCorrectly = this.moveCorrectly(fromPiece.getColor());
         PieceIF toPiece = squares[to.getRank().getIndex()][to.getFile().getIndex()].getPiece();
 
         //***********************TESTING*******************
-        if(fromPiece != null) {
-            System.out.println("from piece color & piece: " + fromPiece.getColor() + "  " + fromPiece.getChessPieceType());
-            if(toPiece != null) {
-                System.out.println("to piece color & piece: " + toPiece.getColor() + "  " + toPiece.getChessPieceType());
-            }
-        }
+//        if(fromPiece != null) {
+//            System.out.println("from piece color & piece: " + fromPiece.getColor() + "  " + fromPiece.getChessPieceType());
+//            if(toPiece != null) {
+//                System.out.println("to piece color & piece: " + toPiece.getColor() + "  " + toPiece.getChessPieceType());
+//            }
+//        }
         //**********************************************************/
 
         // check if we are moving up one space
-        if(fromFile == toFile && Math.abs(toRank - fromRank) == 1 && toPiece == null){
+        if(fromFile == toFile && fromRank + moveCorrectly == toRank &&
+                Math.abs(toRank - fromRank) == 1 && toPiece == null){
             return true;
         }
 
-        // check if we are taking a piece diagonally
-        if(Math.abs(toFile - fromFile) == 1 && Math.abs(toRank - fromRank) == 1){
-            if(toPiece != null){
-                return !checkMoveOnAlly(fromPiece, toPiece);
-            }else{
-                return false;
-            }
-        }
-
         // For black, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.BLACK && fromRank == 6 && toRank == 4
+        if(fromPiece.getColor() == GameColor.BLACK && fromRank == 1 && toRank == 3
                 && toFile == fromFile){
             // check if the two spaces are empty
-            if( squares[fromRank - 1][fromFile].getPiece() == null &&
-                                squares[fromRank - 2][fromFile].getPiece() == null){
+            if( squares[fromRank + 1][fromFile].getPiece() == null &&
+                    squares[fromRank + 2][fromFile].getPiece() == null){
                 return true;
             }
         }
 
         // For white, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.WHITE && fromRank == 1 && toRank == 3
+        if(fromPiece.getColor() == GameColor.WHITE && fromRank == 6 && toRank == 4
                 && toFile == fromFile){
             // check if the two spaces are empty
-            if(squares[fromRank + 1][fromFile].getPiece() == null &&
-                                squares[fromRank + 2][fromFile].getPiece() == null){
+            if(squares[fromRank - 1][fromFile].getPiece() == null &&
+                    squares[fromRank - 2][fromFile].getPiece() == null){
                 return true;
 
+            }
+        }
+
+
+        // check if we are taking a piece diagonally
+        if(Math.abs(toFile - fromFile) == 1 && fromRank + moveCorrectly == toRank){
+            if(toPiece != null){
+                return !checkMoveOnAlly(fromPiece, toPiece);
+            }else{
+                return false;
             }
         }
 
@@ -136,6 +139,20 @@ public class PawnValidator extends PieceValidator {
          //******************************************************
 
 		return posArr.toArray(new Position[posArr.size()]);
+    }
+
+
+    /**
+     * Ensures we are moving the pawn correctly.
+     * @param color the color of the piece
+     * @return -1 if it is white or 1 if it is black
+     */
+    private int moveCorrectly(GameColor color){
+	    if(color == GameColor.WHITE){
+	        return -1;
+        }else{
+	        return 1;
+        }
     }
 
 
@@ -200,15 +217,4 @@ public class PawnValidator extends PieceValidator {
         final int LOWER_BOUND = 0;
         return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
     }
-
-
-	@Override
-	public String toString(){
-		return p.toString();
-	}
-
-	@Override
-	public GameColor getColor() {
-		return p.getColor();
-	}
 }

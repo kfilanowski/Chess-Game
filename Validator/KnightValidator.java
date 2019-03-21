@@ -168,15 +168,4 @@ public class KnightValidator extends PieceValidator {
         final int LOWER_BOUND = 0;
 	    return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
     }
-
-
-    @Override
-    public String toString(){
-        return p.toString();
-    }
-
-    @Override
-    public GameColor getColor() {
-        return p.getColor();
-    }
 }
