@@ -13,12 +13,12 @@ import java.util.Scanner;
  * @author Jeriah Caplinger && Matt Lutz && Jacob Ginn
  * @version 3/19/2019
  */
-public class commandParse {
+public class CommandParse {
 
     /** Scanner that gets the input from the command line */
     private Scanner input;
 
-    public commandParse(){
+    public CommandParse(){
         input = new Scanner(System.in);
     }
 

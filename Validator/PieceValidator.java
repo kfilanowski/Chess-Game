@@ -3,6 +3,7 @@ package Validator;
 import Model.Piece;
 import Model.Position;
 import Enums.ChessPieceType;
+import Enums.GameColor;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 
@@ -10,28 +11,13 @@ import Interfaces.PieceIF;
  * The Decorator abstract class for each movement type in Chess.
  * 
  * @author Kevin Filanowski
- * @version March 10, 2019
+ * @version March 20, 2019
  */
 public abstract class PieceValidator extends Piece {
     /** The current state of the board required validity checking. */
     protected BoardIF board;
     /** A PieceIf used for the PieceValidator */
     PieceIF p;
-   // public PieceIF valid_piece;
-
-//    /**
-//     * Constructor for PieceValidator.
-//     *
-//     * @param board - The current state of the board.
-//     */
-//    public PieceValidator(BoardIF board, PieceIF valid_piece) {
-//        this.board = board;
-//        this.valid_piece = valid_piece;
-//    }
-//
-//    public PieceValidator(PieceValidator p) {
-//        this(p.board, p.valid_piece);
-//    }
 
     /**
      * Checks to see if the move to be attempted is a valid move by the standards of
@@ -91,5 +77,22 @@ public abstract class PieceValidator extends Piece {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Gets the color for a piece validator
+     * @return - The color of the piece
+     */
+    public GameColor getColor() {
+        return p.getColor();
+    }
+
+    /**
+     * Gets the string form of a pice
+     * @return - The string representation of a piece
+     */
+    @Override
+    public String toString(){
+        return p.toString();
     }
 }

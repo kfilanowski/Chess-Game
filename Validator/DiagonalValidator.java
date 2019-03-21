@@ -21,9 +21,6 @@ public class DiagonalValidator extends PieceValidator {
      * @param board - The current state of the board.
      * @param p - The PieceIF decorator or 
      */
-//    public DiagonalValidator(BoardIF board,PieceIF valid_piece) {
-//        super(board, valid_piece);
-//    }
 
     public DiagonalValidator(BoardIF board, PieceIF p) {
         this.p = p;
@@ -46,19 +43,22 @@ public class DiagonalValidator extends PieceValidator {
         int toFile = to.getFile().getIndex();
         int toRank = to.getRank().getIndex();
 
+        // Allows for unwrapping, this is the reuslt of validateMove.
+        boolean result = true;
+
         // Check to see if the movement is not diagonal.
         if (Math.abs(fromFile - toFile) != Math.abs(fromRank - toRank))
-            return false;
+            result = false;
         
         // Check to see if the positions are the same.
-        if (fromFile == toFile && fromRank == toRank) { return false; }
+        if (fromFile == toFile && fromRank == toRank) { result = false; }
 
         // Ensure the final spot is not an ally or an opposing team's King.
         SquareIF[][] squares = board.getSquares();
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
         PieceIF toPiece   = squares[toRank][toFile].getPiece();
         if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece)) {
-            return false;
+            result = false;
         }
 
         // Ensure that the Piece is not moving past other units.
@@ -67,11 +67,13 @@ public class DiagonalValidator extends PieceValidator {
             i = (i < toRank) ? i + 1 : i - 1;
             j = (j < toFile) ? j + 1 : j - 1;
             if (i != toRank && j != toFile) {
-                if (squares[i][j].getPiece() != null) { return false; }
+                if (squares[i][j].getPiece() != null) { result = false; }
             }
         }
-
-        return p.validateMove(from, to) & true;
+        System.out.println("in diag");
+        System.out.println(p);
+        System.out.println(p.getClass());
+        return p.validateMove(from, to) || result;
 	}
 
     /**
@@ -172,11 +174,5 @@ public class DiagonalValidator extends PieceValidator {
 
         // Convert to Position[] array and return.
         return both;
-    }
-
-
-    @Override
-    public String toString(){
-        return p.toString();
     }
 }
