@@ -3,7 +3,7 @@ package Interfaces;
 import Enums.GameColor;
 
 /**
- * @author Matt Lutz
+ * @author Matt Lutz 100%
  * Interface that models a BlackAndWhite implementation. It uses a GameColor enum to get a color
  * and has methods to check if a color is black or white.
  */

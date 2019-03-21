@@ -9,18 +9,18 @@ import UI_CLI.Board_Color_CLI;
 import UI_CLI.Board_Mono_CLI;
 
 /**
- * @author Jacob Ginn && Matt Lutz
+ * @author Jacob Ginn 95% && Matt Lutz 5%
  * Driver for the chess program. It will ask the user if it wants to play on a black and white
  * or a colored board for the chess match.
  */
 public class Driver {
     public static void main(String[] args){
-        
+
         BoardIF chess_board = new Board();//Chess board that the game will be played on
         go(chess_board);
         ((Board) chess_board).go();
-        CommandParse test = new CommandParse();
-        test.parse(chess_board, args);
+        CommandParse commandParser = new CommandParse();
+        commandParser.parse(chess_board, args);
 
 
 

@@ -1,7 +1,7 @@
 package Enums;
 
 /**
- * @author Matt Lutz
+ * @author Matt Lutz 33% && Jeriah Caplinger 33% && Kevin Filanowski 33%
  * Enum that represents the rank of a chess piece
  */
 public enum Rank {

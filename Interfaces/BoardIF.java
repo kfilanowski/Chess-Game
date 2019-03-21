@@ -3,7 +3,7 @@ package Interfaces;
 import Enums.File;
 import Enums.Rank;
 /**
- * @author Matt Lutz
+ * @author Matt Lutz 100%
  * This interface outlines the basic functionality of a board
  */
 public interface BoardIF {

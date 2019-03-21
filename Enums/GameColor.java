@@ -1,7 +1,7 @@
 package Enums;
 
 /**
- * @author Matt Lutz
+ * @author Matt Lutz 100%
  * Enum that represents the Black and White colors in our chess game
  */
 public enum GameColor {

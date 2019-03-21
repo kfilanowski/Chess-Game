@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Models the piece's ability to move like a King,
  * and perform King-like functions.
  * 
- * @author Matt Lutz
+ * @author Matt Lutz 100%
  * @version March 10, 2019
  */
 public class KingValidator extends PieceValidator {

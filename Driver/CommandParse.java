@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  * Parses commands for the user so that the user can play chess.
- * @author Jeriah Caplinger && Matt Lutz && Jacob Ginn
+ * @author Jeriah Caplinger 45% && Matt Lutz 45%  && Jacob Ginn 10%
  * @version 3/19/2019
  */
 public class CommandParse {

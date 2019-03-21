@@ -4,7 +4,7 @@ import Model.Position;
 import Enums.ChessPieceType;
 
 /**
- * @author Matt Lutz
+ * @author Matt Lutz 50%
  * PieceIF that models a piece by extending BlackAndWhiteIF
  * and using ChessPieceType
  */
