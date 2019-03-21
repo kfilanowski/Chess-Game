@@ -63,4 +63,12 @@ public class Position {
     public String toString() {
         return "rankIndex:" + rank.getIndex() + " fileIndex:" + file.getIndex();
     }
+
+    public boolean equals(Object obj){
+        if(obj instanceof Position){
+            Position other = (Position) obj;
+            return (other.getFile() == this.getFile() && other.getRank() == this.getRank());
+        }
+        return false;
+    }
 }

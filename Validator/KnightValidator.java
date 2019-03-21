@@ -53,7 +53,6 @@ public class KnightValidator extends PieceValidator {
         PieceIF fromPiece = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece();
         PieceIF toPiece = squares[to.getRank().getIndex()][to.getFile().getIndex()].getPiece();
 
-
 	    // if they are on the same file or rank, then it is not a valid move
         // and we can safely perform our validation checks
         // TODO: add check for our own king's check here
