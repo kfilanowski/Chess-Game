@@ -1,6 +1,7 @@
 package Enums;
 
 /**
+ * @author Matt Lutz
  * Enum that represents the file of a position on the board
  */
 public enum File {

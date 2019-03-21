@@ -14,6 +14,8 @@ import java.util.Scanner;
  * @version 3/19/2019
  */
 public class commandParse {
+
+    /** Scanner that gets the input from the command line */
     private Scanner input;
 
     public commandParse(){
@@ -35,9 +37,14 @@ public class commandParse {
             if (command[0].toLowerCase().equals("/move") && command.length == 3) {
                 Position from = getPosition(command[1], squares);
                 Position to = getPosition(command[2], squares);
-                move(board, from, to);
 
-
+                //if either the to position or the from position is incorrect it tells the
+                //user to input a correct square
+                if(from == null || to == null){
+                    System.out.println("Please enter only one letter: a - h and one number: 1 - 8 i.e. a1 or E5\n");
+                }else{
+                    move(board, from, to);
+                }
 
                 // we can stop our while loop now that we have correct input
 //                go = false;
@@ -63,6 +70,10 @@ public class commandParse {
         Position refinedPos;
         pos = pos.toLowerCase();
         String[] posArray = pos.split("");
+
+        if(posArray.length > 2){
+           return null;
+        }
 
         // we attempt to get the position
         try {
@@ -93,19 +104,15 @@ public class commandParse {
      * @param to - The final position that we want to move to
      */
     private void move(BoardIF board, Position from, Position to){
-        int fromFile = from.getFile().getIndex();
-        int fromRank = from.getRank().getIndex();
-        //System.out.println("This is the file: " + fromFile);
-        //System.out.println("This is the rank: " + fromRank);
+        int fromFile = from.getFile().getIndex(); //from square file
+        int fromRank = from.getRank().getIndex(); //from square rank
 
+        int toFile = to.getFile().getIndex();   // to square file
+        int toRank = to.getRank().getIndex();   // to square rank
 
-        int toFile = to.getFile().getIndex();
-        int toRank = to.getRank().getIndex();
-        //System.out.println("This is the file: " + toFile);
-        //System.out.println("This is the rank: " + toRank);
-        boolean test = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from,to);
-        //System.out.println(test);
-        if(test){
+        boolean validMove = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from,to);
+
+        if(validMove){
 
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);

@@ -1,6 +1,7 @@
 package Enums;
 
 /**
+ * @author Matt Lutz
  * Enum that represents a specific type of chess piece
  */
 public enum ChessPieceType {
