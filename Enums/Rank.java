@@ -1,6 +1,7 @@
 package Enums;
 
 /**
+ * @author Matt Lutz
  * Enum that represents the rank of a chess piece
  */
 public enum Rank {

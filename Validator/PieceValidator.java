@@ -16,6 +16,7 @@ import Interfaces.PieceIF;
 public abstract class PieceValidator extends Piece {
     /** The current state of the board required validity checking. */
     protected BoardIF board;
+    /** A PieceIf used for the PieceValidator */
     PieceIF p;
 
     /**
@@ -78,10 +79,18 @@ public abstract class PieceValidator extends Piece {
         return false;
     }
 
+    /**
+     * Gets the color for a piece validator
+     * @return - The color of the piece
+     */
     public GameColor getColor() {
         return p.getColor();
     }
 
+    /**
+     * Gets the string form of a pice
+     * @return - The string representation of a piece
+     */
     @Override
     public String toString(){
         return p.toString();

@@ -1,6 +1,7 @@
 package Interfaces;
 
 /**
+ * @author Matt Lutz
  * this gives the basic outline of a square that a piece will be placed
  */
 public interface SquareIF {
