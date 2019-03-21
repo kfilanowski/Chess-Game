@@ -47,6 +47,8 @@ public class PawnValidator extends PieceValidator {
         int toRank = to.getRank().getIndex();
         int toFile = to.getFile().getIndex();
 
+        System.out.println("from rank: " + fromRank + " to file: " + fromFile + " to rank: " + toRank + " to file: " + toFile);
+        System.out.println("from rank: " + from.getRank() + " to file: " + from.getFile() + " to rank: " + to.getRank() + " to file: " + to.getFile());
         SquareIF[][] squares = board.getSquares();
         PieceIF fromPiece = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece();
         PieceIF toPiece = squares[to.getRank().getIndex()][to.getFile().getIndex()].getPiece();

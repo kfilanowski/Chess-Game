@@ -15,7 +15,7 @@ import Interfaces.PieceIF;
 public abstract class PieceValidator extends Piece {
     /** The current state of the board required validity checking. */
     protected BoardIF board;
-    PieceIF p;
+    public PieceIF p;
    // public PieceIF valid_piece;
 
 //    /**
