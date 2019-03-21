@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Models the piece's ability to move like a Knight,
  * and perform Knight-like functions.
  * 
- * @author Jeriah Caplinger
+ * @author Jeriah Caplinger (100%)
  * @version March 18, 2019
  */
 public class KnightValidator extends PieceValidator {
