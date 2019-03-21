@@ -12,7 +12,7 @@ import Validator.HorizVertValidator;
 import Validator.*;
 
 /**
- * @author - Jacob Ginn
+ * @author - Jacob Ginn (100%)
  * @version - 3/20/2019
  * This is the board class that holds the methods to initialize , setup, and which draw method that will be used
  * when the board is printed in the command line interface.

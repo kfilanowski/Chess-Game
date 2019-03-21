@@ -9,8 +9,7 @@ import Interfaces.PieceIF;
 
 /**
  * The Decorator abstract class for each movement type in Chess.
- * 
- * @author Kevin Filanowski
+ * @author Kevin Filanowski 100%
  * @version March 20, 2019
  */
 public abstract class PieceValidator extends Piece {

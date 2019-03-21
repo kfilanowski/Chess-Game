@@ -1,10 +1,11 @@
 package Enums;
 
 /**
- * * Enum that represents the file of a position on the board
- * 
- * @author Matt Lutz
- * @author Jeriah Caplinger
+ * Enum that represents the file of a position on the board
+ * @author Matt Lutz 33%
+ * @author Jeriah Caplinger 33%
+ * @author Kevin Filanowski 33%
+ * @version March 20, 2019
  */
 public enum File {
     /** Enum for file A*/

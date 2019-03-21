@@ -5,6 +5,11 @@ import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
 
+/**
+ * @author - Jacob Ginn 100%
+ * This is the Command line interface color drawing strategy. This will be used to draw the board in color instead of
+ * just mono colors.
+ */
 public class Board_Color_CLI implements BoardStrategy {
 
     /**
