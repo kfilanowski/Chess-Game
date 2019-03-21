@@ -5,6 +5,7 @@ import Enums.ChessPieceType;
 
 /**
  * @author Matt Lutz 50%
+ * @author Jacob Ginn 50%
  * PieceIF that models a piece by extending BlackAndWhiteIF
  * and using ChessPieceType
  */

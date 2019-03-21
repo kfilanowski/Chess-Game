@@ -7,6 +7,7 @@ import Interfaces.SquareIF;
 import Validator.PieceValidator;
 
 /**
+ * @author - Jacob Ginn 100%
  * This is the class that will draw the board in Black and White
  */
 public class Board_Mono_CLI implements BoardStrategy {
