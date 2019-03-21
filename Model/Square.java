@@ -68,7 +68,7 @@ public class Square extends BlackAndWhite implements SquareIF {
      * @return - String form of a square
      */
     public String toString(){
-        return piece.getChessPieceType().toString();
+        return " ";
     }
 
 }
