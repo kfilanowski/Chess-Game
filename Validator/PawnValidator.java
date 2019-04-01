@@ -156,13 +156,12 @@ public class PawnValidator extends PieceValidator {
         if(checkBounds(fromRank + move_pos) && squares[fromRank + move_pos][fromFile].getPiece() == null){
             // add this position to the list
             posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos),
-                    File.getFileFromIndex(fromFile), squares[fromRank + move_pos][fromFile]));
+                    File.getFileFromIndex(fromFile)));
             // check if we can move up two spaces
             if(checkBounds(fromRank + move_pos + move_pos) &&
                     squares[fromRank + move_pos + move_pos][fromFile].getPiece() == null){
                 // add this position to the list
-                posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos + move_pos), File.getFileFromIndex(fromFile),
-                        squares[fromRank + move_pos + move_pos][fromFile]));
+                posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos + move_pos), File.getFileFromIndex(fromFile)));
             }
         }
 
@@ -173,8 +172,7 @@ public class PawnValidator extends PieceValidator {
                 PieceIF rightPiece = squares[fromRank + move_pos][fromFile + 1].getPiece();
                 if(rightPiece != null && !checkMoveOnAlly(fromPiece, rightPiece)){
                     // add a valid position to the array list
-                    posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile + 1),
-                            squares[fromRank + move_pos][fromFile + 1]));
+                    posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile + 1)));
                 }
             }
             // check up and to the left for white, right for black
@@ -182,8 +180,7 @@ public class PawnValidator extends PieceValidator {
                 PieceIF toPiece = squares[fromRank + move_pos][fromFile - 1].getPiece();
                 if(toPiece != null && !checkMoveOnAlly(fromPiece, toPiece)){
                     // add a valid position to the array list
-                    posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile - 1),
-                            squares[fromRank + move_pos][fromFile - 1]));
+                    posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile - 1)));
                 }
             }
         }

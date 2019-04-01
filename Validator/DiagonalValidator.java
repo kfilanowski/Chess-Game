@@ -89,7 +89,7 @@ public class DiagonalValidator extends PieceValidator {
         // For readability and brevity.
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int size = squares.length - 1;
         
         // Check squares diagonally - positive slope up - from this position.
@@ -97,14 +97,14 @@ public class DiagonalValidator extends PieceValidator {
         int j = fileIndex;
         while (i > 0 &&  j < size && squares[--i][++j].getPiece() == null) {
             posArr.add(new Position(Rank.getRankFromIndex(i),
-                                File.getFileFromIndex(j), squares[i][j]));
+                                    File.getFileFromIndex(j)));
         }
         // Check the last piece.
         if (i > 0 && j < size) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                                    File.getFileFromIndex(j), squares[i][j]));
+                                        File.getFileFromIndex(j)));
             }
         }
 
@@ -113,14 +113,14 @@ public class DiagonalValidator extends PieceValidator {
         j = fileIndex;
         while (i > 0 && j > 0 && squares[--i][--j].getPiece() == null) {
             posArr.add(new Position(Rank.getRankFromIndex(i),
-                                 File.getFileFromIndex(j), squares[i][j]));
+                                    File.getFileFromIndex(j)));
         }
         // Check the last piece.
         if (i > 0 && j > 0) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                                     File.getFileFromIndex(j), squares[i][j]));
+                                        File.getFileFromIndex(j)));
             }
         }
 
@@ -129,14 +129,14 @@ public class DiagonalValidator extends PieceValidator {
         j = fileIndex;
         while (i < size && j > 0 && squares[++i][--j].getPiece() == null) {
             posArr.add(new Position(Rank.getRankFromIndex(i),
-                                 File.getFileFromIndex(j), squares[i][j]));
+                                    File.getFileFromIndex(j)));
         }
         // Check the last piece.
         if (i < size && j > 0) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                                     File.getFileFromIndex(j), squares[i][j]));
+                                        File.getFileFromIndex(j)));
             }
         }
 
@@ -145,14 +145,14 @@ public class DiagonalValidator extends PieceValidator {
         j = fileIndex;
         while (i < size && j < size && squares[++i][++j].getPiece() == null) {
             posArr.add(new Position(Rank.getRankFromIndex(i),
-                                File.getFileFromIndex(j), squares[i][j]));
+                                    File.getFileFromIndex(j)));
         }
         // Check the last piece.
         if (i < size && j < size) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                                 File.getFileFromIndex(j), squares[i][j]));
+                                        File.getFileFromIndex(j)));
             }
         }
 
@@ -160,10 +160,11 @@ public class DiagonalValidator extends PieceValidator {
         Position[] first = p.showMoves(pos);
         Position[] second = posArr.toArray(new Position[posArr.size()]);
         Position[] both = new Position[first.length + second.length];
-
+        // Copy the inner wrapped positions first.
         for (int k = 0; k < first.length; k++) {
             both[k] = first[k];
         }
+        // Copy the new moves from this method.
         for (int k = first.length; k < both.length; k++) {
             both[k] = second[k - first.length];
         }

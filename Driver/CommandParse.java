@@ -44,7 +44,7 @@ public class CommandParse {
 
                 //if either the to position or the from position is incorrect it tells the
                 //user to input a correct square
-                if(from == null || to == null || from.getSquare().getPiece() == null) {
+                if(from == null || to == null || board.getSquare(from).getPiece() == null) {
                     System.out.println("Please enter only one letter: a - h and one number: 1 - 8 i.e. a1 or E5\n");
                 } else {
                     move(board, from, to);
@@ -87,8 +87,7 @@ public class CommandParse {
 
             // if we have a valid file and rank
             if(file != null && rank != null){
-                refinedPos = new Position(rank, file,
-                        squares[rank.getIndex()][file.getIndex()]);
+                refinedPos = new Position(rank, file);
 
             // otherwise it is not a valid file and/or rank and we return null
             }else{

@@ -151,7 +151,7 @@ public class KnightValidator extends PieceValidator {
             // if it is not an ally piece, we add the move to our ArrayList
             if(!checkMoveOnAlly(fromPiece, toPiece)){
                 posArr.add(new Position(Rank.getRankFromIndex(toRank),
-                        File.getFileFromIndex(toFile), squares[toRank][toFile]));
+                        File.getFileFromIndex(toFile)));
             }
         }
     }
