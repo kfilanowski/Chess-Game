@@ -1,9 +1,12 @@
 package Interfaces;
 
+import Model.Position;
+
 /**
  * This gives the basic outline of a square that a piece will be placed
  * 
- * @author Matt Lutz 100%
+ * @author Matt Lutz 90%
+ * @author Kevin Filanowski 10%
  */
 public interface SquareIF {
     /**
@@ -39,4 +42,11 @@ public interface SquareIF {
      * @return - True if it is black, false if it is white.
      */
     public boolean isBlack();
+
+    /**
+     * Retrieve the position at this square.
+     * 
+     * @return - The position at this object.
+     */
+    public Position getPostion();
 }

@@ -46,11 +46,13 @@ public class Board implements BoardIF{
             }
             for(int j = 0; j < getWidth(); j++){//columns of the board
                 if(count % 2 == 0){
-                    board[i][j] = new Square(GameColor.WHITE);//makes a square of color WHITE
+                    board[i][j] = new Square(GameColor.WHITE, new Position(
+                        Rank.getRankFromIndex(i), File.getFileFromIndex(j)));//makes a square of color WHITE
                     count++;
 
                 }else{
-                    board[i][j] = new Square(GameColor.BLACK);//makes a square of color BLACK
+                    board[i][j] = new Square(GameColor.BLACK, new Position(
+                        Rank.getRankFromIndex(i), File.getFileFromIndex(j)));//makes a square of color BLACK
                     count++;
                 }
             }
