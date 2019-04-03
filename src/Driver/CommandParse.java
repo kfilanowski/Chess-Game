@@ -52,10 +52,13 @@ public class CommandParse {
 
                 // we can stop our while loop now that we have correct input
 //                go = false;
-            } else if(command[0].toLowerCase().equals("/show moves") && command.length == 2) {
+            } else if(command[0].toLowerCase().equals("/showmoves") && command.length == 2) {
                 Position from = getPosition(command[1], squares);
+                Position[] temp = squares[from.getRank().getIndex()][from.getFile().getIndex()]
+                        .getPiece().showMoves(from);
+                board.draw(board,temp);
                 //TODO: pass in Position to a validator to show the moves
-                go = false;
+               // go = false;
             } else if(command[0].toLowerCase().equals("/undo") && command.length == 1) {
                 //TODO: handle undo somehow
                 System.out.println("undo");

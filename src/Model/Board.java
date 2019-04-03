@@ -77,6 +77,10 @@ public class Board implements BoardIF{
         bs.draw(this);
     }
 
+    public void draw(BoardIF board, Position[] pos){
+        bs.draw(board, pos);
+    }
+
     /**
      * This returns the complete board that the game is being played on.
      * @return - the board that chess is being played on

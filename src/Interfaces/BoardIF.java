@@ -83,4 +83,6 @@ public interface BoardIF {
      *              position.
      */
     public SquareIF getSquare(Position pos);
+
+    public void draw(BoardIF board, Position[] pos);
 }
