@@ -11,7 +11,7 @@ import Enums.Rank;
  * Models the piece's ability to move horizontally and vertically.
  * 
  * @author Kevin Filanowski 100%
- * @version March 20, 2019
+ * @version March 31, 2019
  */
 public class HorizVertValidator extends PieceValidator {
 
@@ -100,66 +100,63 @@ public class HorizVertValidator extends PieceValidator {
         // For readability and brevity.
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int size      = squares.length - 1;
 
         // Check squares up from this position.
         int i = rankIndex;
         while (i > 0 && squares[--i][fileIndex].getPiece() == null) {
             posArr.add(new Position(Rank.getRankFromIndex(i),
-                    pos.getFile(), squares[i][fileIndex]));
+                                    pos.getFile()));
         }
         // Check the last piece.
         if (i > 0) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
                     && !checkIfKing(squares[i][fileIndex].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                        pos.getFile(), squares[i][fileIndex]));
+                                        pos.getFile()));
             }
         }
 
         // Check squares right of this position.
         i = fileIndex;
         while (i < size && squares[rankIndex][++i].getPiece() == null) {
-            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
-                    squares[rankIndex][i]));
+            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i)));
         }
         // Check the last piece.
         if (i < size) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
                     && !checkIfKing(squares[rankIndex][i].getPiece())) {
-                posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
-                        squares[rankIndex][i]));
+                posArr.add(new Position(pos.getRank(), 
+                                        File.getFileFromIndex(i)));
             }
         }
 
         // Check squares down from this position.
         i = rankIndex;
         while (i < size && squares[++i][fileIndex].getPiece() == null) {
-            posArr.add(new Position(Rank.getRankFromIndex(i),
-                    pos.getFile(), squares[i][fileIndex]));
+            posArr.add(new Position(Rank.getRankFromIndex(i), pos.getFile()));
         }
         // Check the last piece.
         if (i < size) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
                     && !checkIfKing(squares[i][fileIndex].getPiece())) {
                 posArr.add(new Position(Rank.getRankFromIndex(i),
-                        pos.getFile(), squares[i][fileIndex]));
+                                        pos.getFile()));
             }
         }
 
         // Check squares left of this position.
         i = fileIndex;
         while (i > 0 && squares[rankIndex][--i].getPiece() == null) {
-            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i),
-                    squares[rankIndex][i]));
+            posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i)));
         }
         // Check the last piece.
         if (i > 0) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
                     && !checkIfKing(squares[rankIndex][i].getPiece())) {
                 posArr.add(new Position(pos.getRank(),
-                        File.getFileFromIndex(i), squares[rankIndex][i]));
+                                        File.getFileFromIndex(i)));
             }
         }
 
@@ -167,10 +164,11 @@ public class HorizVertValidator extends PieceValidator {
         Position[] first = p.showMoves(pos);
         Position[] second = posArr.toArray(new Position[posArr.size()]);
         Position[] both = new Position[first.length + second.length];
-
+        // Copy the inner wrapped positions first.
         for (int j = 0; j < first.length; j++) {
             both[j] = first[j];
         }
+        // Copy the new moves from this method.
         for (int j = first.length; j < both.length; j++) {
             both[j] = second[j - first.length];
         }

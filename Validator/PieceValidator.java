@@ -60,6 +60,19 @@ public abstract class PieceValidator extends Piece {
     }
 
     /**
+     * Unwrappes the validators until the piece is revealed and returns that piece.
+     * 
+     * @return - The piece stripped of its validators.
+     */
+    public PieceIF getPiece() {
+        PieceIF temp = p;
+        while (temp.getClass() != Piece.class) {
+            temp = ((PieceValidator) temp).p;
+        }
+        return temp;
+    }
+
+    /**
      * Checks if a piece is a King piece.
      * 
      * @param p - The piece to check.

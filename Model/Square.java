@@ -7,26 +7,30 @@ import Interfaces.SquareIF;
 /**
  * Represents a square on a Chess board.
  * 
- * @author Kevin Filanowski 80%
- * @author Jeriah Caplinger 20%
+ * @author Kevin Filanowski 85%
+ * @author Jeriah Caplinger 15%
  * @version March 20, 2019
  */
 public class Square extends BlackAndWhite implements SquareIF {
     /** The piece on the square. */
     private PieceIF piece;
-
-    /**
-     * Constructor that intializies an empty square with a color.
-     */
-    public Square(GameColor color) {
-        super.setColor(color);
-    }
+    /** The position of the object, in terms of rank and file. */
+    Position pos;
 
     /**
      * Constructor that initializes an empty square.
      */
     public Square() {
         piece = null;
+        pos = null;
+    }
+
+    /**
+     * Constructor that intializies an empty square with a color.
+     */
+    public Square(GameColor color, Position pos) {
+        super.setColor(color);
+        this.pos = pos;
     }
 
     /**
@@ -34,8 +38,9 @@ public class Square extends BlackAndWhite implements SquareIF {
      * 
      * @param piece - The piece to set on the square.
      */
-    public Square(PieceIF piece) {
+    public Square(PieceIF piece, Position pos) {
         this.piece = piece;
+        this.pos = pos;
     }
 
     /**
@@ -74,5 +79,14 @@ public class Square extends BlackAndWhite implements SquareIF {
      */
     public String toString() {
         return " ";
+    }
+
+    /**
+     * Retrieve a position of this square.
+     * 
+     * @return - The position representing this square.
+     */
+    public Position getPostion() {
+        return pos;
     }
 }

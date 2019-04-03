@@ -2,6 +2,7 @@ package Interfaces;
 
 import Enums.File;
 import Enums.Rank;
+import Model.Position;
 
 /**
  * @author Matt Lutz 90%
@@ -73,4 +74,13 @@ public interface BoardIF {
      *           rank and file.
      */
     public SquareIF getSquare(Rank rank, File file);
+
+    /**
+     * Retrieve a square at a specified position.
+     * 
+     * @param pos - The position of the square.
+     * @return    - A SquareIF from the board that falls on the specified
+     *              position.
+     */
+    public SquareIF getSquare(Position pos);
 }

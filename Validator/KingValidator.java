@@ -74,7 +74,7 @@ public class KingValidator extends PieceValidator {
 	public Position[] showMoves(Position pos) {
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
@@ -111,46 +111,39 @@ public class KingValidator extends PieceValidator {
     private ArrayList<Position> checkKingBottom(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
-
-        //checks the top left diagonal of the king for an ally
-        if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex - 1].getPiece())){
-            positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex + 1][fileIndex - 1]));
-        }
-
 
         //checks the spot above the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex + 1][fileIndex]));
-        }
-
-        //checks the top right diagonal of the king for an ally
-        if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex + 1].getPiece())){
-            positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex + 1][fileIndex + 1]));
-        }
-
-        //checks the spot to the left of the king for an ally
-        if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex - 1].getPiece())){
-            positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot to the right of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
+        //checks the spot to the left of the king for an ally
+        if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex - 1].getPiece())){
+            positions.add(new Position(Rank.getRankFromIndex(rankIndex),
+                    File.getFileFromIndex(fileIndex - 1)));
+        }
 
+        //checks the top right diagonal of the king for an ally
+        if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex + 1].getPiece())){
+            positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
+                    File.getFileFromIndex(fileIndex + 1)));
+        }
 
-
-
-
+        //checks the top left diagonal of the king for an ally
+        if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex - 1].getPiece())){
+            positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
+                    File.getFileFromIndex(fileIndex - 1)));
+        }
         return positions;
     }
 
@@ -162,36 +155,36 @@ public class KingValidator extends PieceValidator {
     private ArrayList<Position> checkKingTop(Position pos) {
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot below the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex - 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot to the right of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         //checks the spot to the left of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex - 1][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex - 1][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         return positions;
@@ -205,36 +198,36 @@ public class KingValidator extends PieceValidator {
     public ArrayList<Position> checkKingLeft(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot above the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex + 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot below the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex - 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex + 1][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex - 1][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         //checks the spot to the right of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         return positions;
@@ -249,38 +242,38 @@ public class KingValidator extends PieceValidator {
 
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot above the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex + 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot below the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex - 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot to the left of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         //checks the bottom left diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex - 1][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         //checks the top left diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex + 1][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
 
@@ -295,57 +288,57 @@ public class KingValidator extends PieceValidator {
 	public ArrayList<Position> checkKingMiddle(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot above the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex + 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot below the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex - 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot to the right of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         //checks the spot to the left of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         //checks the top right diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex + 1][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         //checks the bottom left diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex - 1][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
 
         //checks the top left diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex + 1][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         //checks the bottom right diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex - 1][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         return positions;
@@ -359,26 +352,26 @@ public class KingValidator extends PieceValidator {
     private ArrayList<Position> checkBottomLeft(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot above the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex + 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the top right diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex + 1][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         //checks the spot to the right of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         return positions;
@@ -392,26 +385,26 @@ public class KingValidator extends PieceValidator {
     private ArrayList<Position> checkTopLeft(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot below the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex - 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot to the right of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         //checks the bottom right diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex + 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex + 1), boardSquares[rankIndex - 1][fileIndex + 1]));
+                    File.getFileFromIndex(fileIndex + 1)));
         }
 
         return positions;
@@ -426,26 +419,26 @@ public class KingValidator extends PieceValidator {
 
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot above the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex + 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot to the left of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         //checks the top left diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex + 1][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex + 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex + 1][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         return positions;
@@ -459,26 +452,26 @@ public class KingValidator extends PieceValidator {
     private ArrayList<Position> checkTopRight(Position pos){
         ArrayList<Position> positions = new ArrayList<>();
         SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = pos.getSquare().getPiece();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
         //checks the spot below the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex), boardSquares[rankIndex - 1][fileIndex]));
+                    File.getFileFromIndex(fileIndex)));
         }
 
         //checks the spot to the left of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         //checks the bottom left diagonal of the king for an ally
         if (!checkMoveOnAlly(piece, boardSquares[rankIndex - 1][fileIndex - 1].getPiece())){
             positions.add(new Position(Rank.getRankFromIndex(rankIndex - 1),
-                    File.getFileFromIndex(fileIndex - 1), boardSquares[rankIndex - 1][fileIndex - 1]));
+                    File.getFileFromIndex(fileIndex - 1)));
         }
 
         return positions;
