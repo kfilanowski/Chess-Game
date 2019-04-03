@@ -1,11 +1,11 @@
 package Enums;
 
 /**
- * @author Matt Lutz 95% && Jacob Ginn 5%
+ * @author Matt Lutz 95%
+ * @author Jacob Ginn 5%
  * Enum that represents a specific type of chess piece
  */
 public enum ChessPieceType {
-
     /** Piece enum for the King */
     KING("K","King"),
 

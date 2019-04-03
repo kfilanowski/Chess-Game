@@ -1,8 +1,11 @@
 package Interfaces;
 
 /**
+ * Sets the draw strategy of the board which determines whether it will be
+ * printed in mono or color.
+ * 
  * @author Matt Lutz 100%
- * sets the draw strategy of the board which determines whether it will be printed in mono or color
+ * @version March 20, 2019
  */
 public interface BoardStrategy {
 

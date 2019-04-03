@@ -4,13 +4,13 @@ import Enums.GameColor;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
-import Validator.PieceValidator;
 
 /**
+ * @author - Jacob Ginn 100%
+ * @version March 20, 2019
  * This is the class that will draw the board in Black and White
  */
 public class Board_Mono_CLI implements BoardStrategy {
-
     /**
      * Draws the board in black and white with the squares and the pieces are in color.
      * @param board - the board object that is printed on the command line interface.
@@ -65,7 +65,5 @@ public class Board_Mono_CLI implements BoardStrategy {
         }
         str.append("    A    B    C    D    E    F    G    H");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
-
     }//end Draw()
-
 }//end Class()

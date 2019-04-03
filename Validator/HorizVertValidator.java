@@ -1,6 +1,5 @@
 package Validator;
 
-import Enums.GameColor;
 import Model.Position;
 import java.util.ArrayList;
 import Interfaces.BoardIF;
@@ -11,11 +10,17 @@ import Enums.Rank;
 /**
  * Models the piece's ability to move horizontally and vertically.
  * 
- * @author Kevin Filanowski
+ * @author Kevin Filanowski 100%
  * @version March 20, 2019
  */
 public class HorizVertValidator extends PieceValidator {
 
+    /**
+     * Constructor for HorizVertValidator.
+     * 
+     * @param board - The current state of the board.
+     * @param p     - The PieceIF decorator.
+     */
     public HorizVertValidator(BoardIF board, PieceIF p) {
         this.p = p;
         this.board = board;
@@ -158,6 +163,7 @@ public class HorizVertValidator extends PieceValidator {
             }
         }
 
+        // Combine the decorated moves.
         Position[] first = p.showMoves(pos);
         Position[] second = posArr.toArray(new Position[posArr.size()]);
         Position[] both = new Position[first.length + second.length];
@@ -168,8 +174,6 @@ public class HorizVertValidator extends PieceValidator {
         for (int j = first.length; j < both.length; j++) {
             both[j] = second[j - first.length];
         }
-
-        // Convert to Position[] array and return.
         return both;
     }
 }

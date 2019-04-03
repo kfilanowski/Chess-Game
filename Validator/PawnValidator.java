@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Models the piece's ability to move like a Pawn,
  * and perform Pawn-like functions.
  * 
- * @author Jeriah Caplinger
+ * @author Jeriah Caplinger (100%)
  * @version March 18, 2019
  */
 public class PawnValidator extends PieceValidator {
@@ -47,21 +47,11 @@ public class PawnValidator extends PieceValidator {
         int toRank = to.getRank().getIndex();
         int toFile = to.getFile().getIndex();
 
-//        System.out.println("from rank: " + fromRank + " to file: " + fromFile + " to rank: " + toRank + " to file: " + toFile);
-//        System.out.println("from rank: " + from.getRank() + " to file: " + from.getFile() + " to rank: " + to.getRank() + " to file: " + to.getFile());
+
         SquareIF[][] squares = board.getSquares();
         PieceIF fromPiece = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece();
         int moveCorrectly = this.moveCorrectly(fromPiece.getColor());
         PieceIF toPiece = squares[to.getRank().getIndex()][to.getFile().getIndex()].getPiece();
-
-        //***********************TESTING*******************
-//        if(fromPiece != null) {
-//            System.out.println("from piece color & piece: " + fromPiece.getColor() + "  " + fromPiece.getChessPieceType());
-//            if(toPiece != null) {
-//                System.out.println("to piece color & piece: " + toPiece.getColor() + "  " + toPiece.getChessPieceType());
-//            }
-//        }
-        //**********************************************************/
 
         // check if we are moving up one space
         if(fromFile == toFile && fromRank + moveCorrectly == toRank &&
@@ -89,7 +79,6 @@ public class PawnValidator extends PieceValidator {
 
             }
         }
-
 
         // check if we are taking a piece diagonally
         if(Math.abs(toFile - fromFile) == 1 && fromRank + moveCorrectly == toRank){
@@ -131,12 +120,6 @@ public class PawnValidator extends PieceValidator {
         }else if(fromPiece.getColor() == GameColor.BLACK){
             addPositions(pos, squares, BLACK_ADD_ONE, posArr);
         }
-
-       // /***********************TESTING*******************************
-        for(Position found : posArr){
-            System.out.println(found);
-        }
-         //******************************************************
 
 		return posArr.toArray(new Position[posArr.size()]);
     }
@@ -187,8 +170,8 @@ public class PawnValidator extends PieceValidator {
         if(checkBounds(fromRank + move_pos)) {
             // check up and to the right for white, left for black
             if(checkBounds(fromFile + 1)) {
-                PieceIF toPiece = squares[fromRank + move_pos][fromFile + 1].getPiece();
-                if(toPiece != null && !checkMoveOnAlly(fromPiece, toPiece)){
+                PieceIF rightPiece = squares[fromRank + move_pos][fromFile + 1].getPiece();
+                if(rightPiece != null && !checkMoveOnAlly(fromPiece, rightPiece)){
                     // add a valid position to the array list
                     posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile + 1),
                             squares[fromRank + move_pos][fromFile + 1]));

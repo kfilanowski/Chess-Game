@@ -1,9 +1,11 @@
 package Enums;
 
 /**
- * @author Matt Lutz 33% && Jeriah Caplinger 33% && Kevin Filanowski 33%
  * Enum that represents the file of a position on the board
- *
+ * @author Matt Lutz 33%
+ * @author Jeriah Caplinger 33%
+ * @author Kevin Filanowski 33%
+ * @version March 20, 2019
  */
 public enum File {
     /** Enum for file A*/
@@ -46,11 +48,18 @@ public enum File {
         this.index = index;
     }
 
-
+    /**
+     * Returns the index of the file.
+     * @return - Index of the file.
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * Returns the String file.
+     * @return - The string file.
+     */
     public String getFile() {
         return file;
     }
@@ -99,5 +108,4 @@ public enum File {
         }
         return max;
     }
-
 }

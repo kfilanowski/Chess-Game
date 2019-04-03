@@ -2,8 +2,10 @@ package Interfaces;
 
 import Enums.File;
 import Enums.Rank;
+
 /**
- * @author Matt Lutz 100%
+ * @author Matt Lutz 90%
+ * @author Kevin Filanowski 10%
  * This interface outlines the basic functionality of a board
  */
 public interface BoardIF {
@@ -71,5 +73,4 @@ public interface BoardIF {
      *           rank and file.
      */
     public SquareIF getSquare(Rank rank, File file);
-
 }

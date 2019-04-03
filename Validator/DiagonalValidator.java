@@ -11,7 +11,7 @@ import Interfaces.SquareIF;
 /**
  * Models the piece's ability to move diagonally.
  * 
- * @author Kevin Filanowski
+ * @author Kevin Filanowski 100%
  * @version March 20, 2019
  */
 public class DiagonalValidator extends PieceValidator {
@@ -19,9 +19,8 @@ public class DiagonalValidator extends PieceValidator {
      * Constructor for DiagonalValidator.
      * 
      * @param board - The current state of the board.
-     * @param p - The PieceIF decorator or 
+     * @param p - The PieceIF decorator.
      */
-
     public DiagonalValidator(BoardIF board, PieceIF p) {
         this.p = p;
         this.board = board;
@@ -70,9 +69,6 @@ public class DiagonalValidator extends PieceValidator {
                 if (squares[i][j].getPiece() != null) { result = false; }
             }
         }
-        System.out.println("in diag");
-        System.out.println(p);
-        System.out.println(p.getClass());
         return p.validateMove(from, to) || result;
 	}
 
@@ -95,7 +91,6 @@ public class DiagonalValidator extends PieceValidator {
         int rankIndex = pos.getRank().getIndex();
         PieceIF piece = pos.getSquare().getPiece();
         int size = squares.length - 1;
-
         
         // Check squares diagonally - positive slope up - from this position.
         int i = rankIndex;
@@ -161,6 +156,7 @@ public class DiagonalValidator extends PieceValidator {
             }
         }
 
+        // Combine the decorated moves.
         Position[] first = p.showMoves(pos);
         Position[] second = posArr.toArray(new Position[posArr.size()]);
         Position[] both = new Position[first.length + second.length];
@@ -171,8 +167,6 @@ public class DiagonalValidator extends PieceValidator {
         for (int k = first.length; k < both.length; k++) {
             both[k] = second[k - first.length];
         }
-
-        // Convert to Position[] array and return.
         return both;
     }
 }
