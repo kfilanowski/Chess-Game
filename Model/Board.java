@@ -294,6 +294,9 @@ public class Board implements BoardIF{
                     result = checkUpVert(kingRank, kingFile, color);
                     if(!result){
                         result = checkKnight(kingRank, kingFile, color);
+                        if(!result){
+                            result = checkPawn(kingRank, kingFile, color);
+                        }
                     }
                 }
             }
@@ -301,6 +304,98 @@ public class Board implements BoardIF{
 
         return result;
     }
+
+
+    /**
+     * Helper method that determines if an opposite colored pawn is putting the king
+     * into check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if an opposite color pawn is putting the king into check
+     */
+    private boolean checkPawn(int rank, int file, GameColor color){
+        boolean result;
+        if(color == GameColor.WHITE){
+            result = this.checkBlackPawn(rank, file, color);
+        }else{
+            result = this.checkWhitePawn(rank, file, color);
+        }
+        return result;
+    }
+
+
+    /**
+     * Helper method that determines if the black pawn is putting the white
+     * king into check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the pawn is putting the king into check
+     */
+    private boolean checkBlackPawn(int rank, int file, GameColor color){
+        boolean result = false;
+        int leftRank = rank - 1;
+        int leftFile = file - 1;
+        int rightRank = rank - 1;
+        int rightFile = file + 1;
+
+        // checks left diagnol square for pawn
+        if(checkHelpBounds(leftRank) && checkHelpBounds(leftFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[leftRank][leftFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+
+        // checks right diagnol square for pawn
+        if(!result && checkHelpBounds(rightRank) && checkHelpBounds(rightFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[rightRank][rightFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Helper method that determines if the white pawn is putting the black
+     * king into check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the pawn is putting the king into check
+     */
+    private boolean checkWhitePawn(int rank, int file, GameColor color){
+        boolean result = false;
+        int leftRank = rank + 1;
+        int leftFile = file - 1;
+        int rightRank = rank + 1;
+        int rightFile = file + 1;
+
+        // checks left diagnol for pawn
+        if(checkHelpBounds(leftRank) && checkHelpBounds(leftFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[leftRank][leftFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+
+        // checks right diagnol for pawn
+        if(!result && checkHelpBounds(rightRank) && checkHelpBounds(rightFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[rightRank][rightFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
 
     /**
      * Helper method that checks if our king is being put into check by an opposite
@@ -378,7 +473,7 @@ public class Board implements BoardIF{
      */
     private boolean knightCheckHelp(int fromRank, int fromFile, int toRank, int toFile, GameColor color){
         boolean result = false;
-        if(this.knightCheckHelpBounds(toRank) && this.knightCheckHelpBounds(toFile)){
+        if(this.checkHelpBounds(toRank) && this.checkHelpBounds(toFile)){
             PieceValidator gottenPiece = (PieceValidator) board[toRank][toFile].getPiece();
             if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.KNIGHT &&
                     gottenPiece.getPiece().getColor() != color){
@@ -393,7 +488,7 @@ public class Board implements BoardIF{
      * @param difference the index we are checking
      * @return true if the index is within the valid bounds
      */
-    private boolean knightCheckHelpBounds(int difference){
+    private boolean checkHelpBounds(int difference){
         final int UPPER_BOUND = 7;
         final int LOWER_BOUND = 0;
         return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
