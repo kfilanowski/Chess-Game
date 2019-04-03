@@ -4,6 +4,7 @@ import Enums.GameColor;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
+import Model.Position;
 
 /**
  * @author - Jacob Ginn 100%
@@ -66,4 +67,9 @@ public class Board_Mono_CLI implements BoardStrategy {
         str.append("    A    B    C    D    E    F    G    H");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
     }//end Draw()
+
+    @Override
+    public void draw(BoardIF board, Position[] pos) {
+
+    }
 }//end Class()

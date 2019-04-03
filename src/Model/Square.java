@@ -16,6 +16,8 @@ public class Square extends BlackAndWhite implements SquareIF {
     private PieceIF piece;
     /** The position of the object, in terms of rank and file. */
     Position pos;
+    /** The square is highlighted*/
+    Boolean highlighted;
 
     /**
      * Constructor that initializes an empty square.
@@ -23,6 +25,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     public Square() {
         piece = null;
         pos = null;
+        highlighted = false;
     }
 
     /**
@@ -31,6 +34,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     public Square(GameColor color, Position pos) {
         super.setColor(color);
         this.pos = pos;
+        highlighted = false;
     }
 
     /**
@@ -77,8 +81,14 @@ public class Square extends BlackAndWhite implements SquareIF {
      * 
      * @return - String form of a square
      */
-    public String toString() {
-        return " ";
+    public String toString(String backColor, String foreColor) {
+        String str;
+        if(this.getPiece() != null){
+            str = (backColor + " " + backColor + foreColor + this.getPiece().toString() + " " + "\u001b[0m");
+        }else{
+            str = (backColor + "   " + "\u001b[0m");
+        }
+        return str;
     }
 
     /**
@@ -88,5 +98,13 @@ public class Square extends BlackAndWhite implements SquareIF {
      */
     public Position getPostion() {
         return pos;
+    }
+
+    public boolean getHighlighted(){
+        return highlighted;
+    }
+
+    public void setHighlighted(boolean b){
+        this.highlighted = b;
     }
 }
