@@ -24,6 +24,8 @@ public class Driver {
         ((Board) chess_board).go();
         CommandParse commandParser = new CommandParse();
         commandParser.parse(chess_board, args);
+
+
     }
 
     /**

@@ -33,6 +33,11 @@ public class Board implements BoardIF{
         draw();
     }
 
+    public static void main(String[] args){
+        BoardIF board = new Board();
+        ((Board) board).go();
+    }
+
     /**
      * This sets up the the board with squares that will hold pieces and the piece validators.
      */
@@ -46,11 +51,13 @@ public class Board implements BoardIF{
             }
             for(int j = 0; j < getWidth(); j++){//columns of the board
                 if(count % 2 == 0){
-                    board[i][j] = new Square(GameColor.WHITE);//makes a square of color WHITE
+                    board[i][j] = new Square(GameColor.WHITE, new Position(
+                            Rank.getRankFromIndex(i), File.getFileFromIndex(j)));//makes a square of color WHITE
                     count++;
 
                 }else{
-                    board[i][j] = new Square(GameColor.BLACK);//makes a square of color BLACK
+                    board[i][j] = new Square(GameColor.BLACK, new Position(
+                            Rank.getRankFromIndex(i), File.getFileFromIndex(j)));//makes a square of color BLACK
                     count++;
                 }
             }
@@ -136,13 +143,25 @@ public class Board implements BoardIF{
 
     /**
      * Retrieve a square at a specified rank and file.
+     *
      * @param rank - The rank the square falls on.
      * @param file - The file the square falls on.
-     * @return - A SquareIF from the board that falls on the specified
-     *           rank and file.
+     * @return     - A SquareIF from the board that falls on the specified
+     *               rank and file.
      */
     public SquareIF getSquare(Rank rank, File file) {
         return board[rank.getIndex()][file.getIndex()];
+    }
+
+    /**
+     * Retrieve a square at a specified position.
+     *
+     * @param pos - The position of the square.
+     * @return    - A SquareIF from the board that falls on the specified
+     *              position.
+     */
+    public SquareIF getSquare(Position pos) {
+        return board[pos.getRank().getIndex()][pos.getFile().getIndex()];
     }
 
     /**
@@ -240,10 +259,12 @@ public class Board implements BoardIF{
         int kingRank = -1;
         int kingFile = -1;
 
-        for(int i = 0; i < Rank.getMaxIndex() && go; i++){
-            for(int j = 0; j < File.getMaxIndex() && go; j++){
-                PieceIF maybeKing = board[i][j].getPiece();
-                if(maybeKing.getChessPieceType() == ChessPieceType.KING && maybeKing.getColor() == color){
+        // loops through and finds the king for which we are checking check on
+        for(int i = 0; i <= Rank.getMaxIndex() && go; i++){
+            for(int j = 0; j <= File.getMaxIndex() && go; j++){
+                PieceValidator maybeKing = (PieceValidator) board[i][j].getPiece();
+                if(maybeKing != null && maybeKing.getPiece().getChessPieceType() == ChessPieceType.KING
+                        && maybeKing.getColor() == color){
                     go = false;
                     kingRank = i;
                     kingFile = j;
@@ -251,129 +272,268 @@ public class Board implements BoardIF{
             }
         }
 
+        if(kingRank != -1 && kingFile != -1){
+            finalResult = this.checkHelp(kingRank, kingFile, color);
+        }
 
-
-        final int MOVE_DOWN_LEFT = -1;
-        final int MOVE_UP_RIGHT = 1;
-
-
-        // Check left, right
-        boolean cl = checkLefRight(MOVE_DOWN_LEFT, kingRank, kingFile, color);
-        boolean cr = checkLefRight(MOVE_UP_RIGHT, kingRank, kingFile, color);
-
-        // Check down, up
-        boolean cu = checkUpDown(MOVE_DOWN_LEFT, kingRank, kingFile, color);
-        boolean cd = checkUpDown(MOVE_UP_RIGHT, kingRank, kingFile, color);
-
-
-        // Check bottom-right diag
-
-        // Check Up-left diag
-
-        // Check bottom left diag
-
-        // Check Knight
-
-        finalResult = cl || cr || cu || cd;
         return finalResult;
     }
 
 
-    private boolean checkLefRight(int direction, int rank, int file, GameColor color){
+    /**
+     * Helper method that manages checking in all different directions for check
+     * @param kingRank the rank the king is on
+     * @param kingFile the file the king is on
+     * @param color the color of the king
+     * @return true if the king is in check, false otherwise
+     */
+    private boolean checkHelp(int kingRank, int kingFile, GameColor color){
+        // check for check on horizontal left and vertically down
+        boolean result = checkLeftHoriz(kingRank, kingFile, color);
+        if(!result){
+            // check for check on horizontal right and vertically up
+            result = checkRightHoriz(kingRank, kingFile, color);
+            if(!result){
+                result = checkDownVert(kingRank, kingFile, color);
+                if(!result){
+                    result = checkUpVert(kingRank, kingFile, color);
+                    if(!result){
+                        result = checkUpRightDiag(kingRank, kingFile, color);
+                        if(!result){
+                            result = checkDownRightDiag(kingRank, kingFile, color);
+                            if(!result){
+                                result = checkDownLeftDiag(kingRank, kingFile, color);
+                                if(!result){
+                                    result = checkUpLeftDiag(kingRank, kingFile, color);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Checks horizontally left if the king is in check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the king is in check
+     */
+    private boolean checkLeftHoriz(int rank, int file, GameColor color){
         boolean result = false;
+        int leftFile = file;
 
         boolean go = true;
-        if (direction == -1) {
-            int j = file;
-            while (j >= 0 && go) {
-                j += direction;
-                PieceIF gottenPiece = board[rank][j].getPiece();
-                if (gottenPiece != null) {
-                    if (gottenPiece.getColor() != color && (gottenPiece.getChessPieceType() == ChessPieceType.QUEEN ||
-                            gottenPiece.getChessPieceType() == ChessPieceType.ROOK)) {
-                        result = true;
-                    }
-                    go = false;
+        while(leftFile >= 0 && go){
+            PieceValidator gottenPiece = (PieceValidator) board[rank][leftFile].getPiece();
+            if(gottenPiece != null ){
+                go = false;
+                if(gottenPiece.getPiece().getColor() == color && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.KING){
+                    go = true;
+                }
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN
+                        || gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK)){
+                    result = true;
                 }
             }
-        }else{
-            int j = file;
-            while (j < board.length && go) {
-                j += direction;
-                PieceIF gottenPiece = board[rank][j].getPiece();
-                if(gottenPiece != null){
-                    if(gottenPiece.getColor() != color && (gottenPiece.getChessPieceType() == ChessPieceType.QUEEN ||
-                            gottenPiece.getChessPieceType() == ChessPieceType.ROOK)){
-                        result = true;
-                    }
-                    go = false;
-                }
-
-            }
+            leftFile--;
         }
         return result;
     }
 
-    private boolean checkUpDown(int direction, int rank, int file, GameColor color){
+    /**
+     * Checks vertically down if the king is in check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the king is in check
+     */
+    private boolean checkDownVert(int rank, int file, GameColor color){
+        boolean result = false;
+        boolean go = true;
+
+        int downRank = rank;
+
+        while(downRank >= 0 && go){
+            PieceValidator gottenPiece = (PieceValidator) board[downRank][file].getPiece();
+
+            if(gottenPiece != null){
+                go = false;
+                if(gottenPiece.getPiece().getColor() == color && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.KING){
+                    go = true;
+                }
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN
+                        || gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK)){
+                    result = true;
+                    System.out.println("entered");
+                }
+            }
+            downRank--;
+        }
+
+        return result;
+    }
+
+    /**
+     * Checks horizontally right if the king is in check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the king is in check
+     */
+    private boolean checkRightHoriz(int rank, int file, GameColor color){
         boolean result = false;
 
+        int rightFile = file;
+        int max_file_index = File.getMaxIndex();
+
         boolean go = true;
-        if (direction == -1) {
-            int i = rank;
-            while (i >= 0 && go) {
-                i += direction;
-                PieceIF gottenPiece = board[i][file].getPiece();
-                if (gottenPiece != null) {
-                    if (gottenPiece.getColor() != color && (gottenPiece.getChessPieceType() == ChessPieceType.QUEEN ||
-                            gottenPiece.getChessPieceType() == ChessPieceType.ROOK)) {
-                            result = true;
-                    }
-                    go = false;
+        while(rightFile <= max_file_index && go){
+            PieceValidator gottenPiece = (PieceValidator) board[rank][rightFile].getPiece();
+            if(gottenPiece != null){
+                go = false;
+                if(gottenPiece.getPiece().getColor() == color && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.KING){
+                    go = true;
+                }
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN
+                        || gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK)){
+                    result = true;
                 }
             }
-        }else{
-            int i = rank;
-            while (i < board.length && go) {
-                i += direction;
-                PieceIF gottenPiece = board[i][file].getPiece();
-                if(gottenPiece != null){
-                    if(gottenPiece.getColor() != color && (gottenPiece.getChessPieceType() == ChessPieceType.QUEEN ||
-                            gottenPiece.getChessPieceType() == ChessPieceType.ROOK)){
-                            result = true;
-                    }
-                    go = false;
-                }
-
-
-            }
+            rightFile++;
         }
-       return result;
+        return result;
+    }
+
+    /**
+     * Checks vertically up if the king is in check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the king is in check
+     */
+    private boolean checkUpVert(int rank, int file, GameColor color){
+        boolean result = false;
+        boolean go = true;
+
+
+        int upRank = rank;
+        int max_rank_index = Rank.getMaxIndex();
+
+        while(upRank <= max_rank_index && go){
+            PieceValidator gottenPiece = (PieceValidator) board[upRank][file].getPiece();
+            if(gottenPiece != null){
+                go = false;
+                if(gottenPiece.getPiece().getColor() == color && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.KING){
+                    go = true;
+                }
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN
+                        || gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK)){
+                    result = true;
+                }
+            }
+            upRank++;
+        }
+        return result;
     }
 
     private boolean checkUpRightDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
-        int i = rank;
-        int j = file;
+        int i = rank - 1;
+        int j = file + 1;
         boolean go = true;
-        while (i > 0 &&  j < board.length && go) {
-            i--;
-            j++;
-            PieceIF gottenPiece = board[--i][++j].getPiece();
+        while (i > 0 &&  j <= File.getMaxIndex() && go) {
+
+            PieceValidator gottenPiece = (PieceValidator) board[i][j].getPiece();
             if(gottenPiece != null){
-                if(gottenPiece.getColor() != color && (gottenPiece.getChessPieceType() == ChessPieceType.BISHOP||
-                        gottenPiece.getChessPieceType() == ChessPieceType.QUEEN)){
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.BISHOP ||
+                        gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN)){
                     result = true;
-                }else if(gottenPiece.getColor() != color && gottenPiece.getChessPieceType() == ChessPieceType.PAWN){
+                }else if(gottenPiece.getPiece().getColor() != color && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN){
                     //TODO: HANDLE PAWN SOMEHOW
                 }
                 go = false;
             }
+
+            i--;
+            j++;
         }
-
-//chaning something
-
         return result;
     }
+
+    private boolean checkUpLeftDiag(int rank, int file, GameColor color){
+        // Check squares diagonally - positive slope up - from this position.
+        boolean result = false;
+        int i = rank - 1;
+        int j = file - 1;
+        boolean go = true;
+        while (i >= 0 &&  j >= 0  && go) {
+
+            PieceValidator gottenPiece = (PieceValidator) board[i][j].getPiece();
+            if(gottenPiece != null){
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.BISHOP ||
+                        gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN)){
+                    result = true;
+                }
+                go = false;
+            }
+
+            i--;
+            j--;
+        }
+        return result;
+    }
+
+    private boolean checkDownRightDiag(int rank, int file, GameColor color){
+        // Check squares diagonally - positive slope up - from this position.
+        boolean result = false;
+        int i = rank + 1;
+        int j = file + 1;
+        boolean go = true;
+        while (i <= Rank.getMaxIndex() &&  j <= File.getMaxIndex() && go) {
+            PieceValidator gottenPiece = (PieceValidator) board[i][j].getPiece();
+            if(gottenPiece != null){
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.BISHOP ||
+                        gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN)){
+                    result = true;
+                }
+                go = false;
+            }
+            i++;
+            j++;
+        }
+        return result;
+    }
+
+    private boolean checkDownLeftDiag(int rank, int file, GameColor color){
+        // Check squares diagonally - positive slope up - from this position.
+        boolean result = false;
+        int i = rank + 1;
+        int j = file - 1;
+        boolean go = true;
+        while (i <= Rank.getMaxIndex() &&  j >= 0 && go) {
+            PieceValidator gottenPiece = (PieceValidator) board[i][j].getPiece();
+            if(gottenPiece != null){
+                if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.BISHOP ||
+                        gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN)){
+                    result = true;
+                }else if(gottenPiece.getPiece().getColor() != color && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN){
+                    //TODO: HANDLE PAWN SOMEHOW
+                }
+                go = false;
+            }
+            i++;
+            j--;
+        }
+        return result;
+    }
+
+
 
 }
