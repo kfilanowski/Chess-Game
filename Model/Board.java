@@ -270,6 +270,7 @@ public class Board implements BoardIF{
         if(kingRank != -1 && kingFile != -1){
             finalResult = this.checkHelp(kingRank, kingFile, color);
         }
+        
 
         return finalResult;
     }
@@ -283,10 +284,9 @@ public class Board implements BoardIF{
      * @return true if the king is in check, false otherwise
      */
     private boolean checkHelp(int kingRank, int kingFile, GameColor color){
-        // check for check on horizontal left and vertically down
+        // following short circuits checking if the king is in check
         boolean result = checkLeftHoriz(kingRank, kingFile, color);
         if(!result){
-            // check for check on horizontal right and vertically up
             result = checkRightHoriz(kingRank, kingFile, color);
             if(!result){
                 result = checkDownVert(kingRank, kingFile, color);
