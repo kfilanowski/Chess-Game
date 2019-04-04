@@ -2,8 +2,10 @@ package Driver;
 
 import Enums.File;
 import Enums.Rank;
+import History.History;
 import Interfaces.BoardIF;
 import Interfaces.SquareIF;
+import Model.Board;
 import Model.Position;
 import java.util.Scanner;
 
@@ -17,6 +19,8 @@ import java.util.Scanner;
 public class CommandParse {
     /** Scanner that gets the input from the command line */
     private Scanner input;
+
+    History history = new History();
 
     /**
      * The default constructor for CommandParse.
@@ -46,7 +50,7 @@ public class CommandParse {
                 //user to input a correct square
                 if(from == null || to == null || board.getSquare(from).getPiece() == null) {
                     System.out.println("Please enter only one letter: a - h and one number: 1 - 8 i.e. a1 or E5\n");
-                } else {
+                } else {           
                     move(board, from, to);
                 }
 
@@ -57,8 +61,22 @@ public class CommandParse {
                 //TODO: pass in Position to a validator to show the moves
                 go = false;
             } else if(command[0].toLowerCase().equals("/undo") && command.length == 1) {
-                //TODO: handle undo somehow
-                System.out.println("undo");
+                try {
+                    board.restoreState(history.undoList(board));
+                    board.draw();
+                } catch (Exception ex) {
+                    System.err.println("Could not undo further.");
+                }
+            } else if (command[0].toLowerCase().equals("/redo") && command.length == 1) {
+                try {
+                    board.restoreState(history.redoList(board));
+                    board.draw();
+                } catch (Exception ex) {
+                    System.err.println("Could not redo further.");
+                }
+
+            } else if (command[0].toLowerCase().equals("/quit") && command.length == 1) {
+                System.exit(0);
             }
         }
     }
@@ -118,7 +136,7 @@ public class CommandParse {
         boolean validMove = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from,to);
 
         if(validMove){
-
+            history.addList(board.saveState(), board);
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
             board.draw();

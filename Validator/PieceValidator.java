@@ -107,4 +107,20 @@ public abstract class PieceValidator extends Piece {
     public String toString(){
         return p.toString();
     }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    @Override
+    public abstract PieceValidator clone();
+
+    /**
+     * Compares an object with this PieceValidator object.
+     * 
+     * @param obj - An object to compare with this PieceValidator object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public abstract boolean equals(Object obj);
 }

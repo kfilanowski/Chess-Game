@@ -66,4 +66,14 @@ public class Board_Mono_CLI implements BoardStrategy {
         str.append("    A    B    C    D    E    F    G    H");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
     }//end Draw()
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public Board_Mono_CLI clone() {
+        return new Board_Mono_CLI();
+    }
+
 }//end Class()

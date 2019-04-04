@@ -4,6 +4,7 @@ import Enums.ChessPieceType;
 import Enums.File;
 import Enums.GameColor;
 import Enums.Rank;
+import History.State;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.PieceIF;
@@ -19,17 +20,27 @@ import Validator.*;
  */
 public class Board implements BoardIF{
     /** The board that holds the squares that the pieces will be placed */
-    public SquareIF[][] board = new SquareIF[8][8];
+    public SquareIF[][] board;
 
     /** The strategy that the board will follow when it is drawn */
     BoardStrategy bs;
 
+    Board clone;
+
+    /**
+     * Constructs a board object and populates the squares.
+     */
+    public Board() {
+        board = new SquareIF[8][8];
+    }
+
     /**
      * This class is used by the driver to initialize a board, setup the board, and to draw the board.
      */
-    public void go(){
+    public void go() {
         init_board();
         setup();
+        clone = this.clone();
         draw();
     }
 
@@ -75,6 +86,8 @@ public class Board implements BoardIF{
     @Override
     public void draw() {
         bs.draw(this);
+        //System.out.println("the clone below");
+        //clone.bs.draw(clone);
     }
 
     /**
@@ -91,9 +104,8 @@ public class Board implements BoardIF{
      * @param d - the draw strategy that is being used.
      */
     @Override
-    public void setDrawStrategy(BoardStrategy d){
+    public void setDrawStrategy(BoardStrategy d) {
         this.bs = d;
-
     }
 
     /**
@@ -160,10 +172,67 @@ public class Board implements BoardIF{
     }
 
     /**
+     * Return a state object ensapsulating a clone of this board object 
+     * in its current state.
+     * 
+     * @return - A state encapsulating the current state of 
+     *          this board object as a clone.
+     */
+    public State<Board> saveState() {
+        return new State<Board>(this.clone());
+    }
+
+    /**
+     * Restores the state of this object from a state object.
+     * 
+     * @param state - The state from which to get the state of the board.
+     */
+    public void restoreState(State<Board> state) {
+        Board newState = (Board) state.getState();
+        bs = newState.bs;
+        board = newState.board;
+    }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public Board clone() {
+        Board newBoard = new Board();
+        newBoard.bs = bs;//.clone();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                newBoard.board[i][j] = board[i][j].clone();
+            }
+        }
+        return newBoard;
+    }
+
+    /**
+     * Compares an object with this board object.
+     * 
+     * @param obj - An object to compare with this board object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof Board) {
+            Board b = (Board) obj;
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    if (board[i][j].equals(b.board[i][j]) == false) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Sets the Black pieces on the board
      */
     private void setBlackPiece(){
-
         PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
         queen = new HorizVertValidator(this, queen);
         queen = new DiagonalValidator(this, queen);

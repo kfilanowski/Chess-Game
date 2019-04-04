@@ -2,6 +2,8 @@ package Interfaces;
 
 import Enums.File;
 import Enums.Rank;
+import History.State;
+import Model.Board;
 import Model.Position;
 
 /**
@@ -83,4 +85,27 @@ public interface BoardIF {
      *              position.
      */
     public SquareIF getSquare(Position pos);
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public BoardIF clone();
+    
+    /**
+     * Return a state object ensapsulating a clone of this board object 
+     * in its current state.
+     * 
+     * @return - A state encapsulating the current state of 
+     *          this board object as a clone.
+     */
+    public State<Board> saveState();
+
+    /**
+     * Restores the state of this object from a state object.
+     * 
+     * @param state - The state from which to get the state of the board.
+     */
+    public void restoreState(State<Board> state);
 }

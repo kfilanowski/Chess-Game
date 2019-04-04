@@ -68,4 +68,13 @@ public class Board_Color_CLI implements BoardStrategy {
         str.append("   A  B  C  D  E  F  G  H");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
     }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public Board_Color_CLI clone() {
+        return new Board_Color_CLI();
+    }
 }

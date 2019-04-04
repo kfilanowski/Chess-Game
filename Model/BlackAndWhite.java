@@ -11,7 +11,7 @@ import Interfaces.BlackAndWhiteIF;
  */
 public class BlackAndWhite implements BlackAndWhiteIF {
     /** A Enumeration representing the two colors to a Chess game. */
-    private GameColor gameColor;
+    protected GameColor gameColor;
 
     /**
      * Retrieve the color enumeration.

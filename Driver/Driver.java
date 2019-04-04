@@ -18,7 +18,7 @@ public class Driver {
      * Running this class will start the program.
      * @param args - Command line arguments.
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         BoardIF chess_board = new Board();//Chess board that the game will be played on
         go(chess_board);
         ((Board) chess_board).go();
@@ -31,7 +31,7 @@ public class Driver {
      *
      * @param chess_board - Instance of a board to use for setting the draw strategy
      */
-    private static void go(BoardIF chess_board){
+    private static void go(BoardIF chess_board) {
         Scanner reader = new Scanner(System.in);//scanner to read the input into the file
 
         System.out.println("What board would you like? Color: color or Black and White: bw?");

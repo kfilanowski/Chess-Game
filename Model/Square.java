@@ -89,4 +89,41 @@ public class Square extends BlackAndWhite implements SquareIF {
     public Position getPostion() {
         return pos;
     }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public SquareIF clone() {
+        Square newSquare = new Square();
+        if (piece != null) {
+            newSquare.setPiece(piece.clone());
+        }
+        newSquare.pos = pos.clone();
+        newSquare.setColor(gameColor);
+        return newSquare;
+    }
+
+    /**
+     * Compares an object with this Square object.
+     * 
+     * @param obj - An object to compare with this Square object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof Square) {
+            Square s = (Square) obj;
+            if (pos.equals(s.pos)) {
+                if (s.piece == null && piece == null) {
+                    return true;
+                }
+                if (piece == null || s.piece == null) {
+                    return false;
+                }
+                return piece.equals(s.getPiece());
+            }
+        }
+        return false;
+    }
 }

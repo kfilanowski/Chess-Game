@@ -49,4 +49,11 @@ public interface SquareIF {
      * @return - The position at this object.
      */
     public Position getPostion();
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public SquareIF clone();
 }
