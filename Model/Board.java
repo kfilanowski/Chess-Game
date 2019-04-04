@@ -248,6 +248,12 @@ public class Board implements BoardIF{
             board[6][i].setPiece(pawn);
         }
     }
+
+    /**
+     * Checks if the king is in check
+     * @param color the color of the king to check for
+     * @return true if the king is in check
+     */
     public boolean checkForCheck(GameColor color){
         boolean finalResult = false;
         boolean go = true;
@@ -270,7 +276,7 @@ public class Board implements BoardIF{
         if(kingRank != -1 && kingFile != -1){
             finalResult = this.checkHelp(kingRank, kingFile, color);
         }
-        
+
 
         return finalResult;
     }
