@@ -1,5 +1,7 @@
 package Interfaces;
 
+import Model.Position;
+
 /**
  * Sets the draw strategy of the board which determines whether it will be
  * printed in mono or color.
@@ -23,4 +25,6 @@ public interface BoardStrategy {
      * @return - A deep clone of this object.
      */
     public BoardStrategy clone();
+
+    public void draw(BoardIF board, Position[] pos);
 }

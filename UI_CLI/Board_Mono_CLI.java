@@ -4,6 +4,7 @@ import Enums.GameColor;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
+import Model.Position;
 
 /**
  * @author - Jacob Ginn 100%
@@ -76,4 +77,9 @@ public class Board_Mono_CLI implements BoardStrategy {
         return new Board_Mono_CLI();
     }
 
+
+    @Override
+    public void draw(BoardIF board, Position[] pos) {
+
+    }
 }//end Class()

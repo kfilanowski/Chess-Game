@@ -108,4 +108,6 @@ public interface BoardIF {
      * @param state - The state from which to get the state of the board.
      */
     public void restoreState(State<Board> state);
+
+    public void draw(BoardIF board, Position[] pos);
 }

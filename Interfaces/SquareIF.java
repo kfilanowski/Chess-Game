@@ -25,7 +25,7 @@ public interface SquareIF {
      * Retrieves the piece on this square.
      *
      * @return - The piece object referenced by this square, or null if there
-     *           are no pieces on this square.
+     * are no pieces on this square.
      */
     public PieceIF getPiece();
 
@@ -45,7 +45,7 @@ public interface SquareIF {
 
     /**
      * Retrieve the position at this square.
-     * 
+     *
      * @return - The position at this object.
      */
     public Position getPostion();
@@ -56,4 +56,11 @@ public interface SquareIF {
      * @return - A deep clone of this object.
      */
     public SquareIF clone();
+
+
+    public String toString(String backColor, String foreColor);
+
+    public void setHighlighted(boolean b);
+
+    public boolean getHighlighted();
 }
