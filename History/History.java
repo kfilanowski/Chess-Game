@@ -12,20 +12,34 @@ import Model.Board;
  * @version April 6, 2019
  */
 public class History {
+    /** A static reference to this class for the Singleton pattern. */
+    private static History instance;
     /** Keeps track of the undo stages. */
-    int undoIndex = -1;
+    private int undoIndex;
     /** Keeps track of the redo stages. */
-    int redoIndex = 1;
+    private int redoIndex;
     /** A List of previous state of the project. */
-    List<State<Board>> list;
+    private static List<State<Board>> list;
 
     /**
-     * Constructor defining index's and a history list.
+     * Private Constructor defining index's and a history list.
+     * Using the Singleton pattern.
      */
-    public History() {
+    private History() {
         undoIndex = -1;
         redoIndex = 1;
         list = new ArrayList<>();
+    }
+
+    /**
+     * Retrieves the instance of this class, or creates an instance if one
+     * does not already exist.
+     * 
+     * @return - An instance of the History class.
+     */
+    public static History getInstance() {
+        if (list == null) { instance = new History(); }
+        return instance;
     }
 
     /**

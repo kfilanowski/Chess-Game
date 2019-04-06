@@ -5,7 +5,6 @@ import Enums.Rank;
 import History.History;
 import Interfaces.BoardIF;
 import Interfaces.SquareIF;
-import Model.Board;
 import Model.Position;
 import java.util.Scanner;
 
@@ -20,7 +19,7 @@ public class CommandParse {
     /** Scanner that gets the input from the command line */
     private Scanner input;
 
-    History history = new History();
+    History history = History.getInstance();
 
     /**
      * The default constructor for CommandParse.
