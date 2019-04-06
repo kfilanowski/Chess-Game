@@ -67,7 +67,7 @@ public class History {
      * 
      * @return - An object containing a state at a previous point in time.
      */
-    public State<Board> undo() throws ArrayIndexOutOfBoundsException {
+    public State<Board> undo() throws ArrayIndexOutOfBoundsException, NullPointerException {
         if (undoIndex < 0) { return null; }
         redoIndex--;
         // Cloning is to prevent certain specific cases of cross referencing.
@@ -79,7 +79,7 @@ public class History {
      * 
      * @return - An object containing a state at forwarded point in time.
      */
-    public State<Board> redo() throws ArrayIndexOutOfBoundsException {
+    public State<Board> redo() throws ArrayIndexOutOfBoundsException, NullPointerException {
         if (redoIndex >= list.size()) { return null; }
         undoIndex++;
         // Cloning is to prevent certain specific cases of cross referencing.
