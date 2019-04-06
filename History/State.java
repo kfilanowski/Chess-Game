@@ -1,7 +1,5 @@
 package History;
 
-import java.util.Arrays;
-
 /**
  * The State class encapsulates a single state of an entity object. In this
  * case, a state of the board.

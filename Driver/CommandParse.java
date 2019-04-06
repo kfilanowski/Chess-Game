@@ -62,17 +62,23 @@ public class CommandParse {
                 go = false;
             } else if(command[0].toLowerCase().equals("/undo") && command.length == 1) {
                 try {
-                    board.restoreState(history.undoList(board));
+                    board.restoreState(history.undo());
                     board.draw();
-                } catch (Exception ex) {
-                    System.err.println("Could not undo further.");
+                } catch (NullPointerException ex) {
+                    System.err.println("reached null: Could not undo further.");
+                }
+                catch (ArrayIndexOutOfBoundsException ex) {
+                    System.err.println("reached index out of bounds: Could not redo further.");
                 }
             } else if (command[0].toLowerCase().equals("/redo") && command.length == 1) {
                 try {
-                    board.restoreState(history.redoList(board));
+                    board.restoreState(history.redo());
                     board.draw();
-                } catch (Exception ex) {
-                    System.err.println("Could not redo further.");
+                } catch (NullPointerException ex) {
+                    System.err.println("reached null: Could not redo further.");
+                }
+                catch (ArrayIndexOutOfBoundsException ex) {
+                    System.err.println("reached index out of bounds: Could not redo further.");
                 }
 
             } else if (command[0].toLowerCase().equals("/quit") && command.length == 1) {
@@ -136,7 +142,7 @@ public class CommandParse {
         boolean validMove = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from,to);
 
         if(validMove){
-            history.addList(board.saveState(), board);
+            history.add(board.saveState());
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
             board.draw();
