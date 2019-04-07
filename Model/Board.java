@@ -20,12 +20,9 @@ import Validator.*;
  */
 public class Board implements BoardIF{
     /** The board that holds the squares that the pieces will be placed */
-    public SquareIF[][] board;
-
+    private SquareIF[][] board;
     /** The strategy that the board will follow when it is drawn */
-    BoardStrategy bs;
-
-    Board clone;
+    private BoardStrategy bs;
 
     /**
      * Constructs a board object and populates the squares.
@@ -40,7 +37,6 @@ public class Board implements BoardIF{
     public void go() {
         init_board();
         setup();
-        clone = this.clone();
         draw();
     }
 
@@ -86,10 +82,15 @@ public class Board implements BoardIF{
     @Override
     public void draw() {
         bs.draw(this);
-        //System.out.println("the clone below");
-        //clone.bs.draw(clone);
     }
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     public void draw(BoardIF board, Position[] pos){
         bs.draw(board, pos);
     }
@@ -204,7 +205,7 @@ public class Board implements BoardIF{
      */
     public Board clone() {
         Board newBoard = new Board();
-        newBoard.bs = bs;//.clone();
+        newBoard.bs = bs.clone();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 newBoard.board[i][j] = board[i][j].clone();
@@ -321,6 +322,14 @@ public class Board implements BoardIF{
             board[6][i].setPiece(pawn);
         }
     }
+    
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     public boolean checkForCheck(GameColor color){
         boolean finalResult = false;
         boolean go = true;
@@ -704,6 +713,21 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * @param rank
+     * @param file
+     * @param color
+     * @return
+     */
     private boolean checkUpRightDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
@@ -727,6 +751,19 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * @param rank
+     * @param file
+     * @param color
+     * @return
+     */
     private boolean checkUpLeftDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
@@ -750,6 +787,16 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     private boolean checkDownRightDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
@@ -771,6 +818,20 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * @param rank
+     * @param file
+     * @param color
+     * @return
+     */
     private boolean checkDownLeftDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;

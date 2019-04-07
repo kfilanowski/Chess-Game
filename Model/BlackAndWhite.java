@@ -11,7 +11,7 @@ import Interfaces.BlackAndWhiteIF;
  */
 public class BlackAndWhite implements BlackAndWhiteIF {
     /** A Enumeration representing the two colors to a Chess game. */
-    protected GameColor gameColor;
+    private GameColor gameColor;
 
     /**
      * Retrieve the color enumeration.
@@ -64,5 +64,19 @@ public class BlackAndWhite implements BlackAndWhiteIF {
      */
     public void setWhite() {
         gameColor = GameColor.WHITE;
+    }
+
+    /**
+     * Compares an object with this BlackAndWhite object.
+     * 
+     * @param obj - An object to compare with this BlackAndWhite object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof BlackAndWhite) {
+            BlackAndWhite baw = (BlackAndWhite) obj;
+            return (isWhite() && baw.isWhite()) || (isBlack() && baw.isBlack());
+        }
+        return false;
     }
 }
