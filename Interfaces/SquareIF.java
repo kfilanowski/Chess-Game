@@ -57,10 +57,27 @@ public interface SquareIF {
      */
     public SquareIF clone();
 
-
+    /**
+     * 
+     * 
+     * 
+     * 
+     */
     public String toString(String backColor, String foreColor);
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     */
     public void setHighlighted(boolean b);
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     */
     public boolean getHighlighted();
 }

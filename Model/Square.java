@@ -15,9 +15,9 @@ public class Square extends BlackAndWhite implements SquareIF {
     /** The piece on the square. */
     private PieceIF piece;
     /** The position of the object, in terms of rank and file. */
-    Position pos;
+    private Position pos;
     /** The square is highlighted*/
-    Boolean highlighted;
+    private Boolean highlighted;
 
     /**
      * Constructor that initializes an empty square.
@@ -45,6 +45,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     public Square(PieceIF piece, Position pos) {
         this.piece = piece;
         this.pos = pos;
+        highlighted = false;
     }
 
     /**
@@ -111,7 +112,8 @@ public class Square extends BlackAndWhite implements SquareIF {
             newSquare.setPiece(piece.clone());
         }
         newSquare.pos = pos.clone();
-        newSquare.setColor(gameColor);
+        newSquare.setColor(getColor());
+        newSquare.highlighted = highlighted;
         return newSquare;
     }
 
@@ -124,7 +126,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     public boolean equals(Object obj) {
         if (obj instanceof Square) {
             Square s = (Square) obj;
-            if (pos.equals(s.pos)) {
+            if (pos.equals(s.pos) && s.highlighted == highlighted) {
                 if (s.piece == null && piece == null) {
                     return true;
                 }
@@ -136,11 +138,30 @@ public class Square extends BlackAndWhite implements SquareIF {
         }
         return false;
     }
-    //comment goes here
+
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     public boolean getHighlighted(){
         return highlighted;
     }
-
+    
+    /**
+     * 
+     * 
+     * 
+     *
+     * 
+     * 
+     * 
+     * 
+     */
     public void setHighlighted(boolean b){
         this.highlighted = b;
     }

@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class CommandParse {
     /** Scanner that gets the input from the command line */
     private Scanner input;
-
+    /** This object contains a list of snapshots of the entire board game. */
     History history = History.getInstance();
 
     /**

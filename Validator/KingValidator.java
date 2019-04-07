@@ -477,7 +477,15 @@ public class KingValidator extends PieceValidator {
         return positions;
 	}
 
-    //For sprint 2
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
 	private boolean castleValidation(){
 	    return true;
     }

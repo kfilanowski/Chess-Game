@@ -12,7 +12,8 @@ import Interfaces.PieceIF;
  * @version March 20, 2019
  */
 public class Piece extends BlackAndWhite implements PieceIF {
-    ChessPieceType type;
+    /** Defines the type of chess piece, I.E rook, bishop, pawn, etc. */
+    private ChessPieceType type;
 
     /**
      * Default piece constructor
@@ -75,7 +76,7 @@ public class Piece extends BlackAndWhite implements PieceIF {
     public PieceIF clone() {
         Piece newPiece = new Piece();
         newPiece.setChessPieceType(type);
-        newPiece.setColor(gameColor);
+        newPiece.setColor(getColor());
         return newPiece;
     }
 
@@ -89,7 +90,7 @@ public class Piece extends BlackAndWhite implements PieceIF {
         if (obj instanceof Piece) {
             Piece p = (Piece) obj;
             if (type.equals(p.type)) {
-                return gameColor.equals(p.getColor());
+                return getColor().equals(p.getColor());
             } 
         }
         return false;

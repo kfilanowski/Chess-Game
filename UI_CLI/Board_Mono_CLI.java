@@ -78,6 +78,15 @@ public class Board_Mono_CLI implements BoardStrategy {
     }
 
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     @Override
     public void draw(BoardIF board, Position[] pos) {
 

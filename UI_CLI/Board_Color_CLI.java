@@ -79,6 +79,16 @@ public class Board_Color_CLI implements BoardStrategy {
         return new Board_Color_CLI();
     }
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     @Override
     public void draw(BoardIF board, Position [] pos) {
         SquareIF[][] squares = board.getSquares();
@@ -142,6 +152,14 @@ public class Board_Color_CLI implements BoardStrategy {
     }
 
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     private SquareIF[][] setPosHighlight(SquareIF[][] squares, Position [] pos){
         for(Position p: pos){
             squares[p.getRank().getIndex()][p.getFile().getIndex()].setHighlighted(true);
@@ -150,6 +168,15 @@ public class Board_Color_CLI implements BoardStrategy {
         return squares;
     }
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     private StringBuilder printsHighlight(SquareIF[][] squares, int i, int j, StringBuilder str){
         if(squares[i][j].getPiece() != null) {
             if (squares[i][j].getPiece().getColor() == GameColor.BLACK) {

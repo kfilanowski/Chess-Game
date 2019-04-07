@@ -16,7 +16,7 @@ public abstract class PieceValidator extends Piece {
     /** The current state of the board required validity checking. */
     protected BoardIF board;
     /** A PieceIf used for the PieceValidator */
-    public PieceIF p;
+    protected PieceIF p;
 
     /**
      * Checks to see if the move to be attempted is a valid move by the standards of

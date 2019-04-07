@@ -26,5 +26,12 @@ public interface BoardStrategy {
      */
     public BoardStrategy clone();
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     public void draw(BoardIF board, Position[] pos);
 }

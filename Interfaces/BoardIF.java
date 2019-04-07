@@ -109,5 +109,10 @@ public interface BoardIF {
      */
     public void restoreState(State<Board> state);
 
+    /**
+     * 
+     * 
+     * 
+     */
     public void draw(BoardIF board, Position[] pos);
 }
