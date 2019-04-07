@@ -30,6 +30,13 @@ public interface BoardStrategy {
      * 
      * 
      * 
+     */
+    public void go(BoardIF board);
+
+    /**
+     * 
+     * 
+     * 
      * 
      * 
      */

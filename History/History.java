@@ -32,8 +32,8 @@ public class History {
     }
 
     /**
-     * Retrieves the instance of this class, or creates an instance if one
-     * does not already exist.
+     * Retrieves the instance of this class, or creates an instance if one does
+     * not already exist.
      * 
      * @return - An instance of the History class.
      */
@@ -76,10 +76,16 @@ public class History {
     }
 
     /**
-     * Get a State object containing a previous state. 
-     * This is effectively an undo.
+     * Get a State object containing a previous state. This is effectively an undo.
      * 
      * @return - An object containing a state at a previous point in time.
+     * @throws ArrayIndexOutOfBoundsException - Thrown when the indexing of the
+     *                                        history is malfunctioning. This should
+     *                                        not occur, but is here for safety
+     *                                        reasons if it does.
+     * @throws NullPointerException           - This exception is thrown when the
+     *                                        user tries to undo or redo to a state
+     *                                        that does not exist.
      */
     public State<Board> undo() throws ArrayIndexOutOfBoundsException, NullPointerException {
         if (undoIndex < 0) { return null; }
@@ -92,6 +98,13 @@ public class History {
      * Get a State object containing a forward state. This is effectively a redo.
      * 
      * @return - An object containing a state at forwarded point in time.
+     * @throws ArrayIndexOutOfBoundsException - Thrown when the indexing of the
+     *                                        history is malfunctioning. This should
+     *                                        not occur, but is here for safety
+     *                                        reasons if it does.
+     * @throws NullPointerException           - This exception is thrown when the
+     *                                        user tries to undo or redo to a state
+     *                                        that does not exist.
      */
     public State<Board> redo() throws ArrayIndexOutOfBoundsException, NullPointerException {
         if (redoIndex >= list.size()) { return null; }

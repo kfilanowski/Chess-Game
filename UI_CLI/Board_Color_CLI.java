@@ -7,12 +7,22 @@ import Interfaces.SquareIF;
 import Model.Position;
 
 /**
+ * This is the Command line interface color drawing strategy. This will be used
+ * to draw the board in color instead of just mono colors.
+ * 
  * @author - Jacob Ginn 100%
- * @version March 20, 2019
- * This is the Command line interface color drawing strategy. This will be used to draw the board in color instead of
- * just mono colors.
+ * @version April 7, 2019
  */
-public class Board_Color_CLI implements BoardStrategy {
+public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
+
+    /**
+     * 
+     * 
+     * 
+     */
+    public Board_Color_CLI() {
+        super();
+    }
 
     /**
      * Draws the board in black and white with the squares and the pieces are black and white

@@ -73,8 +73,6 @@ public class KingValidator extends PieceValidator {
 	@Override
 	public Position[] showMoves(Position pos) {
         ArrayList<Position> positions = new ArrayList<>();
-        SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 

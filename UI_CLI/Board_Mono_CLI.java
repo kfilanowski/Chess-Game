@@ -7,11 +7,22 @@ import Interfaces.SquareIF;
 import Model.Position;
 
 /**
+ * This is the class that will draw the board in Black and White.
+ * 
  * @author - Jacob Ginn 100%
- * @version March 20, 2019
- * This is the class that will draw the board in Black and White
+ * @version April 7, 2019
  */
-public class Board_Mono_CLI implements BoardStrategy {
+public class Board_Mono_CLI extends Board_CLI implements BoardStrategy {
+
+    /**
+     * 
+     * 
+     * 
+     */
+    public Board_Mono_CLI() {
+        super();
+    }
+
     /**
      * Draws the board in black and white with the squares and the pieces are in color.
      * @param board - the board object that is printed on the command line interface.

@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Scanner;
+
 import Enums.ChessPieceType;
 import Enums.File;
 import Enums.GameColor;
@@ -9,14 +11,20 @@ import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+import UI_CLI.Board_Color_CLI;
+import UI_CLI.Board_Mono_CLI;
 import Validator.HorizVertValidator;
 import Validator.*;
 
 /**
- * @author - Jacob Ginn (100%)
- * @version - 3/20/2019
- * This is the board class that holds the methods to initialize , setup, and which draw method that will be used
- * when the board is printed in the command line interface.
+ * * This is the board class that holds the methods to initialize , setup, and
+ * which draw method that will be used when the board is printed in the command
+ * line interface.
+ * 
+ * @author - Jacob Ginn
+ * @author - Kevin Filanowski
+ * @version - April 7, 2019
+ * 
  */
 public class Board implements BoardIF{
     /** The board that holds the squares that the pieces will be placed */
@@ -32,12 +40,61 @@ public class Board implements BoardIF{
     }
 
     /**
-     * This class is used by the driver to initialize a board, setup the board, and to draw the board.
+     * This class is used by the driver to initialize a board, setup the board,
+     * and to draw the board.
+     * 
+     * @throws NumberFormatException - Thrown when the input is invalid.
      */
-    public void go() {
+    public void go() throws NumberFormatException {
+        setupDrawing();
         init_board();
         setup();
         draw();
+        bs.go(this);
+    }
+
+    /**
+     * Prompts the user for the type of board they would like to be drawn.
+     * 
+     * @throws NumberFormatException - Thrown when the input is invalid.
+     */
+    private void setupDrawing() throws NumberFormatException {
+        // Scanner to read the input into the file.
+        Scanner reader = new Scanner(System.in);
+        // Boolean flag to ensure a viable option is chosen.
+        Boolean chosen = false;
+
+        while (!chosen) {
+            System.out.println("Menu Options: \n" 
+                             + "1) Colored Command Line Interface.\n"
+                             + "2) Monochrome Command Line Interface.\n" 
+                             + "3) Graphical User Interface.\n" 
+                             + "4) Exit.\n");
+            System.out.print("Please enter an integer: ");
+
+            // Reads in the input.
+            int input = Integer.parseInt(reader.next());
+
+            switch (input) {
+            case 1: { // If the user wants the colored board.
+                setDrawStrategy(new Board_Color_CLI());
+                chosen = true;
+            } break;
+            case 2: { // If the user wants the monochrome board.
+                setDrawStrategy(new Board_Mono_CLI());
+                chosen = true;
+            } break;
+            case 3: { // If the user wants the graphical user interface.
+                setDrawStrategy(new Board_Color_CLI());
+                chosen = true;
+            } break;
+            case 4: { // If the user wants to exit the program.
+                reader.close();
+                System.exit(0);
+            } break;
+            default:
+            }
+        }
     }
 
     /**
