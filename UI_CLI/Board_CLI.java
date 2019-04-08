@@ -75,12 +75,14 @@ public abstract class Board_CLI implements BoardStrategy {
                 // we can stop our while loop now that we have correct input
                 // go = false;
             } else if (command[0].toLowerCase().equals("/showmoves") && command.length == 2) {
-                Position from = getPosition(command[1], squares);
-                Position[] temp = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
-                        .showMoves(from);
-                board.draw(board, temp);
-                // TODO: pass in Position to a validator to show the moves
-                // go = false;
+                try {
+                    Position from = getPosition(command[1], squares);
+                    Position[] temp = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
+                            .showMoves(from);
+                    board.draw(board, temp);
+                }catch (NullPointerException ex){
+                    System.out.println("Invalid Piece: Please Choose another piece.");
+                }
             } else if (command[0].toLowerCase().equals("/undo")) {
                 try {
                     board.restoreState(history.undo());

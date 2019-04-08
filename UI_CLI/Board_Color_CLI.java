@@ -34,13 +34,13 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
 
         StringBuilder str = new StringBuilder();
 
-        int count = 8;
+        int count = 1;
 
-        for (int i = 0; i < squares.length; i++) {//rows of the chess board
+        for (int i = squares.length - 1; i >= 0; i--) {//rows of the chess board
 
             str.append("\u001b[0m" + count + " ");//shows the rank of the chess board
 
-            for (int j = 0; j < squares.length; j++) {//columns of the chessboard
+            for (int j = squares.length - 1; j >= 0; j--) {//columns of the chessboard
 
                 if (squares[i][j].getPiece() != null) {
 
@@ -74,9 +74,9 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
             }
 
             str.append("\n");
-            count--;//decrements the rank of the chess board
+            count++;//decrements the rank of the chess board
         }
-        str.append("   A  B  C  D  E  F  G  H");//Shows the File of the Chess pieces
+        str.append("   H  G  F  E  D  C  B  A");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
     }
 
@@ -125,7 +125,7 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
 
                 if (squares[i][j].getPiece() != null && !done) {
 
-                    if (squares[i][j].isBlack() && !done) {
+                    if (squares[i][j].isBlack()) {
 
                         if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
                             str.append(squares[i][j].toString("\u001b[47m","\u001b[30m"));
@@ -133,7 +133,7 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
                             str.append(squares[i][j].toString("\u001b[47m","\u001b[31m"));
                         }
 
-                    } else if(!done) {
+                    } else {
 
                         if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
                             str.append(squares[i][j].toString("\u001b[107m" ,"\u001b[30m"));

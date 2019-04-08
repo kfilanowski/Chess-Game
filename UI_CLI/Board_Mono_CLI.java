@@ -86,13 +86,9 @@ public class Board_Mono_CLI extends Board_CLI implements BoardStrategy {
 
 
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     * Draws the board with the highlighted squares that are valid moves for the selected piece
+     * @param board - The board that the game is being played on.
+     * @param pos - The position array that holds all of the valid moves.
      */
     @Override
     public void draw(BoardIF board, Position[] pos) {
@@ -137,7 +133,7 @@ public class Board_Mono_CLI extends Board_CLI implements BoardStrategy {
                         }
                     }
 
-                } else if(!done) {
+                }else if(!done) {
 
                     if (squares[i][j].isBlack()) {
                         str.append(squares[i][j].toString(' ', '(', ')', ' '));//prints a black space for the board
@@ -156,12 +152,10 @@ public class Board_Mono_CLI extends Board_CLI implements BoardStrategy {
 
 
     /**
-     *
-     *
-     *
-     *
-     *
-     *
+     * Sets the highlighted fields of the position array to true when they are valid moves
+     * @param squares - the squares that the board is made of.
+     * @param pos - the position array that holds all of the valid moves.
+     * @return - the updated squares that the board is being played on.
      */
     private SquareIF[][] setPosHighlight(SquareIF[][] squares, Position [] pos){
         for(Position p: pos){
@@ -172,13 +166,12 @@ public class Board_Mono_CLI extends Board_CLI implements BoardStrategy {
     }
 
     /**
-     *
-     *
-     *
-     *
-     *
-     *
-     *
+     * Adds the square to the StringBuilder and then returns it
+     * @param squares - the squares that the board is made of.
+     * @param i - the row index of the square that we are using
+     * @param j - the column index of the square that we are using.
+     * @param str - the SttingBuilder that prints out board.
+     * @return - The String of the sqare that is highlighted.
      */
     private StringBuilder printsHighlight(SquareIF[][] squares, int i, int j, StringBuilder str){
         if(squares[i][j].getPiece() != null) {
@@ -200,7 +193,7 @@ public class Board_Mono_CLI extends Board_CLI implements BoardStrategy {
                 }
             }
 
-        }if(squares[i][j].isBlack()){
+        }else if(squares[i][j].isBlack()){
             str.append(squares[i][j].toString('%','(',')', ' '));
             squares[i][j].setHighlighted(false);
         }else {
