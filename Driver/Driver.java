@@ -24,6 +24,8 @@ public class Driver {
         ((Board) chess_board).go();
         CommandParse commandParser = new CommandParse();
         commandParser.parse(chess_board, args);
+
+
     }
 
     /**
@@ -31,7 +33,7 @@ public class Driver {
      *
      * @param chess_board - Instance of a board to use for setting the draw strategy
      */
-    private static void go(BoardIF chess_board){
+    public static void go(BoardIF chess_board){
         Scanner reader = new Scanner(System.in);//scanner to read the input into the file
 
         System.out.println("What board would you like? Color: color or Black and White: bw?");
