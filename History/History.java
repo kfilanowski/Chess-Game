@@ -2,7 +2,8 @@ package History;
 
 import java.util.ArrayList;
 import java.util.List;
-import Model.Board;
+
+import Interfaces.BoardIF;
 
 /**
  * The history class holds each state of an entity class. In this case, a board.
@@ -11,15 +12,15 @@ import Model.Board;
  * @author Kevin Filanowski 100%
  * @version April 6, 2019
  */
-public class History {
+public class History<T extends BoardIF> {
     /** A static reference to this class for the Singleton pattern. */
-    private static History instance;
+    private static History<BoardIF> instance;
     /** Keeps track of the undo stages. */
     private int undoIndex;
     /** Keeps track of the redo stages. */
     private int redoIndex;
     /** A List of previous state of the project. */
-    private static List<State<Board>> list;
+    private static List<State<BoardIF>> list;
 
     /**
      * Private Constructor defining index's and a history list.
@@ -37,8 +38,8 @@ public class History {
      * 
      * @return - An instance of the History class.
      */
-    public static History getInstance() {
-        if (list == null) { instance = new History(); }
+    public static History<BoardIF> getInstance() {
+        if (list == null) { instance = new History<BoardIF>(); }
         return instance;
     }
 
@@ -47,7 +48,7 @@ public class History {
      * 
      * @param state - An object containing a state at some point in time.
      */
-    public void add(State<Board> state) {
+    public void add(State<BoardIF> state) {
         // An integer representing if any elements had been removed.
         int removedState = 0;
         // The number of the elements in the list minus 1.
@@ -87,11 +88,11 @@ public class History {
      *                                        user tries to undo or redo to a state
      *                                        that does not exist.
      */
-    public State<Board> undo() throws ArrayIndexOutOfBoundsException, NullPointerException {
+    public State<BoardIF> undo() throws ArrayIndexOutOfBoundsException, NullPointerException {
         if (undoIndex < 0) { return null; }
         redoIndex--;
         // Cloning is to prevent certain specific cases of cross referencing.
-        return new State<Board>(list.get(undoIndex--).getState().clone());
+        return new State<BoardIF>(list.get(undoIndex--).getState().clone());
     }
 
     /**
@@ -106,10 +107,10 @@ public class History {
      *                                        user tries to undo or redo to a state
      *                                        that does not exist.
      */
-    public State<Board> redo() throws ArrayIndexOutOfBoundsException, NullPointerException {
+    public State<BoardIF> redo() throws ArrayIndexOutOfBoundsException, NullPointerException {
         if (redoIndex >= list.size()) { return null; }
         undoIndex++;
         // Cloning is to prevent certain specific cases of cross referencing.
-        return new State<Board>(list.get(redoIndex++).getState().clone());
+        return new State<BoardIF>(list.get(redoIndex++).getState().clone());
     }
 }
