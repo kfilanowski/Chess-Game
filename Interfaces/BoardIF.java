@@ -16,17 +16,24 @@ public interface BoardIF {
     /**
      * This sets up the the board with squares that will hold pieces and the piece validators.
      */
-    public void init_board();
+    void init_board();
 
     /**
      * This is the default setup of the board that sets black and white pieces on the board.
      */
-    public void setup();
+    void setup();
 
     /**
      * This method calls the draw method in either color or mono colored.
      */
     public void draw();
+
+    /**
+     * This method sets up picking a UI for presenting the board, initializes the
+     * board, sets the pieces on the board, draws the board, and finally accepts
+     * input from the user.
+     */
+    public void go();
 
     /**
      * This returns the complete board that the game is being played on.

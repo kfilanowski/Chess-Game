@@ -22,13 +22,14 @@ public abstract class Board_CLI implements BoardStrategy {
     /** Scanner that gets the input from the command line */
     protected Scanner input;
     /** This object contains a list of snapshots of the entire board game. */
-    protected History history = History.getInstance();
+    protected History history;
 
     /**
      * The default constructor for CommandParse.
      */
     public Board_CLI() {
         input = new Scanner(System.in);
+        history = History.getInstance();
     }
 
     /**
@@ -44,9 +45,10 @@ public abstract class Board_CLI implements BoardStrategy {
      * 
      * @param board - An instance of the chess board
      */
-    public void parseInput(BoardIF board) {
+    private void parseInput(BoardIF board) {
         //
         String command[];
+        //
         String line;
         //
         boolean go = true;

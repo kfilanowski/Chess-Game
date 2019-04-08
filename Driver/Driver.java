@@ -22,7 +22,7 @@ public class Driver {
         //Chess board that the game will be played on.
         BoardIF chess_board = new Board();
         try {
-            ((Board) chess_board).go();
+            chess_board.go();
         } catch (NumberFormatException ex) {
             System.out.println("Driver has thrown number format exception from wrong input.");
         }

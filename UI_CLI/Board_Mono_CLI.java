@@ -2,7 +2,6 @@ package UI_CLI;
 
 import Enums.GameColor;
 import Interfaces.BoardIF;
-import Interfaces.BoardStrategy;
 import Interfaces.SquareIF;
 import Model.Position;
 
@@ -12,7 +11,7 @@ import Model.Position;
  * @author - Jacob Ginn 100%
  * @version April 7, 2019
  */
-public class Board_Mono_CLI extends Board_CLI implements BoardStrategy {
+public class Board_Mono_CLI extends Board_CLI {
 
     /**
      * 

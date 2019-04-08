@@ -40,8 +40,9 @@ public class Board implements BoardIF{
     }
 
     /**
-     * This class is used by the driver to initialize a board, setup the board,
-     * and to draw the board.
+     * This method sets up picking a UI for presenting the board, 
+     * initializes the board, sets the pieces on the board, draws the board,
+     * and finally accepts input from the user.
      * 
      * @throws NumberFormatException - Thrown when the input is invalid.
      */
