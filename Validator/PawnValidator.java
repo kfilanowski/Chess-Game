@@ -89,7 +89,32 @@ public class PawnValidator extends PieceValidator {
             }
         }
 
-        // TODO: do En Passante
+
+        // For black, we check if we can move up 2 spaces
+        if(fromPiece.getColor() == GameColor.BLACK && fromRank ==  4 && toRank == 5
+                && (toFile == fromFile - 1 || toFile == fromFile +1)){
+
+
+            //TODO: get history here and perform various checks
+            // check if the two spaces are empty
+            if( squares[fromRank + 1][fromFile].getPiece() == null &&
+                    squares[fromRank + 2][fromFile].getPiece() == null){
+                return true;
+            }
+        }
+
+        // For white, we check if we can move up 2 spaces
+        if(fromPiece.getColor() == GameColor.WHITE && fromRank == 6 && toRank == 4
+                && toFile == fromFile){
+            // check if the two spaces are empty
+            if(squares[fromRank - 1][fromFile].getPiece() == null &&
+                    squares[fromRank - 2][fromFile].getPiece() == null){
+                return true;
+
+            }
+        }
+
+
         return false;
 	}
 
