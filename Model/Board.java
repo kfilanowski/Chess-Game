@@ -249,6 +249,7 @@ public class Board implements BoardIF{
         }
     }
 
+
     /**
      * Checks if the king is in check
      * @param color the color of the king to check for

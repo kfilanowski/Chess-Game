@@ -157,13 +157,28 @@ public class PawnValidator extends PieceValidator {
             // add this position to the list
             posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos),
                     File.getFileFromIndex(fromFile)));
-            // check if we can move up two spaces
-            if(checkBounds(fromRank + move_pos + move_pos) &&
+        }
+
+
+        // For black, we check if we can move up 2 spaces
+        if(fromPiece.getColor() == GameColor.BLACK && fromRank == 1){
+            // check if the two spaces are empty
+            if( squares[fromRank + move_pos][fromFile].getPiece() == null &&
                     squares[fromRank + move_pos + move_pos][fromFile].getPiece() == null){
-                // add this position to the list
-                posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos + move_pos), File.getFileFromIndex(fromFile)));
+                posArr.add(new Position(Rank.getRankFromIndex(fromRank+move_pos+move_pos), File.getFileFromIndex(fromFile)));
             }
         }
+
+        // For white, we check if we can move up 2 spaces
+        if(fromPiece.getColor() == GameColor.WHITE && fromRank == 6){
+            // check if the two spaces are empty
+            if(squares[fromRank + move_pos][fromFile].getPiece() == null &&
+                    squares[fromRank + move_pos + move_pos][fromFile].getPiece() == null){
+                posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos+move_pos), File.getFileFromIndex(fromFile)));
+            }
+        }
+
+
 
         // check if we can take diagonally
         if(checkBounds(fromRank + move_pos)) {
