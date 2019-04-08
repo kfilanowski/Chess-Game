@@ -66,6 +66,14 @@ public interface SquareIF {
     public String toString(String backColor, String foreColor);
 
     /**
+     *
+     *
+     *
+     *
+     */
+    public String toString(char validMove, char spaceChar, char spaceChar2, char p);
+
+    /**
      * 
      * 
      * 

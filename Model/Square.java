@@ -4,6 +4,8 @@ import Enums.GameColor;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
+import java.sql.SQLOutput;
+
 /**
  * Represents a square on a Chess board.
  * 
@@ -88,6 +90,20 @@ public class Square extends BlackAndWhite implements SquareIF {
             str = (backColor + " " + backColor + foreColor + this.getPiece().toString() + " " + "\u001b[0m");
         }else{
             str = (backColor + "   " + "\u001b[0m");
+        }
+        return str;
+    }
+
+
+    public String toString(char validMove, char spaceChar, char spaceChar2, char p){
+        String str;
+        if(this.getPiece() != null){
+            if(p == 'u')
+                str = (spaceChar + "" + validMove + this.getPiece().toString().toUpperCase() + validMove + spaceChar2);
+            else
+                str = (spaceChar + "" + validMove + this.getPiece().toString().toLowerCase() + validMove + spaceChar2);
+        }else{
+            str = (spaceChar + "" + validMove + " " + validMove + spaceChar2);
         }
         return str;
     }

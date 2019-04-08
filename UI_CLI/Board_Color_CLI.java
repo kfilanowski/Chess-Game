@@ -202,6 +202,5 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
         }
         return str;
     }
-
-
+    
 }
