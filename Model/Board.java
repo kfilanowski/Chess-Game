@@ -242,8 +242,8 @@ public class Board implements BoardIF{
      * @return - A state encapsulating the current state of
      *          this board object as a clone.
      */
-    public State<Board> saveState() {
-        return new State<Board>(this.clone());
+    public State<BoardIF> saveState() {
+        return new State<BoardIF>(this.clone());
     }
 
     /**
@@ -251,7 +251,7 @@ public class Board implements BoardIF{
      *
      * @param state - The state from which to get the state of the board.
      */
-    public void restoreState(State<Board> state) {
+    public void restoreState(State<BoardIF> state) {
         Board newState = (Board) state.getState();
         bs = newState.bs;
         board = newState.board;
