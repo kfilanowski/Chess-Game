@@ -546,7 +546,7 @@ public class KingValidator extends PieceValidator {
         ArrayList<Position> moves = new ArrayList<>();
         moves.addAll(positions);
 
-        for(int i = 0; i < valids.length; i ++){
+        for(int i = 0; i < valids.length; i++){
             if(!valids[i]){
                 moves.remove(i);
             }
