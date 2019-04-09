@@ -15,7 +15,9 @@ public class Square extends BlackAndWhite implements SquareIF {
     /** The piece on the square. */
     private PieceIF piece;
     /** The position of the object, in terms of rank and file. */
-    Position pos;
+    private Position pos;
+    /** The square is highlighted*/
+    private Boolean highlighted;
 
     /**
      * Constructor that initializes an empty square.
@@ -23,6 +25,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     public Square() {
         piece = null;
         pos = null;
+        highlighted = false;
     }
 
     /**
@@ -31,6 +34,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     public Square(GameColor color, Position pos) {
         super.setColor(color);
         this.pos = pos;
+        highlighted = false;
     }
 
     /**
@@ -41,6 +45,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     public Square(PieceIF piece, Position pos) {
         this.piece = piece;
         this.pos = pos;
+        highlighted = false;
     }
 
     /**
@@ -77,8 +82,14 @@ public class Square extends BlackAndWhite implements SquareIF {
      * 
      * @return - String form of a square
      */
-    public String toString() {
-        return " ";
+    public String toString(String backColor, String foreColor) {
+        String str;
+        if(this.getPiece() != null){
+            str = (backColor + " " + backColor + foreColor + this.getPiece().toString() + " " + "\u001b[0m");
+        }else{
+            str = (backColor + "   " + "\u001b[0m");
+        }
+        return str;
     }
 
     /**
@@ -88,5 +99,70 @@ public class Square extends BlackAndWhite implements SquareIF {
      */
     public Position getPostion() {
         return pos;
+    }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public SquareIF clone() {
+        Square newSquare = new Square();
+        if (piece != null) {
+            newSquare.setPiece(piece.clone());
+        }
+        newSquare.pos = pos.clone();
+        newSquare.setColor(getColor());
+        newSquare.highlighted = highlighted;
+        return newSquare;
+    }
+
+    /**
+     * Compares an object with this Square object.
+     * 
+     * @param obj - An object to compare with this Square object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof Square) {
+            Square s = (Square) obj;
+            if (pos.equals(s.pos) && s.highlighted == highlighted) {
+                if (s.piece == null && piece == null) {
+                    return true;
+                }
+                if (piece == null || s.piece == null) {
+                    return false;
+                }
+                return piece.equals(s.getPiece());
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+    public boolean getHighlighted(){
+        return highlighted;
+    }
+    
+    /**
+     * 
+     * 
+     * 
+     *
+     * 
+     * 
+     * 
+     * 
+     */
+    public void setHighlighted(boolean b){
+        this.highlighted = b;
     }
 }

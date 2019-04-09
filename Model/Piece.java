@@ -12,7 +12,11 @@ import Interfaces.PieceIF;
  * @version March 20, 2019
  */
 public class Piece extends BlackAndWhite implements PieceIF {
-    ChessPieceType type;
+    /** Defines the type of chess piece, I.E rook, bishop, pawn, etc. */
+    private ChessPieceType type;
+
+    /** This boolean will be set to false if a piece has moved, required for castle functionality */
+    private boolean hasMoved;
 
     /**
      * Default piece constructor
@@ -26,6 +30,7 @@ public class Piece extends BlackAndWhite implements PieceIF {
      * @param type - ChessPieceType enum that the new piece is being made from
      */
     public Piece(ChessPieceType type) {
+        this.hasMoved = false;
         this.type = type;
     }
 
@@ -35,8 +40,19 @@ public class Piece extends BlackAndWhite implements PieceIF {
      * @param color - GameColor enum that the new piece is being made from
      */
     public Piece(ChessPieceType type, GameColor color) {
+        this.hasMoved = false;
         this.type = type;
         super.setColor(color);
+    }
+
+    @Override
+    public boolean getHasMoved(){
+        return this.hasMoved;
+    }
+
+    @Override
+    public void setHasMoved(boolean hasMoved){
+        this.hasMoved = hasMoved;
     }
 
     /**
@@ -65,5 +81,33 @@ public class Piece extends BlackAndWhite implements PieceIF {
     public String toString(){
         String pieceType = getChessPieceType().getSymbol();
         return pieceType;
+    }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public PieceIF clone() {
+        Piece newPiece = new Piece();
+        newPiece.setChessPieceType(type);
+        newPiece.setColor(getColor());
+        return newPiece;
+    }
+
+    /**
+     * Compares an object with this Piece object.
+     * 
+     * @param obj - An object to compare with this Piece object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof Piece) {
+            Piece p = (Piece) obj;
+            if (type.equals(p.type)) {
+                return getColor().equals(p.getColor());
+            } 
+        }
+        return false;
     }
 }
