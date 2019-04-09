@@ -1,8 +1,11 @@
 package UI_CLI;
 
 import java.util.Scanner;
+
+import Enums.ChessPieceType;
 import Enums.File;
 import Enums.Rank;
+import Model.Piece;
 import Model.Position;
 import History.History;
 import Interfaces.BoardIF;
@@ -24,8 +27,9 @@ public abstract class Board_CLI implements BoardStrategy {
     /** This object contains a list of snapshots of the entire board game. */
     protected History history;
 
+
     /**
-     * The default constructor for CommandParse.
+     * The default constructor for Board_CLI.
      */
     public Board_CLI() {
         input = new Scanner(System.in);
@@ -52,6 +56,8 @@ public abstract class Board_CLI implements BoardStrategy {
         String line;
         //
         boolean go = true;
+        //
+
 
         printMenuOptions();
 
@@ -176,6 +182,11 @@ public abstract class Board_CLI implements BoardStrategy {
         if (validMove) {
             history.add(board.saveState());
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
+
+            if(!board.getSquares()[toRank][toFile].getPiece().getHasMoved()){
+                board.getSquares()[toRank][toFile].getPiece().setHasMoved(true);
+            }
+
             board.getSquares()[fromRank][fromFile].setPiece(null);
             board.draw();
         } else {

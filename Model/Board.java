@@ -341,7 +341,7 @@ public class Board implements BoardIF{
     /**
      * sets the White pieces on the board
      */
-    public void setWhitePiece(){
+    private void setWhitePiece(){
 
         PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.WHITE);
         queen = new HorizVertValidator(this, queen);
@@ -467,9 +467,6 @@ public class Board implements BoardIF{
     private int getKingFileIndex(GameColor color){
         boolean go = true;
         int kingFile = -1;
-
-
-
         for(int i = 0; i <= Rank.getMaxIndex() && go; i++){
             for(int j = 0; j <= File.getMaxIndex() && go; j++){
                 PieceValidator maybeKing = (PieceValidator) board[i][j].getPiece();
@@ -574,7 +571,6 @@ public class Board implements BoardIF{
                 if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN
                         || gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK)){
                     result = true;
-                    System.out.println("entered");
                 }
             }
             downRank--;
