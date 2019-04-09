@@ -111,7 +111,7 @@ public class KingValidator extends PieceValidator {
         }
 
 
-            boolean[] valids = checkMoveInCheck(positions, piece.getColor());
+            Boolean[] valids = checkMoveInCheck(positions, piece.getColor());
             positions = showMovesInCheck(valids, positions);
 
             if(piece.getChessPieceType() == ChessPieceType.KING) {
@@ -511,8 +511,8 @@ public class KingValidator extends PieceValidator {
      *
      *
      */
-	private boolean[] checkMoveInCheck(ArrayList<Position> validMoves, GameColor color){
-        boolean[] valids = new boolean[validMoves.size()];
+	private Boolean[] checkMoveInCheck(ArrayList<Position> validMoves, GameColor color){
+        Boolean[] valids = new Boolean[validMoves.size()];
 
         for(int i = 0; i < validMoves.size(); i++){
             boolean cantMove = true;
@@ -542,13 +542,15 @@ public class KingValidator extends PieceValidator {
         return valids;
     }
 
-    private ArrayList<Position> showMovesInCheck(boolean[] valids, ArrayList<Position> positions){
+    private ArrayList<Position> showMovesInCheck(Boolean[] valids, ArrayList<Position> positions){
         ArrayList<Position> moves = new ArrayList<>();
         moves.addAll(positions);
+        ArrayList<Boolean> validPositions = new ArrayList<>(Arrays.asList(valids));
 
-        for(int i = 0; i < valids.length; i ++){
-            if(!valids[i]){
+        for(int i = 0; i < validPositions.size(); i ++){
+            if(!validPositions.get(i)){
                 moves.remove(i);
+                validPositions.remove(i);
             }
         }
 
