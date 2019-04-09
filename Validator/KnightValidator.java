@@ -1,6 +1,7 @@
 package Validator;
 
 import Enums.File;
+import Enums.GameColor;
 import Enums.Rank;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
@@ -178,12 +179,6 @@ public class KnightValidator extends PieceValidator {
         final int LOWER_BOUND = 0;
 	    return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
     }
-
-
-    private boolean ghostCheck(Position from, Position to){
-        
-    }
-
 
 
     /**

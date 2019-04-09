@@ -36,14 +36,6 @@ public class KingValidator extends PieceValidator {
         this.board = board;
     }
 
-//    public static void main(String[] args){
-//        BoardIF chess_board = new Board();//Chess board that the game will be played on
-//        Driver.go(chess_board);
-//        ((Board) chess_board).go();
-//        CommandParse commandParser = new CommandParse();
-//        commandParser.parse(chess_board, args);
-//    }
-
     /**
      * Checks to see if the move to be attempted is a valid move by the 
      * standards of Chess for this particular movement type.
@@ -79,17 +71,6 @@ public class KingValidator extends PieceValidator {
         if (!validMoves.contains(to) || checkIfKing(toPiece) ){
             return false;
         }
-
-
-
-//        if(board.checkForCheckMate(from, fromPiece.getColor())){
-//            System.out.println("Checkmate");
-//        }
-
-
-
-
-
         return true;
 	}
 
