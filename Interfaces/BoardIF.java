@@ -3,7 +3,6 @@ package Interfaces;
 import Enums.File;
 import Enums.Rank;
 import History.State;
-import Model.Board;
 import Model.Position;
 
 /**
@@ -107,14 +106,14 @@ public interface BoardIF {
      * @return - A state encapsulating the current state of 
      *          this board object as a clone.
      */
-    public State<Board> saveState();
+    public State<BoardIF> saveState();
 
     /**
      * Restores the state of this object from a state object.
      * 
      * @param state - The state from which to get the state of the board.
      */
-    public void restoreState(State<Board> state);
+    public void restoreState(State<BoardIF> state);
 
     /**
      * 

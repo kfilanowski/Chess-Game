@@ -22,7 +22,7 @@ public abstract class Board_CLI implements BoardStrategy {
     /** Scanner that gets the input from the command line */
     protected Scanner input;
     /** This object contains a list of snapshots of the entire board game. */
-    protected History history;
+    protected History<BoardIF> history;
 
     /**
      * The default constructor for CommandParse.
