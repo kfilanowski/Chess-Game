@@ -42,13 +42,13 @@ public class PawnValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
-	    //TODO: Check if this move will put king into check
-
         int fromRank = from.getRank().getIndex();
         int fromFile = from.getFile().getIndex();
 
         int toRank = to.getRank().getIndex();
         int toFile = to.getFile().getIndex();
+
+        boolean result = false;
 
 
         SquareIF[][] squares = board.getSquares();
@@ -59,49 +59,54 @@ public class PawnValidator extends PieceValidator {
         // check if we are moving up one space
         if(fromFile == toFile && fromRank + moveCorrectly == toRank &&
                 Math.abs(toRank - fromRank) == 1 && toPiece == null){
-            return true;
+            result = true;
         }
 
         // For black, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.BLACK && fromRank == 1 && toRank == 3
+        if(!result && fromPiece.getColor() == GameColor.BLACK && fromRank == 1 && toRank == 3
                 && toFile == fromFile){
             // check if the two spaces are empty
             if( squares[fromRank + 1][fromFile].getPiece() == null &&
                     squares[fromRank + 2][fromFile].getPiece() == null){
-                return true;
+                result = true;
             }
         }
 
         // For white, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.WHITE && fromRank == 6 && toRank == 4
+        if(!result && fromPiece.getColor() == GameColor.WHITE && fromRank == 6 && toRank == 4
                 && toFile == fromFile){
             // check if the two spaces are empty
             if(squares[fromRank - 1][fromFile].getPiece() == null &&
                     squares[fromRank - 2][fromFile].getPiece() == null){
-                return true;
+                result = true;
 
             }
         }
 
-        if(fromPiece.getColor() == GameColor.BLACK){
+        if(!result && fromPiece.getColor() == GameColor.BLACK){
            if(this.enPassanteHelpBlack(fromRank, fromFile, toRank, toFile, squares)){
-               return true;
+               result = true;
            }
-        }else if(fromPiece.getColor() == GameColor.WHITE){
+        }else if(!result && fromPiece.getColor() == GameColor.WHITE){
             if(this.enPassanteHelpWhite(fromRank, fromFile, toRank, toFile, squares)){
-                return true;
+                result = true;
             }
         }
 
         // check if we are taking a piece diagonally
-        if(Math.abs(toFile - fromFile) == 1 && fromRank + moveCorrectly == toRank){
+        if(!result && Math.abs(toFile - fromFile) == 1 && fromRank + moveCorrectly == toRank){
             if(toPiece != null){
-                return !checkMoveOnAlly(fromPiece, toPiece);
+                result = !checkMoveOnAlly(fromPiece, toPiece);
             }else{
-                return false;
+                result = false;
             }
         }
-        return false;
+
+        if(result){
+            result = !stillCheckAfterMove(from, to, fromPiece.getColor());
+        }
+
+        return result;
 	}
 
 
@@ -258,9 +263,6 @@ public class PawnValidator extends PieceValidator {
      */
 	@Override
 	public Position[] showMoves(Position pos) {
-        //TODO: Check if this move will put king into check
-        //TODO: En Passante
-
         // tells us whether we need to add 1 to our rank or subtract 1
         final int BLACK_ADD_ONE = 1;
         final int WHITE_ADD_ONE = -1;
@@ -381,33 +383,6 @@ public class PawnValidator extends PieceValidator {
                 }
                 board.restoreState(history.redo());
             }
-//            // get the piece adjacent
-//            adjacentPiece = (PieceValidator) squares[fromRank][fromFile + 1].getPiece();
-//            // need to check if its a pawn
-//            if(adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
-//                    ChessPieceType.PAWN && adjacentPiece.getColor()
-//                    != color){
-//                // here we have to do some history manipulating to get the previous board state
-//                // in order to check if the move is valid
-//                History history = History.getInstance();
-//                history.add(board.saveState());
-//                board.restoreState(history.undo());
-//                board.restoreState(history.undo());
-//                // we have to get a new set of squares because we reverted our board
-//                squares = board.getSquares();
-//                // we get the piece that was supposed to be a pawn
-//                PieceValidator rewindPiece = (PieceValidator) squares[fromRank + 2][fromFile + 1].getPiece();
-//                // perform various logical statements
-//                if(rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
-//                        != color && squares[fromRank + 1][fromFile + 1].getPiece() == null &&
-//                        squares[fromRank][fromFile + 1].getPiece() == null){
-//                    // if it passes we know that the en passante was legal and we can do everything
-//                    // accordingly
-//                    board.restoreState(history.redo());
-//                    posArray.add(new Position(Rank.getRankFromIndex(fromRank+1), File.getFileFromIndex(fromFile + 1)));
-//
-//                }
-//            }
         }
     }
 
@@ -443,7 +418,9 @@ public class PawnValidator extends PieceValidator {
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
 
         // check if we can move up one space
-        if(checkBounds(fromRank + move_pos) && squares[fromRank + move_pos][fromFile].getPiece() == null){
+        if(checkBounds(fromRank + move_pos) && squares[fromRank + move_pos][fromFile].getPiece() == null
+                && !stillCheckAfterMove(pos, new Position(Rank.getRankFromIndex(fromRank + move_pos),
+                File.getFileFromIndex(fromFile)), fromPiece.getColor())){
             // add this position to the list
             posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos),
                     File.getFileFromIndex(fromFile)));
@@ -454,7 +431,9 @@ public class PawnValidator extends PieceValidator {
         if(fromPiece.getColor() == GameColor.BLACK && fromRank == 1){
             // check if the two spaces are empty
             if( squares[fromRank + move_pos][fromFile].getPiece() == null &&
-                    squares[fromRank + move_pos + move_pos][fromFile].getPiece() == null){
+                    squares[fromRank + move_pos + move_pos][fromFile].getPiece() == null &&
+                    !stillCheckAfterMove(pos, new Position(Rank.getRankFromIndex(fromRank + move_pos),
+                            File.getFileFromIndex(fromFile)), fromPiece.getColor())){
                 posArr.add(new Position(Rank.getRankFromIndex(fromRank+move_pos+move_pos), File.getFileFromIndex(fromFile)));
             }
         }
@@ -463,7 +442,9 @@ public class PawnValidator extends PieceValidator {
         if(fromPiece.getColor() == GameColor.WHITE && fromRank == 6){
             // check if the two spaces are empty
             if(squares[fromRank + move_pos][fromFile].getPiece() == null &&
-                    squares[fromRank + move_pos + move_pos][fromFile].getPiece() == null){
+                    squares[fromRank + move_pos + move_pos][fromFile].getPiece() == null
+                    && !stillCheckAfterMove(pos, new Position(Rank.getRankFromIndex(fromRank + move_pos),
+                    File.getFileFromIndex(fromFile)), fromPiece.getColor())){
                 posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos+move_pos), File.getFileFromIndex(fromFile)));
             }
         }
@@ -475,7 +456,9 @@ public class PawnValidator extends PieceValidator {
             // check up and to the right for white, left for black
             if(checkBounds(fromFile + 1)) {
                 PieceIF rightPiece = squares[fromRank + move_pos][fromFile + 1].getPiece();
-                if(rightPiece != null && !checkMoveOnAlly(fromPiece, rightPiece)){
+                if(rightPiece != null && !checkMoveOnAlly(fromPiece, rightPiece) &&
+                        !stillCheckAfterMove(pos, new Position(Rank.getRankFromIndex(fromRank + move_pos),
+                                File.getFileFromIndex(fromFile)), fromPiece.getColor())){
                     // add a valid position to the array list
                     posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile + 1)));
                 }
@@ -483,12 +466,16 @@ public class PawnValidator extends PieceValidator {
             // check up and to the left for white, right for black
             if(checkBounds(fromFile - 1)){
                 PieceIF toPiece = squares[fromRank + move_pos][fromFile - 1].getPiece();
-                if(toPiece != null && !checkMoveOnAlly(fromPiece, toPiece)){
+                if(toPiece != null && !checkMoveOnAlly(fromPiece, toPiece) &&
+                        !stillCheckAfterMove(pos, new Position(Rank.getRankFromIndex(fromRank + move_pos),
+                                File.getFileFromIndex(fromFile)), fromPiece.getColor())){
                     // add a valid position to the array list
                     posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile - 1)));
                 }
             }
 
+            //TODO: check for stillCheckAfterMove() with en passante
+            //TODO: fix en passante for showmoves, validate moves works.
             if(fromPiece.getColor() == GameColor.BLACK) {
                 showEnPassanteBlack(fromRank, fromFile, squares, posArr);
             }else if(fromPiece.getColor() == GameColor.WHITE){

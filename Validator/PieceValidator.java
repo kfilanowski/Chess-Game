@@ -100,7 +100,7 @@ public abstract class PieceValidator extends Piece {
      * @param color the color of our king
      * @return true if after a move for this piece, it is still in check
      */
-    private boolean stillCheckAfterMove(Position from, Position to, GameColor color){
+    public boolean stillCheckAfterMove(Position from, Position to, GameColor color){
         boolean result = false;
         SquareIF[][] squares = board.getSquares();
         int toRank = to.getRank().getIndex();
