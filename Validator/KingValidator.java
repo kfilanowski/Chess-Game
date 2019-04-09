@@ -11,7 +11,6 @@ import Interfaces.SquareIF;
 import Model.Position;
 import Model.Board;
 import Driver.Driver;
-import javafx.geometry.Pos;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,14 +35,6 @@ public class KingValidator extends PieceValidator {
         this.p = p;
         this.board = board;
     }
-
-//    public static void main(String[] args){
-//        BoardIF chess_board = new Board();//Chess board that the game will be played on
-//        Driver.go(chess_board);
-//        ((Board) chess_board).go();
-//        CommandParse commandParser = new CommandParse();
-//        commandParser.parse(chess_board, args);
-//    }
 
     /**
      * Checks to see if the move to be attempted is a valid move by the 
@@ -80,17 +71,6 @@ public class KingValidator extends PieceValidator {
         if (!validMoves.contains(to) || checkIfKing(toPiece) ){
             return false;
         }
-
-
-
-//        if(board.checkForCheckMate(from, fromPiece.getColor())){
-//            System.out.println("Checkmate");
-//        }
-
-
-
-
-
         return true;
 	}
 

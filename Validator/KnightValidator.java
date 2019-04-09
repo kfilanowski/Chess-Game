@@ -1,9 +1,11 @@
 package Validator;
 
 import Enums.File;
+import Enums.GameColor;
 import Enums.Rank;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+import Model.Board;
 import Model.Position;
 import Interfaces.BoardIF;
 
@@ -50,7 +52,18 @@ public class KnightValidator extends PieceValidator {
 	    // we do this to check if its a move on an ally piece
 	    SquareIF[][] squares =  board.getSquares();
         PieceIF fromPiece = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece();
+
+        // the following checks for check
+        squares[fromRank][fromFile].setPiece(null);
+        Board realBoard = (Board) this.board;
+        if(!realBoard.checkForCheck(fromPiece.getColor())){
+            return false;
+        }
+
+        squares[fromRank][fromFile].setPiece(fromPiece);
+
         PieceIF toPiece = squares[to.getRank().getIndex()][to.getFile().getIndex()].getPiece();
+
 
 	    // if they are on the same file or rank, then it is not a valid move
         // and we can safely perform our validation checks
@@ -166,6 +179,7 @@ public class KnightValidator extends PieceValidator {
         final int LOWER_BOUND = 0;
 	    return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
     }
+
 
     /**
      * Create a deep clone of this object.
