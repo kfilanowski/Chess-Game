@@ -179,6 +179,13 @@ public class KnightValidator extends PieceValidator {
 	    return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
     }
 
+
+    private boolean ghostCheck(Position from, Position to){
+        
+    }
+
+
+
     /**
      * Create a deep clone of this object.
      * 
