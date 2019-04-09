@@ -698,7 +698,6 @@ public class Board implements BoardIF{
                 if(gottenPiece.getPiece().getColor() != color && (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.QUEEN
                         || gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK)){
                     result = true;
-                    System.out.println("entered");
                 }
             }
             downRank--;

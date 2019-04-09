@@ -1,12 +1,15 @@
 package Validator;
 
+import Enums.ChessPieceType;
 import Enums.File;
 import Enums.GameColor;
 import Enums.Rank;
+import History.History;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
 import Interfaces.BoardIF;
+import Model.Square;
 
 import java.util.ArrayList;
 
@@ -80,6 +83,16 @@ public class PawnValidator extends PieceValidator {
             }
         }
 
+        if(fromPiece.getColor() == GameColor.BLACK){
+           if(this.enPassanteHelpBlack(fromRank, fromFile, toRank, toFile, squares)){
+               return true;
+           }
+        }else if(fromPiece.getColor() == GameColor.WHITE){
+            if(this.enPassanteHelpWhite(fromRank, fromFile, toRank, toFile, squares)){
+                return true;
+            }
+        }
+
         // check if we are taking a piece diagonally
         if(Math.abs(toFile - fromFile) == 1 && fromRank + moveCorrectly == toRank){
             if(toPiece != null){
@@ -88,35 +101,152 @@ public class PawnValidator extends PieceValidator {
                 return false;
             }
         }
-
-
-        // For black, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.BLACK && fromRank ==  4 && toRank == 5
-                && (toFile == fromFile - 1 || toFile == fromFile +1)){
-
-
-            //TODO: get history here and perform various checks
-            // check if the two spaces are empty
-            if( squares[fromRank + 1][fromFile].getPiece() == null &&
-                    squares[fromRank + 2][fromFile].getPiece() == null){
-                return true;
-            }
-        }
-
-        // For white, we check if we can move up 2 spaces
-        if(fromPiece.getColor() == GameColor.WHITE && fromRank == 6 && toRank == 4
-                && toFile == fromFile){
-            // check if the two spaces are empty
-            if(squares[fromRank - 1][fromFile].getPiece() == null &&
-                    squares[fromRank - 2][fromFile].getPiece() == null){
-                return true;
-
-            }
-        }
-
-
         return false;
 	}
+
+
+    private boolean enPassanteHelpWhite(int fromRank, int fromFile, int toRank, int toFile,
+                                        SquareIF[][] squares){
+	    GameColor color = GameColor.WHITE;
+        boolean result = false;
+        // For black, checking EN PASSANTE
+        if(fromRank ==  3 && toRank == 2
+                && (toFile == fromFile - 1 || toFile == fromFile + 1)){
+            if(fromFile - 1 == toFile){
+                // get the piece adjacent
+                PieceValidator adjacentPiece = (PieceValidator) squares[fromRank][fromFile - 1].getPiece();
+                // need to check if its a pawn
+                if(adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
+                        ChessPieceType.PAWN && adjacentPiece.getColor()
+                        != color){
+                    // here we have to do some history manipulating to get the previous board state
+                    // in order to check if the move is valid
+                    History history = History.getInstance();
+                    history.add(board.saveState());
+                    board.restoreState(history.undo());
+                    board.restoreState(history.undo());
+                    // we have to get a new set of squares because we reverted our board
+                    squares = board.getSquares();
+                    // we get the piece that was supposed to be a pawn
+                    PieceValidator rewindPiece = (PieceValidator) squares[fromRank - 2][fromFile - 1].getPiece();
+                    // perform various logical statements
+                    if(rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
+                            != color && squares[fromRank - 1][fromFile - 1].getPiece() == null &&
+                            squares[fromRank][fromFile - 1].getPiece() == null){
+                        // if it passes we know that the en passante was legal and we can do everything
+                        // accordingly
+                        board.restoreState(history.redo());
+                        result = true;
+                        squares = board.getSquares();
+                        squares[fromRank][fromFile - 1].setPiece(null);
+                    }
+                }
+            }else if(fromFile + 1 == toFile){
+                // get the piece adjacent
+                PieceValidator adjacentPiece = (PieceValidator) squares[fromRank][fromFile + 1].getPiece();
+                // need to check if its a pawn
+                if(adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
+                        ChessPieceType.PAWN && adjacentPiece.getColor()
+                        != color){
+                    // here we have to do some history manipulating to get the previous board state
+                    // in order to check if the move is valid
+                    History history = History.getInstance();
+                    history.add(board.saveState());
+                    board.restoreState(history.undo());
+                    board.restoreState(history.undo());
+                    // we have to get a new set of squares because we reverted our board
+                    squares = board.getSquares();
+                    // we get the piece that was supposed to be a pawn
+                    PieceValidator rewindPiece = (PieceValidator) squares[fromRank - 2][fromFile + 1].getPiece();
+                    // perform various logical statements
+                    if(rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
+                            != color && squares[fromRank - 1][fromFile + 1].getPiece() == null &&
+                            squares[fromRank][fromFile + 1].getPiece() == null){
+                        // if it passes we know that the en passante was legal and we can do everything
+                        // accordingly
+                        board.restoreState(history.redo());
+                        result = true;
+                        squares = board.getSquares();
+                        squares[fromRank][fromFile + 1].setPiece(null);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+
+
+	private boolean enPassanteHelpBlack(int fromRank, int fromFile, int toRank, int toFile,
+                                        SquareIF[][] squares){
+	    GameColor color = GameColor.BLACK;
+	    boolean result = false;
+        // For black, checking EN PASSANTE
+        if(fromRank ==  4 && toRank == 5
+                && (toFile == fromFile - 1 || toFile == fromFile + 1)){
+            if(fromFile - 1 == toFile){
+                // get the piece adjacent
+                PieceValidator adjacentPiece = (PieceValidator) squares[fromRank][fromFile - 1].getPiece();
+                // need to check if its a pawn
+                if(adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
+                        ChessPieceType.PAWN && adjacentPiece.getColor()
+                        != color){
+                    // here we have to do some history manipulating to get the previous board state
+                    // in order to check if the move is valid
+                    History history = History.getInstance();
+                    history.add(board.saveState());
+                    board.restoreState(history.undo());
+                    board.restoreState(history.undo());
+                    // we have to get a new set of squares because we reverted our board
+                    squares = board.getSquares();
+                    // we get the piece that was supposed to be a pawn
+                    PieceValidator rewindPiece = (PieceValidator) squares[fromRank + 2][fromFile - 1].getPiece();
+                    // perform various logical statements
+                    if(rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
+                            != color && squares[fromRank + 1][fromFile - 1].getPiece() == null &&
+                            squares[fromRank][fromFile - 1].getPiece() == null){
+                        // if it passes we know that the en passante was legal and we can do everything
+                        // accordingly
+                        board.restoreState(history.redo());
+                        result = true;
+                        squares = board.getSquares();
+                        squares[fromRank][fromFile - 1].setPiece(null);
+                    }
+                }
+            }else if(fromFile + 1 == toFile){
+                // get the piece adjacent
+                PieceValidator adjacentPiece = (PieceValidator) squares[fromRank][fromFile + 1].getPiece();
+                // need to check if its a pawn
+                if(adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
+                        ChessPieceType.PAWN && adjacentPiece.getColor()
+                        != color){
+                    // here we have to do some history manipulating to get the previous board state
+                    // in order to check if the move is valid
+                    History history = History.getInstance();
+                    history.add(board.saveState());
+                    board.restoreState(history.undo());
+                    board.restoreState(history.undo());
+                    // we have to get a new set of squares because we reverted our board
+                    squares = board.getSquares();
+                    // we get the piece that was supposed to be a pawn
+                    PieceValidator rewindPiece = (PieceValidator) squares[fromRank + 2][fromFile + 1].getPiece();
+                    // perform various logical statements
+                    if(rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
+                            != color && squares[fromRank + 1][fromFile + 1].getPiece() == null &&
+                            squares[fromRank][fromFile + 1].getPiece() == null){
+                        // if it passes we know that the en passante was legal and we can do everything
+                        // accordingly
+                        board.restoreState(history.redo());
+                        result = true;
+                        squares = board.getSquares();
+                        squares[fromRank][fromFile + 1].setPiece(null);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
 
     /**
      * Returns an array of all possible positions that the piece can legally
@@ -148,6 +278,141 @@ public class PawnValidator extends PieceValidator {
 
 		return posArr.toArray(new Position[posArr.size()]);
     }
+
+
+
+    private void showEnPassanteWhite(int fromRank, int fromFile, SquareIF[][] squares,
+                                        ArrayList<Position> posArray) {
+        GameColor color = GameColor.WHITE;
+        // For black, checking EN PASSANTE
+        if (fromRank == 3) {
+            // get the piece adjacent
+            PieceValidator adjacentPiece = (PieceValidator) squares[fromRank][fromFile - 1].getPiece();
+            // need to check if its a pawn
+            if (adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
+                    ChessPieceType.PAWN && adjacentPiece.getColor()
+                    != color) {
+                // here we have to do some history manipulating to get the previous board state
+                // in order to check if the move is valid
+                History history = History.getInstance();
+                history.add(board.saveState());
+                board.restoreState(history.undo());
+                board.restoreState(history.undo());
+                // we have to get a new set of squares because we reverted our board
+                squares = board.getSquares();
+                // we get the piece that was supposed to be a pawn
+                PieceValidator rewindPiece = (PieceValidator) squares[fromRank - 2][fromFile - 1].getPiece();
+                // perform various logical statements
+                if (rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
+                        != color && squares[fromRank - 1][fromFile - 1].getPiece() == null &&
+                        squares[fromRank][fromFile - 1].getPiece() == null) {
+                    // if it passes we know that the en passante was legal and we can do everything
+                    // accordingly
+                    board.restoreState(history.redo());
+                    posArray.add(new Position(Rank.getRankFromIndex(fromRank -1), File.getFileFromIndex(fromFile - 1)));
+                }
+
+                // get the piece adjacent
+                adjacentPiece = (PieceValidator) squares[fromRank][fromFile + 1].getPiece();
+                // need to check if its a pawn
+                if (adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
+                        ChessPieceType.PAWN && adjacentPiece.getColor()
+                        != color) {
+                    // here we have to do some history manipulating to get the previous board state
+                    // in order to check if the move is valid
+                    history.add(board.saveState());
+                    board.restoreState(history.undo());
+                    board.restoreState(history.undo());
+                    // we have to get a new set of squares because we reverted our board
+                    squares = board.getSquares();
+                    // we get the piece that was supposed to be a pawn
+                    rewindPiece = (PieceValidator) squares[fromRank - 2][fromFile + 1].getPiece();
+                    // perform various logical statements
+                    if (rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
+                            != color && squares[fromRank - 1][fromFile + 1].getPiece() == null &&
+                            squares[fromRank][fromFile + 1].getPiece() == null) {
+                        // if it passes we know that the en passante was legal and we can do everything
+                        // accordingly
+                        board.restoreState(history.redo());
+                        posArray.add(new Position(Rank.getRankFromIndex(fromRank -1), File.getFileFromIndex(fromFile + 1)));
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    private void showEnPassanteBlack(int fromRank, int fromFile, SquareIF[][] squares, ArrayList<Position> posArray){
+        GameColor color = GameColor.BLACK;
+        // For black, checking EN PASSANTE
+        if(fromRank ==  4){
+            // get the piece adjacent
+            PieceValidator leftPiece = (PieceValidator) squares[fromRank][fromFile - 1].getPiece();
+            PieceValidator rightPiece = (PieceValidator) squares[fromRank][fromFile + 1].getPiece();
+            // need to check if its a pawn
+            if(leftPiece != null || rightPiece != null && leftPiece.getPiece().getChessPieceType() ==
+                    ChessPieceType.PAWN || rightPiece.getPiece().getChessPieceType()== ChessPieceType.PAWN
+                    && leftPiece.getColor() != color || rightPiece.getColor() != color){
+                // here we have to do some history manipulating to get the previous board state
+                // in order to check if the move is valid
+                History history = History.getInstance();
+                history.add(board.saveState());
+                board.restoreState(history.undo());
+                board.restoreState(history.undo());
+                // we have to get a new set of squares because we reverted our board
+                squares = board.getSquares();
+                // we get the piece that was supposed to be a pawn
+                PieceValidator leftRewindPiece = (PieceValidator) squares[fromRank + 2][fromFile - 1].getPiece();
+                PieceValidator rightRewindPiece = (PieceValidator) squares[fromRank + 2][fromFile - 1].getPiece();
+                // perform various logical statements
+                if(leftRewindPiece != null && leftRewindPiece.getPiece().getChessPieceType() ==
+                        ChessPieceType.PAWN && leftRewindPiece.getColor()
+                        != color && squares[fromRank + 1][fromFile - 1].getPiece() == null &&
+                        squares[fromRank][fromFile - 1].getPiece() == null){
+                    // if it passes we know that the en passante was legal and we can do everything
+                    // accordingly
+                    posArray.add(new Position(Rank.getRankFromIndex(fromRank+1), File.getFileFromIndex(fromFile - 1)));
+                }else if(rightRewindPiece != null && rightRewindPiece.getPiece().getChessPieceType() ==
+                        ChessPieceType.PAWN && rightRewindPiece.getColor()
+                        != color && squares[fromRank + 1][fromFile + 1].getPiece() == null &&
+                        squares[fromRank][fromFile + 1].getPiece() == null){
+                    posArray.add(new Position(Rank.getRankFromIndex(fromRank+1), File.getFileFromIndex(fromFile + 1)));
+                }
+                board.restoreState(history.redo());
+            }
+//            // get the piece adjacent
+//            adjacentPiece = (PieceValidator) squares[fromRank][fromFile + 1].getPiece();
+//            // need to check if its a pawn
+//            if(adjacentPiece != null && adjacentPiece.getPiece().getChessPieceType() ==
+//                    ChessPieceType.PAWN && adjacentPiece.getColor()
+//                    != color){
+//                // here we have to do some history manipulating to get the previous board state
+//                // in order to check if the move is valid
+//                History history = History.getInstance();
+//                history.add(board.saveState());
+//                board.restoreState(history.undo());
+//                board.restoreState(history.undo());
+//                // we have to get a new set of squares because we reverted our board
+//                squares = board.getSquares();
+//                // we get the piece that was supposed to be a pawn
+//                PieceValidator rewindPiece = (PieceValidator) squares[fromRank + 2][fromFile + 1].getPiece();
+//                // perform various logical statements
+//                if(rewindPiece != null && rewindPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN && rewindPiece.getColor()
+//                        != color && squares[fromRank + 1][fromFile + 1].getPiece() == null &&
+//                        squares[fromRank][fromFile + 1].getPiece() == null){
+//                    // if it passes we know that the en passante was legal and we can do everything
+//                    // accordingly
+//                    board.restoreState(history.redo());
+//                    posArray.add(new Position(Rank.getRankFromIndex(fromRank+1), File.getFileFromIndex(fromFile + 1)));
+//
+//                }
+//            }
+        }
+    }
+
+
+
 
 
     /**
@@ -223,6 +488,13 @@ public class PawnValidator extends PieceValidator {
                     posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile - 1)));
                 }
             }
+
+            if(fromPiece.getColor() == GameColor.BLACK) {
+                showEnPassanteBlack(fromRank, fromFile, squares, posArr);
+            }else if(fromPiece.getColor() == GameColor.WHITE){
+                showEnPassanteWhite(fromRank, fromFile, squares, posArr);
+            }
+
         }
     }
 

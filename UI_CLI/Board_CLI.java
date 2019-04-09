@@ -52,8 +52,6 @@ public abstract class Board_CLI implements BoardStrategy {
         String line;
         //
         boolean go = true;
-        //
-        SquareIF[][] squares = board.getSquares();
 
         printMenuOptions();
 
@@ -63,8 +61,8 @@ public abstract class Board_CLI implements BoardStrategy {
             // if it is a move command i.e. /move b4 c8 (specifies we are moving the piece
             // at b4 to c8
             if (command[0].toLowerCase().equals("/move") && command.length == 3) {
-                Position from = getPosition(command[1], squares);
-                Position to = getPosition(command[2], squares);
+                Position from = getPosition(command[1], board.getSquares());
+                Position to = getPosition(command[2], board.getSquares());
 
                 // if either the to position or the from position is incorrect it tells the
                 // user to input a correct square
@@ -77,8 +75,8 @@ public abstract class Board_CLI implements BoardStrategy {
                 // we can stop our while loop now that we have correct input
                 // go = false;
             } else if (command[0].toLowerCase().equals("/showmoves") && command.length == 2) {
-                Position from = getPosition(command[1], squares);
-                Position[] temp = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
+                Position from = getPosition(command[1], board.getSquares());
+                Position[] temp = board.getSquares()[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
                         .showMoves(from);
                 board.draw(board, temp);
                 // TODO: pass in Position to a validator to show the moves
