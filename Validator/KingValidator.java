@@ -1,12 +1,21 @@
 package Validator;
 
+import Driver.CommandParse;
+import Enums.ChessPieceType;
 import Enums.File;
+import Enums.GameColor;
 import Enums.Rank;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
+import Model.Board;
+import Driver.Driver;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Models the piece's ability to move like a King,
@@ -16,7 +25,7 @@ import java.util.ArrayList;
  * @version March 10, 2019
  */
 public class KingValidator extends PieceValidator {
-    
+
     /**
      * Constructor for KingValidator.
      * 
@@ -25,6 +34,14 @@ public class KingValidator extends PieceValidator {
     public KingValidator(BoardIF board, PieceIF p) {
         this.p = p;
         this.board = board;
+    }
+
+    public static void main(String[] args){
+        BoardIF chess_board = new Board();//Chess board that the game will be played on
+        Driver.go(chess_board);
+        ((Board) chess_board).go();
+        CommandParse commandParser = new CommandParse();
+        commandParser.parse(chess_board, args);
     }
 
     /**
@@ -37,6 +54,7 @@ public class KingValidator extends PieceValidator {
      */
 	@Override
 	public boolean validateMove(Position from, Position to) {
+        Board board = (Board)this.board;
 	    // For readability and brevity.
         int fromFile = from.getFile().getIndex();
         int fromRank = from.getRank().getIndex();
@@ -54,10 +72,21 @@ public class KingValidator extends PieceValidator {
         SquareIF[][] boardSquares = board.getSquares();
         PieceIF fromPiece = boardSquares[fromRank][fromFile].getPiece();
         PieceIF toPiece = boardSquares[toRank][toFile].getPiece();
+        ArrayList<Position> validMoves = new ArrayList<>(Arrays.asList(showMoves(from)));
 
-        if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece)) {
+
+
+        if (!validMoves.contains(to) || checkIfKing(toPiece) ){
             return false;
         }
+
+        if(board.checkForCheckMate(from, fromPiece.getColor())){
+            System.out.println("Checkmate");
+        }
+
+
+
+
 
         return true;
 	}
@@ -73,6 +102,8 @@ public class KingValidator extends PieceValidator {
 	@Override
 	public Position[] showMoves(Position pos) {
         ArrayList<Position> positions = new ArrayList<>();
+        SquareIF[][] boardSquares = board.getSquares();
+        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
@@ -95,6 +126,13 @@ public class KingValidator extends PieceValidator {
         }else{
             positions = checkKingMiddle(pos);
         }
+
+
+            boolean[] valids = checkMoveInCheck(positions, piece.getColor());
+            positions = showMovesInCheck(valids, positions);
+
+
+
 
         // Convert to Position[] array and return.
         return positions.toArray(new Position[positions.size()]);
@@ -475,41 +513,54 @@ public class KingValidator extends PieceValidator {
         return positions;
 	}
 
-    /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     */
+	private boolean[] checkMoveInCheck(ArrayList<Position> validMoves, GameColor color){
+        boolean[] valids = new boolean[validMoves.size()];
+
+        for(int i = 0; i < validMoves.size(); i++){
+            boolean cantMove = true;
+            if(((Board)this.board).checkUpRightDiag(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color) ||
+                    ((Board)this.board).checkUpLeftDiag(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color) ||
+                    ((Board)this.board).checkDownLeftDiag(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color) ||
+                    ((Board)this.board).checkDownRightDiag(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color) ||
+                    ((Board)this.board).checkDownVert(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color) ||
+                    ((Board)this.board).checkUpVert(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color) ||
+                    ((Board)this.board).checkLeftHoriz(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color) ||
+                    ((Board)this.board).checkRightHoriz(validMoves.get(i).getRank().getIndex(),
+                    validMoves.get(i).getFile().getIndex(),color)){
+                cantMove = false;
+                valids[i] = cantMove;
+            }else {
+                valids[i] = cantMove;
+            }
+
+        }
+        return valids;
+    }
+
+    private ArrayList<Position> showMovesInCheck(boolean[] valids, ArrayList<Position> positions){
+        ArrayList<Position> moves = new ArrayList<>();
+        moves.addAll(positions);
+
+        for(int i = 0; i < valids.length; i ++){
+            if(!valids[i]){
+                moves.remove(i);
+            }
+        }
+
+        return moves;
+    }
+
+
+
+    //For sprint 2
 	private boolean castleValidation(){
 	    return true;
-    }
-
-    /**
-     * Create a deep clone of this object.
-     * 
-     * @return - A deep clone of this object.
-     */
-    @Override
-    public PieceValidator clone() {
-        PieceIF newPiece = p.clone();
-        return new KingValidator(board, newPiece);
-    }
-
-    /**
-     * Compares an object with this Validator object.
-     * 
-     * @param obj - An object to compare with this Validator object.
-     * @return - True if the two objects are deeply equal, false otherwise.
-     */
-    public boolean equals(Object obj) {
-        if (obj instanceof KingValidator) {
-            KingValidator v = (KingValidator) obj;
-            return v.p.equals(p);
-        }
-        return false;
     }
 }
