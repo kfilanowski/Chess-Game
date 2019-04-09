@@ -16,6 +16,15 @@ public interface PieceIF extends BlackAndWhiteIF {
      */
     public ChessPieceType getChessPieceType();
 
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
     public void setChessPieceType(ChessPieceType type);
 
     /**
@@ -36,4 +45,11 @@ public interface PieceIF extends BlackAndWhiteIF {
     default boolean validateMove(Position from, Position to){
         return false;
     }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public PieceIF clone();
 }

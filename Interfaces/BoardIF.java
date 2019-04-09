@@ -2,6 +2,8 @@ package Interfaces;
 
 import Enums.File;
 import Enums.Rank;
+import History.State;
+import Model.Board;
 import Model.Position;
 
 /**
@@ -14,17 +16,24 @@ public interface BoardIF {
     /**
      * This sets up the the board with squares that will hold pieces and the piece validators.
      */
-    public void init_board();
+    void init_board();
 
     /**
      * This is the default setup of the board that sets black and white pieces on the board.
      */
-    public void setup();
+    void setup();
 
     /**
      * This method calls the draw method in either color or mono colored.
      */
     public void draw();
+
+    /**
+     * This method sets up picking a UI for presenting the board, initializes the
+     * board, sets the pieces on the board, draws the board, and finally accepts
+     * input from the user.
+     */
+    public void go();
 
     /**
      * This returns the complete board that the game is being played on.
@@ -83,4 +92,34 @@ public interface BoardIF {
      *              position.
      */
     public SquareIF getSquare(Position pos);
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public BoardIF clone();
+    
+    /**
+     * Return a state object ensapsulating a clone of this board object 
+     * in its current state.
+     * 
+     * @return - A state encapsulating the current state of 
+     *          this board object as a clone.
+     */
+    public State<Board> saveState();
+
+    /**
+     * Restores the state of this object from a state object.
+     * 
+     * @param state - The state from which to get the state of the board.
+     */
+    public void restoreState(State<Board> state);
+
+    /**
+     * 
+     * 
+     * 
+     */
+    public void draw(BoardIF board, Position[] pos);
 }

@@ -12,7 +12,8 @@ import Interfaces.PieceIF;
  * @version March 20, 2019
  */
 public class Piece extends BlackAndWhite implements PieceIF {
-    ChessPieceType type;
+    /** Defines the type of chess piece, I.E rook, bishop, pawn, etc. */
+    private ChessPieceType type;
 
     /**
      * Default piece constructor
@@ -65,5 +66,33 @@ public class Piece extends BlackAndWhite implements PieceIF {
     public String toString(){
         String pieceType = getChessPieceType().getSymbol();
         return pieceType;
+    }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public PieceIF clone() {
+        Piece newPiece = new Piece();
+        newPiece.setChessPieceType(type);
+        newPiece.setColor(getColor());
+        return newPiece;
+    }
+
+    /**
+     * Compares an object with this Piece object.
+     * 
+     * @param obj - An object to compare with this Piece object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof Piece) {
+            Piece p = (Piece) obj;
+            if (type.equals(p.type)) {
+                return getColor().equals(p.getColor());
+            } 
+        }
+        return false;
     }
 }

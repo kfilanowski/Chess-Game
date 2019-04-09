@@ -66,4 +66,14 @@ public class Position {
         }
         return false;
     }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    public Position clone() {
+        return new Position(Rank.getRankFromIndex(rank.getIndex()),
+                            File.getFileFromIndex(file.getIndex()));
+    }
 }

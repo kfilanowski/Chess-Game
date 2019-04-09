@@ -73,8 +73,6 @@ public class KingValidator extends PieceValidator {
 	@Override
 	public Position[] showMoves(Position pos) {
         ArrayList<Position> positions = new ArrayList<>();
-        SquareIF[][] boardSquares = board.getSquares();
-        PieceIF piece = board.getSquare(pos).getPiece();
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
 
@@ -477,8 +475,41 @@ public class KingValidator extends PieceValidator {
         return positions;
 	}
 
-    //For sprint 2
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
 	private boolean castleValidation(){
 	    return true;
+    }
+
+    /**
+     * Create a deep clone of this object.
+     * 
+     * @return - A deep clone of this object.
+     */
+    @Override
+    public PieceValidator clone() {
+        PieceIF newPiece = p.clone();
+        return new KingValidator(board, newPiece);
+    }
+
+    /**
+     * Compares an object with this Validator object.
+     * 
+     * @param obj - An object to compare with this Validator object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof KingValidator) {
+            KingValidator v = (KingValidator) obj;
+            return v.p.equals(p);
+        }
+        return false;
     }
 }

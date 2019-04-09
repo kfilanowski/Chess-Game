@@ -1,36 +1,101 @@
 package Model;
 
+import java.util.Scanner;
+
 import Enums.ChessPieceType;
 import Enums.File;
 import Enums.GameColor;
 import Enums.Rank;
+import History.State;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+import UI_CLI.Board_Color_CLI;
+import UI_CLI.Board_Mono_CLI;
 import Validator.HorizVertValidator;
 import Validator.*;
 
 /**
- * @author - Jacob Ginn (100%)
- * @version - 3/20/2019
- * This is the board class that holds the methods to initialize , setup, and which draw method that will be used
- * when the board is printed in the command line interface.
+ * * This is the board class that holds the methods to initialize , setup, and
+ * which draw method that will be used when the board is printed in the command
+ * line interface.
+ *
+ * @author - Jacob Ginn
+ * @author - Kevin Filanowski
+ * @version - April 7, 2019
+ *
  */
 public class Board implements BoardIF{
     /** The board that holds the squares that the pieces will be placed */
-    public SquareIF[][] board = new SquareIF[8][8];
-
+    private SquareIF[][] board;
     /** The strategy that the board will follow when it is drawn */
-    BoardStrategy bs;
+    private BoardStrategy bs;
 
     /**
-     * This class is used by the driver to initialize a board, setup the board, and to draw the board.
+     * Constructs a board object and populates the squares.
      */
-    public void go(){
+    public Board() {
+        board = new SquareIF[8][8];
+    }
+
+    /**
+     * This method sets up picking a UI for presenting the board,
+     * initializes the board, sets the pieces on the board, draws the board,
+     * and finally accepts input from the user.
+     *
+     * @throws NumberFormatException - Thrown when the input is invalid.
+     */
+    public void go() throws NumberFormatException {
+        setupDrawing();
         init_board();
         setup();
         draw();
+        bs.go(this);
+    }
+
+    /**
+     * Prompts the user for the type of board they would like to be drawn.
+     *
+     * @throws NumberFormatException - Thrown when the input is invalid.
+     */
+    private void setupDrawing() throws NumberFormatException {
+        // Scanner to read the input into the file.
+        Scanner reader = new Scanner(System.in);
+        // Boolean flag to ensure a viable option is chosen.
+        Boolean chosen = false;
+
+        while (!chosen) {
+            System.out.println("Menu Options: \n"
+                             + "1) Colored Command Line Interface.\n"
+                             + "2) Monochrome Command Line Interface.\n"
+                             + "3) Graphical User Interface.\n"
+                             + "4) Exit.\n");
+            System.out.print("Please enter an integer: ");
+
+            // Reads in the input.
+            int input = Integer.parseInt(reader.next());
+
+            switch (input) {
+            case 1: { // If the user wants the colored board.
+                setDrawStrategy(new Board_Color_CLI());
+                chosen = true;
+            } break;
+            case 2: { // If the user wants the monochrome board.
+                setDrawStrategy(new Board_Mono_CLI());
+                chosen = true;
+            } break;
+            case 3: { // If the user wants the graphical user interface.
+                setDrawStrategy(new Board_Color_CLI());
+                chosen = true;
+            } break;
+            case 4: { // If the user wants to exit the program.
+                reader.close();
+                System.exit(0);
+            } break;
+            default:
+            }
+        }
     }
 
     /**
@@ -78,6 +143,17 @@ public class Board implements BoardIF{
     }
 
     /**
+     *
+     *
+     *
+     *
+     *
+     */
+    public void draw(BoardIF board, Position[] pos){
+        bs.draw(board, pos);
+    }
+
+    /**
      * This returns the complete board that the game is being played on.
      * @return - the board that chess is being played on
      */
@@ -91,9 +167,8 @@ public class Board implements BoardIF{
      * @param d - the draw strategy that is being used.
      */
     @Override
-    public void setDrawStrategy(BoardStrategy d){
+    public void setDrawStrategy(BoardStrategy d) {
         this.bs = d;
-
     }
 
     /**
@@ -160,10 +235,67 @@ public class Board implements BoardIF{
     }
 
     /**
+     * Return a state object ensapsulating a clone of this board object
+     * in its current state.
+     *
+     * @return - A state encapsulating the current state of
+     *          this board object as a clone.
+     */
+    public State<Board> saveState() {
+        return new State<Board>(this.clone());
+    }
+
+    /**
+     * Restores the state of this object from a state object.
+     *
+     * @param state - The state from which to get the state of the board.
+     */
+    public void restoreState(State<Board> state) {
+        Board newState = (Board) state.getState();
+        bs = newState.bs;
+        board = newState.board;
+    }
+
+    /**
+     * Create a deep clone of this object.
+     *
+     * @return - A deep clone of this object.
+     */
+    public Board clone() {
+        Board newBoard = new Board();
+        newBoard.bs = bs.clone();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                newBoard.board[i][j] = board[i][j].clone();
+            }
+        }
+        return newBoard;
+    }
+
+    /**
+     * Compares an object with this board object.
+     *
+     * @param obj - An object to compare with this board object.
+     * @return - True if the two objects are deeply equal, false otherwise.
+     */
+    public boolean equals(Object obj) {
+        if (obj instanceof Board) {
+            Board b = (Board) obj;
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    if (board[i][j].equals(b.board[i][j]) == false) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Sets the Black pieces on the board
      */
     private void setBlackPiece(){
-
         PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
         queen = new HorizVertValidator(this, queen);
         queen = new DiagonalValidator(this, queen);
@@ -638,6 +770,21 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * @param rank
+     * @param file
+     * @param color
+     * @return
+     */
     private boolean checkUpRightDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
@@ -661,6 +808,19 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * @param rank
+     * @param file
+     * @param color
+     * @return
+     */
     private boolean checkUpLeftDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
@@ -684,6 +844,16 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
     private boolean checkDownRightDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
@@ -705,6 +875,20 @@ public class Board implements BoardIF{
         return result;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * @param rank
+     * @param file
+     * @param color
+     * @return
+     */
     private boolean checkDownLeftDiag(int rank, int file, GameColor color){
         // Check squares diagonally - positive slope up - from this position.
         boolean result = false;
