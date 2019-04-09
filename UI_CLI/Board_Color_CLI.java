@@ -34,13 +34,13 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
 
         StringBuilder str = new StringBuilder();
 
-        int count = 1;
+        int count = 8;
 
-        for (int i = squares.length - 1; i >= 0; i--) {//rows of the chess board
+        for (int i = 0; i < squares.length; i++) {//rows of the chess board
 
             str.append("\u001b[0m" + count + " ");//shows the rank of the chess board
 
-            for (int j = squares.length - 1; j >= 0; j--) {//columns of the chessboard
+            for (int j = 0; j < squares.length; j++) {//columns of the chessboard
 
                 if (squares[i][j].getPiece() != null) {
 
@@ -74,9 +74,9 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
             }
 
             str.append("\n");
-            count++;//decrements the rank of the chess board
+            count--;//decrements the rank of the chess board
         }
-        str.append("   H  G  F  E  D  C  B  A");//Shows the File of the Chess pieces
+        str.append("   A  B  C  D  E  F  G  H");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
     }
 
