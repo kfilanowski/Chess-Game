@@ -77,8 +77,9 @@ public class HorizVertValidator extends PieceValidator {
         // Ensure the final spot is not an ally or an opposing team's King.
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
         PieceIF toPiece = squares[toRank][toFile].getPiece();
+
         if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece) ||
-                stillCheckAfterMove(from, to, fromPiece.getColor())) {
+                (fromPiece != null && stillCheckAfterMove(from, to, fromPiece.getColor()))) {
             result = false; 
         }
 		return p.validateMove(from, to) || result;

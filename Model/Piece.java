@@ -45,11 +45,19 @@ public class Piece extends BlackAndWhite implements PieceIF {
         super.setColor(color);
     }
 
+    /**
+     * Gets the boolean that tells whether or not a piece has moved
+     * @return - The boolean that chcks if a piece has moved
+     */
     @Override
     public boolean getHasMoved(){
         return this.hasMoved;
     }
 
+    /**
+     * Sets the boolean that tells whether or not a piece has moved
+     * @param hasMoved - Our hasMoved boolean
+     */
     @Override
     public void setHasMoved(boolean hasMoved){
         this.hasMoved = hasMoved;
