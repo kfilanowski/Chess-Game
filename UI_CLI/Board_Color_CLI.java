@@ -146,14 +146,9 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
     }
 
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     * Draws the Board with the valid moves of the piece Highlighted on the board.
+     * @param board - The board that the game is being played on.
+     * @param pos -  the position array that holds the valid positions a piece can move
      */
     @Override
     public void draw(BoardIF board, Position [] pos) {
@@ -219,12 +214,10 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
 
 
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     * sets the highlight field on all of the valid positions.
+     * @param squares - The squares on the board
+     * @param pos - The array of positions of valid move
+     * @return The squares on the board
      */
     private SquareIF[][] setPosHighlight(SquareIF[][] squares, Position [] pos){
         for(Position p: pos){
@@ -234,14 +227,14 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
         return squares;
     }
 
+
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     * Adds the highlighted square to the board
+     * @param squares - The squares on the board
+     * @param i - the row index of the board
+     * @param j - the column index of the board
+     * @param str - the StringBuilder that prints the board
+     * @return str - the StringBuilder that prints the board
      */
     private StringBuilder printsHighlight(SquareIF[][] squares, int i, int j, StringBuilder str){
         if(squares[i][j].getPiece() != null) {

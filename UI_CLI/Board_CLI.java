@@ -41,8 +41,7 @@ public abstract class Board_CLI implements BoardStrategy {
 
     /**
      * Method that parses the command line arguments and calls the move helper
-     * method
-     * 
+     * method.
      * @param board - An instance of the chess board
      */
     public void parseInput(BoardIF board) {
@@ -122,7 +121,9 @@ public abstract class Board_CLI implements BoardStrategy {
         + "6) /quit:         Quit the program.\n");
     }
 
-
+    /**
+     * gets the names of both the players that are playing the game of Chess.
+     */
     public void getNames(){
         Scanner reader = new Scanner(System.in);
         System.out.println("Please enter Player 1 name.");

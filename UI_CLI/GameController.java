@@ -5,19 +5,27 @@ import Enums.GameColor;
 import Enums.Rank;
 import History.History;
 import Interfaces.BoardIF;
+import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+import Model.Piece;
 import Model.Position;
+
+import java.util.ArrayList;
 
 
 public class GameController {
     /** The boolean for which players turn it is. **/
     boolean playerTurn;
-
+    /** The First Player Name */
     String player1Name;
-
+    /** The Second Player Name */
     String player2Name;
 
-
+    /**
+     * Constructor for the gamecontroller
+     * @param player1Name - First Player name
+     * @param player2Name - Second Player name
+     */
     public GameController(String player1Name, String player2Name){
         playerTurn = true;
         this.player1Name = player1Name;
@@ -32,6 +40,8 @@ public class GameController {
      * @param to    - The final position that we want to move to
      */
     public void move(BoardIF board, Position from, Position to) {
+        ArrayList<PieceIF> piece = new ArrayList<PieceIF>();
+
         int fromFile = from.getFile().getIndex(); // from square file
         int fromRank = from.getRank().getIndex(); // from square rank
 
