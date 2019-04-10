@@ -32,6 +32,14 @@ public class GameController {
         this.player2Name = player2Name;
     }
 
+    public boolean getplayerTurn(){
+        return this.playerTurn;
+    }
+
+    public void setPlayerTurn(boolean playerTurn){
+        this.playerTurn = playerTurn;
+    }
+
     /**
      * Helper method that is used to move a piece on the board
      *

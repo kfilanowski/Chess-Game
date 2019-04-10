@@ -89,7 +89,7 @@ public class Board implements BoardIF{
                 chosen = true;
             } break;
             case "3": { // If the user wants the graphical user interface.
-                setDrawStrategy(new Board_Color_CLI());
+                setDrawStrategy(new Board_Color_CLI()); //doesn't work right now
                 chosen = true;
             } break;
             case "4": { // If the user wants to exit the program.
@@ -147,20 +147,30 @@ public class Board implements BoardIF{
         bs.draw(this);
     }
 
-
+    /**
+     * Draws the board in black and white with the squares and the pieces are in color.
+     * @param board - the board object that is printed on the command line interface.
+     */
     public void revDraw(BoardIF board){
         bs.revDraw(board);
     }
 
     /**
-     *
-     *
-     *
-     *
-     *
+     * Draws the board with the highlighted squares that are valid moves for the selected piece
+     * @param board - The board that the game is being played on.
+     * @param pos - The position array that holds all of the valid moves.
      */
     public void draw(BoardIF board, Position[] pos){
         bs.draw(board, pos);
+    }
+
+    /**
+     * Draws the Board for the black piece player with the valid moves of the piece Highlighted on the board.
+     * @param board - The board that the game is being played on.
+     * @param pos -  the position array that holds the valid positions a piece can move
+     */
+    public void revDraw(BoardIF board, Position[] pos){
+        bs.revDraw(board, pos);
     }
 
     /**
@@ -390,6 +400,8 @@ public class Board implements BoardIF{
             board[6][i].setPiece(pawn);
         }
     }
+
+    
     public boolean checkForCheck(GameColor color){
         boolean finalResult = false;
         PieceValidator maybeKing = getKingFromBoard(color);

@@ -27,22 +27,34 @@ public interface BoardStrategy {
     public BoardStrategy clone();
 
     /**
-     * 
-     * 
-     * 
+     * calls the beginning functions of the board.
+     * @param board - The board that the game is being played on.
      */
     public void go(BoardIF board);
 
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
+     * Draws the board with the highlighted positions.
+     * @param board - The board that the game is being played on.
+     * @param pos - The position array that holds the valid position.
      */
     public void draw(BoardIF board, Position[] pos);
 
+    /**
+     * Draws the board for the player playing the black pieces.
+     * @param board - The board that the game is being played on.
+     */
     public void revDraw(BoardIF board);
 
+    /**
+     * Gets the names of the players that are playing the game.
+     */
     public void getNames();
+
+    /**
+     * Draws the board for the player playing the black pieces with the highlighted positions.
+     * @param board - The board that the game is being played on.
+     * @param pos- The position array that holds the valid position.
+     */
+    public void revDraw(BoardIF board, Position[] pos);
+
 }
