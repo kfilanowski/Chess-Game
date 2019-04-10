@@ -170,7 +170,6 @@ public class DiagonalValidator extends PieceValidator {
         // Check the last piece.
         if (i <= size && j <= size) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
-                    !stillCheckAfterMove(pos, squares[i][j].getPostion(), piece.getColor())) {
                     && !checkIfKing(squares[i][j].getPiece()) && !stillCheckAfterMove(pos, squares[i][j].getPostion(), piece.getColor())) {
                 newPosition = new Position(Rank.getRankFromIndex(i),
                                         File.getFileFromIndex(j));

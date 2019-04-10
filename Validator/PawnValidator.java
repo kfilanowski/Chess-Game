@@ -199,9 +199,9 @@ public class PawnValidator extends PieceValidator {
                     // here we have to do some history manipulating to get the previous board state
                     // in order to check if the move is valid
                     History history = History.getInstance();
-                    history.add(board.saveState());
+                    //history.add(board.saveState());
                     board.restoreState(history.undo());
-                    board.restoreState(history.undo());
+                    //board.restoreState(history.undo());
                     // we have to get a new set of squares because we reverted our board
                     squares = board.getSquares();
                     // we get the piece that was supposed to be a pawn
@@ -476,11 +476,11 @@ public class PawnValidator extends PieceValidator {
 
             //TODO: check for stillCheckAfterMove() with en passante
             //TODO: fix en passante for showmoves, validate moves works.
-            if(fromPiece.getColor() == GameColor.BLACK) {
-                showEnPassanteBlack(fromRank, fromFile, squares, posArr);
-            }else if(fromPiece.getColor() == GameColor.WHITE){
-                showEnPassanteWhite(fromRank, fromFile, squares, posArr);
-            }
+//            if(fromPiece.getColor() == GameColor.BLACK) {
+//                showEnPassanteBlack(fromRank, fromFile, squares, posArr);
+//            }else if(fromPiece.getColor() == GameColor.WHITE){
+//                showEnPassanteWhite(fromRank, fromFile, squares, posArr);
+//            }
 
         }
     }

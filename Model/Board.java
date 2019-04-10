@@ -298,44 +298,49 @@ public class Board implements BoardIF{
      * Sets the Black pieces on the board
      */
     private void setBlackPiece(){
-        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
-        queen = new HorizVertValidator(this, queen);
-        queen = new DiagonalValidator(this, queen);
-        board[0][3].setPiece(queen);
-
-        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
-        rook = new HorizVertValidator(this, rook);
-        board[0][0].setPiece(rook);
-
-        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
-        bishop = new DiagonalValidator(this, bishop);
-        board[0][2].setPiece(bishop);
-
-        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
-        knight = new KnightValidator(this, knight);
-        board[0][1].setPiece(knight);
+//        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
+//        queen = new HorizVertValidator(this, queen);
+//        queen = new DiagonalValidator(this, queen);
+//        board[0][3].setPiece(queen);
+//
+//        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
+//        rook = new HorizVertValidator(this, rook);
+//        board[0][0].setPiece(rook);
+//
+//        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
+//        bishop = new DiagonalValidator(this, bishop);
+//        board[0][2].setPiece(bishop);
+//
+//        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
+//        knight = new KnightValidator(this, knight);
+//        board[0][1].setPiece(knight);
 
         PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.BLACK);
         bKing = new KingValidator(this, bKing);
         board[0][4].setPiece(bKing);
 
-        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
-        bishop2 = new DiagonalValidator(this, bishop2);
-        board[0][5].setPiece(bishop2);
+//        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
+//        bishop2 = new DiagonalValidator(this, bishop2);
+//        board[0][5].setPiece(bishop2);
+//
+//        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
+//        knight2 = new KnightValidator(this, knight2);
+//        board[0][6].setPiece(knight2);
+//
+//        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
+//        rook2 = new HorizVertValidator(this, rook2);
+//        board[0][7].setPiece(rook2);
+//
+//        for(int i = 0; i < getWidth(); i++){
+//            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
+//            pawn = new PawnValidator(this, pawn);
+//            board[1][i].setPiece(pawn);
+//        }
 
-        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
-        knight2 = new KnightValidator(this, knight2);
-        board[0][6].setPiece(knight2);
+        PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
+        pawn = new PawnValidator(this, pawn);
+        board[Rank.R5.getIndex()][File.D.getIndex()].setPiece(pawn);
 
-        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
-        rook2 = new HorizVertValidator(this, rook2);
-        board[0][7].setPiece(rook2);
-
-        for(int i = 0; i < getWidth(); i++){
-            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
-            pawn = new PawnValidator(this, pawn);
-            board[1][i].setPiece(pawn);
-        }
     }
 
     /**
@@ -343,44 +348,47 @@ public class Board implements BoardIF{
      */
     private void setWhitePiece(){
 
-        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.WHITE);
-        queen = new HorizVertValidator(this, queen);
-        queen = new DiagonalValidator(this, queen);
-        board[7][3].setPiece(queen);
-
-        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
-        rook = new HorizVertValidator(this, rook);
-        board[7][0].setPiece(rook);
-
-        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
-        bishop = new DiagonalValidator(this, bishop);
-        board[7][2].setPiece(bishop);
-
-        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
-        knight = new KnightValidator(this, knight);
-        board[7][1].setPiece(knight);
+//        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.WHITE);
+//        queen = new HorizVertValidator(this, queen);
+//        queen = new DiagonalValidator(this, queen);
+//        board[7][3].setPiece(queen);
+//
+//        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
+//        rook = new HorizVertValidator(this, rook);
+//        board[7][0].setPiece(rook);
+//
+//        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
+//        bishop = new DiagonalValidator(this, bishop);
+//        board[7][2].setPiece(bishop);
+//
+//        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
+//        knight = new KnightValidator(this, knight);
+//        board[7][1].setPiece(knight);
 
         PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.WHITE);
         bKing = new KingValidator(this, bKing);
         board[7][4].setPiece(bKing);
 
-        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
-        bishop2 = new DiagonalValidator(this, bishop2);
-        board[7][5].setPiece(bishop2);
-
-        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
-        knight2 = new KnightValidator(this, knight2);
-        board[7][6].setPiece(knight2);
-
-        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
-        rook2 = new HorizVertValidator(this, rook2);
-        board[7][7].setPiece(rook2);
-
-        for(int i = 0; i < getWidth(); i++){
-            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.WHITE);
-            pawn = new PawnValidator(this, pawn);
-            board[6][i].setPiece(pawn);
-        }
+//        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
+//        bishop2 = new DiagonalValidator(this, bishop2);
+//        board[7][5].setPiece(bishop2);
+//
+//        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
+//        knight2 = new KnightValidator(this, knight2);
+//        board[7][6].setPiece(knight2);
+//
+//        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
+//        rook2 = new HorizVertValidator(this, rook2);
+//        board[7][7].setPiece(rook2);
+//
+//        for(int i = 0; i < getWidth(); i++){
+//            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.WHITE);
+//            pawn = new PawnValidator(this, pawn);
+//            board[6][i].setPiece(pawn);
+//        }
+        PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.WHITE);
+        pawn = new PawnValidator(this, pawn);
+        board[Rank.R7.getIndex()][File.C.getIndex()].setPiece(pawn);
     }
     public boolean checkForCheck(GameColor color){
         boolean finalResult = false;
@@ -402,7 +410,10 @@ public class Board implements BoardIF{
         boolean result = false;
         PieceValidator king = getKingFromBoard(color);
         boolean check = checkForCheck(color);
-        if(check && king.getPiece().showMoves(pos).length == 0){
+        System.out.println("No moves right? >> " + (king.getPiece().showMoves(pos).length == 0));
+
+
+        if(check && king.getPiece().showMoves(pos).length == 0 && !canKingGetOutOfCheckMate(color)){
             result = true;
         }
         return result;
@@ -443,8 +454,16 @@ public class Board implements BoardIF{
             for(int j = 0; j <= File.getMaxIndex() && !result ; j++){
                 PieceValidator gottenPiece = (PieceValidator) board[i][j].getPiece();
                 if(gottenPiece != null && gottenPiece.getColor() == color){
-                    if(gottenPiece.showMoves(new Position(Rank.getRankFromIndex(i),
-                            File.getFileFromIndex(j))).length != 0){
+                    Position pos = new Position(Rank.getRankFromIndex(i), File.getFileFromIndex(j));
+                    if(gottenPiece.showMoves(pos).length != 0){
+
+
+                        System.out.println("LENGTH OF SHOW MOVES : >>>>>    " + gottenPiece.showMoves(pos).length);
+
+//                        System.out.println("\n**************** new gotten piece ********************");
+//                        System.out.println("Gotten Piece: " + gottenPiece.getPiece() + "  color:  " + gottenPiece.getColor());
+//                        System.out.println("\n\n\n");
+
                         result = true;
                     }
                 }
