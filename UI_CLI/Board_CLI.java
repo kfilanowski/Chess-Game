@@ -66,8 +66,8 @@ public abstract class Board_CLI implements BoardStrategy {
             // if it is a move command i.e. /move b4 c8 (specifies we are moving the piece
             // at b4 to c8
             if (command[0].toLowerCase().equals("/move") && command.length == 3) {
-                Position from = gc.getPosition(command[1], squares);
-                Position to = gc.getPosition(command[2], squares);
+                Position from = gc.getPosition(command[1], board.getSquares());
+                Position to = gc.getPosition(command[2], board.getSquares());
 
                 // if either the to position or the from position is incorrect it tells the
                 // user to input a correct square
@@ -82,7 +82,7 @@ public abstract class Board_CLI implements BoardStrategy {
                 // go = false;
             } else if (command[0].toLowerCase().equals("/showmoves") && command.length == 2) {
                 try {
-                    Position from = gc.getPosition(command[1], squares);
+                    Position from = gc.getPosition(command[1], board.getSquares());
                     Position[] temp = board.getSquares()[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
                             .showMoves(from);
                     board.draw(board, temp);
