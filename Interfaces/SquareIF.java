@@ -58,26 +58,32 @@ public interface SquareIF {
     public SquareIF clone();
 
     /**
-     * 
-     * 
-     * 
-     * 
+     * toString for the color board
+     * @param backColor - the background color.
+     * @param foreColor - the Color of the piece letter.
+     * @return - the string that holds the square
      */
     public String toString(String backColor, String foreColor);
 
     /**
-     * 
-     * 
-     * 
-     * 
+     *
+     * @param validMove - the character for the valid move.
+     * @param spaceChar - the character for the mono board that holds the character for either a black or white space.
+     * @param spaceChar2 - the ending character for the mono board that holds the ending character for a space
+     * @param p - whether the piece is capital or not
+     * @return
+     */
+    public String toString(char validMove, char spaceChar, char spaceChar2, char p);
+
+    /**
+     * sets the highlighted squares to true or false
+     * @param b - the boolean for setting the position to.
      */
     public void setHighlighted(boolean b);
 
     /**
-     * 
-     * 
-     * 
-     * 
+     * gets whether the square is highlighted or not.
+     * @return - true if square is highlighted else false.
      */
     public boolean getHighlighted();
 }

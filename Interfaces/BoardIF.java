@@ -116,9 +116,12 @@ public interface BoardIF {
     public void restoreState(State<BoardIF> state);
 
     /**
-     * 
-     * 
-     * 
+     * Draws the Board with the valid moves of the piece Highlighted on the board.
      */
     public void draw(BoardIF board, Position[] pos);
+
+    /**
+     * gets the names of both the players that are playing the game of Chess.
+     */
+    public void revDraw(BoardIF board);
 }

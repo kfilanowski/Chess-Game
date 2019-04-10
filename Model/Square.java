@@ -4,6 +4,8 @@ import Enums.GameColor;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
+import java.sql.SQLOutput;
+
 /**
  * Represents a square on a Chess board.
  * 
@@ -78,9 +80,10 @@ public class Square extends BlackAndWhite implements SquareIF {
     }
 
     /**
-     * Method that gets the square in string form
-     * 
-     * @return - String form of a square
+     * toString for square that is used for the color board when showing the possible moves
+     * @param backColor - The background color of the square
+     * @param foreColor - The Color of the piece that is on a square
+     * @return the string containing the board.
      */
     public String toString(String backColor, String foreColor) {
         String str;
@@ -88,6 +91,28 @@ public class Square extends BlackAndWhite implements SquareIF {
             str = (backColor + " " + backColor + foreColor + this.getPiece().toString() + " " + "\u001b[0m");
         }else{
             str = (backColor + "   " + "\u001b[0m");
+        }
+        return str;
+    }
+
+
+    /**
+     * toString for square that is used for the mono board when showing the possible moves
+     * @param validMove - the character for if it is a valid move for the piece
+     * @param spaceChar - the Character that is used for a white or black space
+     * @param spaceChar2 - the Ending character of the space
+     * @param p - whether the piece is white or black
+     * @return - the string containing the board.
+     */
+    public String toString(char validMove, char spaceChar, char spaceChar2, char p){
+        String str;
+        if(this.getPiece() != null){
+            if(p == 'u')
+                str = (spaceChar + "" + validMove + this.getPiece().toString().toUpperCase() + validMove + spaceChar2);
+            else
+                str = (spaceChar + "" + validMove + this.getPiece().toString().toLowerCase() + validMove + spaceChar2);
+        }else{
+            str = (spaceChar + "" + validMove + " " + validMove + spaceChar2);
         }
         return str;
     }
@@ -140,27 +165,18 @@ public class Square extends BlackAndWhite implements SquareIF {
     }
 
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     * returns true if the square is a valid move for the piece and
+     * returns false if the square is not a valid move.
+     * @return -true if the move is valid, false otherwise
      */
     public boolean getHighlighted(){
         return highlighted;
     }
     
     /**
-     * 
-     * 
-     * 
-     *
-     * 
-     * 
-     * 
-     * 
+     * Sets the highlighted field to true if the square is a valid move and flase if the square is not a
+     * valid move.
+     * @param b - True or false depending on the chess piece selected.
      */
     public void setHighlighted(boolean b){
         this.highlighted = b;
