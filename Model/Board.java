@@ -419,6 +419,7 @@ public class Board implements BoardIF{
     public boolean checkForStaleMate(Position pos, GameColor color){
         boolean result = false;
         PieceValidator king = getKingFromBoard(color);
+        PieceValidator piece = null;
         boolean check = checkForCheck(color);
         if(!check && king.getPiece().showMoves(pos).length == 0){
             result = true;
@@ -427,7 +428,7 @@ public class Board implements BoardIF{
 
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board.length; j++){
-
+                piece = (PieceValidator) board[i][j].getPiece();
             }
         }
 
