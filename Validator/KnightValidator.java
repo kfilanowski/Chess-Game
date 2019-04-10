@@ -71,7 +71,8 @@ public class KnightValidator extends PieceValidator {
         // or down
         System.out.println(!stillCheckAfterMove(from, to, fromPiece.getColor()));
         System.out.println(((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)));
-	    return ((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)) && !stillCheckAfterMove(from, to, fromPiece.getColor());
+	    return ((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)) && !checkIfKing(toPiece) &&
+                !stillCheckAfterMove(from, to, fromPiece.getColor());
 	}
 
     /**
@@ -156,7 +157,8 @@ public class KnightValidator extends PieceValidator {
             PieceIF toPiece = squares[toRank][toFile].getPiece();
             // if it is not an ally piece, we add the move to our ArrayList
             Position to = new Position(Rank.getRankFromIndex(toRank), File.getFileFromIndex(toFile));
-            if(!checkMoveOnAlly(fromPiece, toPiece) && !stillCheckAfterMove(from, to, fromPiece.getColor())){
+            if(!checkMoveOnAlly(fromPiece, toPiece) && !stillCheckAfterMove(from, to, fromPiece.getColor())
+                && !checkIfKing(toPiece)){
                 posArr.add(new Position(Rank.getRankFromIndex(toRank),
                         File.getFileFromIndex(toFile)));
             }

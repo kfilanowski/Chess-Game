@@ -243,8 +243,8 @@ public class Board implements BoardIF{
      * @return - A state encapsulating the current state of
      *          this board object as a clone.
      */
-    public State<Board> saveState() {
-        return new State<Board>(this.clone());
+    public State<BoardIF> saveState() {
+        return new State<BoardIF>(this.clone());
     }
 
     /**
@@ -252,7 +252,7 @@ public class Board implements BoardIF{
      *
      * @param state - The state from which to get the state of the board.
      */
-    public void restoreState(State<Board> state) {
+    public void restoreState(State<BoardIF> state) {
         Board newState = (Board) state.getState();
         bs = newState.bs;
         board = newState.board;
@@ -385,22 +385,6 @@ public class Board implements BoardIF{
     public boolean checkForCheck(GameColor color){
         boolean finalResult = false;
         PieceValidator maybeKing = getKingFromBoard(color);
-//        boolean go = true;
-//        int kingRank = -1;
-//        int kingFile = -1;
-
-        // loops through and finds the king for which we are checking check on
-//        for(int i = 0; i <= Rank.getMaxIndex() && go; i++){
-//            for(int j = 0; j <= File.getMaxIndex() && go; j++){
-//                PieceValidator maybeKing = (PieceValidator) board[i][j].getPiece();
-//                if(maybeKing != null && maybeKing.getPiece().getChessPieceType() == ChessPieceType.KING
-//                        && maybeKing.getColor() == color){
-//                    go = false;
-//                    kingRank = i;
-//                    kingFile = j;
-//                }
-//            }
-//        }
 
         if(maybeKing.getPiece().getChessPieceType() == ChessPieceType.KING){
             finalResult = checkHelp(getKingRankIndex(color), getKingFileIndex(color), color);
@@ -408,18 +392,37 @@ public class Board implements BoardIF{
         return finalResult;
     }
 
+    /**
+     * Determines whether a player is in checkmate
+     * @param pos the position of the king
+     * @param color the color of the king in which to determine it is in check mate
+     * @return true if the king is in check mate, false otherwise
+     */
     public boolean checkForCheckMate(Position pos, GameColor color){
         boolean result = false;
         PieceValidator king = getKingFromBoard(color);
         boolean check = checkForCheck(color);
-//        System.out.println("check: " + check);
-//        System.out.println("No king moves: " + (king.getPiece().showMoves(pos).length == 0));
-//        System.out.println("Can King get Out: " + !canKingGetOutOfCheckMate(color));
-        if(check && king.getPiece().showMoves(pos).length == 0 &&
-                !canKingGetOutOfCheckMate(color)){
-            // KING IS IN CHECKMATE THEN.
+        if(check && king.getPiece().showMoves(pos).length == 0){
             result = true;
         }
+        return result;
+    }
+
+    public boolean checkForStaleMate(Position pos, GameColor color){
+        boolean result = false;
+        PieceValidator king = getKingFromBoard(color);
+        boolean check = checkForCheck(color);
+        if(!check && king.getPiece().showMoves(pos).length == 0){
+            result = true;
+        }
+
+
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board.length; j++){
+
+            }
+        }
+
         return result;
     }
 
