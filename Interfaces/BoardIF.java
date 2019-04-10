@@ -115,4 +115,7 @@ public interface BoardIF {
      * 
      */
     public void draw(BoardIF board, Position[] pos);
+
+
+    public void revDraw(BoardIF board);
 }

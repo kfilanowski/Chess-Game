@@ -47,6 +47,7 @@ public class Board implements BoardIF{
      */
     public void go() throws NumberFormatException {
         setupDrawing();
+        bs.getNames();
         init_board();
         setup();
         draw();
@@ -63,6 +64,7 @@ public class Board implements BoardIF{
         Scanner reader = new Scanner(System.in);
         // Boolean flag to ensure a viable option is chosen.
         Boolean chosen = false;
+        String input = "0";
 
         while (!chosen) {
             System.out.println("Menu Options: \n" 
@@ -72,27 +74,28 @@ public class Board implements BoardIF{
                              + "4) Exit.\n");
             System.out.print("Please enter an integer: ");
 
-            // Reads in the input.
-            int input = Integer.parseInt(reader.next());
+            input = reader.next();
+
 
             switch (input) {
-            case 1: { // If the user wants the colored board.
+            case "1": { // If the user wants the colored board.
                 setDrawStrategy(new Board_Color_CLI());
                 chosen = true;
             } break;
-            case 2: { // If the user wants the monochrome board.
+            case "2": { // If the user wants the monochrome board.
                 setDrawStrategy(new Board_Mono_CLI());
                 chosen = true;
             } break;
-            case 3: { // If the user wants the graphical user interface.
+            case "3": { // If the user wants the graphical user interface.
                 setDrawStrategy(new Board_Color_CLI());
                 chosen = true;
             } break;
-            case 4: { // If the user wants to exit the program.
+            case "4": { // If the user wants to exit the program.
                 reader.close();
                 System.exit(0);
             } break;
             default:
+                System.out.println("Please enter an integer between 1 and 4.");
             }
         }
     }
@@ -139,6 +142,11 @@ public class Board implements BoardIF{
     @Override
     public void draw() {
         bs.draw(this);
+    }
+
+
+    public void revDraw(BoardIF board){
+        bs.revDraw(board);
     }
 
     /**

@@ -41,4 +41,8 @@ public interface BoardStrategy {
      * 
      */
     public void draw(BoardIF board, Position[] pos);
+
+    public void revDraw(BoardIF board);
+
+    public void getNames();
 }

@@ -81,6 +81,62 @@ public class Board_Color_CLI extends Board_CLI implements BoardStrategy {
     }
 
     /**
+     * Draws the board in black and white with the squares and the pieces are black and white
+     * @param board - the board object that is printed on the command line interface.
+     */
+    @Override
+    public void revDraw(BoardIF board) {
+        SquareIF[][] squares = board.getSquares();
+
+        StringBuilder str = new StringBuilder();
+
+        int count = 1;
+
+        for (int i = squares.length -1; i >= 0; i--) {//rows of the chess board
+
+            str.append("\u001b[0m" + count + " ");//shows the rank of the chess board
+
+            for (int j = squares.length- 1; j >= 0; j--) {//columns of the chessboard
+
+                if (squares[i][j].getPiece() != null) {
+
+                    if (squares[i][j].isBlack()) {
+
+                        if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
+                            str.append(squares[i][j].toString("\u001b[47m","\u001b[30m"));
+                        }else{
+                            str.append(squares[i][j].toString("\u001b[47m","\u001b[31m"));
+                        }
+
+                    } else {
+
+                        if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
+                            str.append(squares[i][j].toString("\u001b[107m" ,"\u001b[30m"));
+                        }else{
+                            str.append(squares[i][j].toString("\u001b[107m" ,"\u001b[31m"));
+                        }
+                    }
+
+                } else {
+
+                    if (squares[i][j].isBlack()) {
+                        str.append(squares[i][j].toString("\u001b[47m" ,"\u001b[30m"));
+
+                    } else {
+                        str.append(squares[i][j].toString("\u001b[107m" ,"\u001b[30m"));
+
+                    }
+                }
+            }
+
+            str.append("\n");
+            count++;//decrements the rank of the chess board
+        }
+        str.append("   H  G  F  E  D  C  B  A");//Shows the File of the Chess pieces
+        System.out.println(str);//draws the Chess board
+    }
+
+    /**
      * Create a deep clone of this object.
      * 
      * @return - A deep clone of this object.
