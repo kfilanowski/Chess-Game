@@ -92,6 +92,7 @@ public class Piece extends BlackAndWhite implements PieceIF {
         Piece newPiece = new Piece();
         newPiece.setChessPieceType(type);
         newPiece.setColor(getColor());
+        newPiece.setHasMoved(getHasMoved());
         return newPiece;
     }
 
