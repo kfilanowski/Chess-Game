@@ -1,5 +1,7 @@
 package Validator;
 
+import Interfaces.SquareIF;
+import Model.Board;
 import Model.Piece;
 import Model.Position;
 import Enums.ChessPieceType;
@@ -89,6 +91,41 @@ public abstract class PieceValidator extends Piece {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Checks if our piece takes our opponents piece if we are still in check
+     * @param from the position we are moving from
+     * @param to the position we are taking
+     * @param color the color of our king
+     * @return true if after a move for this piece, it is still in check
+     */
+    public boolean stillCheckAfterMove(Position from, Position to, GameColor color){
+        boolean result = false;
+        SquareIF[][] squares = board.getSquares();
+        int toRank = to.getRank().getIndex();
+        int toFile = to.getFile().getIndex();
+
+        // we get whatever is at the toRank and toFile square, could be null or an actual piece
+        PieceIF theirPiece = squares[toRank][toFile].getPiece();
+        squares[toRank][toFile].setPiece(null);
+
+        int fromRank = from.getRank().getIndex();
+        int fromFile = from.getFile().getIndex();
+
+        // we set
+        PieceIF ourPiece = squares[fromRank][fromFile].getPiece();
+        squares[fromRank][fromFile].setPiece(null);
+        squares[toRank][toFile].setPiece(ourPiece);
+
+        Board castedBoard = (Board) board;
+        if(castedBoard.checkForCheck(color)){
+            result = true;
+        }
+
+        squares[fromRank][fromFile].setPiece(ourPiece);
+        squares[toRank][toFile].setPiece(theirPiece);
+        return result;
     }
 
     /**

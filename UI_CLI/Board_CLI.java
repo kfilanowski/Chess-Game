@@ -1,8 +1,11 @@
 package UI_CLI;
 
 import java.util.Scanner;
+
+import Enums.ChessPieceType;
 import Enums.File;
 import Enums.Rank;
+import Model.Piece;
 import Model.Position;
 import History.History;
 import Interfaces.BoardIF;
@@ -25,7 +28,7 @@ public abstract class Board_CLI implements BoardStrategy {
     protected History<BoardIF> history;
 
     /**
-     * The default constructor for CommandParse.
+     * The default constructor for Board_CLI.
      */
     public Board_CLI() {
         input = new Scanner(System.in);
@@ -53,6 +56,8 @@ public abstract class Board_CLI implements BoardStrategy {
         //
         boolean go = true;
         //
+
+
         printMenuOptions();
 
         while (go) {
@@ -76,7 +81,7 @@ public abstract class Board_CLI implements BoardStrategy {
                 // go = false;
             } else if (command[0].toLowerCase().equals("/showmoves") && command.length == 2) {
                 Position from = getPosition(command[1], board.getSquares());
-                Position[] temp = board.getSquare(from.getRank(), from.getFile()).getPiece()
+                Position[] temp = board.getSquares()[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
                         .showMoves(from);
                 board.draw(board, temp);
                 // TODO: pass in Position to a validator to show the moves
@@ -176,6 +181,11 @@ public abstract class Board_CLI implements BoardStrategy {
         if (validMove) {
             history.add(board.saveState());
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
+
+            if(!board.getSquares()[toRank][toFile].getPiece().getHasMoved()){
+                board.getSquares()[toRank][toFile].getPiece().setHasMoved(true);
+            }
+
             board.getSquares()[fromRank][fromFile].setPiece(null);
             board.draw();
         } else {

@@ -52,4 +52,15 @@ public interface PieceIF extends BlackAndWhiteIF {
      * @return - A deep clone of this object.
      */
     public PieceIF clone();
+
+    /**
+     * Gets the boolean that tells whether or not a piece has moved
+     * @return - A boolean that tells if a piece has moved
+     */
+    public boolean getHasMoved();
+
+    /**
+     * Sets the boolean that tells whether or not a piece has moved
+     */
+    public void setHasMoved(boolean hasMoved);
 }

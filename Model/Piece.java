@@ -15,6 +15,9 @@ public class Piece extends BlackAndWhite implements PieceIF {
     /** Defines the type of chess piece, I.E rook, bishop, pawn, etc. */
     private ChessPieceType type;
 
+    /** This boolean will be set to false if a piece has moved, required for castle functionality */
+    private boolean hasMoved;
+
     /**
      * Default piece constructor
      */
@@ -27,6 +30,7 @@ public class Piece extends BlackAndWhite implements PieceIF {
      * @param type - ChessPieceType enum that the new piece is being made from
      */
     public Piece(ChessPieceType type) {
+        this.hasMoved = false;
         this.type = type;
     }
 
@@ -36,8 +40,19 @@ public class Piece extends BlackAndWhite implements PieceIF {
      * @param color - GameColor enum that the new piece is being made from
      */
     public Piece(ChessPieceType type, GameColor color) {
+        this.hasMoved = false;
         this.type = type;
         super.setColor(color);
+    }
+
+    @Override
+    public boolean getHasMoved(){
+        return this.hasMoved;
+    }
+
+    @Override
+    public void setHasMoved(boolean hasMoved){
+        this.hasMoved = hasMoved;
     }
 
     /**

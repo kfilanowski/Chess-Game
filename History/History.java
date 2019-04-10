@@ -8,7 +8,7 @@ import Interfaces.BoardIF;
 /**
  * The history class holds each state of an entity class. In this case, a board.
  * It allows the board to change states, effectively functioning as an undo/redo.
- * 
+ *
  * @author Kevin Filanowski 100%
  * @version April 6, 2019
  */
@@ -35,7 +35,7 @@ public class History<T extends BoardIF> {
     /**
      * Retrieves the instance of this class, or creates an instance if one does
      * not already exist.
-     * 
+     *
      * @return - An instance of the History class.
      */
     public static History<BoardIF> getInstance() {
@@ -45,7 +45,7 @@ public class History<T extends BoardIF> {
 
     /**
      * Add a previous state to the array list of states.
-     * 
+     *
      * @param state - An object containing a state at some point in time.
      */
     public void add(State<BoardIF> state) {
@@ -78,7 +78,7 @@ public class History<T extends BoardIF> {
 
     /**
      * Get a State object containing a previous state. This is effectively an undo.
-     * 
+     *
      * @return - An object containing a state at a previous point in time.
      * @throws ArrayIndexOutOfBoundsException - Thrown when the indexing of the
      *                                        history is malfunctioning. This should
@@ -97,7 +97,7 @@ public class History<T extends BoardIF> {
 
     /**
      * Get a State object containing a forward state. This is effectively a redo.
-     * 
+     *
      * @return - An object containing a state at forwarded point in time.
      * @throws ArrayIndexOutOfBoundsException - Thrown when the indexing of the
      *                                        history is malfunctioning. This should
