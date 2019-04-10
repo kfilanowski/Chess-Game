@@ -52,16 +52,6 @@ public class KnightValidator extends PieceValidator {
 	    // we do this to check if its a move on an ally piece
 	    SquareIF[][] squares =  board.getSquares();
         PieceIF fromPiece = squares[from.getRank().getIndex()][from.getFile().getIndex()].getPiece();
-
-        // the following checks for check
-        squares[fromRank][fromFile].setPiece(null);
-        Board realBoard = (Board) this.board;
-        if(!realBoard.checkForCheck(fromPiece.getColor())){
-            return false;
-        }
-
-        squares[fromRank][fromFile].setPiece(fromPiece);
-
         PieceIF toPiece = squares[to.getRank().getIndex()][to.getFile().getIndex()].getPiece();
 
 
@@ -79,7 +69,10 @@ public class KnightValidator extends PieceValidator {
 	    // we return a boolean stating whether the knight is moving 2 to the left or right
         // and 1 up or down; or whether the knight is moving 1 to the left or right and 2 up
         // or down
-	    return ((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2));
+        System.out.println(!stillCheckAfterMove(from, to, fromPiece.getColor()));
+        System.out.println(((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)));
+	    return ((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)) && !checkIfKing(toPiece) &&
+                !stillCheckAfterMove(from, to, fromPiece.getColor());
 	}
 
     /**
@@ -108,42 +101,42 @@ public class KnightValidator extends PieceValidator {
         // Case 1
         toRank = fromRank + MOVE_ONE;
         toFile = fromFile + MOVE_TWO;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Case 2
         toRank = fromRank + MOVE_TWO;
         toFile = fromFile + MOVE_ONE;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Case 3
         toRank = fromRank + MOVE_ONE;
         toFile = fromFile - MOVE_TWO;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Case 4
         toRank = fromRank + MOVE_TWO;
         toFile = fromFile - MOVE_ONE;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Case 5
         toRank = fromRank - MOVE_ONE;
         toFile = fromFile - MOVE_TWO;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Case 6
         toRank = fromRank - MOVE_TWO;
         toFile = fromFile - MOVE_ONE;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Case 7
         toRank = fromRank - MOVE_ONE;
         toFile = fromFile + MOVE_TWO;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Case 8
         toRank = fromRank - MOVE_TWO;
         toFile = fromFile + MOVE_ONE;
-        addPosition(toRank, toFile, fromPiece, squares, posArr);
+        addPosition(pos, toRank, toFile, fromPiece, squares, posArr);
 
         // Convert to Position[] array and return.
         return posArr.toArray(new Position[posArr.size()]);
@@ -157,12 +150,15 @@ public class KnightValidator extends PieceValidator {
      * @param squares a 2D array of all the squares on the board
      * @param posArr the ArrayList that holds all possible moves
      */
-    private void addPosition(int toRank, int toFile, PieceIF fromPiece, SquareIF[][] squares, ArrayList<Position> posArr){
+    private void addPosition(Position from, int toRank, int toFile, PieceIF fromPiece,
+                             SquareIF[][] squares, ArrayList<Position> posArr){
         if(checkBounds(toRank) && checkBounds(toFile)){
             // we get the piece at the square we are trying to go to
             PieceIF toPiece = squares[toRank][toFile].getPiece();
             // if it is not an ally piece, we add the move to our ArrayList
-            if(!checkMoveOnAlly(fromPiece, toPiece)){
+            Position to = new Position(Rank.getRankFromIndex(toRank), File.getFileFromIndex(toFile));
+            if(!checkMoveOnAlly(fromPiece, toPiece) && !stillCheckAfterMove(from, to, fromPiece.getColor())
+                && !checkIfKing(toPiece)){
                 posArr.add(new Position(Rank.getRankFromIndex(toRank),
                         File.getFileFromIndex(toFile)));
             }

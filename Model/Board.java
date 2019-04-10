@@ -298,42 +298,44 @@ public class Board implements BoardIF{
      * Sets the Black pieces on the board
      */
     private void setBlackPiece(){
-//        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
-//        queen = new HorizVertValidator(this, queen);
-//        queen = new DiagonalValidator(this, queen);
-//        board[0][3].setPiece(queen);
-//
+        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.BLACK);
+        queen = new HorizVertValidator(this, queen);
+        queen = new DiagonalValidator(this, queen);
+        board[0][3].setPiece(queen);
+
         PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
         rook = new HorizVertValidator(this, rook);
         board[0][0].setPiece(rook);
-//
-//        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
-//        bishop = new DiagonalValidator(this, bishop);
-//        board[0][2].setPiece(bishop);
-//
-//        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
-//        knight = new KnightValidator(this, knight);
-//        board[0][1].setPiece(knight);
+
+        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
+        bishop = new DiagonalValidator(this, bishop);
+        board[0][2].setPiece(bishop);
+
+        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
+        knight = new KnightValidator(this, knight);
+        board[0][1].setPiece(knight);
 
         PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.BLACK);
         bKing = new KingValidator(this, bKing);
         board[0][4].setPiece(bKing);
 
+        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
+        bishop2 = new DiagonalValidator(this, bishop2);
+        board[0][5].setPiece(bishop2);
 
-//
-//        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
-//        knight2 = new KnightValidator(this, knight2);
-//        board[0][6].setPiece(knight2);
-//
+        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.BLACK);
+        knight2 = new KnightValidator(this, knight2);
+        board[0][6].setPiece(knight2);
+
         PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.BLACK);
         rook2 = new HorizVertValidator(this, rook2);
         board[0][7].setPiece(rook2);
 
-//        for(int i = 0; i < getWidth(); i++){
-//            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
-//            pawn = new PawnValidator(this, pawn);
-//            board[1][i].setPiece(pawn);
-//        }
+        for(int i = 0; i < getWidth(); i++){
+            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.BLACK);
+            pawn = new PawnValidator(this, pawn);
+            board[1][i].setPiece(pawn);
+        }
     }
 
     /**
@@ -341,64 +343,48 @@ public class Board implements BoardIF{
      */
     private void setWhitePiece(){
 
-//        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.WHITE);
-//        queen = new HorizVertValidator(this, queen);
-//        queen = new DiagonalValidator(this, queen);
-//        board[7][3].setPiece(queen);
-//
-//        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
-//        rook = new HorizVertValidator(this, rook);
-//        board[7][0].setPiece(rook);
+        PieceIF queen = new Piece(ChessPieceType.QUEEN, GameColor.WHITE);
+        queen = new HorizVertValidator(this, queen);
+        queen = new DiagonalValidator(this, queen);
+        board[7][3].setPiece(queen);
 
-//        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
-//        bishop = new DiagonalValidator(this, bishop);
-//        board[7][2].setPiece(bishop);
+        PieceIF rook = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
+        rook = new HorizVertValidator(this, rook);
+        board[7][0].setPiece(rook);
 
-//        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
-//        knight = new KnightValidator(this, knight);
-//        board[7][1].setPiece(knight);
+        PieceIF bishop = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
+        bishop = new DiagonalValidator(this, bishop);
+        board[7][2].setPiece(bishop);
+
+        PieceIF knight = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
+        knight = new KnightValidator(this, knight);
+        board[7][1].setPiece(knight);
 
         PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.WHITE);
         bKing = new KingValidator(this, bKing);
         board[7][4].setPiece(bKing);
 
-//        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
-//        bishop2 = new DiagonalValidator(this, bishop2);
-//        board[7][5].setPiece(bishop2);
-//
-//        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
-//        knight2 = new KnightValidator(this, knight2);
-//        board[7][6].setPiece(knight2);
-//
-//        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
-//        rook2 = new HorizVertValidator(this, rook2);
-//        board[7][7].setPiece(rook2);
+        PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.WHITE);
+        bishop2 = new DiagonalValidator(this, bishop2);
+        board[7][5].setPiece(bishop2);
 
-//        for(int i = 0; i < getWidth(); i++){
-//            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.WHITE);
-//            pawn = new PawnValidator(this, pawn);
-//            board[6][i].setPiece(pawn);
-//        }
+        PieceIF knight2 = new Piece(ChessPieceType.KNIGHT, GameColor.WHITE);
+        knight2 = new KnightValidator(this, knight2);
+        board[7][6].setPiece(knight2);
+
+        PieceIF rook2 = new Piece(ChessPieceType.ROOK, GameColor.WHITE);
+        rook2 = new HorizVertValidator(this, rook2);
+        board[7][7].setPiece(rook2);
+
+        for(int i = 0; i < getWidth(); i++){
+            PieceIF pawn = new Piece(ChessPieceType.PAWN, GameColor.WHITE);
+            pawn = new PawnValidator(this, pawn);
+            board[6][i].setPiece(pawn);
+        }
     }
     public boolean checkForCheck(GameColor color){
         boolean finalResult = false;
         PieceValidator maybeKing = getKingFromBoard(color);
-//        boolean go = true;
-//        int kingRank = -1;
-//        int kingFile = -1;
-
-        // loops through and finds the king for which we are checking check on
-//        for(int i = 0; i <= Rank.getMaxIndex() && go; i++){
-//            for(int j = 0; j <= File.getMaxIndex() && go; j++){
-//                PieceValidator maybeKing = (PieceValidator) board[i][j].getPiece();
-//                if(maybeKing != null && maybeKing.getPiece().getChessPieceType() == ChessPieceType.KING
-//                        && maybeKing.getColor() == color){
-//                    go = false;
-//                    kingRank = i;
-//                    kingFile = j;
-//                }
-//            }
-//        }
 
         if(maybeKing.getPiece().getChessPieceType() == ChessPieceType.KING){
             finalResult = checkHelp(getKingRankIndex(color), getKingFileIndex(color), color);
@@ -406,6 +392,12 @@ public class Board implements BoardIF{
         return finalResult;
     }
 
+    /**
+     * Determines whether a player is in checkmate
+     * @param pos the position of the king
+     * @param color the color of the king in which to determine it is in check mate
+     * @return true if the king is in check mate, false otherwise
+     */
     public boolean checkForCheckMate(Position pos, GameColor color){
         boolean result = false;
         PieceValidator king = getKingFromBoard(color);
@@ -432,6 +424,32 @@ public class Board implements BoardIF{
             }
         }
 
+        return result;
+    }
+
+
+    /**
+     * Iterates through every allied piece for the king to see if any piece can get the king
+     * out of check.. If not, then the king is checkmated
+     * @param color the color of the king in potential check mate
+     * @return true if the king can get out i.e. the king is not in checkmate. False if the king is
+     * in checkmate
+     */
+    private boolean canKingGetOutOfCheckMate(GameColor color){
+        boolean result = false;
+        // iterate through the board to find our allied pieces. We continue until we
+        // run out of pieces or there is a piece that can get us out of check (potential checkmate)
+        for(int i = 0; i <= Rank.getMaxIndex() && !result ; i++){
+            for(int j = 0; j <= File.getMaxIndex() && !result ; j++){
+                PieceValidator gottenPiece = (PieceValidator) board[i][j].getPiece();
+                if(gottenPiece != null && gottenPiece.getColor() == color){
+                    if(gottenPiece.showMoves(new Position(Rank.getRankFromIndex(i),
+                            File.getFileFromIndex(j))).length != 0){
+                        result = true;
+                    }
+                }
+            }
+        }
         return result;
     }
 
@@ -523,6 +541,12 @@ public class Board implements BoardIF{
                                 result = checkDownLeftDiag(kingRank, kingFile, color);
                                 if(!result){
                                     result = checkUpLeftDiag(kingRank, kingFile, color);
+                                    if(!result){
+                                        result = checkKnight(kingRank, kingFile, color);
+                                        if(!result){
+                                            result = checkPawn(kingRank, kingFile, color);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -745,6 +769,194 @@ public class Board implements BoardIF{
             j--;
         }
         return result;
+    }
+
+    /**
+     * Helper method that determines if an opposite colored pawn is putting the king
+     * into check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if an opposite color pawn is putting the king into check
+     */
+    private boolean checkPawn(int rank, int file, GameColor color){
+        boolean result;
+        if(color == GameColor.WHITE){
+            result = this.checkBlackPawn(rank, file, color);
+        }else{
+            result = this.checkWhitePawn(rank, file, color);
+        }
+        return result;
+    }
+
+
+    /**
+     * Helper method that determines if the black pawn is putting the white
+     * king into check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the pawn is putting the king into check
+     */
+    private boolean checkBlackPawn(int rank, int file, GameColor color){
+        boolean result = false;
+        int leftRank = rank - 1;
+        int leftFile = file - 1;
+        int rightRank = rank - 1;
+        int rightFile = file + 1;
+
+        // checks left diagnol square for pawn
+        if(checkHelpBounds(leftRank) && checkHelpBounds(leftFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[leftRank][leftFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+
+        // checks right diagnol square for pawn
+        if(!result && checkHelpBounds(rightRank) && checkHelpBounds(rightFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[rightRank][rightFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Helper method that determines if the white pawn is putting the black
+     * king into check
+     * @param rank the rank of the king
+     * @param file the file of the king
+     * @param color the color of the king
+     * @return true if the pawn is putting the king into check
+     */
+    private boolean checkWhitePawn(int rank, int file, GameColor color){
+        boolean result = false;
+        int leftRank = rank + 1;
+        int leftFile = file - 1;
+        int rightRank = rank + 1;
+        int rightFile = file + 1;
+
+        // checks left diagnol for pawn
+        if(checkHelpBounds(leftRank) && checkHelpBounds(leftFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[leftRank][leftFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+
+        // checks right diagnol for pawn
+        if(!result && checkHelpBounds(rightRank) && checkHelpBounds(rightFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[rightRank][rightFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.PAWN
+                    && gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Helper method that checks if our king is being put into check by an opposite
+     * colored knight
+     * @param rank the rank our king is at
+     * @param file the file our king is at
+     * @param color the color of our king
+     * @return true if there is an opposite colored knight putting our king into check
+     */
+    private boolean checkKnight(int rank, int file, GameColor color){
+        final int MOVE_ONE = 1;
+        final int MOVE_TWO = 2;
+        int toRank;
+        int toFile;
+
+        // There are 8 cases:
+        // Case 1
+        toRank = rank + MOVE_ONE;
+        toFile = file + MOVE_TWO;
+        boolean result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+        if(!result) {
+            // Case 2
+            toRank = rank + MOVE_TWO;
+            toFile = file + MOVE_ONE;
+            result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+            if(!result){
+                // Case 3
+                toRank = rank + MOVE_ONE;
+                toFile = file - MOVE_TWO;
+                result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+                if(!result){
+                    // Case 4
+                    toRank = rank + MOVE_TWO;
+                    toFile = file - MOVE_ONE;
+                    result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+                    if(!result){
+                        // Case 5
+                        toRank = rank - MOVE_ONE;
+                        toFile = file - MOVE_TWO;
+                        result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+                        if(!result){
+                            // Case 6
+                            toRank = rank - MOVE_TWO;
+                            toFile = file - MOVE_ONE;
+                            result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+                            if(!result){
+                                // Case 7
+                                toRank = rank - MOVE_ONE;
+                                toFile = file + MOVE_TWO;
+                                result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+                                if(!result){
+                                    // Case 8
+                                    toRank = rank - MOVE_TWO;
+                                    toFile = file + MOVE_ONE;
+                                    result = this.knightCheckHelp(rank, file, toRank, toFile, color);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Checks if the position we are getting to is valid, and contains an opposite colored
+     * knight that is putting our king into check
+     * @param fromRank the rank the king is at
+     * @param fromFile the file the king is at
+     * @param toRank the rank the opposite colored knight could be at to put our king into check
+     * @param toFile the file the opposite colored knight could be at to put our king into check
+     * @param color the color of our king
+     * @return true if there is an opposite colored knight putting our king into check
+     */
+    private boolean knightCheckHelp(int fromRank, int fromFile, int toRank, int toFile, GameColor color){
+        boolean result = false;
+        if(this.checkHelpBounds(toRank) && this.checkHelpBounds(toFile)){
+            PieceValidator gottenPiece = (PieceValidator) board[toRank][toFile].getPiece();
+            if(gottenPiece != null && gottenPiece.getPiece().getChessPieceType() == ChessPieceType.KNIGHT &&
+                    gottenPiece.getPiece().getColor() != color){
+                result = true;
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * Checks if the index is within the valid bounds of the board.
+     * @param difference the index we are checking
+     * @return true if the index is within the valid bounds
+     */
+    private boolean checkHelpBounds(int difference){
+        final int UPPER_BOUND = board.length - 1;
+        final int LOWER_BOUND = 0;
+        return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
     }
 
     //public PieceValidator
