@@ -8,28 +8,28 @@ package Enums;
  * @version March 20, 2019
  */
 public enum File {
-    /** Enum for file A*/
+    /** Enum for file A Index 0 */
     A("a", 0),
 
-    /** Enum for file B*/
+    /** Enum for file B Index 1 */
     B("b", 1),
 
-    /** Enum for file C*/
+    /** Enum for file C Index 2 */
     C("c", 2),
 
-    /** Enum for file D*/
+    /** Enum for file D Index 3 */
     D("d", 3),
 
-    /** Enum for file E*/
+    /** Enum for file E Index 4 */
     E("e", 4),
 
-    /** Enum for file F*/
+    /** Enum for file F. Index 5 */
     F("f", 5),
 
-    /** Enum for file G*/
+    /** Enum for file G. Index 6 */
     G("g", 6),
 
-    /** Enum for file H*/
+    /** Enum for file H Index 7 */
     H("h", 7);
 
     /** String that holds the file */

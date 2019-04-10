@@ -96,6 +96,7 @@ public class HorizVertValidator extends PieceValidator {
         // To store all the positions.
         ArrayList<Position> posArr = new ArrayList<>();
         SquareIF[][] squares = board.getSquares();
+        Position newPosition;
 
         // For readability and brevity.
         int fileIndex = pos.getFile().getIndex();
@@ -110,11 +111,14 @@ public class HorizVertValidator extends PieceValidator {
                                     pos.getFile()));
         }
         // Check the last piece.
-        if (i > 0) {
+        if (i >= 0) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
                     && !checkIfKing(squares[i][fileIndex].getPiece())) {
-                posArr.add(new Position(Rank.getRankFromIndex(i),
-                                        pos.getFile()));
+                newPosition = new Position(Rank.getRankFromIndex(i),
+                                        pos.getFile());
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 
@@ -124,11 +128,14 @@ public class HorizVertValidator extends PieceValidator {
             posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i)));
         }
         // Check the last piece.
-        if (i < size) {
+        if (i <= size) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
                     && !checkIfKing(squares[rankIndex][i].getPiece())) {
-                posArr.add(new Position(pos.getRank(), 
-                                        File.getFileFromIndex(i)));
+                newPosition = new Position(pos.getRank(), 
+                                        File.getFileFromIndex(i));
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 
@@ -138,11 +145,14 @@ public class HorizVertValidator extends PieceValidator {
             posArr.add(new Position(Rank.getRankFromIndex(i), pos.getFile()));
         }
         // Check the last piece.
-        if (i < size) {
+        if (i <= size) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
                     && !checkIfKing(squares[i][fileIndex].getPiece())) {
-                posArr.add(new Position(Rank.getRankFromIndex(i),
-                                        pos.getFile()));
+                newPosition = new Position(Rank.getRankFromIndex(i),
+                                        pos.getFile());
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 
@@ -152,11 +162,14 @@ public class HorizVertValidator extends PieceValidator {
             posArr.add(new Position(pos.getRank(), File.getFileFromIndex(i)));
         }
         // Check the last piece.
-        if (i > 0) {
+        if (i >= 0) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
                     && !checkIfKing(squares[rankIndex][i].getPiece())) {
-                posArr.add(new Position(pos.getRank(),
-                                        File.getFileFromIndex(i)));
+                newPosition = new Position(pos.getRank(),
+                                        File.getFileFromIndex(i));
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 

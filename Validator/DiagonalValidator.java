@@ -85,6 +85,7 @@ public class DiagonalValidator extends PieceValidator {
         // To store all the positions.
         ArrayList<Position> posArr = new ArrayList<>();
         SquareIF[][] squares = board.getSquares();
+        Position newPosition;
 
         // For readability and brevity.
         int fileIndex = pos.getFile().getIndex();
@@ -100,11 +101,14 @@ public class DiagonalValidator extends PieceValidator {
                                     File.getFileFromIndex(j)));
         }
         // Check the last piece.
-        if (i > 0 && j < size) {
+        if (i >= 0 && j <= size) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
-                posArr.add(new Position(Rank.getRankFromIndex(i),
-                                        File.getFileFromIndex(j)));
+                newPosition = new Position(Rank.getRankFromIndex(i),
+                                        File.getFileFromIndex(j));
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 
@@ -116,11 +120,14 @@ public class DiagonalValidator extends PieceValidator {
                                     File.getFileFromIndex(j)));
         }
         // Check the last piece.
-        if (i > 0 && j > 0) {
+        if (i >= 0 && j >= 0) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
-                posArr.add(new Position(Rank.getRankFromIndex(i),
-                                        File.getFileFromIndex(j)));
+                newPosition = new Position(Rank.getRankFromIndex(i),
+                                        File.getFileFromIndex(j));
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 
@@ -132,11 +139,14 @@ public class DiagonalValidator extends PieceValidator {
                                     File.getFileFromIndex(j)));
         }
         // Check the last piece.
-        if (i < size && j > 0) {
+        if (i <= size && j >= 0) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
-                posArr.add(new Position(Rank.getRankFromIndex(i),
-                                        File.getFileFromIndex(j)));
+                newPosition = new Position(Rank.getRankFromIndex(i),
+                                        File.getFileFromIndex(j));
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 
@@ -148,11 +158,14 @@ public class DiagonalValidator extends PieceValidator {
                                     File.getFileFromIndex(j)));
         }
         // Check the last piece.
-        if (i < size && j < size) {
+        if (i <= size && j <= size) {
             if (!checkMoveOnAlly(piece, squares[i][j].getPiece())
                     && !checkIfKing(squares[i][j].getPiece())) {
-                posArr.add(new Position(Rank.getRankFromIndex(i),
-                                        File.getFileFromIndex(j)));
+                newPosition = new Position(Rank.getRankFromIndex(i),
+                                        File.getFileFromIndex(j));
+                if (!posArr.contains(newPosition)) {
+                    posArr.add(newPosition);
+                }
             }
         }
 
