@@ -356,7 +356,7 @@ public class Board implements BoardIF{
             pawn = new PawnValidator(this, pawn);
             board[1][i].setPiece(pawn);
         }
-
+    }
 
     /**
      * sets the White pieces on the board
@@ -400,7 +400,7 @@ public class Board implements BoardIF{
             pawn = new PawnValidator(this, pawn);
             board[6][i].setPiece(pawn);
         }
-
+    }
 
     /**
      * Method that checks to see if the king is in check
