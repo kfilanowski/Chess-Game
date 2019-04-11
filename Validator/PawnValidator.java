@@ -9,7 +9,6 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
 import Interfaces.BoardIF;
-import Model.Square;
 import History.State;
 
 import java.util.ArrayList;

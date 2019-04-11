@@ -3,7 +3,6 @@ package UI_CLI;
 import ChessExceptions.GameOverCheckMateException;
 import ChessExceptions.GameOverStaleMateException;
 import Enums.ChessPieceType;
-import Enums.ChessPieceType;
 import Enums.File;
 import Enums.GameColor;
 import Enums.Rank;
@@ -12,14 +11,10 @@ import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Board;
-import Model.Piece;
 import Model.Position;
 import Validator.PieceValidator;
-import Validator.PieceValidator;
 import History.State;
-
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**

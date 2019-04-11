@@ -1,11 +1,9 @@
 package Validator;
 
 import Enums.File;
-import Enums.GameColor;
 import Enums.Rank;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
-import Model.Board;
 import Model.Position;
 import Interfaces.BoardIF;
 

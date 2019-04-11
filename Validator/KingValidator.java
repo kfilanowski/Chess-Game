@@ -8,15 +8,11 @@ import Enums.Rank;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
-import Model.Piece;
 import Model.Position;
 import Model.Board;
-import Driver.Driver;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  * Models the piece's ability to move like a King,
