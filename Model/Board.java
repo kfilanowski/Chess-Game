@@ -22,8 +22,10 @@ import java.util.Scanner;
  * which draw method that will be used when the board is printed in the command
  * line interface.
  *
- * @author - Jacob Ginn
- * @author - Kevin Filanowski
+ * @author - Jacob Ginn 25%
+ * @author - Kevin Filanowski 25%
+ * @author - Matt Lutz 25%
+ * @author - Jeriah Caplinger 25%
  * @version - April 7, 2019
  *
  */
@@ -325,7 +327,7 @@ public class Board implements BoardIF{
 
         PieceIF bKing = new Piece(ChessPieceType.KING, GameColor.BLACK);
         bKing = new KingValidator(this, bKing);
-        board[0][4].setPiece(bKing);
+        board[0][6].setPiece(bKing);
 
         PieceIF bishop2 = new Piece(ChessPieceType.BISHOP, GameColor.BLACK);
         bishop2 = new DiagonalValidator(this, bishop2);

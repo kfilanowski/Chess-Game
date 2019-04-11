@@ -7,9 +7,7 @@ import UI_CLI.Board_Color_CLI;
 import UI_CLI.Board_Mono_CLI;
 
 /**
- * @author Jacob Ginn
- * @author Matt Lutz
- * @author Kevin Filanowski
+ * @author Kevin Filanowski 100%
  * @version April 7, 2019
  *
  * Driver for the chess program. It will ask the user if it wants to play on a black and white

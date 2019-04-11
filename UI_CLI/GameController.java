@@ -1,5 +1,6 @@
 package UI_CLI;
 
+import Enums.ChessPieceType;
 import Enums.File;
 import Enums.GameColor;
 import Enums.Rank;
@@ -7,8 +8,10 @@ import History.History;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+import Model.Board;
 import Model.Piece;
 import Model.Position;
+import Validator.PieceValidator;
 
 import java.util.ArrayList;
 
@@ -40,7 +43,8 @@ public class GameController {
      * @param to    - The final position that we want to move to
      */
     public void move(BoardIF board, Position from, Position to) {
-        ArrayList<PieceIF> piece = new ArrayList<PieceIF>();
+        //ArrayList<PieceIF> piece = new ArrayList<PieceIF>();
+
 
         int fromFile = from.getFile().getIndex(); // from square file
         int fromRank = from.getRank().getIndex(); // from square rank
@@ -54,9 +58,24 @@ public class GameController {
 
         boolean blackTurn = (board.getSquare(from.getRank(), from.getFile()).getPiece().getColor() == GameColor.BLACK && !playerTurn);
 
+
+
         if (validMove && whiteTurn || blackTurn ) {
             History.getInstance().add(board.saveState());
+            //board.getSquares()[fromRank][fromFile].getPiece().setHasMoved(true);
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
+            //board.getSquares()[toRank][toFile].getPiece().setHasMoved(true);
+//            PieceValidator piece = (PieceValidator) board.getSquares()[toRank][toFile].getPiece();
+//            if(piece.getPiece().getChessPieceType() == ChessPieceType.KING &&
+//                    ((Board)board).checkForCheckMate(from, piece.getColor())){
+//                if(piece.getColor() == GameColor.WHITE){
+//                    System.out.println("Black Wins!");
+//                }else {
+//                    System.out.println("White Wins!");
+//                }
+//
+//            }
+
             board.getSquares()[fromRank][fromFile].setPiece(null);
             if (!playerTurn) {
                 System.out.println(player1Name + "'s turn!");
