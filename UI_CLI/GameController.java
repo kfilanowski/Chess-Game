@@ -21,12 +21,13 @@ import History.State;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * This class is the controller for the board CLI that handles the functionality on the board
- *
- * @author - Jacob Ginn (33%)
- * @author - Matt Lutz (33%)
- * @author  - Jeriah Capplinger (33%)
+ * Game controller conducts basic game logic for a chess game and certain detections necessary
+ * to ensure a proper game of chess is played
+ * @author Jeriah Caplinger (33.6%)
+ * @author Matt Lutz (33.2%)
+ * @author Jacob Ginn (33.2%)
  */
 public class GameController {
     /** The boolean for which players turn it is. **/
@@ -63,19 +64,28 @@ public class GameController {
         this.copyOfHistory = new ArrayList<>();
     }
 
+    /**
+     * Gets whose players turn it is
+     * @return the player's turn
+     */
     public boolean getplayerTurn(){
         return this.playerTurn;
     }
 
+    /**
+     * Sets the players turn
+     * @param playerTurn boolean value that sets a players turn
+     */
     public void setPlayerTurn(boolean playerTurn){
         this.playerTurn = playerTurn;
     }
 
     /**
-     *
-     * @param board
-     * @param from
-     * @param to
+     * Method that moves a chess piece and provides all backend detections to ensure
+     * a proper game of chess is played
+     * @param board the chess board
+     * @param from the position to move from
+     * @param to the position to move to
      * @throws GameOverCheckMateException if the game is over by CheckMate
      * @throws GameOverStaleMateException if the game is over by StaleMate
      */
@@ -96,6 +106,7 @@ public class GameController {
 
         boolean blackTurn = (board.getSquare(from.getRank(), from.getFile()).getPiece().getColor() == GameColor.BLACK && !playerTurn);
 
+        // if the move is valid
         if (validMove && (whiteTurn || blackTurn)) {
             History.getInstance().add(board.saveState());
             getTakenPiece(board, to);
@@ -104,18 +115,33 @@ public class GameController {
             PieceValidator fromPiece = (PieceValidator) board.getSquares()[fromRank][fromFile].getPiece();
             if(fromPiece.getPiece().getChessPieceType() != ChessPieceType.PAWN && toPiece == null ){
                 this.counter++;
+                // if counter == 50 then it is a draw
                 if(counter == this.fiftyMoveRule){
-                    //TODO: Handle the draw.
-                    System.out.println("THE GAME HAS ENDED IN A DRAW\n-50 moves have been made" +
-                            " without a pawn moving or a piece being taken.");
+                    // we throw the game over exception
+                    if(!playerTurn){
+                        playerTurn = true;
+                        board.draw();
+                        throw new GameOverStaleMateException("THE GAME HAS ENDED IN A DRAW\n-50 moves have been made" +
+                                " without a pawn moving or a piece being taken.\nif you would like to" +
+                                " continue, use /undo otherwise, to end the game in a draw use /quit");
+                    }else{
+                        playerTurn = false;
+                        board.draw();
+                        throw new GameOverStaleMateException("THE GAME HAS ENDED IN A DRAW\n-50 moves have been made" +
+                                " without a pawn moving or a piece being taken.\nif you would like to" +
+                                " continue, use /undo otherwise, to end the game in a draw use /quit");
+                    }
                 }
             }else{
                 counter = 0;
             }
 
+            // moves the piece
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
             if (!playerTurn) {
+                board.draw();
+                playerTurn = true;
                 // detects check mate and stale mate
                 this.endGameHelp(board, GameColor.WHITE);
                 this.threeFoldRep(board);
@@ -124,6 +150,8 @@ public class GameController {
                 board.draw();
                 playerTurn = true;
             }else{
+                board.revDraw(board);
+                playerTurn = false;
                 // detects check mate and stale mate
                 this.endGameHelp(board, GameColor.BLACK);
                 this.threeFoldRep(board);
@@ -165,7 +193,7 @@ public class GameController {
                 if(counter == 3){
                     this.threeFold.add(s);
                     System.out.println("THREE FOLD REPITITION!\nif you would like to" +
-                            " continue, use /move otherwise, to end the game in a draw use /quit");
+                            " continue, use /undo otherwise, to end the game in a draw use /quit");
                 }
             }
         }

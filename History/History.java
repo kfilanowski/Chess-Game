@@ -114,6 +114,10 @@ public class History<T extends BoardIF> {
         return new State<BoardIF>(list.get(redoIndex++).getState().clone());
     }
 
+    /**
+     * Method that returns a list of the history list
+     * @return the history list
+     */
     public List<State<BoardIF>> getList() {
         return list;
     }
