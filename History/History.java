@@ -115,8 +115,9 @@ public class History<T extends BoardIF> {
     }
 
     /**
-     * Method that returns a list of the history list
-     * @return the history list
+     * Method that returns a list of the history.
+     * 
+     * @return - The history list.
      */
     public List<State<BoardIF>> getList() {
         return list;

@@ -17,13 +17,9 @@ public interface PieceIF extends BlackAndWhiteIF {
     public ChessPieceType getChessPieceType();
 
     /**
+     * Sets the pieces type.
      * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     * @param type - Sets the chess piece type.
      */
     public void setChessPieceType(ChessPieceType type);
 
