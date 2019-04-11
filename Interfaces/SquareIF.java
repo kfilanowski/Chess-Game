@@ -5,8 +5,9 @@ import Model.Position;
 /**
  * This gives the basic outline of a square that a piece will be placed
  * 
- * @author Matt Lutz 90%
+ * @author Matt Lutz 80%
  * @author Kevin Filanowski 10%
+ * @author Jacob Ginn 10%
  */
 public interface SquareIF {
     /**

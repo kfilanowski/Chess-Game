@@ -157,10 +157,6 @@ public class Board_Color_CLI extends Board_CLI {
         boolean done = false;
         int count = 8;
 
-        for(Position p: pos){
-            System.out.println(p);
-        }
-
         for (int i = 0; i < squares.length; i++) {//rows of the chess board
 
             str.append("\u001b[0m" + count + " ");//shows the rank of the chess board
@@ -223,10 +219,6 @@ public class Board_Color_CLI extends Board_CLI {
         StringBuilder str = new StringBuilder();
         boolean done = false;
         int count = 1;
-
-        for(Position p: pos){
-            System.out.println(p);
-        }
 
         for (int i = squares.length -1; i >= 0; i--) {//rows of the chess board
 

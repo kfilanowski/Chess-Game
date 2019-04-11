@@ -12,7 +12,13 @@ import Model.Position;
 
 import java.util.ArrayList;
 
-
+/**
+ * This class is the controller for the board CLI that handles the functionality on the board
+ *
+ * @author - Jacob Ginn (33%)
+ * @author - Matt Lutz (33%)
+ * @author  - Jeriah Capplinger (33%)
+ */
 public class GameController {
     /** The boolean for which players turn it is. **/
     boolean playerTurn;
@@ -20,6 +26,11 @@ public class GameController {
     String player1Name;
     /** The Second Player Name */
     String player2Name;
+    /** The white pieces that have been taken */
+    ArrayList<PieceIF> WhiteTakenPiece = new ArrayList<PieceIF>();
+    /** The Black pieces that have been taken */
+    ArrayList<PieceIF> BlackTakenPiece = new ArrayList<PieceIF>();
+
 
     /**
      * Constructor for the gamecontroller
@@ -48,8 +59,6 @@ public class GameController {
      * @param to    - The final position that we want to move to
      */
     public void move(BoardIF board, Position from, Position to) {
-        ArrayList<PieceIF> piece = new ArrayList<PieceIF>();
-
         int fromFile = from.getFile().getIndex(); // from square file
         int fromRank = from.getRank().getIndex(); // from square rank
 
@@ -64,14 +73,17 @@ public class GameController {
 
         if (validMove && whiteTurn || blackTurn ) {
             History.getInstance().add(board.saveState());
+            getTakenPiece(board, to);
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
             if (!playerTurn) {
                 System.out.println(player1Name + "'s turn!");
+                System.out.print("White Has Taken" + WhiteTakenPiece + " \n");
                 board.draw();
                 playerTurn = true;
             }else{
                 System.out.println(player2Name + "'s turn!");
+                System.out.print("Black Has Taken" + BlackTakenPiece + "\n");
                 board.revDraw(board);
                 playerTurn = false;
             }
@@ -150,5 +162,27 @@ public class GameController {
             board.revDraw(board);
             playerTurn = false;
         }
+    }
+
+    /**
+     * adds the piece that was taken to the Arraylist of th player that took it.
+     * @param board - The board that the game is being played on.
+     * @param to - The position that the move will go to.
+     */
+    public void getTakenPiece(BoardIF board, Position to){
+        if(board.getSquare(to.getRank(), to.getFile()).getPiece() != null) {
+            if (playerTurn) {
+                WhiteTakenPiece.add(board.getSquare(to.getRank(), to.getFile()).getPiece());
+            } else {
+                BlackTakenPiece.add(board.getSquare(to.getRank(), to.getFile()).getPiece());
+            }
+        }
+    }
+
+    /**
+     * Prints each players pieces that they have taken from their opponent.
+     */
+    public void printTaken(){
+        System.out.println("White has taken " + WhiteTakenPiece + "\nBlack has taken " + BlackTakenPiece);
     }
 }
