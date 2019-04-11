@@ -9,8 +9,9 @@ import java.sql.SQLOutput;
 /**
  * Represents a square on a Chess board.
  * 
- * @author Kevin Filanowski 85%
+ * @author Kevin Filanowski 65%
  * @author Jeriah Caplinger 15%
+ * @author Jacob Ginn 20%
  * @version March 20, 2019
  */
 public class Square extends BlackAndWhite implements SquareIF {

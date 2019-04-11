@@ -147,12 +147,8 @@ public class Board_Mono_CLI extends Board_CLI {
         SquareIF[][] squares = board.getSquares();
         squares = setPosHighlight(squares,pos);
         StringBuilder str = new StringBuilder();
-        boolean done;
-        int count = 8;
-
-        for(Position p: pos){
-            System.out.println(p);
-        }
+        boolean done; //already printed a piece
+        int count = 8;//rank of the chess board
 
         for (int i = 0; i < squares.length; i++) {//rows of the chess board
 
@@ -214,12 +210,8 @@ public class Board_Mono_CLI extends Board_CLI {
         SquareIF[][] squares = board.getSquares();
         squares = setPosHighlight(squares,pos);
         StringBuilder str = new StringBuilder();
-        boolean done;
-        int count = 1;
-
-        for(Position p: pos){
-            System.out.println(p);
-        }
+        boolean done; // if a move happened.
+        int count = 1;//rank of the chess board
 
         for (int i = squares.length -1; i >= 0; i--) {//rows of the chess board
 

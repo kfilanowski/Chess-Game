@@ -17,10 +17,10 @@ import Interfaces.SquareIF;
 /**
  * Parses commands for the user so that the user can play chess.
  * 
- * @author Jeriah Caplinger
- * @author Matt Lutz 
- * @author Jacob Ginn 
- * @author Kevin Filanowski
+ * @author Jeriah Caplinger(25%)
+ * @author Matt Lutz (25%)
+ * @author Jacob Ginn (25%)
+ * @author Kevin Filanowski(25%)
  * @version April 7, 2019
  */
 public abstract class Board_CLI implements BoardStrategy {
@@ -97,13 +97,12 @@ public abstract class Board_CLI implements BoardStrategy {
                     Position from = gc.getPosition(command[1], board.getSquares());
                     Position[] temp = board.getSquares()[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
                             .showMoves(from);
-                    if(gc.getplayerTurn()) {
+                    if (gc.getplayerTurn()) {
                         board.draw(board, temp);
-                    }
-                    else {
+                    } else {
                         board.revDraw(board, temp);
                     }
-                }catch (NullPointerException ex){
+                } catch (NullPointerException ex) {
                     System.out.println("Invalid Piece: Please Choose another piece.");
                 }
             } else if (command[0].toLowerCase().equals("/undo")) {
@@ -122,7 +121,9 @@ public abstract class Board_CLI implements BoardStrategy {
                 }
             } else if (command[0].toLowerCase().equals("/showmenu")) {
                 printMenuOptions();
-            } else if (command[0].toLowerCase().equals("/quit")) {
+            } else if (command[0].toLowerCase().equals("/showpiecestaken")){
+                gc.printTaken();
+            }else if (command[0].toLowerCase().equals("/quit")) {
                 System.out.println("System exiting.");
                 System.exit(0);
             }
@@ -140,7 +141,8 @@ public abstract class Board_CLI implements BoardStrategy {
         + "3) /undo:         Takes back a previously made move.\n"
         + "4) /redo:         Reverse the effect of an undo.\n"
         + "5) /showmenu:     Print this menu.\n"
-        + "6) /quit:         Quit the program.\n");
+        + "6) /showpiecestaken: Print the pieces that have been taken.\n"
+        + "7) /quit:         Quit the program.\n");
     }
 
     /**
