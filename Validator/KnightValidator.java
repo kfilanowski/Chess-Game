@@ -67,8 +67,8 @@ public class KnightValidator extends PieceValidator {
 	    // we return a boolean stating whether the knight is moving 2 to the left or right
         // and 1 up or down; or whether the knight is moving 1 to the left or right and 2 up
         // or down
-        System.out.println(!stillCheckAfterMove(from, to, fromPiece.getColor()));
-        System.out.println(((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)));
+        //System.out.println(!stillCheckAfterMove(from, to, fromPiece.getColor()));
+        //System.out.println(((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)));
 	    return ((fileDiff == 2 && rankDiff == 1 ) || (fileDiff == 1 && rankDiff == 2)) && !checkIfKing(toPiece) &&
                 !stillCheckAfterMove(from, to, fromPiece.getColor());
 	}
