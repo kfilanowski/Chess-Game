@@ -1,5 +1,8 @@
 package UI_CLI;
 
+import ChessExceptions.GameOverCheckMateException;
+import ChessExceptions.GameOverStaleMateException;
+import Enums.ChessPieceType;
 import Enums.ChessPieceType;
 import Enums.File;
 import Enums.GameColor;
@@ -12,8 +15,11 @@ import Model.Board;
 import Model.Piece;
 import Model.Position;
 import Validator.PieceValidator;
+import Validator.PieceValidator;
+import History.State;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameController {
@@ -23,6 +29,14 @@ public class GameController {
     String player1Name;
     /** The Second Player Name */
     String player2Name;
+    /** counter for detecting 50-move-rule draw*/
+    private int counter;
+    /** Upper bound for the 50-move-rule draw */
+    private final int fiftyMoveRule = 50;
+    /** ArrayList that keeps track of three fold repetition*/
+    ArrayList<State<BoardIF>> threeFold;
+    /** ArrayList that contains a copy of the history list */
+    ArrayList<State<BoardIF>> copyOfHistory;
 
     /**
      * Constructor for the gamecontroller
@@ -30,20 +44,25 @@ public class GameController {
      * @param player2Name - Second Player name
      */
     public GameController(String player1Name, String player2Name){
-        playerTurn = true;
+        this.playerTurn = true;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
+        this.counter = 0;
+        this.threeFold = new ArrayList<>();
+        this.copyOfHistory = new ArrayList<>();
     }
 
     /**
-     * Helper method that is used to move a piece on the board
      *
-     * @param board - An instance of the chess board
-     * @param from  - The starting position that we want to move from
-     * @param to    - The final position that we want to move to
+     * @param board
+     * @param from
+     * @param to
+     * @throws GameOverCheckMateException if the game is over by CheckMate
+     * @throws GameOverStaleMateException if the game is over by StaleMate
      */
-    public void move(BoardIF board, Position from, Position to) {
-        //ArrayList<PieceIF> piece = new ArrayList<PieceIF>();
+    public void move(BoardIF board, Position from, Position to) throws
+            GameOverCheckMateException, GameOverStaleMateException {
+        ArrayList<PieceIF> piece = new ArrayList<PieceIF>();
 
 
         int fromFile = from.getFile().getIndex(); // from square file
@@ -58,30 +77,35 @@ public class GameController {
 
         boolean blackTurn = (board.getSquare(from.getRank(), from.getFile()).getPiece().getColor() == GameColor.BLACK && !playerTurn);
 
-
-
-        if (validMove && whiteTurn || blackTurn ) {
+        if (validMove && (whiteTurn || blackTurn)) {
             History.getInstance().add(board.saveState());
-            //board.getSquares()[fromRank][fromFile].getPiece().setHasMoved(true);
-            board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
-            //board.getSquares()[toRank][toFile].getPiece().setHasMoved(true);
-//            PieceValidator piece = (PieceValidator) board.getSquares()[toRank][toFile].getPiece();
-//            if(piece.getPiece().getChessPieceType() == ChessPieceType.KING &&
-//                    ((Board)board).checkForCheckMate(from, piece.getColor())){
-//                if(piece.getColor() == GameColor.WHITE){
-//                    System.out.println("Black Wins!");
-//                }else {
-//                    System.out.println("White Wins!");
-//                }
-//
-//            }
+            // the following is the implementation for checking for the fifty move rule
+            PieceValidator toPiece = (PieceValidator) board.getSquares()[toRank][toFile].getPiece();
+            PieceValidator fromPiece = (PieceValidator) board.getSquares()[fromRank][fromFile].getPiece();
+            if(fromPiece.getPiece().getChessPieceType() != ChessPieceType.PAWN && toPiece == null ){
+                this.counter++;
+                if(counter == this.fiftyMoveRule){
+                    //TODO: Handle the draw.
+                    System.out.println("THE GAME HAS ENDED IN A DRAW\n-50 moves have been made" +
+                            " without a pawn moving or a piece being taken.");
+                }
+            }else{
+                counter = 0;
+            }
 
+            board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
             if (!playerTurn) {
+                // detects check mate and stale mate
+                this.endGameHelp(board, GameColor.WHITE);
+                this.threeFoldRep(board);
                 System.out.println(player1Name + "'s turn!");
                 board.draw();
                 playerTurn = true;
             }else{
+                // detects check mate and stale mate
+                this.endGameHelp(board, GameColor.BLACK);
+                this.threeFoldRep(board);
                 System.out.println(player2Name + "'s turn!");
                 board.revDraw(board);
                 playerTurn = false;
@@ -90,6 +114,63 @@ public class GameController {
             System.out.println("Cannot move piece");
         }
     }
+
+
+    /**
+     * Detects three fold repetition for the game to end in a draw
+     * @param board the board we are using
+     */
+    private void threeFoldRep(BoardIF board){
+        int counter = 0;
+        History history = History.getInstance();
+        State<BoardIF> state = board.saveState();
+        this.copyOfHistory.addAll(history.getList());
+
+        // this is for after three fold repetition occurs, if the players decide to
+        // continue we need to take out the board states so we can count a new set of
+        // 3 fold repetitions.
+        for(State<BoardIF> st : this.threeFold){
+            for(int i = 0; i < 3; i++){
+                this.copyOfHistory.remove(st);
+            }
+        }
+
+        // detects equality and if we find three occurrences its 3 fold repetition
+        for (State<BoardIF> s : this.copyOfHistory) {
+            if (s.getState().equals(state.getState())) {
+                counter++;
+                System.out.println("Counter:" + counter);
+                if(counter == 3){
+                    this.threeFold.add(s);
+                    System.out.println("THREE FOLD REPITITION!\nif you would like to" +
+                            " continue, use /move otherwise, to end the game in a draw use /quit");
+                }
+            }
+        }
+        this.copyOfHistory.clear();
+    }
+
+
+    /**
+     * Detects if the game is over by either a checkmate or a stalemate
+     * @param board the chess board
+     * @param color the color we are checking for checkmate or stalemate
+     * @throws GameOverStaleMateException if a player is in stalemate
+     * @throws GameOverCheckMateException if a player is in checkmate
+     */
+    private void endGameHelp(BoardIF board, GameColor color) throws GameOverStaleMateException,
+            GameOverCheckMateException{
+        if(((Board) board).checkForCheck(color)){
+            if(( ((Board) board).checkForCheckMate(color))){
+                throw new GameOverCheckMateException(color.toString().toUpperCase() + " LOSES!");
+            }
+        }else{
+            if(( ((Board) board).checkForStaleMate(color))){
+                throw new GameOverStaleMateException("DRAW! STALEMATE!");
+            }
+        }
+    }
+
 
     /**
      * Helper method that gets a position based on provided user input
@@ -140,10 +221,20 @@ public class GameController {
             System.out.println(player1Name + "'s turn!");
             board.draw();
             playerTurn = true;
+
+            // ensures the 50 move rule is consistent with undos
+            if(counter > 0) {
+                this.counter--;
+            }
         }else{
             System.out.println(player2Name + "'s turn!");
             board.revDraw(board);
             playerTurn = false;
+
+            // ensures the 50 move rule is consistent with undos
+            if(counter > 0) {
+                this.counter--;
+            }
         }
     }
 
@@ -156,10 +247,14 @@ public class GameController {
             System.out.println(player1Name + "'s turn!");
             board.draw();
             playerTurn = true;
+            // ensures the 50 move rule is consistent with redos
+            this.counter++;
         }else{
             System.out.println(player2Name + "'s turn!");
             board.revDraw(board);
             playerTurn = false;
+            // ensures the 50 move rule is consistent with redos
+            this.counter++;
         }
     }
 }
