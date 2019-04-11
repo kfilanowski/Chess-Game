@@ -81,11 +81,9 @@ public abstract class Board_CLI implements BoardStrategy {
                     try {
                         gc.move(board, from, to);
                     }catch (GameOverCheckMateException gocme){
-                        board.draw();
                         System.out.println("GAME OVER! CHECKMATE!");
                         System.out.println(gocme.getMessage());
                     }catch (GameOverStaleMateException gosme){
-                        board.draw();
                         System.out.println(gosme.getMessage());
                     }
                 }
