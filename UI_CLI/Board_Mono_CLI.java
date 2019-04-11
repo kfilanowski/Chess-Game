@@ -14,9 +14,7 @@ import Model.Position;
 public class Board_Mono_CLI extends Board_CLI {
 
     /**
-     * 
-     * 
-     * 
+     * The constructor of Board_Mono_CLI
      */
     public Board_Mono_CLI() {
         super();
@@ -46,7 +44,7 @@ public class Board_Mono_CLI extends Board_CLI {
 
                         if( squares[i][j].getPiece().getColor() == GameColor.BLACK ){
                             str.append(squares[i][j].toString(' ', '(', ')' , 'u'));
-                        }else{
+                        } else{
                             str.append(squares[i][j].toString(' ', '(', ')', ' '));
                         }
                     } else {
@@ -60,9 +58,11 @@ public class Board_Mono_CLI extends Board_CLI {
                 } else {
 
                     if (squares[i][j].isBlack()) {
-                        str.append(squares[i][j].toString(' ', '(', ')', ' '));//prints a black space for the board
+                        str.append(squares[i][j].toString(' ', '(', ')', ' '));
+                        //prints a black space for the board
                     } else {
-                        str.append(squares[i][j].toString(' ', '[', ']', ' '));//prints a white space for the board
+                        str.append(squares[i][j].toString(' ', '[', ']', ' '));
+                        //prints a white space for the board
                     }
                 }
             }
@@ -199,6 +199,73 @@ public class Board_Mono_CLI extends Board_CLI {
             count--;//decrements the rank of the chess board
         }
         str.append("    A    B    C    D    E    F    G    H");//Shows the File of the Chess pieces
+        System.out.println(str);//draws the Chess board
+    }//end Draw()
+
+
+    /**
+     * Draws the board for the black piece player with the highlighted squares that are valid moves for the
+     * selected piece.
+     * @param board - The board that the game is being played on.
+     * @param pos - The position array that holds all of the valid moves.
+     */
+    @Override
+    public void revDraw(BoardIF board, Position[] pos) {
+        SquareIF[][] squares = board.getSquares();
+        squares = setPosHighlight(squares,pos);
+        StringBuilder str = new StringBuilder();
+        boolean done;
+        int count = 1;
+
+        for(Position p: pos){
+            System.out.println(p);
+        }
+
+        for (int i = squares.length -1; i >= 0; i--) {//rows of the chess board
+
+            str.append("\u001b[0m" + count + " ");//shows the rank of the chess board
+
+            for (int j = squares.length- 1; j >= 0; j--) {//columns of the chessboard
+
+                done = false;
+
+                if(squares[i][j].getHighlighted()){
+                    str = printsHighlight(squares, i, j, str);
+                    done = true;
+                }
+
+
+                if (squares[i][j].getPiece() != null && !done) {
+
+                    if (squares[i][j].isBlack()) {
+
+                        if( squares[i][j].getPiece().getColor() == GameColor.BLACK ){
+                            str.append(squares[i][j].toString(' ', '(', ')' , 'u'));
+                        }else{
+                            str.append(squares[i][j].toString(' ', '(', ')', ' '));
+                        }
+                    } else {
+                        if(squares[i][j].getPiece().getColor() == GameColor.BLACK){
+                            str.append(squares[i][j].toString(' ', '[', ']', 'u'));
+                        }else{
+                            str.append(squares[i][j].toString(' ', '[', ']' , ' '));
+                        }
+                    }
+
+                }else if(!done) {
+
+                    if (squares[i][j].isBlack()) {
+                        str.append(squares[i][j].toString(' ', '(', ')', ' '));//prints a black space for the board
+                    } else {
+                        str.append(squares[i][j].toString(' ', '[', ']', ' '));//prints a white space for the board
+                    }
+                }
+            }
+
+            str.append("\n");
+            count++;//decrements the rank of the chess board
+        }
+        str.append("    H    G    F    E    D    C    B    A");//Shows the File of the Chess pieces
         System.out.println(str);//draws the Chess board
     }//end Draw()
 

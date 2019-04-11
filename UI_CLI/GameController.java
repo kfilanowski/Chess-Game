@@ -52,6 +52,14 @@ public class GameController {
         this.copyOfHistory = new ArrayList<>();
     }
 
+    public boolean getplayerTurn(){
+        return this.playerTurn;
+    }
+
+    public void setPlayerTurn(boolean playerTurn){
+        this.playerTurn = playerTurn;
+    }
+
     /**
      *
      * @param board

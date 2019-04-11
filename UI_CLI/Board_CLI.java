@@ -28,6 +28,7 @@ public abstract class Board_CLI implements BoardStrategy {
     protected Scanner input;
     /** This object contains a list of snapshots of the entire board game. */
     protected GameController gc;
+    /** The history of the board */
     protected History<BoardIF> history;
 
     /**
@@ -96,7 +97,12 @@ public abstract class Board_CLI implements BoardStrategy {
                     Position from = gc.getPosition(command[1], board.getSquares());
                     Position[] temp = board.getSquares()[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
                             .showMoves(from);
-                    board.draw(board, temp);
+                    if(gc.getplayerTurn()) {
+                        board.draw(board, temp);
+                    }
+                    else {
+                        board.revDraw(board, temp);
+                    }
                 }catch (NullPointerException ex){
                     System.out.println("Invalid Piece: Please Choose another piece.");
                 }

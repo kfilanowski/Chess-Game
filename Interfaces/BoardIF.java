@@ -117,11 +117,22 @@ public interface BoardIF {
 
     /**
      * Draws the Board with the valid moves of the piece Highlighted on the board.
+     * @param board - The board that the game is being played on.
+     * @param pos -  the position array that holds the valid positions a piece can move
      */
     public void draw(BoardIF board, Position[] pos);
 
     /**
-     * gets the names of both the players that are playing the game of Chess.
+     * Draws the board in black and white with the squares and the pieces are white and red
+     * @param board - the board object that is printed on the command line interface.
      */
     public void revDraw(BoardIF board);
+
+    /**
+     * Draws the Board for the black piece player with the valid moves of the piece Highlighted on the board.
+     * @param board - The board that the game is being played on.
+     * @param pos -  the position array that holds the valid positions a piece can move
+     */
+    public void revDraw(BoardIF board, Position[] pos);
+
 }
