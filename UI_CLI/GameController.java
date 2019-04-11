@@ -135,7 +135,7 @@ public class GameController {
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
             if (!playerTurn) {
-                board.draw();
+                //board.draw();
                 playerTurn = true;
                 // detects check mate and stale mate
                 this.endGameHelp(board, GameColor.WHITE);
@@ -145,7 +145,7 @@ public class GameController {
                 board.draw();
                 playerTurn = true;
             }else{
-                board.revDraw(board);
+                //board.revDraw(board);
                 playerTurn = false;
                 // detects check mate and stale mate
                 this.endGameHelp(board, GameColor.BLACK);
