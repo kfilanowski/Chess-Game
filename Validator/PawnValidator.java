@@ -10,8 +10,10 @@ import Interfaces.SquareIF;
 import Model.Position;
 import Interfaces.BoardIF;
 import Model.Square;
+import History.State;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Models the piece's ability to move like a Pawn,
@@ -83,15 +85,16 @@ public class PawnValidator extends PieceValidator {
             }
         }
 
-        if(!result && fromPiece.getColor() == GameColor.BLACK){
-           if(this.enPassanteHelpBlack(fromRank, fromFile, toRank, toFile, squares)){
-               result = true;
-           }
-        }else if(!result && fromPiece.getColor() == GameColor.WHITE){
-            if(this.enPassanteHelpWhite(fromRank, fromFile, toRank, toFile, squares)){
-                result = true;
-            }
-        }
+        // En passante
+//        if(!result && fromPiece.getColor() == GameColor.BLACK){
+//           if(this.enPassanteHelpBlack(fromRank, fromFile, toRank, toFile, squares)){
+//               result = true;
+//           }
+//        }else if(!result && fromPiece.getColor() == GameColor.WHITE){
+//            if(this.enPassanteHelpWhite(fromRank, fromFile, toRank, toFile, squares)){
+//                result = true;
+//            }
+//        }
 
         // check if we are taking a piece diagonally
         if(!result && Math.abs(toFile - fromFile) == 1 && fromRank + moveCorrectly == toRank){
@@ -110,6 +113,15 @@ public class PawnValidator extends PieceValidator {
 	}
 
 
+    /**
+     * Helper method for seeing if white can perform en Passante
+     * @param fromRank pieces from rank
+     * @param fromFile pieces from file
+     * @param toRank pieces desired movement rank
+     * @param toFile pieces desired movement file
+     * @param squares the squares on the board
+     * @return true if the piece can perform en passante
+     */
     private boolean enPassanteHelpWhite(int fromRank, int fromFile, int toRank, int toFile,
                                         SquareIF[][] squares){
 	    GameColor color = GameColor.WHITE;
@@ -182,6 +194,15 @@ public class PawnValidator extends PieceValidator {
 
 
 
+    /**
+     * Helper method for seeing if black can perform en Passante
+     * @param fromRank pieces from rank
+     * @param fromFile pieces from file
+     * @param toRank pieces desired movement rank
+     * @param toFile pieces desired movement file
+     * @param squares the squares on the board
+     * @return true if the piece can perform en passante
+     */
 	private boolean enPassanteHelpBlack(int fromRank, int fromFile, int toRank, int toFile,
                                         SquareIF[][] squares){
 	    GameColor color = GameColor.BLACK;
@@ -282,7 +303,13 @@ public class PawnValidator extends PieceValidator {
     }
 
 
-
+    /**
+     * Helper method that sees if white can perform en passante
+     * @param fromRank pieces from rank
+     * @param fromFile pieces from file
+     * @param squares board squares
+     * @param posArray the position array of valid moves
+     */
     private void showEnPassanteWhite(int fromRank, int fromFile, SquareIF[][] squares,
                                         ArrayList<Position> posArray) {
         GameColor color = GameColor.WHITE;
@@ -345,6 +372,13 @@ public class PawnValidator extends PieceValidator {
 
 
 
+    /**
+     * Helper method that sees if black can perform en passante
+     * @param fromRank pieces from rank
+     * @param fromFile pieces from file
+     * @param squares board squares
+     * @param posArray the position array of valid moves
+     */
     private void showEnPassanteBlack(int fromRank, int fromFile, SquareIF[][] squares, ArrayList<Position> posArray){
         GameColor color = GameColor.BLACK;
         // For black, checking EN PASSANTE
@@ -359,8 +393,14 @@ public class PawnValidator extends PieceValidator {
                 // here we have to do some history manipulating to get the previous board state
                 // in order to check if the move is valid
                 History history = History.getInstance();
-                history.add(board.saveState());
-                board.restoreState(history.undo());
+                State<BoardIF> state = board.saveState();
+                List<State<BoardIF>> list = history.getList();
+                for (State<BoardIF> s : list) {
+                    if (s.equals(state)) {
+
+                    }
+                }
+//                BoardIF boardie = state.getState();
                 board.restoreState(history.undo());
                 // we have to get a new set of squares because we reverted our board
                 squares = board.getSquares();
@@ -381,7 +421,7 @@ public class PawnValidator extends PieceValidator {
                         squares[fromRank][fromFile + 1].getPiece() == null){
                     posArray.add(new Position(Rank.getRankFromIndex(fromRank+1), File.getFileFromIndex(fromFile + 1)));
                 }
-                board.restoreState(history.redo());
+                board.restoreState(state);
             }
         }
     }

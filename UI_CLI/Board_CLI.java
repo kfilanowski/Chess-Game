@@ -2,6 +2,8 @@ package UI_CLI;
 
 import java.util.Scanner;
 
+import ChessExceptions.GameOverCheckMateException;
+import ChessExceptions.GameOverStaleMateException;
 import Enums.ChessPieceType;
 import Enums.File;
 import Enums.Rank;
@@ -74,8 +76,17 @@ public abstract class Board_CLI implements BoardStrategy {
                 if (from == null || to == null || board.getSquare(from).getPiece() == null) {
                     System.out.println("Please enter only one letter: a - h and one number: 1 - 8 i.e. a1 or E5\n");
                 } else {
-                    gc.move(board, from, to);
 
+                    try {
+                        gc.move(board, from, to);
+                    }catch (GameOverCheckMateException gocme){
+                        board.draw();
+                        System.out.println("GAME OVER! CHECKMATE!");
+                        System.out.println(gocme.getMessage());
+                    }catch (GameOverStaleMateException gosme){
+                        board.draw();
+                        System.out.println(gosme.getMessage());
+                    }
                 }
 
                 // we can stop our while loop now that we have correct input

@@ -113,4 +113,8 @@ public class History<T extends BoardIF> {
         // Cloning is to prevent certain specific cases of cross referencing.
         return new State<BoardIF>(list.get(redoIndex++).getState().clone());
     }
+
+    public List<State<BoardIF>> getList() {
+        return list;
+    }
 }
