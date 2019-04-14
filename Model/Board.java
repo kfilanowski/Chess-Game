@@ -1,10 +1,6 @@
 package Model;
 
-
-import Enums.ChessPieceType;
-import Enums.File;
-import Enums.GameColor;
-import Enums.Rank;
+import Enums.*;
 import History.State;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
@@ -12,9 +8,8 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import UI_CLI.Board_Color_CLI;
 import UI_CLI.Board_Mono_CLI;
-import Validator.HorizVertValidator;
+import UI_GUI.Board_GUI;
 import Validator.*;
-
 import java.util.Scanner;
 
 /**
@@ -90,7 +85,7 @@ public class Board implements BoardIF{
                 chosen = true;
             } break;
             case "3": { // If the user wants the graphical user interface.
-                setDrawStrategy(new Board_Color_CLI()); //doesn't work right now
+                setDrawStrategy(new Board_GUI());
                 chosen = true;
             } break;
             case "4": { // If the user wants to exit the program.
@@ -101,6 +96,7 @@ public class Board implements BoardIF{
                 System.out.println("Please enter an integer between 1 and 4.\n");
             }
         }
+        reader.close();
     }
 
 
@@ -284,7 +280,6 @@ public class Board implements BoardIF{
      */
     public Board clone() {
         Board newBoard = new Board();
-        newBoard.bs = bs.clone();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 newBoard.board[i][j] = board[i][j].clone();

@@ -124,14 +124,6 @@ public abstract class Board_CLI implements BoardStrategy {
     }
 
     /**
-     * Create a deep clone of this object.
-     * 
-     * @return - A deep clone of this object.
-     */
-    public abstract BoardStrategy clone();
-
-
-    /**
      * Parses the command for a movement operation.
      * 
      * @param command - The command arguments given by the user.

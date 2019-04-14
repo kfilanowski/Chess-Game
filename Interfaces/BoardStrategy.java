@@ -20,13 +20,6 @@ public interface BoardStrategy {
     public void draw(BoardIF board);
 
     /**
-     * Create a deep clone of this object.
-     * 
-     * @return - A deep clone of this object.
-     */
-    public BoardStrategy clone();
-
-    /**
      * calls the beginning functions of the board.
      * @param board - The board that the game is being played on.
      */

@@ -136,15 +136,6 @@ public class Board_Color_CLI extends Board_CLI {
     }
 
     /**
-     * Create a deep clone of this object.
-     * 
-     * @return - A deep clone of this object.
-     */
-    public Board_Color_CLI clone() {
-        return new Board_Color_CLI();
-    }
-
-    /**
      * Draws the Board with the valid moves of the piece Highlighted on the board.
      * @param board - The board that the game is being played on.
      * @param pos -  the position array that holds the valid positions a piece can move

@@ -128,16 +128,6 @@ public class Board_Mono_CLI extends Board_CLI {
     }//end Draw()
 
     /**
-     * Create a deep clone of this object.
-     * 
-     * @return - A deep clone of this object.
-     */
-    public Board_Mono_CLI clone() {
-        return new Board_Mono_CLI();
-    }
-
-
-    /**
      * Draws the board with the highlighted squares that are valid moves for the selected piece
      * @param board - The board that the game is being played on.
      * @param pos - The position array that holds all of the valid moves.

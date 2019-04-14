@@ -6,7 +6,6 @@ import Model.Position;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
@@ -14,26 +13,22 @@ public class Board_GUI extends Application implements BoardStrategy {
 
     @Override
     public void draw(BoardIF board) {
-
-    }
-
-    @Override
-    public BoardStrategy clone() {
-        return null;
+        
     }
 
     @Override
     public void go(BoardIF board) {
+        launch();
     }
 
     @Override
     public void draw(BoardIF board, Position[] pos) {
-
+        
     }
 
     @Override
     public void revDraw(BoardIF board) {
-
+        
     }
 
     @Override
@@ -71,8 +66,8 @@ public class Board_GUI extends Application implements BoardStrategy {
         return grid;
     }
 
+    ///////////// delete later, this is for testing purposes. /////////////
     public static void main(String[] args) {
         launch(args);
     }
-
 }
