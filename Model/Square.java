@@ -4,8 +4,6 @@ import Enums.GameColor;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
-import java.sql.SQLOutput;
-
 /**
  * Represents a square on a Chess board.
  * 

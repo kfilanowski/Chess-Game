@@ -16,7 +16,6 @@ import Validator.PieceValidator;
 import History.State;
 import java.util.ArrayList;
 
-
 /**
  * Game controller conducts basic game logic for a chess game and certain detections necessary
  * to ensure a proper game of chess is played
@@ -31,45 +30,49 @@ public class GameController {
     String player1Name;
     /** The Second Player Name */
     String player2Name;
-    /** counter for detecting 50-move-rule draw*/
+    /** Counter for detecting 50-move-rule draw*/
     private int counter;
     /** Upper bound for the 50-move-rule draw */
-    private final int fiftyMoveRule = 50;
+    private final int FIFTY_MOVES = 50;
     /** ArrayList that keeps track of three fold repetition*/
     ArrayList<State<BoardIF>> threeFold;
     /** ArrayList that contains a copy of the history list */
     ArrayList<State<BoardIF>> copyOfHistory;
     /** The white pieces that have been taken */
-    ArrayList<PieceIF> WhiteTakenPiece = new ArrayList<PieceIF>();
+    ArrayList<PieceIF> WhiteTakenPiece;
     /** The Black pieces that have been taken */
-    ArrayList<PieceIF> BlackTakenPiece = new ArrayList<PieceIF>();
-
+    ArrayList<PieceIF> BlackTakenPiece;
 
     /**
-     * Constructor for the gamecontroller
-     * @param player1Name - First Player name
-     * @param player2Name - Second Player name
+     * Constructor for the Game Controller.
+     * 
+     * @param player1Name - First player name.
+     * @param player2Name - Second player name.
      */
     public GameController(String player1Name, String player2Name){
-        this.playerTurn = true;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
-        this.counter = 0;
-        this.threeFold = new ArrayList<>();
-        this.copyOfHistory = new ArrayList<>();
+        playerTurn = true;
+        counter = 0;
+        threeFold = new ArrayList<>();
+        copyOfHistory = new ArrayList<>();
+        WhiteTakenPiece = new ArrayList<>();
+        BlackTakenPiece = new ArrayList<>();
     }
 
     /**
-     * Gets whose players turn it is
+     * Gets whose players turn it is.
+     * 
      * @return the player's turn
      */
-    public boolean getplayerTurn(){
+    public boolean getplayerTurn() {
         return this.playerTurn;
     }
 
     /**
-     * Sets the players turn
-     * @param playerTurn boolean value that sets a players turn
+     * Sets the players turn.
+     * 
+     * @param playerTurn - Boolean value that sets a players turn.
      */
     public void setPlayerTurn(boolean playerTurn){
         this.playerTurn = playerTurn;
@@ -77,7 +80,8 @@ public class GameController {
 
     /**
      * Method that moves a chess piece and provides all backend detections to ensure
-     * a proper game of chess is played
+     * a proper game of chess is played.
+     * 
      * @param board the chess board
      * @param from the position to move from
      * @param to the position to move to
@@ -86,22 +90,18 @@ public class GameController {
      */
     public void move(BoardIF board, Position from, Position to) throws
             GameOverCheckMateException, GameOverStaleMateException {
-        ArrayList<PieceIF> piece = new ArrayList<PieceIF>();
-
 
         int fromFile = from.getFile().getIndex(); // from square file
         int fromRank = from.getRank().getIndex(); // from square rank
-
         int toFile = to.getFile().getIndex(); // to square file
         int toRank = to.getRank().getIndex(); // to square rank
 
         boolean validMove = board.getSquare(from.getRank(), from.getFile()).getPiece().validateMove(from, to);
 
         boolean whiteTurn = (board.getSquare(from.getRank(), from.getFile()).getPiece().getColor() == GameColor.WHITE && playerTurn);
-
         boolean blackTurn = (board.getSquare(from.getRank(), from.getFile()).getPiece().getColor() == GameColor.BLACK && !playerTurn);
 
-        // if the move is valid
+        // If the move is valid
         if (validMove && (whiteTurn || blackTurn)) {
             History.getInstance().add(board.saveState());
             getTakenPiece(board, to);
@@ -111,7 +111,7 @@ public class GameController {
             if(fromPiece.getPiece().getChessPieceType() != ChessPieceType.PAWN && toPiece == null ){
                 this.counter++;
                 // if counter == 50 then it is a draw
-                if(counter == this.fiftyMoveRule){
+                if(counter == FIFTY_MOVES){
                     // we throw the game over exception
                     if(!playerTurn){
                         playerTurn = true;
@@ -141,7 +141,7 @@ public class GameController {
                 this.endGameHelp(board, GameColor.WHITE);
                 this.threeFoldRep(board);
                 System.out.println(player1Name + "'s turn!");
-                System.out.print("White Has Taken" + WhiteTakenPiece + " \n");
+                //System.out.print("White Has Taken" + WhiteTakenPiece + " \n");
                 board.draw();
                 playerTurn = true;
             }else{
@@ -151,7 +151,7 @@ public class GameController {
                 this.endGameHelp(board, GameColor.BLACK);
                 this.threeFoldRep(board);
                 System.out.println(player2Name + "'s turn!");
-                System.out.print("Black Has Taken" + BlackTakenPiece + "\n");
+                //System.out.print("Black Has Taken" + BlackTakenPiece + "\n");
                 board.revDraw(board);
                 playerTurn = false;
             }
@@ -167,7 +167,7 @@ public class GameController {
      */
     private void threeFoldRep(BoardIF board){
         int counter = 0;
-        History history = History.getInstance();
+        History<BoardIF> history = History.getInstance();
         State<BoardIF> state = board.saveState();
         this.copyOfHistory.addAll(history.getList());
 
@@ -217,45 +217,7 @@ public class GameController {
     }
 
 
-    /**
-     * Helper method that gets a position based on provided user input
-     *
-     * @param pos     the requested position i.e. b6 or B6 or f5 or F5
-     * @param squares the squares on the chess board
-     * @return a Position object representing the requested position from the user
-     *         or null if the requested position is invalid
-     */
-    public Position getPosition(String pos, SquareIF[][] squares) {
-        Position refinedPos;
-        pos = pos.toLowerCase();
-        String[] posArray = pos.split("");
 
-        if (posArray.length > 2) {
-            return null;
-        }
-
-        // we attempt to get the position
-        try {
-            File file = File.getFileFromLetter(posArray[0]);
-            int parseRank = Integer.parseInt(posArray[1]);
-            Rank rank = Rank.getRankFromNum(parseRank);
-
-            // if we have a valid file and rank
-            if (file != null && rank != null) {
-                refinedPos = new Position(rank, file);
-
-                // otherwise it is not a valid file and/or rank and we return null
-            } else {
-                refinedPos = null;
-            }
-            // if we were not supplied a number
-        } catch (NumberFormatException nfe) {
-            refinedPos = null;
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            refinedPos = null;
-        }
-        return refinedPos;
-    }
 
     /**
      * prints the players turn and flips the whose turn it is for the undo method.
@@ -323,5 +285,45 @@ public class GameController {
      */
     public void printTaken(){
         System.out.println("White has taken " + WhiteTakenPiece + "\nBlack has taken " + BlackTakenPiece);
+    }
+
+    /**
+     * Helper method that gets a position based on provided user input
+     *
+     * @param pos     the requested position i.e. b6 or B6 or f5 or F5
+     * @param squares the squares on the chess board
+     * @return a Position object representing the requested position from the user
+     *         or null if the requested position is invalid
+     */
+    public Position getPosition(String pos, SquareIF[][] squares) {
+        Position refinedPos;
+        pos = pos.toLowerCase();
+        String[] posArray = pos.split("");
+
+        if (posArray.length > 2) {
+            return null;
+        }
+
+        // we attempt to get the position
+        try {
+            File file = File.getFileFromLetter(posArray[0]);
+            int parseRank = Integer.parseInt(posArray[1]);
+            Rank rank = Rank.getRankFromNum(parseRank);
+
+            // if we have a valid file and rank
+            if (file != null && rank != null) {
+                refinedPos = new Position(rank, file);
+
+                // otherwise it is not a valid file and/or rank and we return null
+            } else {
+                refinedPos = null;
+            }
+            // if we were not supplied a number
+        } catch (NumberFormatException nfe) {
+            refinedPos = null;
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            refinedPos = null;
+        }
+        return refinedPos;
     }
 }

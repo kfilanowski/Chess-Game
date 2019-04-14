@@ -74,12 +74,11 @@ public class Board implements BoardIF{
             System.out.println("Menu Options: \n"
                              + "1) Colored Command Line Interface.\n"
                              + "2) Monochrome Command Line Interface.\n"
-                             //+ "3) Graphical User Interface.\n"
-                             + "3) Exit.\n");
+                             + "3) Graphical User Interface.\n"
+                             + "4) Exit.\n");
+            
             System.out.print("Please enter an integer: ");
-
             input = reader.next();
-
 
             switch (input) {
             case "1": { // If the user wants the colored board.
@@ -90,16 +89,16 @@ public class Board implements BoardIF{
                 setDrawStrategy(new Board_Mono_CLI());
                 chosen = true;
             } break;
-            // case "3": { // If the user wants the graphical user interface.
-            //     setDrawStrategy(new Board_Color_CLI()); //doesn't work right now
-            //     chosen = true;
-            // } break;
-            case "3": { // If the user wants to exit the program.
+            case "3": { // If the user wants the graphical user interface.
+                setDrawStrategy(new Board_Color_CLI()); //doesn't work right now
+                chosen = true;
+            } break;
+            case "4": { // If the user wants to exit the program.
                 reader.close();
                 System.exit(0);
             } break;
             default:
-                System.out.println("Please enter an integer between 1 and 3.");
+                System.out.println("Please enter an integer between 1 and 4.\n");
             }
         }
     }
