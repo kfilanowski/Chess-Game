@@ -73,7 +73,7 @@ public class Board implements BoardIF {
                              + "4) Exit.\n");
 
             System.out.print("Please enter an integer: ");
-            input = reader.next();
+            input = reader.nextLine();
 
             switch (input) {
             case "1": { // If the user wants the colored board.
@@ -100,7 +100,7 @@ public class Board implements BoardIF {
                 System.out.println("Please enter an integer between 1 and 4.\n");
             }
         }
-        reader.close();
+        //reader.close();
     }
 
     /**

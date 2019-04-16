@@ -139,8 +139,8 @@ public class PawnValidator extends PieceValidator {
                     // in order to check if the move is valid
                     History history = History.getInstance();
                     history.add(board.saveState());
-                    board.restoreState(history.undo());
-                    board.restoreState(history.undo());
+                    board.restoreState(history.undo(board));
+                    board.restoreState(history.undo(board));
                     // we have to get a new set of squares because we reverted our board
                     squares = board.getSquares();
                     // we get the piece that was supposed to be a pawn
@@ -168,8 +168,8 @@ public class PawnValidator extends PieceValidator {
                     // in order to check if the move is valid
                     History history = History.getInstance();
                     history.add(board.saveState());
-                    board.restoreState(history.undo());
-                    board.restoreState(history.undo());
+                    board.restoreState(history.undo(board));
+                    board.restoreState(history.undo(board));
                     // we have to get a new set of squares because we reverted our board
                     squares = board.getSquares();
                     // we get the piece that was supposed to be a pawn
@@ -220,8 +220,8 @@ public class PawnValidator extends PieceValidator {
                     // in order to check if the move is valid
                     History history = History.getInstance();
                     //history.add(board.saveState());
-                    board.restoreState(history.undo());
-                    //board.restoreState(history.undo());
+                    board.restoreState(history.undo(board));
+                    //board.restoreState(history.undo(board));
                     // we have to get a new set of squares because we reverted our board
                     squares = board.getSquares();
                     // we get the piece that was supposed to be a pawn
@@ -249,8 +249,8 @@ public class PawnValidator extends PieceValidator {
                     // in order to check if the move is valid
                     History history = History.getInstance();
                     history.add(board.saveState());
-                    board.restoreState(history.undo());
-                    board.restoreState(history.undo());
+                    board.restoreState(history.undo(board));
+                    board.restoreState(history.undo(board));
                     // we have to get a new set of squares because we reverted our board
                     squares = board.getSquares();
                     // we get the piece that was supposed to be a pawn
@@ -324,8 +324,8 @@ public class PawnValidator extends PieceValidator {
                 // in order to check if the move is valid
                 History history = History.getInstance();
                 history.add(board.saveState());
-                board.restoreState(history.undo());
-                board.restoreState(history.undo());
+                board.restoreState(history.undo(board));
+                board.restoreState(history.undo(board));
                 // we have to get a new set of squares because we reverted our board
                 squares = board.getSquares();
                 // we get the piece that was supposed to be a pawn
@@ -349,8 +349,8 @@ public class PawnValidator extends PieceValidator {
                     // here we have to do some history manipulating to get the previous board state
                     // in order to check if the move is valid
                     history.add(board.saveState());
-                    board.restoreState(history.undo());
-                    board.restoreState(history.undo());
+                    board.restoreState(history.undo(board));
+                    board.restoreState(history.undo(board));
                     // we have to get a new set of squares because we reverted our board
                     squares = board.getSquares();
                     // we get the piece that was supposed to be a pawn
@@ -400,7 +400,7 @@ public class PawnValidator extends PieceValidator {
                     }
                 }
 //                BoardIF boardie = state.getState();
-                board.restoreState(history.undo());
+                board.restoreState(history.undo(board));
                 // we have to get a new set of squares because we reverted our board
                 squares = board.getSquares();
                 // we get the piece that was supposed to be a pawn

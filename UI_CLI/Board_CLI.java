@@ -203,7 +203,7 @@ public abstract class Board_CLI implements BoardStrategy {
      */
     private void parseUndoCommand(BoardIF board) {
         try {
-            board.restoreState(history.undo());
+            board.restoreState(history.undo(board));
             gc.undo(board);
         } catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
             System.err.println("Error: Cannot undo further.");

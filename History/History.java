@@ -7,8 +7,7 @@ import Interfaces.BoardIF;
 
 /**
  * The history class holds each state of an entity class. In this case, a board.
- * It allows the board to change states, effectively functioning as an
- * undo/redo.
+ * It allows the board to change states, effectively functioning as an undo/redo.
  *
  * @author Kevin Filanowski 100%
  * @version April 6, 2019
@@ -24,8 +23,8 @@ public class History<T extends BoardIF> {
     private static List<State<BoardIF>> list;
 
     /**
-     * Private Constructor defining index's and a history list. Using the
-     * Singleton pattern.
+     * Private Constructor defining index's and a history list.
+     * Using the Singleton pattern.
      */
     private History() {
         undoIndex = -1;
@@ -40,9 +39,7 @@ public class History<T extends BoardIF> {
      * @return - An instance of the History class.
      */
     public static History<BoardIF> getInstance() {
-        if (list == null) {
-            instance = new History<BoardIF>();
-        }
+        if (list == null) { instance = new History<BoardIF>(); }
         return instance;
     }
 
@@ -67,7 +64,8 @@ public class History<T extends BoardIF> {
         if (list.size() <= 0 || !state.getState().equals(
                 list.get(Math.max(undoIndex + removedState, 0)).getState())) {
             if (undoIndex + 2 == list.size()) {
-                if (!state.getState().equals(list.get(undoIndex + 1).getState())) {
+                if (!state.getState().equals(
+                        list.get(undoIndex + 1).getState())) {
                     list.add(state);
                 }
             } else {
@@ -79,51 +77,71 @@ public class History<T extends BoardIF> {
     }
 
     /**
-     * Get a State object containing a previous state. This is effectively an
-     * undo.
+     * Get a State object containing a previous state. This is effectively an undo.
      *
      * @return - An object containing a state at a previous point in time.
      * @throws ArrayIndexOutOfBoundsException - Thrown when the indexing of the
-     *                                        history is malfunctioning. This
-     *                                        should not occur, but is here for
-     *                                        safety reasons if it does.
-     * @throws NullPointerException           - This exception is thrown when
-     *                                        the user tries to undo or redo to
-     *                                        a state that does not exist.
+     *                                        history is malfunctioning. This should
+     *                                        not occur, but is here for safety
+     *                                        reasons if it does.
+     * @throws NullPointerException           - This exception is thrown when the
+     *                                        user tries to undo or redo to a state
+     *                                        that does not exist.
      */
-    public State<BoardIF> undo() throws ArrayIndexOutOfBoundsException,
-                                        NullPointerException {
-        if (undoIndex < 0) {
-            return null;
-        }
+    public State<BoardIF> undo(BoardIF board) throws ArrayIndexOutOfBoundsException,
+                                                     NullPointerException {
+        if (undoIndex < 0) { return null; }
+        addUndo(board);
         redoIndex--;
         // Cloning is to prevent certain specific cases of cross referencing.
-        return new State<BoardIF>(list.get(undoIndex--).getState().clone());
+        State<BoardIF> state = new State<BoardIF>(list.get(undoIndex--).getState().clone());
+        if (board.equals(state.getState())) {
+            state = new State<BoardIF>(list.get(undoIndex--).getState().clone());
+            redoIndex--;
+        }
+        return state;
     }
 
     /**
-     * Get a State object containing a forward state. This is effectively a
-     * redo.
+     * This method adds the current state if an undo operation is called,
+     * only if the undo operation involves removing the current state and that
+     * state was never tracked in recent history.
+     * It effectively ensures that the last movement is still recorded.
+     * 
+     * @param board - The current board.
+     */
+    private void addUndo(BoardIF board) {
+        State<BoardIF> curr = board.saveState();
+        // Get the current state and compare with the previous state.
+        //
+        if (/*!curr.equals(list.get(undoIndex)) 
+            && */list.size() - (undoIndex + 1) == 0) {
+            list.add(curr);
+            undoIndex++;
+            redoIndex++;
+        }
+    }
+
+    /**
+     * Get a State object containing a forward state. This is effectively a redo.
      *
      * @return - An object containing a state at forwarded point in time.
      * @throws ArrayIndexOutOfBoundsException - Thrown when the indexing of the
-     *                                        history is malfunctioning. This
-     *                                        should not occur, but is here for
-     *                                        safety reasons if it does.
-     * @throws NullPointerException           - This exception is thrown when
-     *                                        the user tries to undo or redo to
-     *                                        a state that does not exist.
+     *                                        history is malfunctioning. This should
+     *                                        not occur, but is here for safety
+     *                                        reasons if it does.
+     * @throws NullPointerException           - This exception is thrown when the
+     *                                        user tries to undo or redo to a state
+     *                                        that does not exist.
      */
     public State<BoardIF> redo() throws ArrayIndexOutOfBoundsException,
                                         NullPointerException {
-        if (redoIndex >= list.size()) {
-            return null;
-        }
+        if (redoIndex >= list.size()) { return null; }
         undoIndex++;
         // Cloning is to prevent certain specific cases of cross referencing.
         return new State<BoardIF>(list.get(redoIndex++).getState().clone());
     }
-
+    
     /**
      * Method that returns a list of the history.
      *
