@@ -11,7 +11,7 @@ import Interfaces.BoardStrategy;
 
 /**
  * Parses commands for the user so that the user can play chess.
- * 
+ *
  * @author Jeriah Caplinger(25%)
  * @author Matt Lutz (25%)
  * @author Jacob Ginn (25%)
@@ -48,7 +48,7 @@ public abstract class Board_CLI implements BoardStrategy {
     /**
      * Method that parses the command line arguments and calls the move helper
      * method.
-     * 
+     *
      * @param board - An instance of the chess board
      */
     private void parseInput(BoardIF board) {
@@ -58,38 +58,55 @@ public abstract class Board_CLI implements BoardStrategy {
         String line;
         //
         boolean go = true;
-    
+
         printMenuOptions();
 
         while (go) {
             line = input.nextLine();
             command = line.split(" ");
-           
+
             switch (command[0].toLowerCase()) {
-                case "move":      parseMoveCommand(command, board);      break;
-                case "showmoves": parseShowMovesCommand(command, board); break;
-                case "undo":      parseUndoCommand(board);               break;
-                case "redo":      parseRedoCommand(board);               break;
-                case "showmenu":  printMenuOptions();                    break;
-                case "showpiecestaken": gc.printTaken();                 break;
-                case "quit":      exitGame();                            break;
-                default: System.out.println("Invalid Command: " + line);
+            case "move":
+                parseMoveCommand(command, board);
+                break;
+            case "showmoves":
+                parseShowMovesCommand(command, board);
+                break;
+            case "undo":
+                parseUndoCommand(board);
+                break;
+            case "redo":
+                parseRedoCommand(board);
+                break;
+            case "showmenu":
+                printMenuOptions();
+                break;
+            case "showpiecestaken":
+                gc.printTaken();
+                break;
+            case "quit":
+                exitGame();
+                break;
+            default:
+                System.out.println("Invalid Command: " + line);
             }
         }
     }
 
     /**
-     * Compares the command argument length with what is required for
-     * a certain command to function.
-     * 
+     * Compares the command argument length with what is required for a certain
+     * command to function.
+     *
      * @param command - The split up command input.
-     * @param length - The minimum length needed for a specific command to
-     *                 function properly. 
+     * @param length  - The minimum length needed for a specific command to
+     *                function properly.
      * @return - True if the the input length was at least the amount needed,
-     *           false otherwise.
+     *         false otherwise.
      */
     private boolean checkInputLength(String[] command, int length) {
-        if (command.length >= length) { return true; }
+        if (command.length >= length) {
+            return true;
+        }
         System.out.println("Invalid Command, Please try again.");
         printMenuOptions();
         return false;
@@ -99,14 +116,14 @@ public abstract class Board_CLI implements BoardStrategy {
      * Prints the available commands to the player.
      */
     private void printMenuOptions() {
-        System.out.println("Menu Options are:\n"
-        + "move ## ##:      Move a piece from one square to another.\n"
-        + "showmoves ##:    Highlights the possible moves a piece can make.\n"
-        + "undo:            Takes back a previously made move.\n"
-        + "redo:            Reverse the effect of an undo.\n"
-        + "showpiecestaken: Print the pieces that have been taken.\n"
-        + "showmenu:        Print this menu.\n"
-        + "quit:            Quit the program.\n");
+        System.out.println("Menu Options are:\n" 
+                + "move ## ##:      Move a piece from one square to another.\n"
+                + "showmoves ##:    Highlights the possible moves a piece can make.\n"
+                + "undo:            Takes back a previously made move.\n"
+                + "redo:            Reverse the effect of an undo.\n"
+                + "showpiecestaken: Print the pieces that have been taken.\n" 
+                + "showmenu:        Print this menu.\n"
+                + "quit:            Quit the program.\n");
     }
 
     /**
@@ -125,13 +142,15 @@ public abstract class Board_CLI implements BoardStrategy {
 
     /**
      * Parses the command for a movement operation.
-     * 
+     *
      * @param command - The command arguments given by the user.
      * @param board   - The game board itself.
      */
     private void parseMoveCommand(String[] command, BoardIF board) {
         // Ensures the correct length before proceeding.
-        if (!checkInputLength(command, MOVE_ARG_LENGTH)) { return; }
+        if (!checkInputLength(command, MOVE_ARG_LENGTH)) {
+            return;
+        }
 
         Position from = gc.getPosition(command[1], board.getSquares());
         Position to = gc.getPosition(command[2], board.getSquares());
@@ -153,18 +172,20 @@ public abstract class Board_CLI implements BoardStrategy {
 
     /**
      * Parses the command for a showmovement operation.
-     * 
+     *
      * @param command - The command arguments given by the user.
      * @param board   - The game board itself.
      */
     private void parseShowMovesCommand(String[] command, BoardIF board) {
         // Ensures the correct length before proceeding.
-        if (!checkInputLength(command, SHOWMOVES_ARG_LENGTH)) { return; }
+        if (!checkInputLength(command, SHOWMOVES_ARG_LENGTH)) {
+            return;
+        }
 
         try {
             Position from = gc.getPosition(command[1], board.getSquares());
-            Position[] temp = board.getSquares()[from.getRank().getIndex()]
-                        [from.getFile().getIndex()].getPiece().showMoves(from);
+            Position[] temp = board.getSquares()[from.getRank().getIndex()][from.getFile().getIndex()].getPiece()
+                    .showMoves(from);
             if (gc.getplayerTurn()) {
                 board.draw(board, temp);
             } else {
@@ -177,7 +198,7 @@ public abstract class Board_CLI implements BoardStrategy {
 
     /**
      * Parses the command for an undo operation.
-     * 
+     *
      * @param board - The game board itself.
      */
     private void parseUndoCommand(BoardIF board) {
@@ -191,7 +212,7 @@ public abstract class Board_CLI implements BoardStrategy {
 
     /**
      * Parses the command for a redo operation.
-     * 
+     *
      * @param board - The game board itself.
      */
     private void parseRedoCommand(BoardIF board) {

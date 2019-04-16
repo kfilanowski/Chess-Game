@@ -13,7 +13,7 @@ public class Board_GUI extends Application implements BoardStrategy {
 
     @Override
     public void draw(BoardIF board) {
-        
+
     }
 
     @Override
@@ -23,12 +23,12 @@ public class Board_GUI extends Application implements BoardStrategy {
 
     @Override
     public void draw(BoardIF board, Position[] pos) {
-        
+
     }
 
     @Override
     public void revDraw(BoardIF board) {
-        
+
     }
 
     @Override
@@ -45,10 +45,7 @@ public class Board_GUI extends Application implements BoardStrategy {
     public void start(Stage primaryStage) throws Exception {
         BorderPane root = new BorderPane();
         root.setCenter(createBoardGrid());
-        //root.setTop();
-        //root.setLeft();
-        //root.setRight();
-        //root.setBottom();
+        // root.setTop(); root.setLeft(); root.setRight(); root.setBottom();
 
         Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
@@ -62,7 +59,6 @@ public class Board_GUI extends Application implements BoardStrategy {
         grid.setMaxSize(500, 500);
         grid.setStyle("-fx-background-color: #555555");
 
-        
         return grid;
     }
 
