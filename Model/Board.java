@@ -300,6 +300,7 @@ public class Board implements BoardIF {
      */
     public Board clone() {
         Board newBoard = new Board();
+        newBoard.bs = bs.clone();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 newBoard.board[i][j] = board[i][j].clone();

@@ -313,4 +313,13 @@ public class Board_Color_CLI extends Board_CLI {
         return str;
     }
 
+    /**
+     * Creates a deep clone of this object.
+     *
+     * @return - A deep clone of this objec.
+     */
+    public Board_Color_CLI clone() {
+        return new Board_Color_CLI();
+    }
+
 }

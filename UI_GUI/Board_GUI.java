@@ -62,6 +62,10 @@ public class Board_GUI extends Application implements BoardStrategy {
         return grid;
     }
 
+    public Board_GUI clone() {
+        return new Board_GUI();
+    }
+
     ///////////// delete later, this is for testing purposes. /////////////
     public static void main(String[] args) {
         launch(args);

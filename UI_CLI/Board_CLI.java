@@ -66,29 +66,14 @@ public abstract class Board_CLI implements BoardStrategy {
             command = line.split(" ");
 
             switch (command[0].toLowerCase()) {
-            case "move":
-                parseMoveCommand(command, board);
-                break;
-            case "showmoves":
-                parseShowMovesCommand(command, board);
-                break;
-            case "undo":
-                parseUndoCommand(board);
-                break;
-            case "redo":
-                parseRedoCommand(board);
-                break;
-            case "showmenu":
-                printMenuOptions();
-                break;
-            case "showpiecestaken":
-                gc.printTaken();
-                break;
-            case "quit":
-                exitGame();
-                break;
-            default:
-                System.out.println("Invalid Command: " + line);
+            case "move":      parseMoveCommand(command, board);      break;
+            case "showmoves": parseShowMovesCommand(command, board); break;
+            case "undo":      parseUndoCommand(board);               break;
+            case "redo":      parseRedoCommand(board);               break;
+            case "showmenu":  printMenuOptions();                    break;
+            case "showpiecestaken": gc.printTaken();                 break;
+            case "quit":      exitGame();                            break;
+            default: System.out.println("Invalid Command: " + line); 
             }
         }
     }
@@ -231,4 +216,11 @@ public abstract class Board_CLI implements BoardStrategy {
         System.out.println("Game exiting.");
         System.exit(0);
     }
+
+    /**
+     * Creates a deep clone of this object.
+     *
+     * @return - A deep clone of this objec.
+     */
+    public abstract BoardStrategy clone();
 }

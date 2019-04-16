@@ -47,6 +47,13 @@ public interface BoardStrategy {
     public void getNames();
 
     /**
+     * Creates a deep clone of this object.
+     *
+     * @return - A deep clone of this objec.
+     */
+    public BoardStrategy clone();
+
+    /**
      * Draws the board for the player playing the black pieces with the
      * highlighted positions.
      *
