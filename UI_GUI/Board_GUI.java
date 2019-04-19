@@ -6,8 +6,6 @@ import Model.Position;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 
 public class Board_GUI extends Application implements BoardStrategy {
 
@@ -43,23 +41,11 @@ public class Board_GUI extends Application implements BoardStrategy {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        BorderPane root = new BorderPane();
-        root.setCenter(createBoardGrid());
-        // root.setTop(); root.setLeft(); root.setRight(); root.setBottom();
+        GameScreen game = GameScreen.getInstance();
 
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(game.getRoot(), 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public GridPane createBoardGrid() {
-        GridPane grid = new GridPane();
-        grid.setMinSize(100, 100);
-        grid.setPrefSize(300, 300);
-        grid.setMaxSize(500, 500);
-        grid.setStyle("-fx-background-color: #555555");
-
-        return grid;
     }
 
     public Board_GUI clone() {

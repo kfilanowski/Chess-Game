@@ -20,7 +20,7 @@ public class History<T extends BoardIF> {
     /** Keeps track of the redo stages. */
     private int redoIndex;
     /** A List of previous state of the project. */
-    private static List<State<BoardIF>> list;
+    private List<State<BoardIF>> list;
 
     /**
      * Private Constructor defining index's and a history list.
@@ -39,7 +39,7 @@ public class History<T extends BoardIF> {
      * @return - An instance of the History class.
      */
     public static History<BoardIF> getInstance() {
-        if (list == null) { instance = new History<BoardIF>(); }
+        if (instance == null) { instance = new History<BoardIF>(); }
         return instance;
     }
 
