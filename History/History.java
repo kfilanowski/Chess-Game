@@ -113,7 +113,8 @@ public class History<T extends BoardIF> {
     private void addUndo(BoardIF board) {
         State<BoardIF> curr = board.saveState();
         // Get the current state and compare with the previous state.
-        //
+        // TODO: test throughly to ensure it works, then remove the excess
+        // TODO: commented condition.
         if (/*!curr.equals(list.get(undoIndex)) 
             && */list.size() - (undoIndex + 1) == 0) {
             list.add(curr);

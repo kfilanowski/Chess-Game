@@ -14,8 +14,12 @@ public class Board_GUI extends Application implements BoardStrategy {
 
     }
 
+    /**
+     * 
+     */
     @Override
     public void go(BoardIF board) {
+        GameScreen.getInstance(board);
         launch();
     }
 
@@ -39,21 +43,26 @@ public class Board_GUI extends Application implements BoardStrategy {
 
     }
 
+    /**
+     * 
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         GameScreen game = GameScreen.getInstance();
+        game.drawBoard();
 
-        Scene scene = new Scene(game.getRoot(), 600, 600);
+        Scene scene = new Scene(game.getRoot());
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    /**
+     * Creates a deep clone of this object.
+     *
+     * @return - A deep clone of this objec.
+     */
     public Board_GUI clone() {
         return new Board_GUI();
-    }
-
-    ///////////// delete later, this is for testing purposes. /////////////
-    public static void main(String[] args) {
-        launch(args);
     }
 }
