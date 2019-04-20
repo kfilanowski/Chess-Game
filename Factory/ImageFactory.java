@@ -82,6 +82,7 @@ public class ImageFactory {
         i.setFitWidth(size);
         i.setSmooth(true);
         i.setCache(true);
+        i.getStyleClass().add("piece");
         return i;
     }
 }

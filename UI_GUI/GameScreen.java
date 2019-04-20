@@ -4,6 +4,7 @@ import Factory.ImageFactory;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
+import Model.Position;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -99,7 +100,6 @@ public class GameScreen {
         grid.setAlignment(Pos.CENTER);
         root.setCenter(grid);
         setupSquares();
-        // grid.requestFocus();
     }
 
     /**
@@ -112,16 +112,22 @@ public class GameScreen {
         ImageFactory factory = new ImageFactory();
         // Holds a temporary reference to a piece.
         PieceIF p;
+        // Size of the square in height or length.
+        int size = squares.length;
 
-        for (int i = 0; i < squares.length; i++) {
-            for (int j = 0; j < squares[0].length; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 p = squares[i][j].getPiece();
                 if (p != null) {
-                    grid.add(factory.getImage(p.getChessPieceType(), p.getColor(),
-                            (int) grid.getMaxWidth() / squares.length), j, i, 1, 1);
+                    ((Pane)grid.getChildren().get(i+j*size)).getChildren().add(
+                        factory.getImage(p.getChessPieceType(), p.getColor(),
+                            (int) grid.getMaxWidth() / size));
+                    // grid.add(factory.getImage(p.getChessPieceType(), p.getColor(),
+                    //         (int) grid.getMaxWidth() / size), j, i, 1, 1);
                 }
             }
         }
+        //System.out.println(((Pane)grid.getChildren().get(0)).getChildren().get(0).getId());
     }
 
     /**
@@ -135,14 +141,51 @@ public class GameScreen {
                 Pane pane = new Pane();
                 pane.setMinSize(grid.getMaxWidth() / size, grid.getMaxWidth() / size);
                 if (count % 2 == 0)
-                    pane.setStyle("-fx-background-color: #ffe1b4");
+                    pane.getStyleClass().add("whitePane");
                 else
-                    pane.setStyle("-fx-background-color: #7d3c0e");
+                    pane.getStyleClass().add("blackPane");
+                pane.setOnMouseClicked(e -> squarePaneClicked(pane));
                 grid.add(pane, i, j, 1, 1);
                 count++;
             }
             count = i % 2 + 1;
         }
+    }
+
+    /**
+     * Handles the onMouseClicked event for a pane on the board grid.
+     * 
+     * @param pane - A reference to the pane that was clicked.
+     */
+    private void squarePaneClicked(Pane pane) {
+        int rowIndex = grid.getRowIndex(pane);
+        int colIndex = grid.getColumnIndex(pane);
+        int size = board.getSquares().length;
+        PieceIF piece = board.getPiece(rowIndex, colIndex);
+
+        // Outline selected square
+        grid.getChildren().get(rowIndex+colIndex*size).getStyleClass().add("selected");
+
+        // Remove showMoves coloring from the board.
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                grid.getChildren().get(i+j*size).getStyleClass().removeAll("showMoves", "selected");
+            }
+        }
+        
+        // Show showMoves coloring on selected piece.
+        Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());   
+        for (Position p : pos) {
+            grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*size).getStyleClass().add("showMoves");
+        }     
+
+        // Debug information
+        System.out.println("Pane clicked. \nRow Index: " + rowIndex + ", Col Index: " + colIndex);
+        if (piece != null) {
+            System.out.println("The chess peice is: " + piece.getColor()
+                                + " " + piece.getChessPieceType());
+        }
+        System.out.println();
     }
 
     // public final void setupWhitePieces(GridPane grid) {int size =

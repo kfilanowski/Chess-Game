@@ -1,0 +1,43 @@
+/**
+ * The CSS File for styling the application.
+ * 
+ * @author Kevin Filanowski
+ * @version April 20, 2019
+ */
+
+.whitePane {
+    -fx-background-color: #ffe1b4;
+    -fx-border-color: #ffe1b4;
+    -fx-border-width: 2;
+}
+
+.whitePane:hover {
+    -fx-border-color: black;
+    -fx-border-width: 2;
+}
+
+.blackPane {
+    -fx-background-color: #7d3c0e;
+    -fx-border-color: #7d3c0e;
+    -fx-border-width: 2;
+}
+
+.blackPane:hover {
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-effect: innershadow(three-pass-box, black, 30, .3, 0, 0);
+}
+
+.showMoves {
+    -fx-background-color: #62e43b;
+}
+
+.selected {
+    -fx-border-color: #62e43b;
+    -fx-border-width: 2;
+    -fx-border-style: outset;
+}
+
+.piece:hover {
+    -fx-cursor: hand;
+}
