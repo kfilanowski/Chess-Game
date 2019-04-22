@@ -8,6 +8,7 @@ import Model.Position;
 import History.History;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
+import Controller.GameController_CLI;
 
 /**
  * Parses commands for the user so that the user can play chess.
@@ -26,7 +27,7 @@ public abstract class Board_CLI implements BoardStrategy {
     /** Scanner that gets the input from the command line */
     protected Scanner input;
     /** The main controller for the chess game. **/
-    protected GameController gc;
+    protected GameController_CLI gc;
     /** The history of the board */
     protected History<BoardIF> history;
 
@@ -121,7 +122,7 @@ public abstract class Board_CLI implements BoardStrategy {
         System.out.println("Please enter Player 2 name.");
         String name2 = input.nextLine();
 
-        gc = new GameController(name, name2);
+        gc = new GameController_CLI(name, name2);
         System.out.println(name + "'s turn!");
     }
 

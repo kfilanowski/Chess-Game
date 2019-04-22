@@ -137,7 +137,7 @@ public class PawnValidator extends PieceValidator {
                         != color){
                     // here we have to do some history manipulating to get the previous board state
                     // in order to check if the move is valid
-                    History history = History.getInstance();
+                    History<BoardIF> history = History.getInstance();
                     history.add(board.saveState());
                     board.restoreState(history.undo(board));
                     board.restoreState(history.undo(board));
@@ -166,7 +166,7 @@ public class PawnValidator extends PieceValidator {
                         != color){
                     // here we have to do some history manipulating to get the previous board state
                     // in order to check if the move is valid
-                    History history = History.getInstance();
+                    History<BoardIF> history = History.getInstance();
                     history.add(board.saveState());
                     board.restoreState(history.undo(board));
                     board.restoreState(history.undo(board));
@@ -218,7 +218,7 @@ public class PawnValidator extends PieceValidator {
                         != color){
                     // here we have to do some history manipulating to get the previous board state
                     // in order to check if the move is valid
-                    History history = History.getInstance();
+                    History<BoardIF> history = History.getInstance();
                     //history.add(board.saveState());
                     board.restoreState(history.undo(board));
                     //board.restoreState(history.undo(board));
@@ -247,7 +247,7 @@ public class PawnValidator extends PieceValidator {
                         != color){
                     // here we have to do some history manipulating to get the previous board state
                     // in order to check if the move is valid
-                    History history = History.getInstance();
+                    History<BoardIF> history = History.getInstance();
                     history.add(board.saveState());
                     board.restoreState(history.undo(board));
                     board.restoreState(history.undo(board));
@@ -322,7 +322,7 @@ public class PawnValidator extends PieceValidator {
                     != color) {
                 // here we have to do some history manipulating to get the previous board state
                 // in order to check if the move is valid
-                History history = History.getInstance();
+                History<BoardIF> history = History.getInstance();
                 history.add(board.saveState());
                 board.restoreState(history.undo(board));
                 board.restoreState(history.undo(board));
@@ -391,7 +391,7 @@ public class PawnValidator extends PieceValidator {
                     && leftPiece.getColor() != color || rightPiece.getColor() != color){
                 // here we have to do some history manipulating to get the previous board state
                 // in order to check if the move is valid
-                History history = History.getInstance();
+                History<BoardIF> history = History.getInstance();
                 State<BoardIF> state = board.saveState();
                 List<State<BoardIF>> list = history.getList();
                 for (State<BoardIF> s : list) {

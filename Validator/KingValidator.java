@@ -10,7 +10,6 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
 import Model.Board;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 

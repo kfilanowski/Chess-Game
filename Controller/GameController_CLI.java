@@ -1,4 +1,4 @@
-package UI_CLI;
+package Controller;
 
 import ChessExceptions.GameOverCheckMateException;
 import ChessExceptions.GameOverStaleMateException;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author Matt Lutz (33.2%)
  * @author Jacob Ginn (33.2%)
  */
-public class GameController {
+public class GameController_CLI {
     /** The boolean for which players turn it is. **/
     boolean playerTurn;
     /** The First Player Name */
@@ -50,7 +50,7 @@ public class GameController {
      * @param player1Name - First player name.
      * @param player2Name - Second player name.
      */
-    public GameController(String player1Name, String player2Name) {
+    public GameController_CLI(String player1Name, String player2Name) {
         this.player1Name = player1Name;
         this.player2Name = player2Name;
         playerTurn = true;
