@@ -49,7 +49,7 @@ public class Board_GUI extends Application implements BoardStrategy {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GameScreen game = GameScreen.getInstance();
-        game.drawBoard();
+        game.setup();
 
         Scene scene = new Scene(game.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

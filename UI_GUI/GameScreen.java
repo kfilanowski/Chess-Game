@@ -5,16 +5,23 @@ import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
+import Controller.GameController_GUI;
+import Enums.GameColor;
 
 /**
  * The game screen that the two players will play on.
  *
  * @author Kevin Filanowski
- * @version April 19, 2019
+ * @version April 21, 2019
  */
 public class GameScreen {
     /** A static reference to this class for the Singleton pattern. */
@@ -29,6 +36,12 @@ public class GameScreen {
     /** A GridPane for the board. */
     private GridPane grid;
 
+    /** The previously clicked position on the board. */
+    private Position last;
+
+    /** Handles game logic that is detached from a GUI. */
+    private GameController_GUI gc;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
@@ -42,10 +55,10 @@ public class GameScreen {
      * @param board - A reference to the game board.
      */
     private GameScreen(BoardIF board) {
+        this.board = board;
         root = new BorderPane();
         grid = new GridPane();
-        this.board = board;
-        setupBoard();
+        gc = new GameController_GUI(board);
     }
 
     /**
@@ -94,18 +107,102 @@ public class GameScreen {
     /**
      * Sets up the board in the center of the screen.
      */
-    public final void setupBoard() {
+    private void setupCenter() {
         grid.setMinSize(400, 400);
         grid.setMaxSize(600, 600);
         grid.setAlignment(Pos.CENTER);
+        setupBoard();
+        drawBoard();
         root.setCenter(grid);
-        setupSquares();
+    }
+
+    /**
+     * Sets up the top side of the border pane. Adds buttons which include:
+     * Load, Save, Undo, Redo, and Settings.
+     */
+    private void setupTop() {
+        HBox topPanel = new HBox(20);
+        topPanel.setPadding(new Insets(5, 5, 5, 5));
+
+        Button[] buttons = new Button[5];
+
+        buttons[0] = new Button("Load");
+        buttons[1] = new Button("Save");
+        buttons[2] = new Button("Undo");
+        buttons[3] = new Button("Redo");
+        buttons[4] = new Button("Settings");
+
+        //TODO: Add button functionality
+        //TODO: Make buttons look prettier.
+
+        topPanel.getChildren().addAll(buttons);
+        root.setTop(topPanel);
+    }
+
+    /**
+     * Sets up the left side of the border pane. The left side of the border
+     * pane will display images of the black pieces captured.
+     */
+    private void setupLeft() {
+        TilePane leftPanel = new TilePane();
+        root.setLeft(leftPanel);
+    }
+
+    /**
+     * Tells the root pane's left node to add the passed in node as a child.
+     * This can be used, for example, to display nodes that were captured.
+     * 
+     * @param node - The node that was captured.
+     */
+    private void blackCaptured(Node node) {
+        ((Pane)root.getLeft()).getChildren().add(node);
+    }
+
+    /**
+     * Sets up the right side of the border pane. The right side of the border
+     * pane will display images of the white pieces captured.
+     */
+    private void setupRight() {
+        TilePane rightPanel = new TilePane();
+        root.setRight(rightPanel);
+    }
+
+    /**
+     * Tells the root pane's right node to add the passed in node as a child.
+     * This can be used, for example, to display nodes that were captured.
+     * 
+     * @param node - The node that was captured.
+     */
+    private void whiteCaptured(Node node) {
+        ((Pane)root.getRight()).getChildren().add(node);
+    }
+
+    /**
+     * Sets up the bottom side of the border pane. The bottom side of the border
+     * pane will display the player's currently selected piece, and potentially
+     * other types of information.
+     */
+    private void setupBottom() {
+        HBox bottomPanel = new HBox();
+        //TODO: fill in the bottom side.
+        root.setBottom(bottomPanel);
+    }
+
+    /**
+     * Sets up each side of the screen.
+     */
+    public void setup() {
+        setupTop();
+        setupCenter();
+        setupLeft();
+        setupRight();
+        setupBottom();
     }
 
     /**
      * Draws the pieces on the grid.
      */
-    public void drawBoard() {
+    private void drawBoard() {
         // The squares on the board.
         SquareIF[][] squares = board.getSquares();
         // A factory method to retrieve piece images.
@@ -122,18 +219,15 @@ public class GameScreen {
                     ((Pane)grid.getChildren().get(i+j*size)).getChildren().add(
                         factory.getImage(p.getChessPieceType(), p.getColor(),
                             (int) grid.getMaxWidth() / size));
-                    // grid.add(factory.getImage(p.getChessPieceType(), p.getColor(),
-                    //         (int) grid.getMaxWidth() / size), j, i, 1, 1);
                 }
             }
         }
-        //System.out.println(((Pane)grid.getChildren().get(0)).getChildren().get(0).getId());
     }
 
     /**
      * Sets up the initial squares on the board.
      */
-    private final void setupSquares() {
+    private void setupBoard() {
         int size = board.getSquares().length;
         int count = 0;
         for (int i = 0; i < size; i++) {
@@ -144,12 +238,58 @@ public class GameScreen {
                     pane.getStyleClass().add("whitePane");
                 else
                     pane.getStyleClass().add("blackPane");
-                pane.setOnMouseClicked(e -> squarePaneClicked(pane));
+                pane.setOnMouseClicked(e -> {
+                    squarePaneClicked(pane);
+                    movePiece(pane);
+                });
                 grid.add(pane, i, j, 1, 1);
                 count++;
             }
             count = i % 2 + 1;
         }
+    }
+
+    /**
+     * Moves the piece visually on the board, and calls upon the controller to
+     * move the piece in it's underlying data structure.
+     * 
+     * @param pane - A reference to the specific pane that was clicked.
+     */
+    private void movePiece(Pane pane) {
+        // The rank and file index of the current selected pane.
+        int toRank = grid.getRowIndex(pane), toFile = grid.getColumnIndex(pane);
+        // The current selected position.
+        Position curr = board.getSquares()[toRank][toFile].getPostion();
+        // The function stops here if it is the first selection.
+        if (last == null) { last = curr; return; }
+        // The rank and file index of the last selected position.
+        int fromRank = last.getRank().getIndex(), fromFile = last.getFile().getIndex();
+        // The size of the board.
+        int size = board.getSquares().length;
+        // The piece on the previous selected position.
+        PieceIF piece = board.getPiece(fromRank, fromFile);
+        
+        // Move the piece, if any.
+        if (piece != null && piece.validateMove(last, curr)) {
+            // The image of the previous selected pane.
+            Node fromImage = ((Pane)grid.getChildren().get(fromRank+fromFile*size)).getChildren().remove(0);
+            // The currently selected pane.
+            Pane selectedPane = ((Pane)grid.getChildren().get(toRank+toFile*size));
+
+            // Adds the captured piece, and removes it from the board.
+            if (selectedPane.getChildren().size() > 0) {
+                if (board.getPiece(toRank, toFile).getColor() == GameColor.WHITE) {
+                    whiteCaptured(selectedPane.getChildren().remove(0));
+                } else {
+                    blackCaptured(selectedPane.getChildren().remove(0));
+                }
+            }
+
+            // Moves the selected piece.
+            ((Pane)grid.getChildren().get(toRank+toFile*size)).getChildren().add(fromImage);
+            //gc.move(last, curr);
+        }
+        last = null;
     }
 
     /**
@@ -163,21 +303,23 @@ public class GameScreen {
         int size = board.getSquares().length;
         PieceIF piece = board.getPiece(rowIndex, colIndex);
 
-        // Outline selected square
-        grid.getChildren().get(rowIndex+colIndex*size).getStyleClass().add("selected");
-
         // Remove showMoves coloring from the board.
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 grid.getChildren().get(i+j*size).getStyleClass().removeAll("showMoves", "selected");
             }
         }
+
+        // Outline selected square
+        grid.getChildren().get(rowIndex+colIndex*size).getStyleClass().add("selected");
         
         // Show showMoves coloring on selected piece.
-        Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());   
-        for (Position p : pos) {
-            grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*size).getStyleClass().add("showMoves");
-        }     
+        if (piece != null) {
+            Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());   
+            for (Position p : pos) {
+                grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*size).getStyleClass().add("showMoves");
+            }     
+        }
 
         // Debug information
         System.out.println("Pane clicked. \nRow Index: " + rowIndex + ", Col Index: " + colIndex);
