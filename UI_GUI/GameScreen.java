@@ -42,6 +42,9 @@ public class GameScreen {
     /** Handles game logic that is detached from a GUI. */
     private GameController_GUI gc;
 
+    /** Toggle for whether or not ShowMoves should occur on mouse clicks. */
+    private boolean toggleShowMoves;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
@@ -239,7 +242,7 @@ public class GameScreen {
                 else
                     pane.getStyleClass().add("blackPane");
                 pane.setOnMouseClicked(e -> {
-                    squarePaneClicked(pane);
+                    showMoves(pane);
                     movePiece(pane);
                 });
                 grid.add(pane, i, j, 1, 1);
@@ -297,7 +300,8 @@ public class GameScreen {
      * 
      * @param pane - A reference to the pane that was clicked.
      */
-    private void squarePaneClicked(Pane pane) {
+    private void showMoves(Pane pane) {
+        if (!toggleShowMoves) { return; }
         int rowIndex = grid.getRowIndex(pane);
         int colIndex = grid.getColumnIndex(pane);
         int size = board.getSquares().length;
@@ -320,70 +324,5 @@ public class GameScreen {
                 grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*size).getStyleClass().add("showMoves");
             }     
         }
-
-        // Debug information
-        System.out.println("Pane clicked. \nRow Index: " + rowIndex + ", Col Index: " + colIndex);
-        if (piece != null) {
-            System.out.println("The chess peice is: " + piece.getColor()
-                                + " " + piece.getChessPieceType());
-        }
-        System.out.println();
     }
-
-    // public final void setupWhitePieces(GridPane grid) {int size =
-    // board.getSquares().length; ImageView[] whitePawns = new ImageView[size];
-    // ImageView[] whitePieces = new ImageView[size];
-
-    // // Add the row of white pawns. for (int i = 0; i < size; i++)
-    // {whitePawns[i] = new ImageView("images/chessPieces/WP.png");
-    // whitePawns[i].setPreserveRatio(true);
-    // whitePawns[i].setFitWidth(grid.getMaxWidth()/size);
-    // whitePawns[i].setSmooth(true); whitePawns[i].setCache(true);
-    // grid.add(whitePawns[i], i, 6, 1, 1);
-    // }
-
-    // whitePieces[0] = new ImageView("images/chessPieces/WR.png");
-    // whitePieces[1] = new ImageView("images/chessPieces/WN.png");
-    // whitePieces[2] = new ImageView("images/chessPieces/WB.png");
-    // whitePieces[3] = new ImageView("images/chessPieces/WK.png");
-    // whitePieces[4] = new ImageView("images/chessPieces/WQ.png");
-    // whitePieces[5] = new ImageView("images/chessPieces/WB.png");
-    // whitePieces[6] = new ImageView("images/chessPieces/WN.png");
-    // whitePieces[7] = new ImageView("images/chessPieces/WR.png");
-
-    // for (int i = 0; i < size; i++) {whitePieces[i].setPreserveRatio(true);
-    // whitePieces[i].setFitWidth(grid.getMaxWidth()/size);
-    // whitePieces[i].setSmooth(true); whitePieces[i].setCache(true);
-    // grid.add(whitePieces[i], i, 7, 1, 1);
-    // }
-
-    // }
-
-    // public final void setupBlackPieces(GridPane grid) {int size =
-    // board.getSquares().length; ImageView[] blackPawns = new ImageView[size];
-    // ImageView[] blackPieces = new ImageView[size];
-
-    // // Add the row of black pawns. for (int i = 0; i < size; i++)
-    // {blackPawns[i] = new ImageView("images/chessPieces/BP.png");
-    // blackPawns[i].setPreserveRatio(true);
-    // blackPawns[i].setFitWidth(grid.getMaxWidth()/size);
-    // blackPawns[i].setSmooth(true); blackPawns[i].setCache(true);
-    // grid.add(blackPawns[i], i, 1, 1, 1);
-    // }
-
-    // blackPieces[0] = new ImageView("images/chessPieces/BR.png");
-    // blackPieces[1] = new ImageView("images/chessPieces/BN.png");
-    // blackPieces[2] = new ImageView("images/chessPieces/BB.png");
-    // blackPieces[3] = new ImageView("images/chessPieces/BK.png");
-    // blackPieces[4] = new ImageView("images/chessPieces/BQ.png");
-    // blackPieces[5] = new ImageView("images/chessPieces/BB.png");
-    // blackPieces[6] = new ImageView("images/chessPieces/BN.png");
-    // blackPieces[7] = new ImageView("images/chessPieces/BR.png");
-
-    // for (int i = 0; i < size; i++) {blackPieces[i].setPreserveRatio(true);
-    // blackPieces[i].setFitWidth(grid.getMaxWidth()/size);
-    // blackPieces[i].setSmooth(true); blackPieces[i].setCache(true);
-    // grid.add(blackPieces[i], i, 0, 1, 1);
-    // }
-    // }
 }
