@@ -42,6 +42,9 @@ public class GameScreen {
     /** Handles game logic that is detached from a GUI. */
     private GameController_GUI gc;
 
+    /** Toggle for whether or not ShowMoves should occur on mouse clicks. */
+    private boolean toggleShowMoves;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
@@ -239,7 +242,7 @@ public class GameScreen {
                 else
                     pane.getStyleClass().add("blackPane");
                 pane.setOnMouseClicked(e -> {
-                    squarePaneClicked(pane);
+                    showMoves(pane);
                     movePiece(pane);
                 });
                 grid.add(pane, i, j, 1, 1);
@@ -297,7 +300,8 @@ public class GameScreen {
      * 
      * @param pane - A reference to the pane that was clicked.
      */
-    private void squarePaneClicked(Pane pane) {
+    private void showMoves(Pane pane) {
+        if (!toggleShowMoves) { return; }
         int rowIndex = grid.getRowIndex(pane);
         int colIndex = grid.getColumnIndex(pane);
         int size = board.getSquares().length;
@@ -320,14 +324,6 @@ public class GameScreen {
                 grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*size).getStyleClass().add("showMoves");
             }     
         }
-
-        // Debug information
-        System.out.println("Pane clicked. \nRow Index: " + rowIndex + ", Col Index: " + colIndex);
-        if (piece != null) {
-            System.out.println("The chess peice is: " + piece.getColor()
-                                + " " + piece.getChessPieceType());
-        }
-        System.out.println();
     }
 
     // public final void setupWhitePieces(GridPane grid) {int size =
