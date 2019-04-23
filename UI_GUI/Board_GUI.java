@@ -51,7 +51,7 @@ public class Board_GUI extends Application implements BoardStrategy {
         GameScreen game = GameScreen.getInstance();
         game.setup();
 
-        Scene scene = new Scene(game.getRoot());
+        Scene scene = new Scene(game.getRoot(), 1200, 650);
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

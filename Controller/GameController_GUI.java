@@ -43,6 +43,7 @@ public class GameController_GUI {
 
     public GameController_GUI(BoardIF board) {
         this.board = board;
+        playerTurn = true;
         whiteTakenPiece = new ArrayList<>();
         blackTakenPiece = new ArrayList<>();
     }
@@ -55,9 +56,9 @@ public class GameController_GUI {
      * @param to   - The position to move to.
      * @throws GameOverCheckMateException - If the game is over by CheckMate.
      * @throws GameOverStaleMateException - If the game is over by StaleMate.
+     * @return - //TODO: 
      */
-    public void move(Position from, Position to) {
-
+    public boolean move(Position from, Position to) {
         int fromFile = from.getFile().getIndex(); 
         int fromRank = from.getRank().getIndex();
         int toFile = to.getFile().getIndex();
@@ -117,9 +118,9 @@ public class GameController_GUI {
                 board.revDraw(board);
                 playerTurn = false;
             }
-        } else {
-            System.out.println("Cannot move piece");
+            return true;
         }
+        return false;
     }
 
     /**

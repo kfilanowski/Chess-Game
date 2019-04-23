@@ -59,6 +59,7 @@ public class GameScreen {
      */
     private GameScreen(BoardIF board) {
         this.board = board;
+        toggleShowMoves = true;
         root = new BorderPane();
         grid = new GridPane();
         gc = new GameController_GUI(board);
@@ -242,8 +243,8 @@ public class GameScreen {
                 else
                     pane.getStyleClass().add("blackPane");
                 pane.setOnMouseClicked(e -> {
-                    showMoves(pane);
                     movePiece(pane);
+                    showMoves(pane);
                 });
                 grid.add(pane, i, j, 1, 1);
                 count++;
@@ -273,7 +274,7 @@ public class GameScreen {
         PieceIF piece = board.getPiece(fromRank, fromFile);
         
         // Move the piece, if any.
-        if (piece != null && piece.validateMove(last, curr)) {
+        if (piece != null && gc.move(last, curr)) {
             // The image of the previous selected pane.
             Node fromImage = ((Pane)grid.getChildren().get(fromRank+fromFile*size)).getChildren().remove(0);
             // The currently selected pane.
@@ -290,9 +291,11 @@ public class GameScreen {
 
             // Moves the selected piece.
             ((Pane)grid.getChildren().get(toRank+toFile*size)).getChildren().add(fromImage);
-            //gc.move(last, curr);
+            last = null;
+        } else {
+            last = curr;
         }
-        last = null;
+        
     }
 
     /**
