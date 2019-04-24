@@ -25,9 +25,9 @@ public class GameController_GUI {
     /** The boolean for which players turn it is. **/
     boolean playerTurn;
     /** The First Player Name */
-    String player1Name;
+    String playerOneName;
     /** The Second Player Name */
-    String player2Name;
+    String playerTwoName;
     /** Counter for detecting 50-move-rule draw */
     private int counter;
     /** Upper bound for the 50-move-rule draw */
@@ -105,7 +105,7 @@ public class GameController_GUI {
                 // detects check mate and stale mate
                 //this.endGameHelp(board, GameColor.WHITE);
                 //this.threeFoldRep(board);
-                System.out.println(player1Name + "'s turn!");
+                System.out.println(playerOneName + "'s turn!");
                 board.draw();
                 playerTurn = true;
             } else {
@@ -114,7 +114,7 @@ public class GameController_GUI {
                 // detects check mate and stale mate
                 //this.endGameHelp(board, GameColor.BLACK);
                 //this.threeFoldRep(board);
-                System.out.println(player2Name + "'s turn!");
+                System.out.println(playerTwoName + "'s turn!");
                 board.revDraw(board);
                 playerTurn = false;
             }
@@ -136,5 +136,23 @@ public class GameController_GUI {
                 blackTakenPiece.add(board.getSquare(to.getRank(), to.getFile()).getPiece());
             }
         }
+    }
+
+    /**
+     * Retrieves the name of the first player.
+     * 
+     * @return - The name of player one.
+     */
+    public String getPlayerOneName() {
+        return playerOneName;
+    }
+
+    /**
+     * Retrieves the name of the second player.
+     * 
+     * @return - The name of player two.
+     */
+    public String getPlayerTwoName() {
+        return playerTwoName;
     }
 }
