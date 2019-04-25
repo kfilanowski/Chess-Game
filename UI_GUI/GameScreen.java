@@ -15,11 +15,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -179,14 +181,17 @@ public class GameScreen {
 
         // Create the rank and files.
         VBox ranks = createRanks();
-        ranks.setId("ranks");
         HBox files = createFiles();
+        ranks.setId("ranks");
         files.setId("files");
+        ranks.maxHeightProperty().bind(grid.heightProperty());
+        files.maxWidthProperty().bind(grid.widthProperty());
 
         // Setup the board game grid.
-        grid.setMaxSize(500, 500);
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
+        grid.maxHeightProperty().bind(root.heightProperty());
+        grid.maxWidthProperty().bind(root.heightProperty());
         setupBoard();
         drawBoard();
 
@@ -202,8 +207,8 @@ public class GameScreen {
      */
     private void setupTop() {
         HBox topPanel = new HBox();
-        topPanel.setPadding(new Insets(0, 100, 0, 100));
         topPanel.setAlignment(Pos.CENTER);
+        //topPanel.prefWidthProperty().bind(grid.widthProperty().multiply(0.80));
         
         // Create the row of buttons.
         Button[] buttons = new Button[5];
@@ -326,6 +331,9 @@ public class GameScreen {
     private void setupBottom() {
         HBox bottomPanel = new HBox();
         //TODO: fill in the bottom side.
+
+        
+
         root.setBottom(bottomPanel);
     }
 
@@ -357,9 +365,11 @@ public class GameScreen {
             for (int j = 0; j < size; j++) {
                 p = squares[i][j].getPiece();
                 if (p != null) {
-                    ((Pane)grid.getChildren().get(i+j*size)).getChildren().add(
-                        factory.getImage(p.getChessPieceType(), p.getColor(),
-                            (int) grid.getMaxWidth() / size));
+                    ImageView img = factory.getImage(p.getChessPieceType(), p.getColor());
+                    img.getStyleClass().add("piece");
+                    img.fitWidthProperty().bind(grid.widthProperty().divide(size));
+                    img.fitHeightProperty().bind(grid.heightProperty().divide(size));
+                    ((Pane)grid.getChildren().get(i+j*size)).getChildren().add(img);
                 }
             }
         }
@@ -373,8 +383,10 @@ public class GameScreen {
         int count = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Pane pane = new Pane();
-                pane.setMinSize(grid.getMaxWidth() / size, grid.getMaxWidth() / size);
+                StackPane pane = new StackPane();
+                pane.setAlignment(Pos.CENTER);
+                pane.minHeightProperty().bind(grid.heightProperty().divide(size));
+                pane.minWidthProperty().bind(grid.widthProperty().divide(size));
                 if (count % 2 == 0)
                     pane.getStyleClass().add("whitePane");
                 else
