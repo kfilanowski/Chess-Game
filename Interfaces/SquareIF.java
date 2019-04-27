@@ -72,7 +72,7 @@ public interface SquareIF {
      * @param spaceChar - the character for the mono board that holds the character for either a black or white space.
      * @param spaceChar2 - the ending character for the mono board that holds the ending character for a space
      * @param p - whether the piece is capital or not
-     * @return
+     *
      */
     public String toString(char validMove, char spaceChar, char spaceChar2, char p);
 

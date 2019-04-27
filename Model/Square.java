@@ -44,6 +44,7 @@ public class Square extends BlackAndWhite implements SquareIF {
      * Constructor that initializes a square with a piece on it.
      * 
      * @param piece - The piece to set on the square.
+     * @param pos - The position array that holds the positions a piece can move
      */
     public Square(PieceIF piece, Position pos) {
         this.piece = piece;
