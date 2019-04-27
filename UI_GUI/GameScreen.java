@@ -184,14 +184,14 @@ public class GameScreen {
         HBox files = createFiles();
         ranks.setId("ranks");
         files.setId("files");
-        ranks.maxHeightProperty().bind(grid.heightProperty());
-        files.maxWidthProperty().bind(grid.widthProperty());
+        //ranks.maxHeightProperty().bind(grid.heightProperty());
+        //files.maxWidthProperty().bind(grid.widthProperty());
 
         // Setup the board game grid.
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
-        grid.maxHeightProperty().bind(root.heightProperty());
-        grid.maxWidthProperty().bind(root.heightProperty());
+        //grid.maxHeightProperty().bind(root.heightProperty());
+        //grid.maxWidthProperty().bind(root.heightProperty());
         setupBoard();
         drawBoard();
 
@@ -208,7 +208,6 @@ public class GameScreen {
     private void setupTop() {
         HBox topPanel = new HBox();
         topPanel.setAlignment(Pos.CENTER);
-        //topPanel.prefWidthProperty().bind(grid.widthProperty().multiply(0.80));
         
         // Create the row of buttons.
         Button[] buttons = new Button[5];
@@ -225,7 +224,6 @@ public class GameScreen {
         }
 
         //TODO: Add button functionality
-        //TODO: Make buttons look prettier.
 
         topPanel.getChildren().addAll(buttons);
         root.setTop(topPanel);
@@ -385,8 +383,13 @@ public class GameScreen {
             for (int j = 0; j < size; j++) {
                 StackPane pane = new StackPane();
                 pane.setAlignment(Pos.CENTER);
+
+                // Keeps the pane sized to a perfect square.
                 pane.minHeightProperty().bind(grid.heightProperty().divide(size));
-                pane.minWidthProperty().bind(grid.widthProperty().divide(size));
+                pane.minWidthProperty().bind(grid.heightProperty().divide(size));
+                pane.maxHeightProperty().bind(grid.heightProperty().divide(size));
+                pane.maxWidthProperty().bind(grid.heightProperty().divide(size));
+
                 if (count % 2 == 0)
                     pane.getStyleClass().add("whitePane");
                 else
