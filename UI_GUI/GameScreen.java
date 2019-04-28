@@ -198,10 +198,6 @@ public class GameScreen {
         //center.setLeft(ranks);
         //center.setTop(files);
         center.setCenter(grid);
-
-        //center.maxHeightProperty().bind(root.heightProperty());
-        //center.maxWidthProperty().bind(root.widthProperty());
-
         root.setCenter(center);
     }
 
@@ -213,21 +209,37 @@ public class GameScreen {
         HBox topPanel = new HBox();
         topPanel.setAlignment(Pos.CENTER);
         
+        //TODO: implement save, load, and settings.
+
         // Create the row of buttons.
         Button[] buttons = new Button[5];
+
         buttons[0] = new Button("Load");
+        //buttons[0].setOnAction(e -> gc.loadAction(e));
+
         buttons[1] = new Button("Save");
+        //buttons[1].setOnAction(e -> gc.saveAction(e));
+
         buttons[2] = new Button("Undo");
+        buttons[2].setOnAction(e -> {
+            gc.undoAction();
+            drawBoard();
+        });
+
         buttons[3] = new Button("Redo");
+        buttons[3].setOnAction(e -> {
+            gc.redoAction();
+            drawBoard();
+        });
+
         buttons[4] = new Button("Settings");
+        //buttons[4].setOnAction(e -> gc.settingsAction(e));
 
         for (Button b : buttons) {
             b.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
             HBox.setHgrow(b, Priority.ALWAYS);
-            b.getStyleClass().add("topButtons");
+            b.getStyleClass().add("gameScreenTopButtons");
         }
-
-        //TODO: Add button functionality
 
         topPanel.getChildren().addAll(buttons);
         root.setTop(topPanel);
@@ -248,7 +260,8 @@ public class GameScreen {
         playerOne.getStyleClass().add("playerLabel");
         playerOneName.getStyleClass().add("playerLabel");
 
-        // TODO: add functonality for button.
+        // TODO: add functonality for showmoves button.
+
         // showMoves toggle button
         ToggleButton showMoves = new ToggleButton("Show Moves");
 
@@ -258,7 +271,9 @@ public class GameScreen {
         VBox.setVgrow(spacer, Priority.ALWAYS);
         spacer.setMinSize(1, 10);
         
-        // TODO: Properly scale this with screen resizing.
+        // TODO: Properly scale this with screen resizing
+        // TODO: placement needs to be proper.
+
         // Sets up the pane that displays the captured pieces.
         capturedBlackPieces.setMaxSize(grid.getMaxWidth()/4, grid.getMaxWidth()/4);
         capturedBlackPieces.setMinSize(grid.getMaxWidth()/4, grid.getMaxWidth()/4);
@@ -294,7 +309,8 @@ public class GameScreen {
         playerTwo.getStyleClass().add("playerLabel");
         playerTwoName.getStyleClass().add("playerLabel");
 
-        // TODO: add functonality for button.
+        // TODO: add functonality for exit button.
+
         // Exit button
         Button exitButton = new Button("Exit");
 
@@ -305,6 +321,9 @@ public class GameScreen {
         spacer.setMinSize(1, 10);
 
         // TODO: Properly scale this with screen resizing.
+        // TODO: placement needs to be proper.
+
+
         // Sets up the pane that displays the captured pieces.
         capturedWhitePieces.setMinSize(grid.getMaxWidth()/4, grid.getMaxWidth()/4);
         capturedWhitePieces.setMaxSize(grid.getMaxWidth()/4, grid.getMaxWidth()/4);
@@ -333,11 +352,12 @@ public class GameScreen {
     private void setupBottom() {
         HBox bottomPanel = new HBox();
         bottomPanel.setAlignment(Pos.CENTER);
-        Label playerSelected = new Label("Player Selected:");
 
-        //TODO: fill in the bottom side.
-        bottomPanel.getChildren().add(playerSelected);
- 
+        InfoLabel info = new InfoLabel(gc.getPlayerOneName() + "'s turn!");
+        info.getStyleClass().add("playerLabel");
+        gc.registerAlertHandler(info);
+
+        bottomPanel.getChildren().add(info);
         root.setBottom(bottomPanel);
     }
 
@@ -367,6 +387,7 @@ public class GameScreen {
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
+                ((Pane)grid.getChildren().get(i+j*size)).getChildren().clear();
                 p = squares[i][j].getPiece();
                 if (p != null) {
                     ImageView img = factory.getImage(p.getChessPieceType(), p.getColor());

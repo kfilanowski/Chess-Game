@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import ChessExceptions.GameOverStaleMateException;
 import Enums.ChessPieceType;
 import Enums.GameColor;
+import Handler.AlertHandler;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Model.Position;
 import Validator.PieceValidator;
 import History.History;
+import History.State;
 
 
 /**
@@ -17,7 +19,7 @@ import History.History;
  * detections necessary to ensure a proper game of chess is played.
  * 
  * @author Kevin Filanowski
- * @version April 22, 2019
+ * @version April 28, 2019
  */
 public class GameController_GUI {
     /** A reference to the game board. */
@@ -40,12 +42,21 @@ public class GameController_GUI {
     ArrayList<PieceIF> whiteTakenPiece;
     /** The Black pieces that have been taken */
     ArrayList<PieceIF> blackTakenPiece;
+    /** A list of alertHandlers to notify if there is some kind of alert. */
+    ArrayList<AlertHandler> ahList;
 
+    /**
+     * Constructor for a GUI GameController. This controller is for a chess
+     * game, and requires a chess board.
+     * 
+     * @param board - A reference to the game board.
+     */
     public GameController_GUI(BoardIF board) {
         this.board = board;
         playerTurn = true;
         whiteTakenPiece = new ArrayList<>();
         blackTakenPiece = new ArrayList<>();
+        ahList = new ArrayList<>();
     }
 
     /**
@@ -105,7 +116,7 @@ public class GameController_GUI {
                 // detects check mate and stale mate
                 //this.endGameHelp(board, GameColor.WHITE);
                 //this.threeFoldRep(board);
-                System.out.println(playerOneName + "'s turn!");
+                alert(playerTwoName + "'s turn!");
                 board.draw();
                 playerTurn = true;
             } else {
@@ -114,7 +125,7 @@ public class GameController_GUI {
                 // detects check mate and stale mate
                 //this.endGameHelp(board, GameColor.BLACK);
                 //this.threeFoldRep(board);
-                System.out.println(playerTwoName + "'s turn!");
+                alert(playerTwoName + "'s turn!");
                 board.revDraw(board);
                 playerTurn = false;
             }
@@ -154,5 +165,55 @@ public class GameController_GUI {
      */
     public String getPlayerTwoName() {
         return playerTwoName;
+    }
+
+    /**
+     * Handles an undo action triggered by some event such as a button press.
+     */
+    public void undoAction() {
+        // TODO: Adjust player turn
+
+        State<BoardIF> state = History.getInstance().undo(board);
+        if (state == null) {
+            alert("Undo could not occur");
+        } else {
+            board.restoreState(state);
+            alert("Undo occured");
+        }
+    }
+
+    /**
+     * Handles a redo action triggered by some event such as a button press.
+     */
+    public void redoAction() {
+        // TODO: Adjust player turn
+
+        State<BoardIF> state = History.getInstance().redo();
+        if (state == null) {
+            alert("Redo could not occur");
+        } else {
+            board.restoreState(state);
+            alert("Redo occured");
+        }
+    }
+
+    /**
+     * Adds an alertHandler to the list of alert handlers.
+     * 
+     * @param ah - An instance of an alertHandler.
+     */
+	public void registerAlertHandler(AlertHandler ah) {
+        ahList.add(ah);
+    }
+    
+    /**
+     * Notifies all alertHandlers of an alert.
+     * 
+     * @param alert - A message related to the alert.
+     */
+    private void alert(String alert) {
+        for (AlertHandler a : ahList) {
+            a.handle(alert);
+        }
     }
 }

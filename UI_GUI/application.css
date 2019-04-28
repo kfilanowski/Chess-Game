@@ -25,19 +25,21 @@
     -fx-font-size: 24;
 }
 
-.topButtons {
+.gameScreenTopButtons:active { 
+    -fx-background-color: rgb(167, 167, 167);
+}
+
+.gameScreenTopButtons {
     -fx-background-color: none;
     -fx-border-radius: 0;
     -fx-background-radius : 0;
 }
 
-.topButtons:hover {
+.gameScreenTopButtons:hover {
     -fx-background-color: rgb(226, 226, 226);
 }
 
-.topButtons:active { 
-    -fx-background-color: rgb(167, 167, 167);
-}
+
 
 .whitePane {
     -fx-background-color: #ffe1b4;
