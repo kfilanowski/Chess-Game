@@ -184,20 +184,24 @@ public class GameScreen {
         HBox files = createFiles();
         ranks.setId("ranks");
         files.setId("files");
-        //ranks.maxHeightProperty().bind(grid.heightProperty());
-        //files.maxWidthProperty().bind(grid.widthProperty());
 
         // Setup the board game grid.
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
-        //grid.maxHeightProperty().bind(root.heightProperty());
-        //grid.maxWidthProperty().bind(root.heightProperty());
+        
+        grid.setMinSize(350, 350);
+        grid.maxHeightProperty().bind(center.heightProperty());
+        grid.maxWidthProperty().bind(center.widthProperty());
         setupBoard();
         drawBoard();
 
-        center.setLeft(ranks);
-        center.setTop(files);
+        //center.setLeft(ranks);
+        //center.setTop(files);
         center.setCenter(grid);
+
+        //center.maxHeightProperty().bind(root.heightProperty());
+        //center.maxWidthProperty().bind(root.widthProperty());
+
         root.setCenter(center);
     }
 
@@ -328,10 +332,12 @@ public class GameScreen {
      */
     private void setupBottom() {
         HBox bottomPanel = new HBox();
+        bottomPanel.setAlignment(Pos.CENTER);
+        Label playerSelected = new Label("Player Selected:");
+
         //TODO: fill in the bottom side.
-
-        
-
+        bottomPanel.getChildren().add(playerSelected);
+ 
         root.setBottom(bottomPanel);
     }
 
@@ -386,17 +392,19 @@ public class GameScreen {
 
                 // Keeps the pane sized to a perfect square.
                 pane.minHeightProperty().bind(grid.heightProperty().divide(size));
-                pane.minWidthProperty().bind(grid.heightProperty().divide(size));
+                pane.minWidthProperty().bind(grid.widthProperty().divide(size));
                 pane.maxHeightProperty().bind(grid.heightProperty().divide(size));
-                pane.maxWidthProperty().bind(grid.heightProperty().divide(size));
+                pane.maxWidthProperty().bind(grid.widthProperty().divide(size));
 
                 if (count % 2 == 0)
                     pane.getStyleClass().add("whitePane");
                 else
                     pane.getStyleClass().add("blackPane");
                 pane.setOnMouseClicked(e -> {
-                    movePiece(pane);
-                    showMoves(pane);
+                    if (!movePiece(pane))
+                        showMoves(pane);
+                    else   
+                        removeShowMovesColoring();
                 });
                 grid.add(pane, i, j, 1, 1);
                 count++;
@@ -410,14 +418,15 @@ public class GameScreen {
      * move the piece in it's underlying data structure.
      * 
      * @param pane - A reference to the specific pane that was clicked.
+     * @return - True if a piece was moved, false otherwise.
      */
-    private void movePiece(Pane pane) {
+    private boolean movePiece(Pane pane) {
         // The rank and file index of the current selected pane.
         int toRank = GridPane.getRowIndex(pane), toFile = GridPane.getColumnIndex(pane);
         // The current selected position.
         Position curr = board.getSquares()[toRank][toFile].getPostion();
         // The function stops here if it is the first selection.
-        if (last == null) { last = curr; return; }
+        if (last == null) { last = curr; return false; }
         // The rank and file index of the last selected position.
         int fromRank = last.getRank().getIndex(), fromFile = last.getFile().getIndex();
         // The size of the board.
@@ -444,10 +453,11 @@ public class GameScreen {
             // Moves the selected piece.
             ((Pane)grid.getChildren().get(toRank+toFile*size)).getChildren().add(fromImage);
             last = null;
+            return true;
         } else {
             last = curr;
+            return false;
         }
-        
     }
 
     /**
@@ -462,12 +472,7 @@ public class GameScreen {
         int size = board.getSquares().length;
         PieceIF piece = board.getPiece(rowIndex, colIndex);
 
-        // Remove showMoves coloring from the board.
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                grid.getChildren().get(i+j*size).getStyleClass().removeAll("showMoves", "selected");
-            }
-        }
+        removeShowMovesColoring();
 
         // Outline selected square
         grid.getChildren().get(rowIndex+colIndex*size).getStyleClass().add("selected");
@@ -478,6 +483,19 @@ public class GameScreen {
             for (Position p : pos) {
                 grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*size).getStyleClass().add("showMoves");
             }     
+        }
+    }
+
+    /**
+     * Removes any current visible showMovesColoring from the board.
+     */
+    private void removeShowMovesColoring() {
+        int size = board.getSquares().length;
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                grid.getChildren().get(i+j*size).getStyleClass().removeAll("showMoves", "selected");
+            }
         }
     }
 }

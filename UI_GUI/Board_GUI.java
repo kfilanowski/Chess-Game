@@ -50,14 +50,14 @@ public class Board_GUI extends Application implements BoardStrategy {
     public void start(Stage primaryStage) throws Exception {
         GameScreen game = GameScreen.getInstance();
         game.setup();
-        //game.getRoot().prefWidthProperty().bind(primaryStage.widthProperty());
-        //game.getRoot().prefHeightProperty().bind(primaryStage.heightProperty());
-
-
+    
         Scene scene = new Scene(game.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        System.out.println("stage height: " + primaryStage.getHeight());
+        System.out.println("stage width: " + primaryStage.getWidth());
     }
 
     /**
