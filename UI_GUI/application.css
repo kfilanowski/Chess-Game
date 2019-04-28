@@ -77,3 +77,54 @@
     -fx-border-color: #62e43b;
     -fx-border-width: 2;
 }
+
+.buttonSizeS{
+
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 25px;
+}
+
+.checkBox{
+
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 25px;
+}
+
+.textField{
+
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 25px;
+    -fx-pref-height: 25px;
+}
+
+/**Text field styles */
+.mainLabel{
+    -fx-font-size: 50px;
+    -fx-font-family: arial, helvetica, sans-serif;
+    -fx-text-fill: #000000;
+}
+
+.mediumLabel{
+	-fx-font-size: 25px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #000000;
+}
+
+
+.regularLabel{
+	-fx-font-size: 20px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #000000;
+}
+
