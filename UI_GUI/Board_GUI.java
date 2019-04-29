@@ -56,6 +56,7 @@ public class Board_GUI extends Application implements BoardStrategy {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+
         System.out.println("stage height: " + primaryStage.getHeight());
         System.out.println("stage width: " + primaryStage.getWidth());
     }

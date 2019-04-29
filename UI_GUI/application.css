@@ -21,22 +21,38 @@
     -fx-background-color: black;
 }
 
+.toggleButton {
+    -fx-border-radius: 0;
+    -fx-background-radius : 0;
+    -fx-background-color: rgb(230, 230, 230);
+}
+
+.toggleButton:hover {
+    -fx-background-color: rgb(220, 220, 220);
+    /*-fx-effect: dropshadow(three-pass-box, rgb(220, 220, 220), 5, 0, 0, 10);*/
+}
+
+.toggleButton:pressed {
+    -fx-background-color: red;
+}
+
+.toggleButton:selected {
+    -fx-background-color: black;
+}
+
 .playerLabel {
     -fx-font-size: 24;
 }
 
-.gameScreenTopButtons:active { 
-    -fx-background-color: rgb(167, 167, 167);
-}
-
 .gameScreenTopButtons {
-    -fx-background-color: none;
     -fx-border-radius: 0;
     -fx-background-radius : 0;
+    -fx-background-color: rgb(230, 230, 230);
+
 }
 
 .gameScreenTopButtons:hover {
-    -fx-background-color: rgb(226, 226, 226);
+    -fx-background-color: rgb(220, 220, 220);
 }
 
 
