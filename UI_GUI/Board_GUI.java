@@ -6,6 +6,7 @@ import colorama.VolumeControl;
 import Model.Position;
 import colorama.ColorChooser;
 import colorama.ColorScene;
+import com.sun.scenario.Settings;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -13,6 +14,9 @@ import javafx.scene.Scene;
 import Interfaces.*;
 
 import java.awt.*;
+
+import java.util.Set;
+
 
 public class Board_GUI extends Application implements BoardStrategy, ScreenChangeHandler {
 
@@ -78,6 +82,8 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         MainMenu menu = new MainMenu();
         menu.setScreenChangeHandler(this);
         GameScreen game = GameScreen.getInstance();
+        SettingsRoundTwo settings = new SettingsRoundTwo();
+        settings.settingSetup();
         game.setScreenChangeHandler(this);
         menu.setup();
         game.setup();

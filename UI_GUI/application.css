@@ -162,6 +162,16 @@
     -fx-pref-height: 25px;
 }
 
+.buttonSizeS2{
+
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 25px;
+}
+
 .buttonSizeM{
     -fx-min-width: 200px;
     -fx-min-height: 20px;
@@ -195,3 +205,72 @@
     -fx-background-position: center center;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
+.buttonSizeS{
+
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 25px;
+}
+
+.whiteButton{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #040404;
+}
+
+.blackButton{
+    -fx-background-color: #000000;
+    -fx-border-color: #404040;
+
+}
+
+#pane{
+    -fx-background-image: url("/images.chessPieces/wood.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2000 2000;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.checkBox{
+
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 25px;
+}
+
+.textField{
+
+    -fx-min-width: 120px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 25px;
+    -fx-pref-height: 25px;
+}
+
+/**Text field styles */
+.mainLabel{
+    -fx-font-size: 50px;
+    -fx-font-family: arial, helvetica, sans-serif;
+    -fx-text-fill: #000000;
+}
+
+.mediumLabel{
+	-fx-font-size: 25px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #000000;
+}
+
+
+.regularLabel{
+	-fx-font-size: 20px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #000000;
+}
+
