@@ -607,7 +607,7 @@ public class Board implements BoardIF {
      */
     public boolean checkLeftHoriz(int rank, int file, GameColor color) {
         boolean result = false;
-        int leftFile = file;
+        int leftFile = file - 1;
 
         boolean go = true;
         while (leftFile >= 0 && go) {
@@ -641,7 +641,7 @@ public class Board implements BoardIF {
         boolean result = false;
         boolean go = true;
 
-        int downRank = rank;
+        int downRank = rank - 1;
 
         while (downRank >= 0 && go) {
             PieceValidator gottenPiece = (PieceValidator) board[downRank][file].getPiece();
@@ -675,7 +675,7 @@ public class Board implements BoardIF {
     public boolean checkRightHoriz(int rank, int file, GameColor color) {
         boolean result = false;
 
-        int rightFile = file;
+        int rightFile = file + 1;
         int max_file_index = File.getMaxIndex();
 
         boolean go = true;
@@ -710,7 +710,7 @@ public class Board implements BoardIF {
         boolean result = false;
         boolean go = true;
 
-        int upRank = rank;
+        int upRank = rank + 1;
         int max_rank_index = Rank.getMaxIndex();
 
         while (upRank <= max_rank_index && go) {

@@ -17,6 +17,11 @@
     -fx-border-color: red;
 }
 
+/**Screen styles */
+/*#Screen1{
+	-fx-background-color: linear-gradient(#ffe1b4, #7d3c0e);
+}*/
+
 #board {
     -fx-background-color: black;
 }
@@ -96,6 +101,110 @@
     -fx-border-width: 2;
 }
 
+/**Buttton Styles */
+
+.buttonStyleA{
+     -fx-background-color: linear-gradient(#ffffff, #ffffff);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+
+.buttonStyleA:armed{
+    -fx-background-color: linear-gradient(#ff5400, #0e1d00);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+
+
+.buttonStyleB{
+	-fx-background-color: linear-gradient(#0054ff, #001dbe);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+
+.buttonStyleB:armed{
+	 -fx-background-color: linear-gradient(#0054ff, #001d0e);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+.buttonStyleC{
+	 -fx-background-color: linear-gradient(#54ff54, #1d7e1d);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+
+.buttonStyleC:armed{
+	-fx-background-color: linear-gradient(#54ff54, #0e1d0e);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+
+
+
+.buttonSizeS{
+    -fx-min-width: 100px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 25px;
+}
+
+.buttonSizeS2{
+
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 25px;
+}
+
+.buttonSizeM{
+    -fx-min-width: 200px;
+    -fx-min-height: 20px;
+    -fx-max-width: 200px;
+    -fx-max-height: 50px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 40px;
+}
+
+
+.buttonSizeL{
+    -fx-min-width: 300px;
+    -fx-min-height: 40px;
+    -fx-max-width: 300px;
+    -fx-max-height: 80px;
+    -fx-pref-width: 300px;
+    -fx-pref-height: 60px;
+}
+
+/**Label styles */
+.screenTitle{
+	-fx-font-size: 50px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #ffffff;
+}
+
+#Screen1{
+    -fx-background-image: url("/images/chessPieces/wood.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2000 2000;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
 .buttonSizeS{
 
     -fx-min-width: 40px;

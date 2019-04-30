@@ -1,7 +1,7 @@
 package UI_GUI;
 
 import com.sun.glass.ui.Screen;
-
+import Interfaces.*;
 import Controller.GameController_GUI;
 import Enums.GameColor;
 import Factory.ImageFactory;
@@ -9,6 +9,8 @@ import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -20,10 +22,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -62,6 +64,9 @@ public class GameScreen {
     /** Displays the black pieces that have been captured. */
     TilePane capturedBlackPieces;
 
+    /** ScreenChangeHandler object */
+    ScreenChangeHandler handler;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
@@ -82,6 +87,22 @@ public class GameScreen {
         capturedWhitePieces = new TilePane();
         capturedBlackPieces = new TilePane();
         gc = new GameController_GUI(board);
+    }
+
+    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            handler.switchScreen(ScreenChangeHandler.SCREENA);
+        }//end handle
+    };
+
+
+    /**
+     * Method that sets the screenChangeHandler to a new screenChangeHandler
+     * @param sch - new screenChangeHandler that we want to set
+     */
+    public void setScreenChangeHandler(ScreenChangeHandler sch){
+        this.handler = sch;
     }
 
     /**
@@ -114,7 +135,7 @@ public class GameScreen {
      *
      * @return - The root pane of the screen.
      */
-    public BorderPane getRoot() {
+    public Pane getRoot() {
         return root;
     }
 
@@ -183,8 +204,8 @@ public class GameScreen {
 
         // Create the rank and files.
         VBox ranks = createRanks();
-        HBox files = createFiles();
         ranks.setId("ranks");
+        HBox files = createFiles();
         files.setId("files");
 
         // Setup the board game grid.
@@ -206,7 +227,7 @@ public class GameScreen {
         /**
          * Adjusts the size of the squares given the amount of space, but
          * retains the aspect ratio of 1:1.
-         * 
+         *
          * @param observable - Unused, but it is the height/width property of
          *                      the grid.
          * @param oldValue - The old value.
@@ -338,6 +359,7 @@ public class GameScreen {
 
         // Exit button
         Button exitButton = new Button("Exit");
+        exitButton.setOnAction(buttonHandler);
 
         // Spacer between captured pieces and button.
         Pane spacer = new Pane();
