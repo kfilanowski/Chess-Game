@@ -48,16 +48,17 @@ public class Board_GUI extends Application implements BoardStrategy {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //GameScreen game = GameScreen.getInstance();
-        //game.setup();
-
-        SettingsRoundTwo srt = new SettingsRoundTwo();
-        srt.settingSetup();
-
-        Scene scene = new Scene(srt.getRoot());
+        GameScreen game = GameScreen.getInstance();
+        game.setup();
+    
+        Scene scene = new Scene(game.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+        System.out.println("stage height: " + primaryStage.getHeight());
+        System.out.println("stage width: " + primaryStage.getWidth());
     }
 
     /**

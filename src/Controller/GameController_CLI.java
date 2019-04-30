@@ -14,6 +14,8 @@ import Model.Board;
 import Model.Position;
 import Validator.PieceValidator;
 import History.State;
+
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +45,7 @@ public class GameController_CLI {
     ArrayList<PieceIF> WhiteTakenPiece;
     /** The Black pieces that have been taken */
     ArrayList<PieceIF> BlackTakenPiece;
+
 
     /**
      * Constructor for the Game Controller.
