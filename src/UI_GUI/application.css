@@ -100,7 +100,7 @@
 
 .textField{
 
-    -fx-min-width: 100px;
+    -fx-min-width: 120px;
     -fx-min-height: 30px;
     -fx-max-width: 30px;
     -fx-max-height: 30px;

@@ -27,12 +27,15 @@ public class SettingsRoundTwo {
 
     private VBox vbox2;
 
+    private HBox hbox3;
+
 
     public SettingsRoundTwo(){
         root = new BorderPane();
         ap = new AnchorPane();
         hbox1 = new HBox();
         hbox2 = new HBox();
+        hbox3 = new HBox();
         vbox1 = new VBox();
         vbox2 = new VBox();
     }
@@ -49,6 +52,8 @@ public class SettingsRoundTwo {
 
         root.setCenter(vbox1);
         root.setRight(vbox2);
+        vbox1.setSpacing(10.0);
+        vbox2.setSpacing(205.0);
         BorderPane.setAlignment(vbox1, Pos.CENTER);
         BorderPane.setAlignment(vbox2,Pos.CENTER_RIGHT);
 
@@ -76,8 +81,13 @@ public class SettingsRoundTwo {
         CheckBox cb2 = new CheckBox();
         Label enable = new Label("Enabled",cb2);
 
+        CheckBox cb3 = new CheckBox();
+        Label showMoves = new Label("Show Moves", cb3);
+
         TextField tf = new TextField();
-        tf.setText("Max Undo");
+
+        //tf.setText("Max Undo");
+        tf.setPromptText("Set Max Undos");
 
         //sets style sheets
         color.getStyleClass().add("mediumLabel");
@@ -107,6 +117,9 @@ public class SettingsRoundTwo {
         hbox2.getChildren().add(blackColor);
         hbox2.getChildren().add(bcolor);
 
+        hbox3.getChildren().add(save);
+        hbox3.getChildren().add(exit);
+
         //sets up vbox1
         vbox1.getChildren().add(color);
         vbox1.getChildren().add(hbox1);
@@ -116,8 +129,8 @@ public class SettingsRoundTwo {
         vbox1.getChildren().add(unlim);
         vbox1.getChildren().add(tf);
 
-        vbox2.getChildren().add(save);
-        vbox2.getChildren().add(exit);
+        vbox2.getChildren().add(showMoves);
+        vbox2.getChildren().add(hbox3);
 
     }
 
