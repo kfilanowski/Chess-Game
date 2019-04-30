@@ -9,8 +9,6 @@ import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -162,9 +160,10 @@ public class GameScreen {
      */
     private HBox createFiles() {
         // TODO: Have these paddings and sizes dynamically adjust with resizing.
-        HBox files = new HBox(11.8 * 3);
-        files.setPadding(new Insets(0, 0, 0, 62));
-        Font font = new Font(42);
+        HBox files = new HBox();
+        files.setAlignment(Pos.CENTER);
+        //files.setPadding(new Insets(5));
+        Font font = new Font(12);
 
         // set files
         for (int i = 'A'; i < 'A' + board.getSquares().length; i++) {
@@ -180,7 +179,6 @@ public class GameScreen {
      */
     private void setupCenter() {
         BorderPane center = new BorderPane();
-        center.setPadding(new Insets(5));
         BorderPane.setAlignment(grid, Pos.TOP_LEFT);
 
         // Create the rank and files.
@@ -192,18 +190,41 @@ public class GameScreen {
         // Setup the board game grid.
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
-        grid.setMinSize(350, 350);
-        grid.maxHeightProperty().bind(center.heightProperty());
-        grid.maxWidthProperty().bind(center.widthProperty());
-
+        grid.setMinSize(300, 300);
+        grid.heightProperty().addListener(squareSizeListener);
+        grid.widthProperty().addListener(squareSizeListener);
         setupBoard();
         drawBoard();
 
         // center.setLeft(ranks);
-        // center.setTop(files);
+        center.setTop(files);
         center.setCenter(grid);
         root.setCenter(center);
     }
+
+    ChangeListener<Number> squareSizeListener = new ChangeListener<Number>() {
+        /**
+         * Adjusts the size of the squares given the amount of space, but
+         * retains the aspect ratio of 1:1.
+         * 
+         * @param observable - Unused, but it is the height/width property of
+         *                      the grid.
+         * @param oldValue - The old value.
+         * @param newValue - The new changed value.
+         */
+        @Override
+        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            double min = Math.min(grid.heightProperty().doubleValue(), grid.widthProperty().doubleValue());
+            int size = board.getSquares().length;
+            double paneSize = Math.floor(min/size);
+            StackPane temp;
+            for (Node p : grid.getChildren())  {
+                temp = (StackPane) p;
+                temp.setMaxSize(paneSize, paneSize);
+                temp.setMinSize(paneSize, paneSize);
+            }
+        }
+    };
 
     /**
      * Sets up the top side of the border pane. Adds buttons which include: Load,
@@ -412,16 +433,8 @@ public class GameScreen {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 StackPane pane = new StackPane();
+                // pane.setMaxSize(1, 1);
                 pane.setAlignment(Pos.CENTER);
-
-                // Keeps the pane sized to a perfect square.
-                pane.heightProperty().addListener(paneListener);
-                pane.widthProperty().addListener(paneListener);
-
-                // pane.minHeightProperty().bind(grid.heightProperty().divide(size));
-                // pane.minWidthProperty().bind(grid.widthProperty().divide(size));
-                // pane.maxHeightProperty().bind(grid.heightProperty().divide(size));
-                // pane.maxWidthProperty().bind(grid.widthProperty().divide(size));
 
                 if (count % 2 == 0)
                     pane.getStyleClass().add("whitePane");
@@ -439,13 +452,6 @@ public class GameScreen {
             count = i % 2 + 1;
         }
     }
-
-    ChangeListener<Number> paneListener = new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            
-        }
-    };
 
     /**
      * Moves the piece visually on the board, and calls upon the controller to

@@ -13,8 +13,8 @@
 
 #files {
     -fx-background-color: #ffe1b4;
-    -fx-border-width: 0 0 5 0;
-    -fx-border-color: black;
+    /*-fx-border-width: 0 0 5 0;*/
+    -fx-border-color: red;
 }
 
 #board {
