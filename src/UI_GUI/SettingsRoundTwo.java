@@ -31,6 +31,7 @@ public class SettingsRoundTwo {
 
 
     public SettingsRoundTwo(){
+        super();
         root = new BorderPane();
         ap = new AnchorPane();
         hbox1 = new HBox();
@@ -56,13 +57,16 @@ public class SettingsRoundTwo {
         vbox2.setSpacing(205.0);
         BorderPane.setAlignment(vbox1, Pos.CENTER);
         BorderPane.setAlignment(vbox2,Pos.CENTER_RIGHT);
-
+        root.setId("pane");
     }
 
     public BorderPane getRoot(){
         return this.root;
     }
 
+    /**
+     * Sets up the labels and the buttons that are on the board
+     */
     private void color(){
         Label color = new Label("Color");
         Label whiteColor = new Label("White Squares:\t");
@@ -75,6 +79,7 @@ public class SettingsRoundTwo {
         exit.setText("Exit");
         Label undo = new Label("Undo");
 
+        //sets up the Checkboxes on the screen
         CheckBox cb1 = new CheckBox();
         Label unlim = new Label("Unlimited Undo", cb1);
 
@@ -93,8 +98,8 @@ public class SettingsRoundTwo {
         color.getStyleClass().add("mediumLabel");
         whiteColor.getStyleClass().add("regularLabel");
         blackColor.getStyleClass().add("regularLabel");
-        bcolor.getStyleClass().add("buttonSizeS");
-        wcolor.getStyleClass().add("buttonSizeS");
+        bcolor.getStyleClass().addAll("buttonSizeS", "blackButton");
+        wcolor.getStyleClass().addAll("buttonSizeS", "whiteButton");
         exit.getStyleClass().add("buttonSizeS");
         save.getStyleClass().add("buttonSizeS");
         undo.getStyleClass().add("mediumLabel");

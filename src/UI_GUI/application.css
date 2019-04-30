@@ -106,6 +106,25 @@
     -fx-pref-height: 25px;
 }
 
+.whiteButton{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #040404;
+}
+
+.blackButton{
+    -fx-background-color: #000000;
+    -fx-border-color: #404040;
+
+}
+
+#pane{
+    -fx-background-image: url("/images.chessPieces/wood.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2000 2000;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
 .checkBox{
 
     -fx-min-width: 40px;

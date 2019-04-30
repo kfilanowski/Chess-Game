@@ -3,9 +3,12 @@ package UI_GUI;
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
 import Model.Position;
+import com.sun.scenario.Settings;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+
+import java.util.Set;
 
 public class Board_GUI extends Application implements BoardStrategy {
 
@@ -48,8 +51,8 @@ public class Board_GUI extends Application implements BoardStrategy {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        GameScreen game = GameScreen.getInstance();
-        game.setup();
+        SettingsRoundTwo game = new SettingsRoundTwo();
+        game.settingSetup();
     
         Scene scene = new Scene(game.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
