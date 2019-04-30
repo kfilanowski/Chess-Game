@@ -1,13 +1,14 @@
 package Enums;
 
 /**
- * @author Matt Lutz 95%
- * @author Jacob Ginn 5%
  * Enum that represents a specific type of chess piece
+ * 
+ * @author Matt Lutz 95%
+ * @author Jacob Ginn 5% 
  */
 public enum ChessPieceType {
     /** Piece enum for the King */
-    KING("K","King"),
+    KING("K", "King"),
 
     /** Piece enum for the Queen */
     QUEEN("Q", "Queen"),
@@ -33,16 +34,18 @@ public enum ChessPieceType {
 
     /**
      * constructor for the ChessPieceType Enum
+     *
      * @param symbol - String that holds the symbol for a chess piece type
-     * @param name - String that holds the name of a chess piece type
+     * @param name   - String that holds the name of a chess piece type
      */
-    private ChessPieceType(String symbol, String name){
+    private ChessPieceType(String symbol, String name) {
         this.symbol = symbol;
         this.name = name;
     }
 
     /**
      * Gets the symbol for the chess piece type
+     *
      * @return - The string that holds the symbol for the chess piece type
      */
     public String getSymbol() {
@@ -51,6 +54,7 @@ public enum ChessPieceType {
 
     /**
      * Gets the name of the chess piece type
+     *
      * @return - The string that holds the name of the chess piece type
      */
     public String getName() {
@@ -59,9 +63,11 @@ public enum ChessPieceType {
 
     /**
      * Gets the unicode representation of the chess piece type
-     * @return - The string that holds the unicode representation of the chess piece type
+     *
+     * @return - The string that holds the unicode representation of the chess
+     *           piece type
      */
-    public char getUni(){
+    public char getUni() {
         return uni;
     }
 }

@@ -4,11 +4,9 @@ import Enums.GameColor;
 import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 
-import java.sql.SQLOutput;
-
 /**
  * Represents a square on a Chess board.
- * 
+ *
  * @author Kevin Filanowski 65%
  * @author Jeriah Caplinger 15%
  * @author Jacob Ginn 20%
@@ -19,7 +17,7 @@ public class Square extends BlackAndWhite implements SquareIF {
     private PieceIF piece;
     /** The position of the object, in terms of rank and file. */
     private Position pos;
-    /** The square is highlighted*/
+    /** The square is highlighted */
     private Boolean highlighted;
 
     /**
@@ -42,7 +40,7 @@ public class Square extends BlackAndWhite implements SquareIF {
 
     /**
      * Constructor that initializes a square with a piece on it.
-     * 
+     *
      * @param piece - The piece to set on the square.
      */
     public Square(PieceIF piece, Position pos) {
@@ -61,9 +59,9 @@ public class Square extends BlackAndWhite implements SquareIF {
 
     /**
      * Retrieves the piece on this square.
-     * 
+     *
      * @return - The piece object referenced by this square, or null if there
-     *           are no pieces on this square.
+     *         are no pieces on this square.
      */
     @Override
     public PieceIF getPiece() {
@@ -72,7 +70,7 @@ public class Square extends BlackAndWhite implements SquareIF {
 
     /**
      * Set a piece on this square, so square holds a reference to it.
-     * 
+     *
      * @param piece - A PieceIF object to set onto this square.
      */
     @Override
@@ -81,38 +79,44 @@ public class Square extends BlackAndWhite implements SquareIF {
     }
 
     /**
-     * toString for square that is used for the color board when showing the possible moves
+     * toString for square that is used for the color board when showing the
+     * possible moves
+     *
      * @param backColor - The background color of the square
      * @param foreColor - The Color of the piece that is on a square
      * @return the string containing the board.
      */
     public String toString(String backColor, String foreColor) {
         String str;
-        if(this.getPiece() != null){
-            str = (backColor + " " + backColor + foreColor + this.getPiece().toString() + " " + "\u001b[0m");
-        }else{
+        if (this.getPiece() != null) {
+            str = (backColor + " " + backColor + foreColor 
+            + this.getPiece().toString() + " " + "\u001b[0m");
+        } else {
             str = (backColor + "   " + "\u001b[0m");
         }
         return str;
     }
 
-
     /**
-     * toString for square that is used for the mono board when showing the possible moves
-     * @param validMove - the character for if it is a valid move for the piece
-     * @param spaceChar - the Character that is used for a white or black space
+     * toString for square that is used for the mono board when showing the
+     * possible moves
+     *
+     * @param validMove  - the character for if it is a valid move for the piece
+     * @param spaceChar  - the Character that is used for a white or black space
      * @param spaceChar2 - the Ending character of the space
-     * @param p - whether the piece is white or black
+     * @param p          - whether the piece is white or black
      * @return - the string containing the board.
      */
-    public String toString(char validMove, char spaceChar, char spaceChar2, char p){
+    public String toString(char validMove, char spaceChar, char spaceChar2, char p) {
         String str;
-        if(this.getPiece() != null){
-            if(p == 'u')
-                str = (spaceChar + "" + validMove + this.getPiece().toString().toUpperCase() + validMove + spaceChar2);
+        if (this.getPiece() != null) {
+            if (p == 'u')
+                str = (spaceChar + "" + validMove 
+                + this.getPiece().toString().toUpperCase() + validMove + spaceChar2);
             else
-                str = (spaceChar + "" + validMove + this.getPiece().toString().toLowerCase() + validMove + spaceChar2);
-        }else{
+                str = (spaceChar + "" + validMove 
+                + this.getPiece().toString().toLowerCase() + validMove + spaceChar2);
+        } else {
             str = (spaceChar + "" + validMove + " " + validMove + spaceChar2);
         }
         return str;
@@ -120,7 +124,7 @@ public class Square extends BlackAndWhite implements SquareIF {
 
     /**
      * Retrieve a position of this square.
-     * 
+     *
      * @return - The position representing this square.
      */
     public Position getPostion() {
@@ -129,7 +133,7 @@ public class Square extends BlackAndWhite implements SquareIF {
 
     /**
      * Create a deep clone of this object.
-     * 
+     *
      * @return - A deep clone of this object.
      */
     public SquareIF clone() {
@@ -145,7 +149,7 @@ public class Square extends BlackAndWhite implements SquareIF {
 
     /**
      * Compares an object with this Square object.
-     * 
+     *
      * @param obj - An object to compare with this Square object.
      * @return - True if the two objects are deeply equal, false otherwise.
      */
@@ -166,20 +170,22 @@ public class Square extends BlackAndWhite implements SquareIF {
     }
 
     /**
-     * returns true if the square is a valid move for the piece and
-     * returns false if the square is not a valid move.
+     * returns true if the square is a valid move for the piece and returns
+     * false if the square is not a valid move.
+     *
      * @return -true if the move is valid, false otherwise
      */
-    public boolean getHighlighted(){
+    public boolean getHighlighted() {
         return highlighted;
     }
-    
+
     /**
-     * Sets the highlighted field to true if the square is a valid move and flase if the square is not a
-     * valid move.
+     * Sets the highlighted field to true if the square is a valid move and
+     * flase if the square is not a valid move.
+     *
      * @param b - True or false depending on the chess piece selected.
      */
-    public void setHighlighted(boolean b){
+    public void setHighlighted(boolean b) {
         this.highlighted = b;
     }
 }

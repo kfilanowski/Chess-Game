@@ -7,9 +7,10 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Enums.File;
 import Enums.Rank;
+
 /**
  * Models the piece's ability to move horizontally and vertically.
- * 
+ *
  * @author Kevin Filanowski 100%
  * @version March 31, 2019
  */
@@ -17,7 +18,7 @@ public class HorizVertValidator extends PieceValidator {
 
     /**
      * Constructor for HorizVertValidator.
-     * 
+     *
      * @param board - The current state of the board.
      * @param p     - The PieceIF decorator.
      */
@@ -27,15 +28,15 @@ public class HorizVertValidator extends PieceValidator {
     }
 
     /**
-     * Checks to see if the move to be attempted is a valid move by the 
+     * Checks to see if the move to be attempted is a valid move by the
      * standards of Chess for this particular movement type.
-     * 
+     *
      * @param from - The position the piece currently has before movement.
      * @param to   - The position the piece is being asked to move to.
      * @return - True if the piece movement is valid, otherwise returns false.
      */
-	@Override
-	public boolean validateMove(Position from, Position to) {
+    @Override
+    public boolean validateMove(Position from, Position to) {
         // For readability and brevity.
         int fromFile = from.getFile().getIndex();
         int fromRank = from.getRank().getIndex();
@@ -78,23 +79,23 @@ public class HorizVertValidator extends PieceValidator {
         PieceIF fromPiece = squares[fromRank][fromFile].getPiece();
         PieceIF toPiece = squares[toRank][toFile].getPiece();
 
-        if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece) ||
-                (fromPiece != null && stillCheckAfterMove(from, to, fromPiece.getColor()))) {
-            result = false; 
+        if (checkMoveOnAlly(fromPiece, toPiece) || checkIfKing(toPiece)
+                || (fromPiece != null && stillCheckAfterMove(from, to, fromPiece.getColor()))) {
+            result = false;
         }
-		return p.validateMove(from, to) || result;
-	}
+        return p.validateMove(from, to) || result;
+    }
 
     /**
      * Returns an array of all possible positions that the piece can legally
      * move to, including capturing opponents.
-     * 
+     *
      * @param pos - The current position of the piece.
-     * @return    - An array of Position objects, each position being a space on
-     *              the board that the piece can legally move to.
+     * @return - An array of Position objects, each position being a space on
+     *         the board that the piece can legally move to.
      */
-	@Override
-	public Position[] showMoves(Position pos) {
+    @Override
+    public Position[] showMoves(Position pos) {
         // To store all the positions.
         ArrayList<Position> posArr = new ArrayList<>();
         SquareIF[][] squares = board.getSquares();
@@ -104,23 +105,21 @@ public class HorizVertValidator extends PieceValidator {
         int fileIndex = pos.getFile().getIndex();
         int rankIndex = pos.getRank().getIndex();
         PieceIF piece = board.getSquare(pos).getPiece();
-        int size      = squares.length - 1;
-
+        int size = squares.length - 1;
 
         // Check squares up from this position.
         int i = rankIndex;
         while (i > 0 && squares[--i][fileIndex].getPiece() == null) {
-            if (!stillCheckAfterMove(pos, squares[i][fileIndex].getPostion(), piece.getColor())){
-                posArr.add(new Position(Rank.getRankFromIndex(i),
-                        pos.getFile()));
+            if (!stillCheckAfterMove(pos, squares[i][fileIndex].getPostion(), piece.getColor())) {
+                posArr.add(new Position(Rank.getRankFromIndex(i), pos.getFile()));
             }
         }
         // Check the last piece.
         if (i >= 0) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
-                    && !checkIfKing(squares[i][fileIndex].getPiece()) && !stillCheckAfterMove(pos, squares[i][fileIndex].getPostion(), piece.getColor())) {
-                newPosition = new Position(Rank.getRankFromIndex(i),
-                                        pos.getFile());
+                    && !checkIfKing(squares[i][fileIndex].getPiece())
+                    && !stillCheckAfterMove(pos, squares[i][fileIndex].getPostion(), piece.getColor())) {
+                newPosition = new Position(Rank.getRankFromIndex(i), pos.getFile());
                 if (!posArr.contains(newPosition)) {
                     posArr.add(newPosition);
                 }
@@ -137,9 +136,9 @@ public class HorizVertValidator extends PieceValidator {
         // Check the last piece.
         if (i <= size) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
-                    && !checkIfKing(squares[rankIndex][i].getPiece()) && !stillCheckAfterMove(pos, squares[rankIndex][i].getPostion(), piece.getColor())) {
-                newPosition = new Position(pos.getRank(), 
-                                        File.getFileFromIndex(i));
+                    && !checkIfKing(squares[rankIndex][i].getPiece())
+                    && !stillCheckAfterMove(pos, squares[rankIndex][i].getPostion(), piece.getColor())) {
+                newPosition = new Position(pos.getRank(), File.getFileFromIndex(i));
                 if (!posArr.contains(newPosition)) {
                     posArr.add(newPosition);
                 }
@@ -156,16 +155,16 @@ public class HorizVertValidator extends PieceValidator {
         // Check the last piece.
         if (i <= size) {
             if (!checkMoveOnAlly(piece, squares[i][fileIndex].getPiece())
-                    && !checkIfKing(squares[i][fileIndex].getPiece()) && !stillCheckAfterMove(pos, squares[i][fileIndex].getPostion(), piece.getColor())) {
-                newPosition = new Position(Rank.getRankFromIndex(i),
-                                        pos.getFile());
+                    && !checkIfKing(squares[i][fileIndex].getPiece())
+                    && !stillCheckAfterMove(pos, squares[i][fileIndex].getPostion(), piece.getColor())) {
+                newPosition = new Position(Rank.getRankFromIndex(i), pos.getFile());
                 if (!posArr.contains(newPosition)) {
                     posArr.add(newPosition);
                 }
             }
         }
 
-      // Check squares left of this position.
+        // Check squares left of this position.
         i = fileIndex;
         while (i > 0 && squares[rankIndex][--i].getPiece() == null) {
             if (!stillCheckAfterMove(pos, squares[rankIndex][i].getPostion(), piece.getColor())) {
@@ -175,9 +174,9 @@ public class HorizVertValidator extends PieceValidator {
         // Check the last piece.
         if (i >= 0) {
             if (!checkMoveOnAlly(piece, squares[rankIndex][i].getPiece())
-                    && !checkIfKing(squares[rankIndex][i].getPiece()) && !stillCheckAfterMove(pos, squares[rankIndex][i].getPostion(), piece.getColor())) {
-                newPosition = new Position(pos.getRank(),
-                                        File.getFileFromIndex(i));
+                    && !checkIfKing(squares[rankIndex][i].getPiece())
+                    && !stillCheckAfterMove(pos, squares[rankIndex][i].getPostion(), piece.getColor())) {
+                newPosition = new Position(pos.getRank(), File.getFileFromIndex(i));
                 if (!posArr.contains(newPosition)) {
                     posArr.add(newPosition);
                 }
@@ -201,7 +200,7 @@ public class HorizVertValidator extends PieceValidator {
 
     /**
      * Create a deep clone of this object.
-     * 
+     *
      * @return - A deep clone of this object.
      */
     @Override
@@ -212,7 +211,7 @@ public class HorizVertValidator extends PieceValidator {
 
     /**
      * Compares an object with this Validator object.
-     * 
+     *
      * @param obj - An object to compare with this Validator object.
      * @return - True if the two objects are deeply equal, false otherwise.
      */

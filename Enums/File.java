@@ -2,6 +2,7 @@ package Enums;
 
 /**
  * Enum that represents the file of a position on the board
+ *
  * @author Matt Lutz 33%
  * @author Jeriah Caplinger 33%
  * @author Kevin Filanowski 33%
@@ -40,16 +41,18 @@ public enum File {
 
     /**
      * Constructor for the File enum
-     * @param file - String holds the file
+     *
+     * @param file  - String holds the file
      * @param index - int that holds the index for the file
      */
-    private File(String file, int index){
+    private File(String file, int index) {
         this.file = file;
         this.index = index;
     }
 
     /**
      * Returns the index of the file.
+     *
      * @return - Index of the file.
      */
     public int getIndex() {
@@ -58,6 +61,7 @@ public enum File {
 
     /**
      * Returns the String file.
+     *
      * @return - The string file.
      */
     public String getFile() {
@@ -66,7 +70,7 @@ public enum File {
 
     /**
      * Retrieve a File enumeration based on the index.
-     * 
+     *
      * @param index - The index of the enumeration.
      * @return - A File enumeration corrosponding to this index.
      */
@@ -97,12 +101,13 @@ public enum File {
 
     /**
      * Gets the max index for the file
+     *
      * @return - The max index for the file
      */
-    public static int getMaxIndex(){
+    public static int getMaxIndex() {
         int max = -1;
-        for (File f: File.values()){
-            if(f.getIndex() > max){
+        for (File f : File.values()) {
+            if (f.getIndex() > max) {
                 max = f.getIndex();
             }
         }

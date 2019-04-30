@@ -20,7 +20,7 @@ public class History<T extends BoardIF> {
     /** Keeps track of the redo stages. */
     private int redoIndex;
     /** A List of previous state of the project. */
-    private static List<State<BoardIF>> list;
+    private List<State<BoardIF>> list;
 
     /**
      * Private Constructor defining index's and a history list.
@@ -39,7 +39,7 @@ public class History<T extends BoardIF> {
      * @return - An instance of the History class.
      */
     public static History<BoardIF> getInstance() {
-        if (list == null) { instance = new History<BoardIF>(); }
+        if (instance == null) { instance = new History<BoardIF>(); }
         return instance;
     }
 
@@ -88,11 +88,39 @@ public class History<T extends BoardIF> {
      *                                        user tries to undo or redo to a state
      *                                        that does not exist.
      */
-    public State<BoardIF> undo() throws ArrayIndexOutOfBoundsException, NullPointerException {
+    public State<BoardIF> undo(BoardIF board) throws ArrayIndexOutOfBoundsException,
+                                                     NullPointerException {
         if (undoIndex < 0) { return null; }
+        addUndo(board);
         redoIndex--;
         // Cloning is to prevent certain specific cases of cross referencing.
-        return new State<BoardIF>(list.get(undoIndex--).getState().clone());
+        State<BoardIF> state = new State<BoardIF>(list.get(undoIndex--).getState().clone());
+        if (board.equals(state.getState())) {
+            state = new State<BoardIF>(list.get(undoIndex--).getState().clone());
+            redoIndex--;
+        }
+        return state;
+    }
+
+    /**
+     * This method adds the current state if an undo operation is called,
+     * only if the undo operation involves removing the current state and that
+     * state was never tracked in recent history.
+     * It effectively ensures that the last movement is still recorded.
+     * 
+     * @param board - The current board.
+     */
+    private void addUndo(BoardIF board) {
+        State<BoardIF> curr = board.saveState();
+        // Get the current state and compare with the previous state.
+        // TODO: test throughly to ensure it works, then remove the excess
+        // TODO: commented condition.
+        if (/*!curr.equals(list.get(undoIndex)) 
+            && */list.size() - (undoIndex + 1) == 0) {
+            list.add(curr);
+            undoIndex++;
+            redoIndex++;
+        }
     }
 
     /**
@@ -107,18 +135,51 @@ public class History<T extends BoardIF> {
      *                                        user tries to undo or redo to a state
      *                                        that does not exist.
      */
-    public State<BoardIF> redo() throws ArrayIndexOutOfBoundsException, NullPointerException {
+    public State<BoardIF> redo() throws ArrayIndexOutOfBoundsException,
+                                        NullPointerException {
         if (redoIndex >= list.size()) { return null; }
         undoIndex++;
         // Cloning is to prevent certain specific cases of cross referencing.
         return new State<BoardIF>(list.get(redoIndex++).getState().clone());
     }
-
+    
     /**
-     * Method that returns a list of the history list
-     * @return the history list
+     * Method that returns a list of the history.
+     *
+     * @return - The history list.
      */
     public List<State<BoardIF>> getList() {
         return list;
     }
+
+    /**
+     * Converts this object into an xml string for saving/loading
+     * @return an xml string representing this object
+     */
+    public String toXML(){
+        StringBuilder builder = new StringBuilder();
+        builder.append("<history>\n");
+
+        // undo index tag
+        builder.append("\t<undoIndex> ");
+        builder.append(undoIndex);
+        builder.append(" </undoIndex>\n");
+
+        //redo index tag
+        builder.append("\t<redoIndex> ");
+        builder.append(redoIndex);
+        builder.append(" </redoIndex>\n");
+
+        // list index tag
+        builder.append("\t<list>\n");
+        for(State<BoardIF> states : this.list){
+            builder.append(states.getState().toXML());
+        }
+        builder.append("\t</list>\n");
+
+        builder.append("</history>");
+
+        return builder.toString();
+    }
+
 }

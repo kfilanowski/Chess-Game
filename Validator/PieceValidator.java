@@ -75,6 +75,24 @@ public abstract class PieceValidator extends Piece {
     }
 
     /**
+     * Gets the underlying chess piece type that this validator is wrapping.
+     * 
+     * @return - An enumeration of type ChessPieceType.
+     */
+    public ChessPieceType getChessPieceType() {
+        return getPiece().getChessPieceType();
+    }
+
+    /**
+     * Gets the underlying color that this validator is wrapping.
+     * 
+     * @return - An enumeration of type GameColor.
+     */
+    public GameColor getColor() {
+        return getPiece().getColor();
+    }
+
+    /**
      * Checks if a piece is a King piece.
      * 
      * @param p - The piece to check.
@@ -126,14 +144,6 @@ public abstract class PieceValidator extends Piece {
         squares[fromRank][fromFile].setPiece(ourPiece);
         squares[toRank][toFile].setPiece(theirPiece);
         return result;
-    }
-
-    /**
-     * Gets the color for a piece validator
-     * @return - The color of the piece
-     */
-    public GameColor getColor() {
-        return p.getColor();
     }
 
     /**
