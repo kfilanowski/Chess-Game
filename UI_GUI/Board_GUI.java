@@ -79,6 +79,7 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         menu.setScreenChangeHandler(this);
         GameScreen game = GameScreen.getInstance();
         game.setScreenChangeHandler(this);
+        menu.setup();
         game.setup();
 
         primaryStage.setMinHeight(700);
@@ -90,6 +91,10 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+        System.out.println("stage height: " + primaryStage.getHeight());
+        System.out.println("stage width: " + primaryStage.getWidth());
     }
 
     /**

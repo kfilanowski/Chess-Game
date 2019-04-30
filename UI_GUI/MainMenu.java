@@ -32,10 +32,13 @@ public class MainMenu implements EventHandler<ActionEvent> {
         super();
         root = new BorderPane();
         vbox = new VBox();
+
+    }
+
+    public void setup(){
         vbox.setAlignment(Pos.CENTER);//SET the alignment of the  layout.
         vbox.setSpacing(20);
-        hbox = new HBox();
-        hbox.setSpacing(400);
+
 
         pvp = new Button("Player vs Player");
         //pvp.getStyleClass().add("buttonStyleA");
@@ -91,9 +94,9 @@ public class MainMenu implements EventHandler<ActionEvent> {
         BorderPane.setAlignment(lab1, Pos.CENTER);
         BorderPane.setAlignment(king, Pos.CENTER_RIGHT);
         root.setId("Screen1");
+        //root.getStyleClass().add("Screen1");
 
         root.setMinSize(900.0, 700.0);
-
     }
 
     public Pane getRoot(){

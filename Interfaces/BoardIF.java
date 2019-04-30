@@ -153,4 +153,10 @@ public interface BoardIF {
      */
     public void revDraw(BoardIF board, Position[] pos);
 
+    /**
+     * Converts to an XML string
+     * @return an XML string representing this object
+     */
+    public String toXML();
+
 }

@@ -1143,6 +1143,49 @@ public class Board implements BoardIF {
         return difference <= UPPER_BOUND && difference >= LOWER_BOUND;
     }
 
-    // public PieceValidator
+
+    /**
+     * Converts this board into an XML object
+     * @return an XML string that represents this board
+     */
+    public String toXML(){
+        StringBuilder builder = new StringBuilder();
+        builder.append("\t\t<board>\n");
+        // we loop through the whole board and get the pieces
+        for(int i = 0; i < getWidth(); i++){
+            for(int j = 0; j < getHeight(); j++){
+                PieceValidator piece = (PieceValidator) board[i][j].getPiece();
+                if(piece != null){
+                    // starting tag to signify a piece
+                    builder.append("\t\t\t<piece>\n");
+
+                    // gets chess piece type
+                    builder.append("\t\t\t\t<pieceType> ");
+                    builder.append(piece.getPiece().getChessPieceType());
+                    builder.append(" </pieceType>\n");
+
+                    // gets color type
+                    builder.append("\t\t\t\t<color> ");
+                    builder.append(piece.getPiece().getColor());
+                    builder.append(" </color>\n");
+
+                    // gets the rank index for the piece
+                    builder.append("\t\t\t\t<rankIndex> ");
+                    builder.append(i);
+                    builder.append(" </rankIndex>\n");
+
+                    // gets the file index for the piece
+                    builder.append("\t\t\t\t<fileIndex> ");
+                    builder.append(j);
+                    builder.append(" </fileIndex>\n");
+
+                    // end tag for the piece
+                    builder.append("\t\t\t</piece>\n");
+                }
+            }
+        }
+        builder.append("\t\t</board>\n");
+        return builder.toString();
+    }
 
 }

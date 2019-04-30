@@ -24,11 +24,9 @@ public class ImageFactory {
      *
      * @param type  - The chess piece type enumeration.
      * @param color - The color enumeration of the piece.
-     * @param size  - The size of the image to return, in width. The image is
-     *              preserved in terms of aspect ratio.
      * @return - An ImageView object containing the selected chess piece.
      */
-    public ImageView getImage(ChessPieceType type, GameColor color, int size) {
+    public ImageView getImage(ChessPieceType type, GameColor color) {
         // An ImageView node to return.
         ImageView i;
 
@@ -79,7 +77,6 @@ public class ImageFactory {
             return null;
         }
         i.setPreserveRatio(true);
-        i.setFitWidth(size);
         i.setSmooth(true);
         i.setCache(true);
         i.getStyleClass().add("piece");

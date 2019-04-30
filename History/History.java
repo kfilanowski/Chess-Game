@@ -151,4 +151,35 @@ public class History<T extends BoardIF> {
     public List<State<BoardIF>> getList() {
         return list;
     }
+
+    /**
+     * Converts this object into an xml string for saving/loading
+     * @return an xml string representing this object
+     */
+    public String toXML(){
+        StringBuilder builder = new StringBuilder();
+        builder.append("<history>\n");
+
+        // undo index tag
+        builder.append("\t<undoIndex> ");
+        builder.append(undoIndex);
+        builder.append(" </undoIndex>\n");
+
+        //redo index tag
+        builder.append("\t<redoIndex> ");
+        builder.append(redoIndex);
+        builder.append(" </redoIndex>\n");
+
+        // list index tag
+        builder.append("\t<list>\n");
+        for(State<BoardIF> states : this.list){
+            builder.append(states.getState().toXML());
+        }
+        builder.append("\t</list>\n");
+
+        builder.append("</history>");
+
+        return builder.toString();
+    }
+
 }
