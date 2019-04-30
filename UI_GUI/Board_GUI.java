@@ -2,12 +2,17 @@ package UI_GUI;
 
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
+import colorama.VolumeControl;
 import Model.Position;
+import colorama.ColorChooser;
+import colorama.ColorScene;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import Interfaces.*;
+
+import java.awt.*;
 
 public class Board_GUI extends Application implements BoardStrategy, ScreenChangeHandler {
 
@@ -18,6 +23,18 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
 
     /**The root of scene A and scene B**/
     Pane rootA, rootB;
+
+    /**Get the instance of this application**/
+    private static Board_GUI instance;
+
+    /**The screens that can be used by this application**/
+    public enum Screens {ColorScreen, ColorChooser, Volume};
+
+    /**The root pane that all screens fit in to**/
+    private Pane root;
+
+
+    boolean  runOnce = true;
 
     @Override
     public void draw(BoardIF board) {
@@ -58,12 +75,12 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         MainMenu menu = new MainMenu();
         menu.setScreenChangeHandler(this);
         GameScreen game = GameScreen.getInstance();
         game.setScreenChangeHandler(this);
         game.setup();
+
         primaryStage.setMinHeight(700);
         primaryStage.setMinWidth(900);
         rootA = menu.getRoot();
@@ -96,4 +113,39 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
             scene.setRoot(rootB);
         }
     }
+
+    public void switchUI(Screens screen){
+        /**Switch the root pane of this screen to change scenes
+         * @param screen The choise of screen*/
+
+            switch(screen){
+                case ColorScreen:
+                    root = ColorScene.getInstance();
+                    break;
+                case ColorChooser:
+                    ColorChooser ch = ColorChooser.getInstance();
+                    ch.setScreenChangeHandler(this);
+
+
+                    root = ch;
+                    break;
+                case Volume:
+                    root = new VolumeControl(0);
+                    break;
+            }//end switch
+
+            //Change the screen
+            if(scene == null)
+                scene = new Scene(root,400,600);
+            else
+                scene.setRoot(root);
+
+            runOnce = false;
+        }//end switchUI
+
+    public static Board_GUI getInstance(){
+        return instance;
+    }//end getInstance
+
+
 }
