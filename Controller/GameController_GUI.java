@@ -1,5 +1,9 @@
 package Controller;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import ChessExceptions.GameOverStaleMateException;
@@ -10,6 +14,8 @@ import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Model.Position;
 import Validator.PieceValidator;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import History.History;
 import History.State;
 
@@ -194,6 +200,52 @@ public class GameController_GUI {
         } else {
             board.restoreState(state);
             alert("Redo occured");
+        }
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+    public void saveAction() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
+        File file = fileChooser.showSaveDialog(new Stage());
+        if (file != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                PrintWriter writer = new PrintWriter(fileWriter);
+                writer.print(History.getInstance().toXML());
+                writer.close();
+            } catch (IOException ioe) {
+                System.out.println("caught ioe exception");
+            }
+        }
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * 
+     */
+    public void loadAction() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                PrintWriter writer = new PrintWriter(fileWriter);
+                writer.print(History.getInstance().toXML());
+                writer.close();
+            } catch (IOException ioe) {
+                System.out.println("caught ioe exception");
+            }
         }
     }
 

@@ -240,10 +240,10 @@ public class GameScreen {
         Button[] buttons = new Button[5];
 
         buttons[0] = new Button("Load");
-        // buttons[0].setOnAction(e -> gc.loadAction(e));
+        buttons[0].setOnAction(e -> gc.loadAction());
 
         buttons[1] = new Button("Save");
-        // buttons[1].setOnAction(e -> gc.saveAction(e));
+        buttons[1].setOnAction(e -> gc.saveAction());
 
         buttons[2] = new Button("Undo");
         buttons[2].setOnAction(e -> {

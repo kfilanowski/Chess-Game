@@ -13,29 +13,17 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class SaveAndLoadScreen extends Application {
-    private FileChooser fileChooser;
 
     @Override
     public void start(Stage primaryStage){
 
-        fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+        
 
         Button save = new Button("Save");
         save.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                File file = fileChooser.showSaveDialog(primaryStage);
-                if (file != null) {
-                    try {
-                        FileWriter fileWriter = new FileWriter(file);
-                        PrintWriter writer = new PrintWriter(fileWriter);
-                        writer.print(History.getInstance().toXML());
-                        writer.close();
-                    }catch (IOException ioe) {
-                        System.out.println("caught ioe exception");
-                    }
-                }
+                
             }
         });
 
@@ -44,17 +32,7 @@ public class SaveAndLoadScreen extends Application {
         load.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                File file = fileChooser.showOpenDialog(primaryStage);
-                if (file != null) {
-                    try {
-                        FileWriter fileWriter = new FileWriter(file);
-                        PrintWriter writer = new PrintWriter(fileWriter);
-                        writer.print(History.getInstance().toXML());
-                        writer.close();
-                    }catch (IOException ioe) {
-                        System.out.println("caught ioe exception");
-                    }
-                }
+                
             }
         });
 
