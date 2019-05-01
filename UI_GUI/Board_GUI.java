@@ -20,13 +20,15 @@ import java.util.Set;
 
 public class Board_GUI extends Application implements BoardStrategy, ScreenChangeHandler {
 
-    Stage primaryStage;
+    public static int boardSettings;
+
+    private static Stage primaryStage;
 
     /**The scene of the stage**/
     Scene scene;
 
     /**The root of scene A and scene B**/
-    Pane rootA, rootB;
+    Pane rootA, rootB, rootC;
 
     /**Get the instance of this application**/
     private static Board_GUI instance;
@@ -79,21 +81,24 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        boardSettings = 0;
         MainMenu menu = new MainMenu();
         menu.setScreenChangeHandler(this);
         GameScreen game = GameScreen.getInstance();
+        game.setup();
+        game.setScreenChangeHandler(this);
         SettingsRoundTwo settings = SettingsRoundTwo.getInstance();
         settings.settingSetup();
-        game.setScreenChangeHandler(this);
+        settings.setScreenChangeHandler(this);
         menu.setup();
-        game.setup();
 
-        //primaryStage.setMinHeight(700);
-        //primaryStage.setMinWidth(900);
+        primaryStage.setMinHeight(700);
+        primaryStage.setMinWidth(900);
         rootA = menu.getRoot();
         rootB = game.getRoot();
+        rootC = settings.getRoot();
         this.primaryStage = primaryStage;
-        scene = new Scene(settings.getRoot());
+        scene = new Scene(menu.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -120,10 +125,15 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
     public void switchScreen(int screen){
         if(screen == ScreenChangeHandler.SCREENA){
             scene.setRoot(rootA);
-        }else{
+        }else if(screen == ScreenChangeHandler.SCREENB){
             scene.setRoot(rootB);
+            boardSettings = 1;
+        }else if(screen == ScreenChangeHandler.SCREENC){
+            scene.setRoot(rootC);
         }
     }
+
+
 
     public void switchUI(Screens screen){
         /**Switch the root pane of this screen to change scenes
@@ -154,9 +164,13 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
             runOnce = false;
         }//end switchUI
 
-    public static Board_GUI getInstance(){
+    public static Board_GUI getInstance() {
         return instance;
     }//end getInstance
+
+    public static Stage getPrimaryStage(){
+        return primaryStage;
+    }
 
 
 }

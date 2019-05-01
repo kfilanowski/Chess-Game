@@ -12,7 +12,9 @@ import Enums.GameColor;
 import Handler.AlertHandler;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
+import Interfaces.ScreenChangeHandler;
 import Model.Position;
+import UI_GUI.Board_GUI;
 import Validator.PieceValidator;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -50,6 +52,10 @@ public class GameController_GUI {
     ArrayList<PieceIF> blackTakenPiece;
     /** A list of alertHandlers to notify if there is some kind of alert. */
     ArrayList<AlertHandler> ahList;
+    /** The screen change handler that handles changing the screens. */
+    ScreenChangeHandler handler;
+
+
 
     /**
      * Constructor for a GUI GameController. This controller is for a chess
@@ -188,6 +194,7 @@ public class GameController_GUI {
         }
     }
 
+
     /**
      * Handles a redo action triggered by some event such as a button press.
      */
@@ -247,6 +254,10 @@ public class GameController_GUI {
                 System.out.println("caught ioe exception");
             }
         }
+    }
+
+    public void settingsAction(){
+        handler.switchScreen(ScreenChangeHandler.SCREENC);
     }
 
     /**

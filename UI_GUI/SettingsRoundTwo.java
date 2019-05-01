@@ -1,5 +1,8 @@
 package UI_GUI;
 
+import Interfaces.ScreenChangeHandler;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import Handler.SettingsObserver;
 import Handler.SubjectIF;
 import Interfaces.ScreenChangeHandler;
@@ -40,6 +43,17 @@ public class SettingsRoundTwo implements SubjectIF {
     /** Holds the save and exit button*/
     private HBox hbox3;
 
+    /** ScreenChangeHandler object */
+    ScreenChangeHandler handler;
+
+    /**
+     * Method that sets the screenChangeHandler to a new screenChangeHandler
+     * @param sch - new screenChangeHandler that we want to set
+     */
+    public void setScreenChangeHandler(ScreenChangeHandler sch){
+        this.handler = sch;
+    }
+
     /** the white square color */
     private Button wcolor;
 
@@ -48,9 +62,6 @@ public class SettingsRoundTwo implements SubjectIF {
 
     /** the button that controls the colorama. */
     private Button userColor;
-
-    /** the screem change handler */
-    ScreenChangeHandler handler;
 
     /**the instance of color chooser */
     private Scene colorChooser;
@@ -78,7 +89,7 @@ public class SettingsRoundTwo implements SubjectIF {
         bcolor = new Button();
         wcolor = new Button();
         userColor = new Button();
-        userColor.setOnAction(buttonHandler);
+        userColor.setOnAction(buttonHandler2);
         colorChooser = new Scene(ColorChooser.getInstance().getRoot(),400,600);
         colorama = null;
     }
@@ -117,6 +128,17 @@ public class SettingsRoundTwo implements SubjectIF {
         return this.root;
     }
 
+    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            if(Board_GUI.boardSettings == 0){
+                handler.switchScreen(ScreenChangeHandler.SCREENA);
+            }else{
+                handler.switchScreen(ScreenChangeHandler.SCREENB);
+            }
+        }
+    };
+
     /**
      * Sets up the labels and the buttons that are on the board
      */
@@ -127,7 +149,9 @@ public class SettingsRoundTwo implements SubjectIF {
         Label bcolor = new Label("Black Color:");
         Button save = new Button();
         save.setText("Save");
+        save.setOnAction(buttonHandler);
         Button exit = new Button("Exit");
+        exit.setOnAction(buttonHandler);
         exit.setText("Exit");
         Label undo = new Label("Undo");
 
@@ -204,7 +228,7 @@ public class SettingsRoundTwo implements SubjectIF {
 
     }
 
-    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+    EventHandler<ActionEvent> buttonHandler2 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
             setStage();

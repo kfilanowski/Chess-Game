@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import com.sun.javafx.css.StyleManager;
-public class MainMenu implements EventHandler<ActionEvent> {
+public class MainMenu  {
 
     private static MainMenu instance;
     /** ScreenChangeHandler object */
@@ -28,6 +28,27 @@ public class MainMenu implements EventHandler<ActionEvent> {
     private HBox hbox;
     private AnchorPane anchorPane;
 
+    EventHandler<ActionEvent> buttonHandlerB = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            handler.switchScreen(ScreenChangeHandler.SCREENB);
+        }//end handle
+    };
+
+    EventHandler<ActionEvent> buttonHandlerC = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            handler.switchScreen(ScreenChangeHandler.SCREENC);
+        }//end handle
+    };
+
+    EventHandler<ActionEvent> exitHandler = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+           Board_GUI.getPrimaryStage().close();
+        }//end handle
+    };
+
     public MainMenu(){
         super();
         root = new BorderPane();
@@ -43,7 +64,7 @@ public class MainMenu implements EventHandler<ActionEvent> {
         pvp = new Button("Player vs Player");
         //pvp.getStyleClass().add("buttonStyleA");
         pvp.getStyleClass().add("buttonSizeL");
-        pvp.setOnAction(this);
+        pvp.setOnAction(buttonHandlerB);
         vbox.getChildren().add(pvp);
 
         playerVsComp = new Button("Player vs Computer");
@@ -69,11 +90,13 @@ public class MainMenu implements EventHandler<ActionEvent> {
         settings = new Button("Settings");
         //settings.getStyleClass().add("buttonStyleA");
         settings.getStyleClass().add("buttonSizeS");
+        settings.setOnAction(buttonHandlerC);
 
 
         exit = new Button("exit");
         //exit.getStyleClass().add("buttonStyleA");
         exit.getStyleClass().add("buttonSizeS");
+        exit.setOnAction(exitHandler);
 
         anchorPane = new AnchorPane();
         AnchorPane.setLeftAnchor(settings,10.0);
@@ -103,10 +126,7 @@ public class MainMenu implements EventHandler<ActionEvent> {
         return this.root;
     }
 
-    @Override
-    public void handle(ActionEvent event) {
-        handler.switchScreen(ScreenChangeHandler.SCREENB);
-    }
+
 
     /**
      * Method that sets the screenChangeHandler to a new screenChangeHandler
