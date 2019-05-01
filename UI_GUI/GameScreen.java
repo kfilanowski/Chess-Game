@@ -191,6 +191,9 @@ public class GameScreen {
         ranks.setId("ranks");
         files.setId("files");
 
+        BorderPane.setAlignment(ranks, Pos.TOP_RIGHT);
+        BorderPane.setAlignment(files, Pos.BOTTOM_CENTER);
+
         // Setup the board game grid.
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
@@ -199,23 +202,23 @@ public class GameScreen {
         ranks.setMinHeight(grid.getMinHeight());
 
         root.heightProperty().addListener(e -> {
-            double min = Math.min(
+            double min = Math.floor(Math.min(
                     root.getHeight() 
                         - ((Pane)root.getBottom()).getHeight() 
                         - ((Pane)root.getTop()).getHeight(), 
                     root.getWidth() 
                         - ((Pane)root.getLeft()).getWidth() 
-                        - ((Pane)root.getRight()).getWidth());
+                        - ((Pane)root.getRight()).getWidth()));
             center.setMaxSize(min, min);
         });
         root.widthProperty().addListener(e -> {
-            double min = Math.min(
+            double min = Math.floor(Math.min(
                     root.getHeight() 
                         - ((Pane)root.getBottom()).getHeight() 
                         - ((Pane)root.getTop()).getHeight(), 
                     root.getWidth() 
                         - ((Pane)root.getLeft()).getWidth() 
-                        - ((Pane)root.getRight()).getWidth());
+                        - ((Pane)root.getRight()).getWidth()));
             center.setMaxSize(min, min);
         });
 
@@ -273,7 +276,7 @@ public class GameScreen {
         @Override
         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
             double min = Math.min(grid.getHeight(), grid.getWidth());
-            double paneSize = Math.floor(min/boardSize);
+            double paneSize = Math.round(min/boardSize);
             Pane temp;
             for (Node p : grid.getChildren())  {
                 temp = (Pane) p;
@@ -333,8 +336,8 @@ public class GameScreen {
      */
     private void setupLeft() {
         VBox leftPanel = new VBox();
+        leftPanel.setStyle("-fx-background-color:orange");
         leftPanel.setAlignment(Pos.TOP_CENTER);
-        leftPanel.setPadding(new Insets(0, 0, 20, 0));
 
         // Setup Player labels
         Label playerOne = new Label("Player One");
@@ -342,27 +345,21 @@ public class GameScreen {
         playerOne.getStyleClass().add("playerLabel");
         playerOneName.getStyleClass().add("playerLabel");
 
+        // Properly scale this left side with screen resizing.
+        VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
+        capturedBlackPieces.setPrefColumns(2);
+        //capturedBlackPieces.setPrefTileHeight((height / 12));
+
+        root.widthProperty().addListener(e -> {
+            capturedBlackPieces.setMinWidth(2*grid.getWidth()/boardSize);
+        });
+
         // showMoves toggle button
         ToggleButton showMoves = new ToggleButton("Show Moves");
         showMoves.getStyleClass().add("toggleButton");
         showMoves.setOnAction(e -> toggleShowMoves = !toggleShowMoves);
 
-        // Spacer between captured pieces and button.
-        // Pane spacer = new Pane();
-        // spacer.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        // VBox.setVgrow(spacer, Priority.ALWAYS);
-        // spacer.setMinSize(1, 10);
-
-        // TODO: Properly scale this with screen resizing
-        // TODO: placement needs to be proper.
-
-        // Sets up the pane that displays the captured pieces.
-        capturedBlackPieces.setMaxSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        capturedBlackPieces.setMinSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        int height = Screen.getMainScreen().getHeight();
-        capturedBlackPieces.setPrefTileHeight((height / 12));
-
-        leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces, /* spacer, */ showMoves);
+        leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces, showMoves);
         root.setLeft(leftPanel);
     }
 
@@ -382,8 +379,9 @@ public class GameScreen {
      */
     private void setupRight() {
         VBox rightPanel = new VBox();
-        rightPanel.setPadding(new Insets(0, 0, 20, 0));
         rightPanel.setAlignment(Pos.TOP_CENTER);
+        VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
+        capturedWhitePieces.setPrefColumns(2);
 
         // Setup Player labels
         Label playerTwo = new Label("Player Two");
@@ -396,22 +394,15 @@ public class GameScreen {
         // Exit button
         Button exitButton = new Button("Exit");
 
-        // Spacer between captured pieces and button.
-        Pane spacer = new Pane();
-        spacer.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-        spacer.setMinSize(1, 10);
-
         // TODO: Properly scale this with screen resizing.
         // TODO: placement needs to be proper.
 
         // Sets up the pane that displays the captured pieces.
         capturedWhitePieces.setMinSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        capturedWhitePieces.setMaxSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
         int height = Screen.getMainScreen().getHeight();
         capturedWhitePieces.setPrefTileHeight((height / 12));
 
-        rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces, spacer, exitButton);
+        rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces, exitButton);
         root.setRight(rightPanel);
     }
 
