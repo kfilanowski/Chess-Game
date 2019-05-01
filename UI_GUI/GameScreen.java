@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -140,16 +141,15 @@ public class GameScreen {
      * @return - A vertical list of ranks, or numbers from 1 through the number of
      *         squares on the board, added backwards.
      */
-    private VBox createRanks() {
-        // TODO: Have these paddings and sizes dynamically adjust with resizing.
-        VBox ranks = new VBox(11.8);
-        ranks.setPadding(new Insets(5, 10, 0, 10));
-        Font font = new Font(42);
+    private GridPane createRanks() {
+        GridPane ranks = new GridPane();
+        ranks.setAlignment(Pos.CENTER);
+        Font font = new Font(36);
 
-        for (int i = board.getSquares().length; i > 0; i--) {
+        for (int i = boardSize; i > 0; i--) {
             Label rank = new Label("" + i);
             rank.setFont(font);
-            ranks.getChildren().add(rank);
+            ranks.add(new StackPane(rank), 0, i, 1, 1);
         }
         return ranks;
     }
@@ -163,17 +163,17 @@ public class GameScreen {
      * @return - A horizontal list of files, or letters from A through the number of
      *         squares on the board.
      */
-    private HBox createFiles() {
-        // TODO: Have these paddings and sizes dynamically adjust with resizing.
-        HBox files = new HBox();
+    private GridPane createFiles() {
+        GridPane files = new GridPane();
+        files.setPadding(new Insets(0, 0, 0, 36));
         files.setAlignment(Pos.CENTER);
         Font font = new Font(36);
 
         // set files
-        for (int i = 'A'; i < 'A' + board.getSquares().length; i++) {
+        for (int i = 'A'; i < 'A' + boardSize; i++) {
             Label file = new Label(Character.toString((char) i));
             file.setFont(font);
-            files.getChildren().add(file);
+            files.add(new StackPane(file), i, 0, 1, 1);
         }
         return files;
     }
@@ -182,33 +182,59 @@ public class GameScreen {
      * Sets up the board in the center of the screen.
      */
     private void setupCenter() {
-        VBox center = new VBox();
+        BorderPane center = new BorderPane();
+        BorderPane.setAlignment(grid, Pos.TOP_LEFT);
 
         // Create the rank and files.
-        VBox ranks = createRanks();
-        HBox files = createFiles();
+        GridPane ranks = createRanks();
+        GridPane files = createFiles();
         ranks.setId("ranks");
         files.setId("files");
 
         // Setup the board game grid.
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
-        grid.setMinSize(300, 300);
+        grid.setMinSize(350, 350);
+        files.setMinWidth(grid.getMinWidth());
+        ranks.setMinHeight(grid.getMinHeight());
+
         grid.heightProperty().addListener(squareSizeListener);
         grid.widthProperty().addListener(squareSizeListener);
-        grid.heightProperty().addListener(e -> {
+        grid.heightProperty().addListener(e -> {;
+            double paneSize = ((Pane)grid.getChildren().get(0)).getHeight();
+            Pane temp;
+            for (Node p : files.getChildren())  {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize, paneSize * 0.75);
+                temp.setPrefSize(paneSize, paneSize * 0.75);
+            }
+            for (Node p : ranks.getChildren())  {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize * 0.75, paneSize);
+                temp.setPrefSize(paneSize * 0.75, paneSize);
+            }
+        });
+        root.widthProperty().addListener(e -> {
+            double paneSize = ((Pane)grid.getChildren().get(0)).getWidth();
+            Pane temp;
+            for (Node p : files.getChildren())  {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize, paneSize * 0.75);
+                temp.setPrefSize(paneSize, paneSize * 0.75);
+            }
+            for (Node p : ranks.getChildren())  {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize * 0.75, paneSize);
+                temp.setPrefSize(paneSize * 0.75, paneSize);
+            }
+        });
 
-        });
-        grid.widthProperty().addListener(e -> {
-            files.setSpacing(grid.widthProperty().doubleValue()/board.getSquares().length/2);
-        });
         setupBoard();
         drawBoard();
 
-        // center.setLeft(ranks);
-        //center.setTop(files);
-        //center.setCenter(grid);
-        center.getChildren().addAll(files, grid);
+        center.setLeft(ranks);
+        center.setTop(files);
+        center.setCenter(grid);
         root.setCenter(center);
     }
 
@@ -224,11 +250,11 @@ public class GameScreen {
          */
         @Override
         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            double min = Math.min(grid.heightProperty().doubleValue(), grid.widthProperty().doubleValue());
+            double min = Math.min(grid.getHeight(), grid.getWidth());
             double paneSize = Math.floor(min/boardSize);
-            StackPane temp;
+            Pane temp;
             for (Node p : grid.getChildren())  {
-                temp = (StackPane) p;
+                temp = (Pane) p;
                 temp.setMaxSize(paneSize, paneSize);
                 temp.setMinSize(paneSize, paneSize);
             }
@@ -439,7 +465,6 @@ public class GameScreen {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 StackPane pane = new StackPane();
-                // pane.setMaxSize(1, 1);
                 pane.setAlignment(Pos.CENTER);
 
                 if (count % 2 == 0)
