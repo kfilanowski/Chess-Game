@@ -46,6 +46,9 @@ public class SettingsRoundTwo implements SubjectIF {
     /** the black square button */
     private Button bcolor;
 
+    /** the button that controls the colorama. */
+    private Button userColor;
+
     /** the screem change handler */
     ScreenChangeHandler handler;
 
@@ -74,8 +77,8 @@ public class SettingsRoundTwo implements SubjectIF {
         vbox2 = new VBox();
         bcolor = new Button();
         wcolor = new Button();
-        wcolor.setOnAction(buttonHandler);
-        bcolor.setOnAction(buttonHandler);
+        userColor = new Button();
+        userColor.setOnAction(buttonHandler);
         colorChooser = new Scene(ColorChooser.getInstance().getRoot(),400,600);
         colorama = null;
     }
@@ -95,6 +98,7 @@ public class SettingsRoundTwo implements SubjectIF {
         root.setMinSize(500.0,280.0);
         Label lbl = new Label("Settings");
         root.setTop(lbl);
+        root.setLeft(new Pane());
         lbl.getStyleClass().add("mainLabel");
         BorderPane.setAlignment(lbl, Pos.CENTER);
 
@@ -118,8 +122,9 @@ public class SettingsRoundTwo implements SubjectIF {
      */
     private void color(){
         Label color = new Label("Color");
-        Label whiteColor = new Label("White Squares:\t");
-        Label blackColor = new Label("Black Squares:\t");
+        Label boardColor = new Label("Choose Square Colors: ");
+        Label wcolor = new Label("White Color:");
+        Label bcolor = new Label("Black Color:");
         Button save = new Button();
         save.setText("Save");
         Button exit = new Button("Exit");
@@ -143,10 +148,13 @@ public class SettingsRoundTwo implements SubjectIF {
 
         //sets style sheets
         color.getStyleClass().add("mediumLabel");
-        whiteColor.getStyleClass().add("regularLabel");
-        blackColor.getStyleClass().add("regularLabel");
-        bcolor.getStyleClass().addAll("buttonSizeS2", "blackButton");
-        wcolor.getStyleClass().addAll("buttonSizeS2", "whiteButton");
+        boardColor.getStyleClass().add("regularLabel");
+
+        userColor.getStyleClass().add("buttonSizeS2");
+        this.bcolor.getStyleClass().addAll("buttonSizeS2", "blackButton");
+        this.wcolor.getStyleClass().addAll("buttonSizeS2", "whiteButton");
+        wcolor.getStyleClass().add("regularLabel");
+        bcolor.getStyleClass().add("regularLabel");
         exit.getStyleClass().add("buttonSizeS2");
         save.getStyleClass().add("buttonSizeS2");
         undo.getStyleClass().add("mediumLabel");
@@ -171,11 +179,13 @@ public class SettingsRoundTwo implements SubjectIF {
 
 
         //adds the all the nodes
-        hbox1.getChildren().add(whiteColor);
-        hbox1.getChildren().add(wcolor);
+        hbox1.getChildren().add(boardColor);
+        hbox1.getChildren().add(userColor);
 
-        hbox2.getChildren().add(blackColor);
+        hbox2.getChildren().add(wcolor);
+        hbox2.getChildren().add(this.wcolor);
         hbox2.getChildren().add(bcolor);
+        hbox2.getChildren().add(this.bcolor);
 
         hbox3.getChildren().add(save);
         hbox3.getChildren().add(exit);
