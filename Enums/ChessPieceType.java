@@ -70,4 +70,29 @@ public enum ChessPieceType {
     public char getUni() {
         return uni;
     }
+
+
+    /**
+     * Gets a specific chess piece type based on the given string
+     * @param str the given string that should match to a chesss piece type
+     * @return the chess piece type that matches the string or null if none were matched
+     */
+    public static ChessPieceType getChessPieceTypeFromString(String str){
+        ChessPieceType type = null;
+        str = str.trim();
+        if(str.equalsIgnoreCase("PAWN")){
+            type = PAWN;
+        }else if(str.equalsIgnoreCase("ROOK")){
+            type = ROOK;
+        }else if(str.equalsIgnoreCase("KNIGHT")){
+            type = KNIGHT;
+        }else if(str.equalsIgnoreCase("BISHOP")){
+            type = BISHOP;
+        }else if(str.equalsIgnoreCase("QUEEN")){
+            type = QUEEN;
+        }else if(str.equalsIgnoreCase("KING")){
+            type = KING;
+        }
+        return  type;
+    }
 }

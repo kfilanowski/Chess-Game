@@ -1,9 +1,17 @@
 package History;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Interfaces.BoardIF;
+import Sax_Parser.HistoryHandler;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * The history class holds each state of an entity class. In this case, a board.
@@ -142,7 +150,20 @@ public class History<T extends BoardIF> {
         // Cloning is to prevent certain specific cases of cross referencing.
         return new State<BoardIF>(list.get(redoIndex++).getState().clone());
     }
-    
+
+
+    public void setUndoIndex(int undoIndex) {
+        this.undoIndex = undoIndex;
+    }
+
+    public void setRedoIndex(int redoIndex) {
+        this.redoIndex = redoIndex;
+    }
+
+    public void setList(List<State<BoardIF>> list) {
+        this.list = list;
+    }
+
     /**
      * Method that returns a list of the history.
      *
@@ -152,23 +173,36 @@ public class History<T extends BoardIF> {
         return list;
     }
 
+
+    /**
+     *
+     * @param file the xml file to load in
+     * @return the latest board state in history
+     */
+    public State<BoardIF> loadHistory(File file){
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        try{
+            SAXParser parser = factory.newSAXParser();
+            HistoryHandler historyHandler = new HistoryHandler();
+            parser.parse(file, historyHandler);
+        }catch (SAXException saxe){
+            System.out.println("caught sax exception");
+        }catch (ParserConfigurationException pce){
+            System.out.println("caught parser confix except");
+        }catch(IOException ioe){
+            System.out.println("caught ioe exception");
+        }
+
+        return list.get(list.size() - 1);
+    }
+
     /**
      * Converts this object into an xml string for saving/loading
      * @return an xml string representing this object
      */
     public String toXML(){
         StringBuilder builder = new StringBuilder();
-        builder.append("<history>\n");
-
-        // undo index tag
-        builder.append("\t<undoIndex> ");
-        builder.append(undoIndex);
-        builder.append(" </undoIndex>\n");
-
-        //redo index tag
-        builder.append("\t<redoIndex> ");
-        builder.append(redoIndex);
-        builder.append(" </redoIndex>\n");
+        builder.append("<history undoIndex= \"" + (undoIndex - 1) +"\" redoIndex= \"" + (redoIndex - 1) + "\" >\n");
 
         // list index tag
         builder.append("\t<list>\n");

@@ -447,7 +447,7 @@ public class GameScreen {
     /**
      * Draws the pieces on the grid.
      */
-    private void drawBoard() {
+    public void drawBoard() {
         // The squares on the board.
         SquareIF[][] squares = board.getSquares();
         // A factory method to retrieve piece images.
