@@ -202,7 +202,7 @@ public class History<T extends BoardIF> {
      */
     public String toXML(){
         StringBuilder builder = new StringBuilder();
-        builder.append("<history undoIndex= \"" + (undoIndex - 1) +"\" redoIndex= \"" + (redoIndex - 1) + "\" >\n");
+        builder.append("<history undoIndex= \"" + undoIndex +"\" redoIndex= \"" + redoIndex + "\" >\n");
 
         // list index tag
         builder.append("\t<list>\n");
