@@ -360,7 +360,11 @@ public class GameScreen {
         // showMoves toggle button
         ToggleButton showMoves = new ToggleButton("Show Moves");
         showMoves.getStyleClass().add("toggleButton");
-        showMoves.setOnAction(e -> toggleShowMoves = !toggleShowMoves);
+        showMoves.setOnAction(e -> {
+            /*toggleShowMoves = !toggleShowMoves*/
+        drawBoard();
+        System.out.println("re-draw board");
+    });
 
         leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces, showMoves);
         root.setLeft(leftPanel);

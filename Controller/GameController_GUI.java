@@ -260,7 +260,7 @@ public class GameController_GUI {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
-            board.restoreState(History.getInstance().loadHistory(file));
+            board.restoreState(History.getInstance().loadHistory(file).getState().clone().saveState());
         }
     }
 
