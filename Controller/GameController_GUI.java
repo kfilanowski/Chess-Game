@@ -165,6 +165,24 @@ public class GameController_GUI {
     }
 
     /**
+     * 
+     * 
+     * 
+     */
+    public void setPlayerOneName(String name) {
+        playerOneName = name;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     */
+    public void setPlayerTwoName(String name) {
+        playerTwoName = name;
+    }
+
+    /**
      * Retrieves the name of the second player.
      * 
      * @return - The name of player two.
@@ -184,6 +202,7 @@ public class GameController_GUI {
             alert("Undo could not occur");
         } else {
             board.restoreState(state);
+            playerTurn = !playerTurn;
             alert("Undo occured");
         }
     }
@@ -199,6 +218,7 @@ public class GameController_GUI {
             alert("Redo could not occur");
         } else {
             board.restoreState(state);
+            playerTurn = !playerTurn;
             alert("Redo occured");
         }
     }
