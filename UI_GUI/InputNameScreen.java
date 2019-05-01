@@ -65,6 +65,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         play.setOnAction(this);
         exit.setOnAction(this);
 
+        play.getStyleClass().add("inputNameButtonPlay");
+
         // set up an hbox layout for our buttons
         HBox buttons = new HBox();
         buttons.setAlignment(Pos.CENTER);

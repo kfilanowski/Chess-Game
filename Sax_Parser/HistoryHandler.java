@@ -35,6 +35,9 @@ public class HistoryHandler extends DefaultHandler {
             History.getInstance().setUndoIndex(Integer.parseInt(attributes.getValue("undoIndex")));
             History.getInstance().setRedoIndex(Integer.parseInt(attributes.getValue("redoIndex")));
         }else if(qname.equals("board")){
+            //TODO: few things that may be causing it to go wrong: the board.setDrawStrategy (tightly coupled anyways
+            // probably should change it) below when i return it in History as a State, or in
+            // Game_Controller_GUI when I call restore state or Could be the move is not working and tied to the load.
             board = new Board();
             board.init_board();
             board.setDrawStrategy(new Board_GUI());
