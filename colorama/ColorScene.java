@@ -65,7 +65,7 @@ public class ColorScene extends GridPane {
 
     /**
      * Set a color and display the result
-     * @param color
+     * @param colorSelection
      */
     public void setColor(String colorSelection){
         selectedColor = colorSelection;

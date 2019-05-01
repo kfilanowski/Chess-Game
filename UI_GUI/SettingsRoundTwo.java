@@ -3,7 +3,15 @@ package UI_GUI;
 import Interfaces.ScreenChangeHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import Handler.SettingsObserver;
+import Handler.SubjectIF;
+import Interfaces.ScreenChangeHandler;
+import colorama.ColorChooser;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -12,24 +20,27 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
-public class SettingsRoundTwo  {
-    /** */
+import java.util.regex.Pattern;
+
+public class SettingsRoundTwo implements SubjectIF {
+    /**The root of the project */
     private BorderPane root;
 
-    /** */
-    private AnchorPane ap;
-
-    /** */
+    /**hold the white color label and the button */
     private HBox hbox1;
 
-    /** */
+    /**hold the black color label and the button */
     private HBox hbox2;
 
+    /** Holds all the info on the left side of the screen */
     private VBox vbox1;
 
+    /** holds all the info on the right side of the screen */
     private VBox vbox2;
 
+    /** Holds the save and exit button*/
     private HBox hbox3;
 
     /** ScreenChangeHandler object */
@@ -43,23 +54,62 @@ public class SettingsRoundTwo  {
         this.handler = sch;
     }
 
+    /** the white square color */
+    private Button wcolor;
 
-    public SettingsRoundTwo(){
+    /** the black square button */
+    private Button bcolor;
+
+    /** the button that controls the colorama. */
+    private Button userColor;
+
+    /**the instance of color chooser */
+    private Scene colorChooser;
+
+    /** the singleton instance of this class */
+    private static SettingsRoundTwo instance;
+
+    /** a singleton instance of the stage */
+    private Stage colorama;
+
+
+    /**
+     * the constructor for the settings screen
+     */
+    private SettingsRoundTwo(){
         super();
         root = new BorderPane();
-        ap = new AnchorPane();
-        hbox1 = new HBox();
-        hbox2 = new HBox();
-        hbox3 = new HBox();
+        hbox1 = new HBox(15);
+        hbox2 = new HBox(15);
+        hbox3 = new HBox(15);
+        hbox3.setPadding(new Insets(0,10,0,0));
         vbox1 = new VBox();
+        vbox1.setPadding(new Insets(0,0,10,10));
         vbox2 = new VBox();
+        bcolor = new Button();
+        wcolor = new Button();
+        userColor = new Button();
+        userColor.setOnAction(buttonHandler2);
+        colorChooser = new Scene(ColorChooser.getInstance().getRoot(),400,600);
+        colorama = null;
     }
+
+    /**
+     * gets the singleton instance of this class
+     * @return - the instance of this class
+     */
+    public static SettingsRoundTwo getInstance(){
+        if(instance == null) instance = new SettingsRoundTwo();
+        return instance;
+    }
+
 
 
     public void settingSetup(){
         root.setMinSize(500.0,280.0);
         Label lbl = new Label("Settings");
         root.setTop(lbl);
+        root.setLeft(new Pane());
         lbl.getStyleClass().add("mainLabel");
         BorderPane.setAlignment(lbl, Pos.CENTER);
 
@@ -71,7 +121,7 @@ public class SettingsRoundTwo  {
         vbox2.setSpacing(205.0);
         BorderPane.setAlignment(vbox1, Pos.CENTER);
         BorderPane.setAlignment(vbox2,Pos.CENTER_RIGHT);
-        root.setId("pane");
+        root.setId("Screen1");
     }
 
     public BorderPane getRoot(){
@@ -94,10 +144,9 @@ public class SettingsRoundTwo  {
      */
     private void color(){
         Label color = new Label("Color");
-        Label whiteColor = new Label("White Squares:\t");
-        Label blackColor = new Label("Black Squares:\t");
-        Button bcolor = new Button();
-        Button wcolor = new Button();
+        Label boardColor = new Label("Choose Square Colors: ");
+        Label wcolor = new Label("White Color:");
+        Label bcolor = new Label("Black Color:");
         Button save = new Button();
         save.setText("Save");
         save.setOnAction(buttonHandler);
@@ -123,31 +172,44 @@ public class SettingsRoundTwo  {
 
         //sets style sheets
         color.getStyleClass().add("mediumLabel");
-        whiteColor.getStyleClass().add("regularLabel");
-        blackColor.getStyleClass().add("regularLabel");
-        bcolor.getStyleClass().addAll("buttonSizeS", "blackButton");
-        wcolor.getStyleClass().addAll("buttonSizeS", "whiteButton");
-        exit.getStyleClass().add("buttonSizeS");
-        save.getStyleClass().add("buttonSizeS");
+        boardColor.getStyleClass().add("regularLabel");
+
+        userColor.getStyleClass().add("buttonSizeS2");
+        this.bcolor.getStyleClass().addAll("buttonSizeS2", "blackButton");
+        this.wcolor.getStyleClass().addAll("buttonSizeS2", "whiteButton");
+        wcolor.getStyleClass().add("regularLabel");
+        bcolor.getStyleClass().add("regularLabel");
+        exit.getStyleClass().add("buttonSizeS2");
+        save.getStyleClass().add("buttonSizeS2");
         undo.getStyleClass().add("mediumLabel");
         cb1.getStyleClass().add("checkBox");
         cb2.getStyleClass().add("checkBox");
         unlim.getStyleClass().add("regularLabel");
         enable.getStyleClass().add("regularLabel");
         tf.getStyleClass().add("textField");
-        save.getStyleClass().add("buttonSizeS");
-        exit.getStyleClass().add("buttonSizeS");
+        save.getStyleClass().add("buttonSizeS2");
+        exit.getStyleClass().add("buttonSizeS2");
+        showMoves.getStyleClass().add("regularLabel");
+        cb3.getStyleClass().add("checkBox");
 
-
+        //scales check boxes
+        cb1.setScaleX(.75);
+        cb1.setScaleY(.75);
+        cb2.setScaleX(.75);
+        cb2.setScaleY(.75);
+        cb3.setScaleX(.75);
+        cb3.setScaleY(.75);
 
 
 
         //adds the all the nodes
-        hbox1.getChildren().add(whiteColor);
-        hbox1.getChildren().add(wcolor);
+        hbox1.getChildren().add(boardColor);
+        hbox1.getChildren().add(userColor);
 
-        hbox2.getChildren().add(blackColor);
+        hbox2.getChildren().add(wcolor);
+        hbox2.getChildren().add(this.wcolor);
         hbox2.getChildren().add(bcolor);
+        hbox2.getChildren().add(this.bcolor);
 
         hbox3.getChildren().add(save);
         hbox3.getChildren().add(exit);
@@ -166,6 +228,59 @@ public class SettingsRoundTwo  {
 
     }
 
+    EventHandler<ActionEvent> buttonHandler2 = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            setStage();
+        }//end handle
+    };
+
+    /**
+     * Set the white spaces color and display the result
+     * @param colorSelection - the color that is selected
+     */
+    public void setWhiteColor(String colorSelection){
+        wcolor.setStyle("-fx-background-color: #" + colorSelection );
+    }//nd setColor
+
+    /**
+     * Set the black space color and display the result
+     * @param colorSelection - the color that is selected
+     */
+    public void setBlackColor(String colorSelection){
+        bcolor.setStyle("-fx-background-color: #" + colorSelection );
+    }//nd setColor
 
 
+    public void addObserver(SettingsObserver observer){
+
+    }
+
+    public void removeObserver(SettingsObserver observer){
+
+    }
+
+    public void notifyGame(){
+
+    }
+
+    public Stage getColorama(){
+        if(colorama == null) {
+            colorama = new Stage();
+        }
+        return colorama;
+    }
+
+    public void setStage(){
+        if(colorama == null){
+            colorama = new Stage();
+        } else {
+            colorChooser.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+            colorama.setScene(colorChooser);
+            colorama.setMinHeight(colorChooser.getHeight());
+            colorama.setMinWidth(colorChooser.getWidth());
+            colorama.show();
+        }
+
+    }
 }

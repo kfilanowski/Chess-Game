@@ -16,7 +16,6 @@ import Interfaces.*;
 import java.awt.*;
 
 import java.util.Set;
-import java.util.Stack;
 
 
 public class Board_GUI extends Application implements BoardStrategy, ScreenChangeHandler {
@@ -88,7 +87,7 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         GameScreen game = GameScreen.getInstance();
         game.setup();
         game.setScreenChangeHandler(this);
-        SettingsRoundTwo settings = new SettingsRoundTwo();
+        SettingsRoundTwo settings = SettingsRoundTwo.getInstance();
         settings.settingSetup();
         settings.setScreenChangeHandler(this);
         menu.setup();
