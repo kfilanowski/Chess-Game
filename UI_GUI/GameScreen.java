@@ -198,24 +198,47 @@ public class GameScreen {
         files.setMinWidth(grid.getMinWidth());
         ranks.setMinHeight(grid.getMinHeight());
 
+        root.heightProperty().addListener(e -> {
+            double min = Math.min(
+                    root.getHeight() 
+                        - ((Pane)root.getBottom()).getHeight() 
+                        - ((Pane)root.getTop()).getHeight(), 
+                    root.getWidth() 
+                        - ((Pane)root.getLeft()).getWidth() 
+                        - ((Pane)root.getRight()).getWidth());
+            center.setMaxSize(min, min);
+        });
+        root.widthProperty().addListener(e -> {
+            double min = Math.min(
+                    root.getHeight() 
+                        - ((Pane)root.getBottom()).getHeight() 
+                        - ((Pane)root.getTop()).getHeight(), 
+                    root.getWidth() 
+                        - ((Pane)root.getLeft()).getWidth() 
+                        - ((Pane)root.getRight()).getWidth());
+            center.setMaxSize(min, min);
+        });
+
         grid.heightProperty().addListener(squareSizeListener);
         grid.widthProperty().addListener(squareSizeListener);
         grid.heightProperty().addListener(e -> {;
-            double paneSize = ((Pane)grid.getChildren().get(0)).getHeight();
+            double min = Math.min(grid.getHeight(), grid.getWidth());
+            double paneSize = Math.floor(min/boardSize);
             Pane temp;
             for (Node p : files.getChildren())  {
                 temp = (Pane) p;
-                temp.setMaxSize(paneSize, paneSize * 0.75);
-                temp.setPrefSize(paneSize, paneSize * 0.75);
+                temp.setMaxSize(paneSize, paneSize * 0.60);
+                temp.setPrefSize(paneSize, paneSize * 0.60);
             }
             for (Node p : ranks.getChildren())  {
                 temp = (Pane) p;
-                temp.setMaxSize(paneSize * 0.75, paneSize);
-                temp.setPrefSize(paneSize * 0.75, paneSize);
+                temp.setMaxSize(paneSize * 0.60, paneSize);
+                temp.setPrefSize(paneSize * 0.60, paneSize);
             }
         });
         root.widthProperty().addListener(e -> {
-            double paneSize = ((Pane)grid.getChildren().get(0)).getWidth();
+            double min = Math.min(grid.getHeight(), grid.getWidth());
+            double paneSize = Math.floor(min/boardSize);
             Pane temp;
             for (Node p : files.getChildren())  {
                 temp = (Pane) p;
@@ -231,11 +254,10 @@ public class GameScreen {
 
         setupBoard();
         drawBoard();
-
         center.setLeft(ranks);
         center.setTop(files);
         center.setCenter(grid);
-        root.setCenter(center);
+        root.setCenter(center);        
     }
 
     ChangeListener<Number> squareSizeListener = new ChangeListener<Number>() {
