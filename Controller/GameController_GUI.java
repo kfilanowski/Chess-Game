@@ -13,7 +13,6 @@ import Handler.AlertHandler;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Model.Position;
-import UI_GUI.GameScreen;
 import Validator.PieceValidator;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -166,6 +165,24 @@ public class GameController_GUI {
     }
 
     /**
+     * 
+     * 
+     * 
+     */
+    public void setPlayerOneName(String name) {
+        playerOneName = name;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     */
+    public void setPlayerTwoName(String name) {
+        playerTwoName = name;
+    }
+
+    /**
      * Retrieves the name of the second player.
      * 
      * @return - The name of player two.
@@ -185,6 +202,7 @@ public class GameController_GUI {
             alert("Undo could not occur");
         } else {
             board.restoreState(state);
+            playerTurn = !playerTurn;
             alert("Undo occured");
         }
     }
@@ -200,6 +218,7 @@ public class GameController_GUI {
             alert("Redo could not occur");
         } else {
             board.restoreState(state);
+            playerTurn = !playerTurn;
             alert("Redo occured");
         }
     }
@@ -218,7 +237,7 @@ public class GameController_GUI {
                 // we get our history as an xml string and write it to the designated file
                 FileWriter fileWriter = new FileWriter(file);
                 PrintWriter writer = new PrintWriter(fileWriter);
-                writer.print(History.getInstance().toXML());
+                writer.print(History.getInstance().toXML(board));
                 writer.close();
                 // we alert the user that the file was successfully saved
                 alert("File was saved as >>  " + file.toString());
@@ -241,8 +260,7 @@ public class GameController_GUI {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
-            board.restoreState(History.getInstance().loadHistory(file));
-            GameScreen.getInstance().drawBoard();
+            board.restoreState(History.getInstance().loadHistory(file).getState().clone().saveState());
         }
     }
 

@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryHandler extends DefaultHandler {
-    StringBuilder data = null;
-    List<State<BoardIF>> list = new ArrayList<>();
-    BoardIF board;
-    PieceFactory pieceFactory = new PieceFactory();
-    int rank;
-    int file;
-    GameColor color;
-    ChessPieceType pieceType;
+    private StringBuilder data = null;
+    private List<State<BoardIF>> list = new ArrayList<>();
+    private BoardIF board;
+    private PieceFactory pieceFactory = new PieceFactory();
+    private int rank;
+    private int file;
+    private GameColor color;
+    private ChessPieceType pieceType;
 
     boolean bType = false;
     boolean bColor = false;

@@ -7,18 +7,19 @@
 
 #ranks {
     -fx-background-color: #ffe1b4;
-    -fx-border-width: 0 5 0 0;
+    -fx-border-width: 0 1 0 0;
     -fx-border-color: black;
 }
 
 #files {
     -fx-background-color: #ffe1b4;
-    /*-fx-border-width: 0 0 5 0;*/
-    -fx-border-color: red;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: black;
 }
 
 #board {
-    -fx-background-color: black;
+    -fx-border-width: 5 0 0 5;
+    -fx-border-color: black;
 }
 
 .toggleButton {

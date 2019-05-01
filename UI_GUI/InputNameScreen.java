@@ -1,4 +1,6 @@
 package UI_GUI;
+
+import Controller.GameController_GUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -25,7 +27,9 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     /** Once clicked the game will not start, and return to the main menu */
     private Button exit;
     /** the screen that contains everything for the input name screen */
-    VBox screen;
+    private VBox screen;
+    /** Handles game logic that is detached from a GUI. */
+    private GameController_GUI gc;
 
 
     /**
@@ -83,6 +87,15 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     }
 
     /**
+     * 
+     * 
+     * 
+     */
+    public VBox getRoot() {
+        return screen;
+    }
+
+    /**
      * Uses the singleton pattern to return a single instance of input name screen
      * @return the single instance of an input name screen
      */
@@ -109,6 +122,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             if(getPlayer2Name().equals("")){
                 this.tf2.setText("Black");
             }
+            gc.setPlayerOneName(getPlayer1Name());
+            gc.setPlayerTwoName(getPlayer2Name());
             //TODO: call switch screens somewhere
         }else if(event.getSource() == exit){
             //TODO: call switch screens somewhere
