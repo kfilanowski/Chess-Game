@@ -151,15 +151,30 @@ public class History<T extends BoardIF> {
         return new State<BoardIF>(list.get(redoIndex++).getState().clone());
     }
 
-
+    /**
+     * 
+     * 
+     * @param undoIndex
+     */
     public void setUndoIndex(int undoIndex) {
         this.undoIndex = undoIndex;
     }
 
+    /**
+     * 
+     * 
+     * 
+     * @param redoIndex
+     */
     public void setRedoIndex(int redoIndex) {
         this.redoIndex = redoIndex;
     }
 
+    /**
+     * 
+     * 
+     * @param list
+     */
     public void setList(List<State<BoardIF>> list) {
         this.list = list;
     }
@@ -200,15 +215,16 @@ public class History<T extends BoardIF> {
      * Converts this object into an xml string for saving/loading
      * @return an xml string representing this object
      */
-    public String toXML(){
+    public String toXML(BoardIF board){
         StringBuilder builder = new StringBuilder();
-        builder.append("<history undoIndex= \"" + (undoIndex - 1) +"\" redoIndex= \"" + (redoIndex - 1) + "\" >\n");
+        builder.append("<history undoIndex= \"" + undoIndex +"\" redoIndex= \"" + redoIndex + "\" >\n");
 
         // list index tag
         builder.append("\t<list>\n");
         for(State<BoardIF> states : this.list){
             builder.append(states.getState().toXML());
         }
+        builder.append(board.toXML());
         builder.append("\t</list>\n");
 
         builder.append("</history>");

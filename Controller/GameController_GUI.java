@@ -13,7 +13,6 @@ import Handler.AlertHandler;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Model.Position;
-import UI_GUI.GameScreen;
 import Validator.PieceValidator;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -238,7 +237,7 @@ public class GameController_GUI {
                 // we get our history as an xml string and write it to the designated file
                 FileWriter fileWriter = new FileWriter(file);
                 PrintWriter writer = new PrintWriter(fileWriter);
-                writer.print(History.getInstance().toXML());
+                writer.print(History.getInstance().toXML(board));
                 writer.close();
                 // we alert the user that the file was successfully saved
                 alert("File was saved as >>  " + file.toString());
