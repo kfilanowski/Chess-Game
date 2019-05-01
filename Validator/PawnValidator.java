@@ -9,10 +9,8 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Position;
 import Interfaces.BoardIF;
-import History.State;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Models the piece's ability to move like a Pawn,
@@ -337,7 +335,10 @@ public class PawnValidator extends PieceValidator {
                     // if it passes we know that the en passante was legal and we can do everything
                     // accordingly
                     board.restoreState(history.redo());
-                    posArray.add(new Position(Rank.getRankFromIndex(fromRank - 1), File.getFileFromIndex(fromFile - 1)));
+                    if(!stillCheckAfterMove(new Position(Rank.getRankFromIndex(fromRank), File.getFileFromIndex(fromFile)),
+                            new Position( Rank.getRankFromIndex(fromRank-1), File.getFileFromIndex(fromFile-1)), color)) {
+                        posArray.add(new Position(Rank.getRankFromIndex(fromRank - 1), File.getFileFromIndex(fromFile - 1)));
+                    }
                 }else{
                     board.restoreState(history.redo());
                 }
@@ -364,7 +365,10 @@ public class PawnValidator extends PieceValidator {
                     // if it passes we know that the en passante was legal and we can do everything
                     // accordingly
                     board.restoreState(history.redo());
-                    posArray.add(new Position(Rank.getRankFromIndex(fromRank -1), File.getFileFromIndex(fromFile + 1)));
+                    if(!stillCheckAfterMove(new Position(Rank.getRankFromIndex(fromRank), File.getFileFromIndex(fromFile)),
+                            new Position( Rank.getRankFromIndex(fromRank-1), File.getFileFromIndex(fromFile+1)), color)) {
+                        posArray.add(new Position(Rank.getRankFromIndex(fromRank - 1), File.getFileFromIndex(fromFile + 1)));
+                    }
                 }else{
                     board.restoreState(history.redo());
                 }
@@ -406,7 +410,10 @@ public class PawnValidator extends PieceValidator {
                     // if it passes we know that the en passante was legal and we can do everything
                     // accordingly
                     board.restoreState(history.redo());
-                    posArray.add(new Position(Rank.getRankFromIndex(fromRank + 1), File.getFileFromIndex(fromFile - 1)));
+                    if(!stillCheckAfterMove(new Position(Rank.getRankFromIndex(fromRank), File.getFileFromIndex(fromFile)),
+                            new Position( Rank.getRankFromIndex(fromRank+1), File.getFileFromIndex(fromFile-1)), color)) {
+                        posArray.add(new Position(Rank.getRankFromIndex(fromRank + 1), File.getFileFromIndex(fromFile - 1)));
+                    }
                 }else{
                     board.restoreState(history.redo());
                 }
@@ -433,7 +440,10 @@ public class PawnValidator extends PieceValidator {
                     // if it passes we know that the en passante was legal and we can do everything
                     // accordingly
                     board.restoreState(history.redo());
-                    posArray.add(new Position(Rank.getRankFromIndex(fromRank + 1), File.getFileFromIndex(fromFile + 1)));
+                    if(!stillCheckAfterMove(new Position(Rank.getRankFromIndex(fromRank), File.getFileFromIndex(fromFile)),
+                            new Position( Rank.getRankFromIndex(fromRank+1), File.getFileFromIndex(fromFile+1)), color)) {
+                        posArray.add(new Position(Rank.getRankFromIndex(fromRank + 1), File.getFileFromIndex(fromFile + 1)));
+                    }
                 }else {
                     board.restoreState(history.redo());
                 }
