@@ -242,13 +242,13 @@ public class GameScreen {
             Pane temp;
             for (Node p : files.getChildren())  {
                 temp = (Pane) p;
-                temp.setMaxSize(paneSize, paneSize * 0.75);
-                temp.setPrefSize(paneSize, paneSize * 0.75);
+                temp.setMaxSize(paneSize, paneSize * 0.60);
+                temp.setPrefSize(paneSize, paneSize * 0.60);
             }
             for (Node p : ranks.getChildren())  {
                 temp = (Pane) p;
-                temp.setMaxSize(paneSize * 0.75, paneSize);
-                temp.setPrefSize(paneSize * 0.75, paneSize);
+                temp.setMaxSize(paneSize * 0.60, paneSize);
+                temp.setPrefSize(paneSize * 0.60, paneSize);
             }
         });
 
@@ -291,7 +291,7 @@ public class GameScreen {
         HBox topPanel = new HBox();
         topPanel.setAlignment(Pos.CENTER);
 
-        // TODO: implement save, load, and settings.
+        // TODO: implement settings.
 
         // Create the row of buttons.
         Button[] buttons = new Button[5];
