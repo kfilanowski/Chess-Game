@@ -34,7 +34,7 @@ import javafx.scene.text.Font;
  * The game screen that the two players will play on.
  *
  * @author Kevin Filanowski
- * @version April 21, 2019
+ * @version A   pril 21, 2019
  */
 public class GameScreen {
     /** A static reference to this class for the Singleton pattern. */

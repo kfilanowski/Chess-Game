@@ -82,18 +82,18 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         MainMenu menu = new MainMenu();
         menu.setScreenChangeHandler(this);
         GameScreen game = GameScreen.getInstance();
-        SettingsRoundTwo settings = new SettingsRoundTwo();
+        SettingsRoundTwo settings = SettingsRoundTwo.getInstance();
         settings.settingSetup();
         game.setScreenChangeHandler(this);
         menu.setup();
         game.setup();
 
-        primaryStage.setMinHeight(700);
-        primaryStage.setMinWidth(900);
+        //primaryStage.setMinHeight(700);
+        //primaryStage.setMinWidth(900);
         rootA = menu.getRoot();
         rootB = game.getRoot();
         this.primaryStage = primaryStage;
-        scene = new Scene(menu.getRoot());
+        scene = new Scene(settings.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

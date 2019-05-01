@@ -2,6 +2,7 @@ package colorama;
 
 import Interfaces.*;
 import UI_GUI.Board_GUI;
+import UI_GUI.SettingsRoundTwo;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -24,7 +25,10 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     private SliderPane blue;
 
     /**Confirms a color choice**/
-    private Button ok;
+    private Button setBlack;
+
+    /**Confirms a color choice**/
+    private Button setWhite;
 
     /**Cancels a color choice**/
     private Button cancel;
@@ -51,6 +55,7 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
 
 
 
+
     /**Create a singleton instance of a ColorChooser**/
     public static ColorChooser getInstance(){
         if (instance == null) instance = new ColorChooser();
@@ -59,6 +64,7 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
 
     /**Construct a color chooser. */
     private  ColorChooser(){
+
 
 
         this.setVgap(20);
@@ -72,13 +78,15 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
 
         //grid constraints for columns
         ColumnConstraints col0 = new ColumnConstraints();
-        col0.setPercentWidth(50);
+        col0.setPercentWidth(33);
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(50);
+        col1.setPercentWidth(33.5);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(33.5);
 
         //Appy constraints
         this.getRowConstraints().addAll(row0, row1,row2);
-        this.getColumnConstraints().addAll(col0,col1);
+        this.getColumnConstraints().addAll(col0,col1,col2);
 
 
         //Top panel for color
@@ -106,22 +114,28 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
         sliders.getChildren().add(blue);
 
 
-        ok = new Button("OK");
+        setBlack = new Button("Black Piece Color");
+        setWhite = new Button("White Piece Color");
         cancel = new Button("Cancel");
-        ok.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        setBlack.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        setWhite.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         cancel.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
 
         sliders.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         color.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
 
         //col, row, colspan, rowspan
-        this.add(color, 0,0,2,1);
-        this.add(sliders, 0, 1,2,1);
+        this.add(color, 0,0,3,1);
+        this.add(sliders, 0, 1,3,1);
         this.add(cancel, 0,2, 1,1);
-        this.add(ok, 1,2,1,1);
+        this.add(setBlack, 1,2,1,1);
+        this.add(setWhite,2,2,1,1);
 
-        ok.setOnAction(this);
+
+        setBlack.setOnAction(this);
+        setWhite.setOnAction(this);
         cancel.setOnAction(this);
+
 
         red.setSliderChangeListener(this.scl);
         blue.setSliderChangeListener(this.scl);
@@ -171,12 +185,14 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     @Override
     public void handle(ActionEvent event) {
 
-        if(event.getSource() == ok){
-            ColorScene.getInstance().setColor(selectedColor);
-            notifyObserver();
-        }
-        else if(event.getSource() == cancel){
-            notifyObserver();
+        if(event.getSource() == setBlack){
+            SettingsRoundTwo.getInstance().setBlackColor(selectedColor);
+            SettingsRoundTwo.getInstance().getColorama().close();
+        } else if(event.getSource() == setWhite){
+            SettingsRoundTwo.getInstance().setWhiteColor(selectedColor);
+            SettingsRoundTwo.getInstance().getColorama().close();
+        } else if(event.getSource() == cancel){
+            SettingsRoundTwo.getInstance().getColorama().close();
         }
     }//end handle
 
@@ -193,6 +209,9 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
 
     };
 
+    public Pane getRoot(){
+        return this;
+    }
 
 
 
