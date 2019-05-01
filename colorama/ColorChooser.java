@@ -45,8 +45,7 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     /**The singleton instance of this class**/
     private static ColorChooser instance;
 
-
-
+    /** **/
     private ScreenChangeHandler sch;
 
 

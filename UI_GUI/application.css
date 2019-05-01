@@ -205,15 +205,7 @@
     -fx-background-position: center center;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
-.buttonSizeS{
 
-    -fx-min-width: 40px;
-    -fx-min-height: 20px;
-    -fx-max-width: 120px;
-    -fx-max-height: 30px;
-    -fx-pref-width: 50px;
-    -fx-pref-height: 25px;
-}
 
 .whiteButton{
     -fx-background-color: #ffffff;

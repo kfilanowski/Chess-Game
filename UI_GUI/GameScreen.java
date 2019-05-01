@@ -1,5 +1,6 @@
 package UI_GUI;
 
+import Model.Board;
 import com.sun.glass.ui.Screen;
 import Interfaces.*;
 import Controller.GameController_GUI;
@@ -89,10 +90,18 @@ public class GameScreen {
         gc = new GameController_GUI(board);
     }
 
-    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+    EventHandler<ActionEvent> buttonHandlerA = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
             handler.switchScreen(ScreenChangeHandler.SCREENA);
+            Board_GUI.boardSettings = 0;
+        }//end handle
+    };
+
+    EventHandler<ActionEvent> buttonHandlerB = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            handler.switchScreen(ScreenChangeHandler.SCREENC);
         }//end handle
     };
 
@@ -279,7 +288,8 @@ public class GameScreen {
         });
 
         buttons[4] = new Button("Settings");
-        // buttons[4].setOnAction(e -> gc.settingsAction(e));
+        buttons[4].setOnAction(buttonHandlerB);
+
 
         for (Button b : buttons) {
             b.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -359,7 +369,7 @@ public class GameScreen {
 
         // Exit button
         Button exitButton = new Button("Exit");
-        exitButton.setOnAction(buttonHandler);
+        exitButton.setOnAction(buttonHandlerA);
 
         // Spacer between captured pieces and button.
         Pane spacer = new Pane();

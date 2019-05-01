@@ -1,5 +1,8 @@
 package UI_GUI;
 
+import Interfaces.ScreenChangeHandler;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -10,7 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.*;
 
-public class SettingsRoundTwo {
+public class SettingsRoundTwo  {
     /** */
     private BorderPane root;
 
@@ -28,6 +31,17 @@ public class SettingsRoundTwo {
     private VBox vbox2;
 
     private HBox hbox3;
+
+    /** ScreenChangeHandler object */
+    ScreenChangeHandler handler;
+
+    /**
+     * Method that sets the screenChangeHandler to a new screenChangeHandler
+     * @param sch - new screenChangeHandler that we want to set
+     */
+    public void setScreenChangeHandler(ScreenChangeHandler sch){
+        this.handler = sch;
+    }
 
 
     public SettingsRoundTwo(){
@@ -64,6 +78,17 @@ public class SettingsRoundTwo {
         return this.root;
     }
 
+    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            if(Board_GUI.boardSettings == 0){
+                handler.switchScreen(ScreenChangeHandler.SCREENA);
+            }else{
+                handler.switchScreen(ScreenChangeHandler.SCREENB);
+            }
+        }
+    };
+
     /**
      * Sets up the labels and the buttons that are on the board
      */
@@ -75,7 +100,9 @@ public class SettingsRoundTwo {
         Button wcolor = new Button();
         Button save = new Button();
         save.setText("Save");
+        save.setOnAction(buttonHandler);
         Button exit = new Button("Exit");
+        exit.setOnAction(buttonHandler);
         exit.setText("Exit");
         Label undo = new Label("Undo");
 
@@ -138,5 +165,7 @@ public class SettingsRoundTwo {
         vbox2.getChildren().add(hbox3);
 
     }
+
+
 
 }
