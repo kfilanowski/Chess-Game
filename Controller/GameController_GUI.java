@@ -262,7 +262,6 @@ public class GameController_GUI {
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             board.restoreState(History.getInstance().loadHistory(file));
-            GameScreen.getInstance().drawBoard();
         }
     }
 

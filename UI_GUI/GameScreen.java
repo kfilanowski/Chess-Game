@@ -300,7 +300,10 @@ public class GameScreen {
         Button[] buttons = new Button[5];
 
         buttons[0] = new Button("Load");
-        buttons[0].setOnAction(e -> gc.loadAction());
+        buttons[0].setOnAction(e -> {
+            gc.loadAction();
+            drawBoard();
+        });
 
         buttons[1] = new Button("Save");
         buttons[1].setOnAction(e -> gc.saveAction());
@@ -447,7 +450,7 @@ public class GameScreen {
     /**
      * Draws the pieces on the grid.
      */
-    public void drawBoard() {
+    private void drawBoard() {
         // The squares on the board.
         SquareIF[][] squares = board.getSquares();
         // A factory method to retrieve piece images.
