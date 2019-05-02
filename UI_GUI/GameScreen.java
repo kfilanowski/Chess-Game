@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -59,10 +60,10 @@ public class GameScreen {
     private boolean toggleShowMoves;
 
     /** Displays the white pieces that have been captured. */
-    TilePane capturedWhitePieces;
+    FlowPane capturedWhitePieces;
 
     /** Displays the black pieces that have been captured. */
-    TilePane capturedBlackPieces;
+    FlowPane capturedBlackPieces;
 
     /** The amount of squares in the board. */
     private int boardSize;
@@ -85,8 +86,8 @@ public class GameScreen {
         toggleShowMoves = true;
         root = new BorderPane();
         grid = new GridPane();
-        capturedWhitePieces = new TilePane();
-        capturedBlackPieces = new TilePane();
+        capturedWhitePieces = new FlowPane();
+        capturedBlackPieces = new FlowPane();
         gc = new GameController_GUI(board);
     }
 
@@ -339,7 +340,6 @@ public class GameScreen {
      */
     private void setupLeft() {
         VBox leftPanel = new VBox();
-        leftPanel.setStyle("-fx-background-color:orange");
         leftPanel.setAlignment(Pos.TOP_CENTER);
 
         // Setup Player labels
@@ -349,24 +349,22 @@ public class GameScreen {
         playerOneName.getStyleClass().add("playerLabel");
 
         // Properly scale this left side with screen resizing.
-        VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
-        capturedBlackPieces.setPrefColumns(2);
-        //capturedBlackPieces.setPrefTileHeight((height / 12));
 
-        root.widthProperty().addListener(e -> {
-            capturedBlackPieces.setMinWidth(2*grid.getWidth()/boardSize);
+        // TODO: Scaling wont work. I need the spacing between pieces to be smaller.
+        VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
+        grid.widthProperty().addListener(e -> {
+            capturedBlackPieces.setMinWidth(2*grid.getWidth()/boardSize+5);
+            capturedBlackPieces.setMaxWidth(((Pane)grid.getChildren().get(0)).getWidth());
         });
 
         // showMoves toggle button
         ToggleButton showMoves = new ToggleButton("Show Moves");
         showMoves.getStyleClass().add("toggleButton");
-        showMoves.setOnAction(e -> {
-            /*toggleShowMoves = !toggleShowMoves*/
-        drawBoard();
-        System.out.println("re-draw board");
-    });
+        showMoves.setOnAction(e -> toggleShowMoves = !toggleShowMoves);
 
         leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces, showMoves);
+        leftPanel.setStyle("-fx-background-color: orange");
+        capturedBlackPieces.setStyle("-fx-background-color: red");
         root.setLeft(leftPanel);
     }
 
@@ -388,7 +386,7 @@ public class GameScreen {
         VBox rightPanel = new VBox();
         rightPanel.setAlignment(Pos.TOP_CENTER);
         VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
-        capturedWhitePieces.setPrefColumns(2);
+
 
         // Setup Player labels
         Label playerTwo = new Label("Player Two");
@@ -396,20 +394,21 @@ public class GameScreen {
         playerTwo.getStyleClass().add("playerLabel");
         playerTwoName.getStyleClass().add("playerLabel");
 
-        // TODO: add functonality for exit button.
+        // Properly scale this left side with screen resizing.
+        VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
+        grid.widthProperty().addListener(e -> {
+            capturedWhitePieces.setMinWidth(2*grid.getWidth()/boardSize + 5);
+            capturedWhitePieces.setMaxWidth(((Pane)grid.getChildrenUnmodifiable().get(0)).getWidth());
+        });
+
+                // TODO: add functonality for exit button.
 
         // Exit button
         Button exitButton = new Button("Exit");
 
-        // TODO: Properly scale this with screen resizing.
-        // TODO: placement needs to be proper.
-
-        // Sets up the pane that displays the captured pieces.
-        capturedWhitePieces.setMinSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        int height = Screen.getMainScreen().getHeight();
-        capturedWhitePieces.setPrefTileHeight((height / 12));
-
         rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces, exitButton);
+        rightPanel.setStyle("-fx-background-color: orange");
+        capturedWhitePieces.setStyle("-fx-background-color: red");
         root.setRight(rightPanel);
     }
 

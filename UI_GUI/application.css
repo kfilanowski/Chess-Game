@@ -20,6 +20,7 @@
 #board {
     -fx-border-width: 5 0 0 5;
     -fx-border-color: black;
+    -fx-background-color: black;
 }
 
 .toggleButton {

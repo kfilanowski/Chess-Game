@@ -54,6 +54,9 @@ public class Board_GUI extends Application implements BoardStrategy {
         Scene scene = new Scene(game.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(675);
+        primaryStage.setMinHeight(500);
+
         primaryStage.show();
 
         System.out.println("stage height: " + primaryStage.getHeight());
