@@ -1,5 +1,6 @@
 package UI_GUI;
 
+import Handler.SettingsObserver;
 import Model.Board;
 import com.sun.glass.ui.Screen;
 import Interfaces.*;
@@ -37,7 +38,7 @@ import javafx.scene.text.Font;
  * @author Kevin Filanowski
  * @version A   pril 21, 2019
  */
-public class GameScreen {
+public class GameScreen implements SettingsObserver {
     /** A static reference to this class for the Singleton pattern. */
     private static GameScreen instance;
 
@@ -569,5 +570,10 @@ public class GameScreen {
                 grid.getChildren().get(i+j*size).getStyleClass().removeAll("showMoves", "selected");
             }
         }
+    }
+
+    @Override
+    public void update() {
+
     }
 }
