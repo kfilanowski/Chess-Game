@@ -37,7 +37,7 @@ import javafx.scene.text.Font;
  * @author Kevin Filanowski
  * @version A   pril 21, 2019
  */
-public class GameScreen {
+public class GameScreen implements EventHandler<ActionEvent>{
     /** A static reference to this class for the Singleton pattern. */
     private static GameScreen instance;
 
@@ -68,6 +68,10 @@ public class GameScreen {
     /** ScreenChangeHandler object */
     ScreenChangeHandler handler;
 
+    Button[] buttons;
+
+    Button exitButton;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
@@ -88,22 +92,18 @@ public class GameScreen {
         capturedWhitePieces = new TilePane();
         capturedBlackPieces = new TilePane();
         gc = new GameController_GUI(board);
+        buttons = new Button[5];
     }
 
-    EventHandler<ActionEvent> buttonHandlerA = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
+    @Override
+    public void handle(ActionEvent event){
+        if(event.getSource() == exitButton) {
             handler.switchScreen(ScreenChangeHandler.SCREENA);
             Board_GUI.boardSettings = 0;
-        }//end handle
-    };
-
-    EventHandler<ActionEvent> buttonHandlerB = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
+        }else if (event.getSource() == buttons[4]){
             handler.switchScreen(ScreenChangeHandler.SCREENC);
-        }//end handle
-    };
+        }
+    }
 
 
     /**
@@ -266,8 +266,7 @@ public class GameScreen {
 
         // TODO: implement save, load, and settings.
 
-        // Create the row of buttons.
-        Button[] buttons = new Button[5];
+        // Create the row of buttons
 
         buttons[0] = new Button("Load");
         buttons[0].setOnAction(e -> gc.loadAction());
@@ -288,7 +287,7 @@ public class GameScreen {
         });
 
         buttons[4] = new Button("Settings");
-        buttons[4].setOnAction(buttonHandlerB);
+        buttons[4].setOnAction(this);
 
 
         for (Button b : buttons) {
@@ -368,8 +367,8 @@ public class GameScreen {
         // TODO: add functonality for exit button.
 
         // Exit button
-        Button exitButton = new Button("Exit");
-        exitButton.setOnAction(buttonHandlerA);
+        exitButton = new Button("Exit");
+        exitButton.setOnAction(this);
 
         // Spacer between captured pieces and button.
         Pane spacer = new Pane();

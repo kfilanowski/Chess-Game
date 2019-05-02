@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 import java.util.regex.Pattern;
 
-public class SettingsRoundTwo implements SubjectIF {
+public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
     /**The root of the project */
     private BorderPane root;
 
@@ -72,6 +72,10 @@ public class SettingsRoundTwo implements SubjectIF {
     /** a singleton instance of the stage */
     private Stage colorama;
 
+    private Button save;
+
+    private Button exit;
+
 
     /**
      * the constructor for the settings screen
@@ -88,8 +92,10 @@ public class SettingsRoundTwo implements SubjectIF {
         vbox2 = new VBox();
         bcolor = new Button();
         wcolor = new Button();
+        save = new Button();
+        exit = new Button();
         userColor = new Button();
-        userColor.setOnAction(buttonHandler2);
+        userColor.setOnAction(this);
         colorChooser = new Scene(ColorChooser.getInstance().getRoot(),400,600);
         colorama = null;
     }
@@ -128,16 +134,20 @@ public class SettingsRoundTwo implements SubjectIF {
         return this.root;
     }
 
-    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
+
         @Override
         public void handle(ActionEvent event) {
-            if(Board_GUI.boardSettings == 0){
+            if((event.getSource() == save || event.getSource() == exit)
+                    && Board_GUI.boardSettings == 0){
                 handler.switchScreen(ScreenChangeHandler.SCREENA);
+            }else if (event.getSource() == userColor){
+                setStage();
             }else{
                 handler.switchScreen(ScreenChangeHandler.SCREENB);
             }
+
+
         }
-    };
 
     /**
      * Sets up the labels and the buttons that are on the board
@@ -147,12 +157,12 @@ public class SettingsRoundTwo implements SubjectIF {
         Label boardColor = new Label("Choose Square Colors: ");
         Label wcolor = new Label("White Color:");
         Label bcolor = new Label("Black Color:");
-        Button save = new Button();
+
         save.setText("Save");
-        save.setOnAction(buttonHandler);
-        Button exit = new Button("Exit");
-        exit.setOnAction(buttonHandler);
+        save.setOnAction(this);
         exit.setText("Exit");
+        exit.setOnAction(this);
+
         Label undo = new Label("Undo");
 
         //sets up the Checkboxes on the screen
@@ -231,7 +241,7 @@ public class SettingsRoundTwo implements SubjectIF {
     EventHandler<ActionEvent> buttonHandler2 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            setStage();
+
         }//end handle
     };
 

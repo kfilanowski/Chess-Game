@@ -183,7 +183,6 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     /**The method of the button EventHandler insterface implementation that this class has**/
     @Override
     public void handle(ActionEvent event) {
-
         if(event.getSource() == setBlack){
             SettingsRoundTwo.getInstance().setBlackColor(selectedColor);
             SettingsRoundTwo.getInstance().getColorama().close();
