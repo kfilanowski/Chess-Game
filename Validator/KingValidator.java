@@ -109,7 +109,7 @@ public class KingValidator extends PieceValidator {
             positions = showMovesInCheck(valids, positions);
 
             //if(piece.getChessPieceType() == ChessPieceType.KING) {
-                //castleValidation(piece.getColor(), pos, positions);
+                castleValidation(piece.getColor(), pos, positions);
             //}
 
 

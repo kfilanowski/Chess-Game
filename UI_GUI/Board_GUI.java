@@ -20,10 +20,10 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
     private static Stage primaryStage;
 
     /**The scene of the stage**/
-    Scene scene;
+    private Scene scene;
 
     /**The root of scene A and scene B**/
-    Pane rootA, rootB, rootC;
+    private Pane rootA, rootB, rootC, rootD, rootE, rootF, rootG, rootH;
 
     /**Get the instance of this application**/
     private static Board_GUI instance;
@@ -86,10 +86,25 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         settings.settingSetup();
         settings.setScreenChangeHandler(this);
         menu.setup();
+        OnlinePlay online = new OnlinePlay();
+        online.setScreenChangeHandler(this);
+        PlayerVsCpu cpu = new PlayerVsCpu();
+        cpu.setScreenChangeHandler(this);
+        ChessRules rules = new ChessRules();
+        rules.setScreenChangeHandler(this);
+        Tutorial tutorial = new Tutorial();
+        tutorial.setScreenChangeHandler(this);
+        InputNameScreen nameScreen = InputNameScreen.getInstance();
+        nameScreen.setScreenChangeHandler(this);
 
         rootA = menu.getRoot();
-        rootB = game.getRoot();
+        rootB = nameScreen.getRoot();
         rootC = settings.getRoot();
+        rootD = cpu.getRoot();
+        rootE = online.getRoot();
+        rootF = rules.getRoot();
+        rootG = tutorial.getRoot();
+        rootH = game.getRoot();
         this.primaryStage = primaryStage;
         scene = new Scene(menu.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -122,9 +137,19 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
             scene.setRoot(rootA);
         }else if(screen == ScreenChangeHandler.SCREENB){
             scene.setRoot(rootB);
-            boardSettings = 1;
         }else if(screen == ScreenChangeHandler.SCREENC){
             scene.setRoot(rootC);
+        }else if(screen == ScreenChangeHandler.SCREEND){
+            scene.setRoot(rootD);
+        }else if(screen == ScreenChangeHandler.SCREENE){
+            scene.setRoot(rootE);
+        }else if(screen == ScreenChangeHandler.SCREENF){
+            scene.setRoot(rootF);
+        }else if(screen == ScreenChangeHandler.SCREENG){
+            scene.setRoot(rootG);
+        }else if(screen == ScreenChangeHandler.SCREENH){
+            scene.setRoot(rootH);
+            boardSettings = 1;
         }
     }
 

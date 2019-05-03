@@ -38,7 +38,7 @@ import javafx.scene.text.Font;
  * @author Kevin Filanowski
  * @version May 3, 2019
  */
-public class GameScreen implements SettingsObserver {
+public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     /** A static reference to this class for the Singleton pattern. */
     private static GameScreen instance;
 
@@ -72,15 +72,9 @@ public class GameScreen implements SettingsObserver {
     /** ScreenChangeHandler object */
     ScreenChangeHandler handler;
 
-    // TODO: See if these fields below can be removed.
-    /** The undo funtion is enabled or disabled. */
-    boolean undo;
+    Button[] buttons;
 
-    /** The undo function has unlimited times it can be implemented */
-    boolean unlimUndo;
-
-    /** The max number of undos that are allowed */
-    int maxUndo;
+    Button exitButton;
 
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
@@ -106,24 +100,17 @@ public class GameScreen implements SettingsObserver {
         undo = false;
         unlimUndo = false;
         maxUndo = 1;
+        buttons = new Button[6];
     }
-
-    // TODO: rename and comment?
-    EventHandler<ActionEvent> buttonHandlerA = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
+    @Override
+    public void handle(ActionEvent event){
+        if(event.getSource() == exitButton) {
             handler.switchScreen(ScreenChangeHandler.SCREENA);
             Board_GUI.boardSettings = 0;
-        }// end handle
-    };
-
-    // TODO: rename and comment?
-    EventHandler<ActionEvent> buttonHandlerB = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
+        }else if (event.getSource() == buttons[4]){
             handler.switchScreen(ScreenChangeHandler.SCREENC);
-        }// end handle
-    };
+        }
+    }
 
     /**
      * Method that sets the screenChangeHandler to a new screenChangeHandler
@@ -360,7 +347,7 @@ public class GameScreen implements SettingsObserver {
         });
 
         buttons[4] = new Button("Settings");
-        buttons[4].setOnAction(buttonHandlerB);
+        buttons[4].setOnAction(this);
 
         buttons[5] = new Button("Exit");
         buttons[5].setOnAction(buttonHandlerA);

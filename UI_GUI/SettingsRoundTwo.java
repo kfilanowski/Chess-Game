@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
-public class SettingsRoundTwo implements SubjectIF {
+public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
     /**The root of the project */
     private BorderPane root;
 
@@ -67,6 +67,7 @@ public class SettingsRoundTwo implements SubjectIF {
 
     /** the unlimited undo checkbox. */
     CheckBox unlimBox;
+    private Button save;
 
     /** the unlimited undo checkbox. */
     CheckBox showBox;
@@ -82,6 +83,7 @@ public class SettingsRoundTwo implements SubjectIF {
 
 
 
+    private Button exit;
     /**
      * the constructor for the settings screen
      */
@@ -97,8 +99,10 @@ public class SettingsRoundTwo implements SubjectIF {
         showSet = new VBox();
         bcolor = new Button();
         wcolor = new Button();
+        save = new Button();
+        exit = new Button();
         userColor = new Button();
-        userColor.setOnAction(buttonHandler2);
+        userColor.setOnAction(this);
         colorChooser = new Scene(ColorChooser.getInstance().getRoot(),400,600);
         colorama = null;
         settingsObservers = new ArrayList<>();
@@ -147,6 +151,20 @@ public class SettingsRoundTwo implements SubjectIF {
     }
 
 
+        @Override
+        public void handle(ActionEvent event) {
+            if((event.getSource() == save || event.getSource() == exit)
+                    && Board_GUI.boardSettings == 0){
+                handler.switchScreen(ScreenChangeHandler.SCREENA);
+            }else if (event.getSource() == userColor){
+                setStage();
+            }else{
+                handler.switchScreen(ScreenChangeHandler.SCREENH);
+            }
+
+
+        }
+
 
     /**
      * Sets up the labels and the buttons that are on the board
@@ -158,12 +176,13 @@ public class SettingsRoundTwo implements SubjectIF {
         Label boardColor = new Label("Choose Square Colors: ");
         Label wcolor = new Label("White Color:");
         Label bcolor = new Label("Black Color:");
-        Label undo = new Label("Undo");
 
-
-        Button exit = new Button("Exit");
-        exit.setOnAction(exitAction);
+        save.setText("Save");
+        save.setOnAction(this);
         exit.setText("Exit");
+        exit.setOnAction(this);
+
+        Label undo = new Label("Undo");
 
 
         maxUndo.textProperty().addListener(e -> {
