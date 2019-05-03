@@ -79,7 +79,6 @@ public class ImageFactory {
         i.setPreserveRatio(true);
         i.setSmooth(true);
         i.setCache(true);
-        i.getStyleClass().add("piece");
         return i;
     }
 }

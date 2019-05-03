@@ -1,5 +1,7 @@
 package UI_GUI;
 import Interfaces.ScreenChangeHandler;
+
+import Controller.GameController_GUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -26,7 +28,9 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     /** Once clicked the game will not start, and return to the main menu */
     private Button exit;
     /** the screen that contains everything for the input name screen */
-    VBox screen;
+    private VBox screen;
+    /** Handles game logic that is detached from a GUI. */
+    private GameController_GUI gc;
 
     private ScreenChangeHandler handler;
 
@@ -70,6 +74,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         play.setOnAction(this);
         exit.setOnAction(this);
 
+        play.getStyleClass().add("inputNameButtonPlay");
+
         // set up an hbox layout for our buttons
         HBox buttons = new HBox();
         buttons.setAlignment(Pos.CENTER);
@@ -84,6 +90,15 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         screen.setMinSize(200, 400);
         screen.setMaxSize(200, 400);
         screen.setId("Screen1");
+    }
+
+    /**
+     * 
+     * 
+     * 
+     */
+    public VBox getRoot() {
+        return screen;
     }
 
     /**
@@ -115,6 +130,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             if(getPlayer2Name().equals("")){
                 this.tf2.setText("Black");
             }
+            gc.setPlayerOneName(getPlayer1Name());
+            gc.setPlayerTwoName(getPlayer2Name());
             //TODO: call switch screens somewhere
         }else if(event.getSource() == exit){
             handler.switchScreen(ScreenChangeHandler.SCREENA);
@@ -147,10 +164,6 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
      */
     public void setScreenChangeHandler(ScreenChangeHandler sch){
         this.handler = sch;
-    }
-
-    public VBox getRoot(){
-        return screen;
     }
 
 }

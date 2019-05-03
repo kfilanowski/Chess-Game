@@ -1,19 +1,19 @@
 package UI_GUI;
 
-import Model.Board;
-import com.sun.glass.ui.Screen;
-import Interfaces.*;
 import Controller.GameController_GUI;
+import Enums.ChessPieceType;
 import Enums.GameColor;
 import Factory.ImageFactory;
+import Handler.SettingsObserver;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
+import Interfaces.ScreenChangeHandler;
 import Interfaces.SquareIF;
 import Model.Position;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -21,13 +21,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -35,9 +36,9 @@ import javafx.scene.text.Font;
  * The game screen that the two players will play on.
  *
  * @author Kevin Filanowski
- * @version A   pril 21, 2019
+ * @version May 3, 2019
  */
-public class GameScreen implements EventHandler<ActionEvent>{
+public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     /** A static reference to this class for the Singleton pattern. */
     private static GameScreen instance;
 
@@ -60,10 +61,13 @@ public class GameScreen implements EventHandler<ActionEvent>{
     private boolean toggleShowMoves;
 
     /** Displays the white pieces that have been captured. */
-    TilePane capturedWhitePieces;
+    FlowPane capturedWhitePieces;
 
     /** Displays the black pieces that have been captured. */
-    TilePane capturedBlackPieces;
+    FlowPane capturedBlackPieces;
+
+    /** The amount of squares in the board. */
+    private int boardSize;
 
     /** ScreenChangeHandler object */
     ScreenChangeHandler handler;
@@ -71,6 +75,12 @@ public class GameScreen implements EventHandler<ActionEvent>{
     Button[] buttons;
 
     Button exitButton;
+
+    boolean undo;
+
+    boolean unlimUndo;
+
+    int maxUndo;
 
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
@@ -86,14 +96,19 @@ public class GameScreen implements EventHandler<ActionEvent>{
      */
     private GameScreen(BoardIF board) {
         this.board = board;
+        boardSize = board.getSquares().length;
         toggleShowMoves = true;
         root = new BorderPane();
         grid = new GridPane();
-        capturedWhitePieces = new TilePane();
-        capturedBlackPieces = new TilePane();
+        capturedWhitePieces = new FlowPane();
+        capturedBlackPieces = new FlowPane();
         gc = new GameController_GUI(board);
-        buttons = new Button[5];
+        undo = false;
+        unlimUndo = false;
+        maxUndo = 1;
+        buttons = new Button[6];
     }
+
 
     @Override
     public void handle(ActionEvent event){
@@ -105,12 +120,12 @@ public class GameScreen implements EventHandler<ActionEvent>{
         }
     }
 
-
     /**
      * Method that sets the screenChangeHandler to a new screenChangeHandler
+     * 
      * @param sch - new screenChangeHandler that we want to set
      */
-    public void setScreenChangeHandler(ScreenChangeHandler sch){
+    public void setScreenChangeHandler(ScreenChangeHandler sch) {
         this.handler = sch;
     }
 
@@ -165,16 +180,15 @@ public class GameScreen implements EventHandler<ActionEvent>{
      * @return - A vertical list of ranks, or numbers from 1 through the number of
      *         squares on the board, added backwards.
      */
-    private VBox createRanks() {
-        // TODO: Have these paddings and sizes dynamically adjust with resizing.
-        VBox ranks = new VBox(11.8);
-        ranks.setPadding(new Insets(5, 10, 0, 10));
-        Font font = new Font(42);
+    private GridPane createRanks() {
+        GridPane ranks = new GridPane();
+        ranks.setAlignment(Pos.CENTER);
+        Font font = new Font(36);
 
-        for (int i = board.getSquares().length; i > 0; i--) {
+        for (int i = boardSize; i > 0; i--) {
             Label rank = new Label("" + i);
             rank.setFont(font);
-            ranks.getChildren().add(rank);
+            ranks.add(new StackPane(rank), 0, i, 1, 1);
         }
         return ranks;
     }
@@ -188,18 +202,17 @@ public class GameScreen implements EventHandler<ActionEvent>{
      * @return - A horizontal list of files, or letters from A through the number of
      *         squares on the board.
      */
-    private HBox createFiles() {
-        // TODO: Have these paddings and sizes dynamically adjust with resizing.
-        HBox files = new HBox();
+    private GridPane createFiles() {
+        GridPane files = new GridPane();
+        files.setPadding(new Insets(0, 0, 0, 36));
         files.setAlignment(Pos.CENTER);
-        //files.setPadding(new Insets(5));
-        Font font = new Font(12);
+        Font font = new Font(36);
 
         // set files
-        for (int i = 'A'; i < 'A' + board.getSquares().length; i++) {
+        for (int i = 'A'; i < 'A' + boardSize; i++) {
             Label file = new Label(Character.toString((char) i));
             file.setFont(font);
-            files.getChildren().add(file);
+            files.add(new StackPane(file), i, 0, 1, 1);
         }
         return files;
     }
@@ -212,21 +225,70 @@ public class GameScreen implements EventHandler<ActionEvent>{
         BorderPane.setAlignment(grid, Pos.TOP_LEFT);
 
         // Create the rank and files.
-        VBox ranks = createRanks();
+        GridPane ranks = createRanks();
+        GridPane files = createFiles();
         ranks.setId("ranks");
-        HBox files = createFiles();
         files.setId("files");
+
+        BorderPane.setAlignment(ranks, Pos.TOP_RIGHT);
+        BorderPane.setAlignment(files, Pos.BOTTOM_CENTER);
 
         // Setup the board game grid.
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
-        grid.setMinSize(300, 300);
+        grid.setMinSize(350, 350);
+        files.setMinWidth(grid.getMinWidth());
+        ranks.setMinHeight(grid.getMinHeight());
+
+        root.heightProperty().addListener(e -> {
+            double min = Math.floor(Math.min(
+                    root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth())-10);
+            center.setMaxSize(min, min);
+        });
+        root.widthProperty().addListener(e -> {
+            double min = Math.floor(Math.min(
+                    root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth())-10);
+            center.setMaxSize(min, min);
+        });
+
         grid.heightProperty().addListener(squareSizeListener);
         grid.widthProperty().addListener(squareSizeListener);
+        grid.heightProperty().addListener(e -> {
+            double min = Math.min(grid.getHeight(), grid.getWidth());
+            double paneSize = Math.floor(min / boardSize);
+            Pane temp;
+            for (Node p : files.getChildren()) {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize, paneSize * 0.60);
+                temp.setPrefSize(paneSize, paneSize * 0.60);
+            }
+            for (Node p : ranks.getChildren()) {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize * 0.60, paneSize);
+                temp.setPrefSize(paneSize * 0.60, paneSize);
+            }
+        });
+        root.widthProperty().addListener(e -> {
+            double min = Math.min(grid.getHeight(), grid.getWidth());
+            double paneSize = Math.floor(min / boardSize);
+            Pane temp;
+            for (Node p : files.getChildren()) {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize, paneSize * 0.60);
+                temp.setPrefSize(paneSize, paneSize * 0.60);
+            }
+            for (Node p : ranks.getChildren()) {
+                temp = (Pane) p;
+                temp.setMaxSize(paneSize * 0.60, paneSize);
+                temp.setPrefSize(paneSize * 0.60, paneSize);
+            }
+        });
+
         setupBoard();
         drawBoard();
-
-        // center.setLeft(ranks);
+        center.setLeft(ranks);
         center.setTop(files);
         center.setCenter(grid);
         root.setCenter(center);
@@ -234,22 +296,20 @@ public class GameScreen implements EventHandler<ActionEvent>{
 
     ChangeListener<Number> squareSizeListener = new ChangeListener<Number>() {
         /**
-         * Adjusts the size of the squares given the amount of space, but
-         * retains the aspect ratio of 1:1.
+         * Adjusts the size of the squares given the amount of space, but retains the
+         * aspect ratio of 1:1.
          *
-         * @param observable - Unused, but it is the height/width property of
-         *                      the grid.
-         * @param oldValue - The old value.
-         * @param newValue - The new changed value.
+         * @param observable - Unused, but it is the height/width property of the grid.
+         * @param oldValue   - The old value.
+         * @param newValue   - The new changed value.
          */
         @Override
         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            double min = Math.min(grid.heightProperty().doubleValue(), grid.widthProperty().doubleValue());
-            int size = board.getSquares().length;
-            double paneSize = Math.floor(min/size);
-            StackPane temp;
-            for (Node p : grid.getChildren())  {
-                temp = (StackPane) p;
+            double min = Math.min(grid.getHeight(), grid.getWidth());
+            double paneSize = Math.round(min / boardSize);
+            Pane temp;
+            for (Node p : grid.getChildren()) {
+                temp = (Pane) p;
                 temp.setMaxSize(paneSize, paneSize);
                 temp.setMinSize(paneSize, paneSize);
             }
@@ -264,19 +324,27 @@ public class GameScreen implements EventHandler<ActionEvent>{
         HBox topPanel = new HBox();
         topPanel.setAlignment(Pos.CENTER);
 
-        // TODO: implement save, load, and settings.
-
-        // Create the row of buttons
+        // Create the row of buttons.
+        Button[] buttons = new Button[6];
 
         buttons[0] = new Button("Load");
-        buttons[0].setOnAction(e -> gc.loadAction());
+        buttons[0].setOnAction(e -> {
+            gc.loadAction();
+            drawBoard();
+        });
 
         buttons[1] = new Button("Save");
         buttons[1].setOnAction(e -> gc.saveAction());
 
         buttons[2] = new Button("Undo");
+        // TODO: simplify?
         buttons[2].setOnAction(e -> {
-            gc.undoAction();
+            if (undo) {
+                if (unlimUndo || maxUndo != 0) {
+                    gc.undoAction();
+                    maxUndo--;
+                }
+            }
             drawBoard();
         });
 
@@ -289,6 +357,8 @@ public class GameScreen implements EventHandler<ActionEvent>{
         buttons[4] = new Button("Settings");
         buttons[4].setOnAction(this);
 
+        buttons[5] = new Button("Exit");
+        buttons[5].setOnAction(this);
 
         for (Button b : buttons) {
             b.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -307,7 +377,6 @@ public class GameScreen implements EventHandler<ActionEvent>{
     private void setupLeft() {
         VBox leftPanel = new VBox();
         leftPanel.setAlignment(Pos.TOP_CENTER);
-        leftPanel.setPadding(new Insets(0, 0, 20, 0));
 
         // Setup Player labels
         Label playerOne = new Label("Player One");
@@ -315,27 +384,13 @@ public class GameScreen implements EventHandler<ActionEvent>{
         playerOne.getStyleClass().add("playerLabel");
         playerOneName.getStyleClass().add("playerLabel");
 
-        // showMoves toggle button
-        ToggleButton showMoves = new ToggleButton("Show Moves");
-        showMoves.getStyleClass().add("toggleButton");
-        showMoves.setOnAction(e -> toggleShowMoves = !toggleShowMoves);
+        VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
+        grid.widthProperty().addListener(e -> {
+            capturedBlackPieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
+            capturedBlackPieces.setMaxWidth(((Pane) grid.getChildren().get(0)).getWidth());
+        });
 
-        // Spacer between captured pieces and button.
-        // Pane spacer = new Pane();
-        // spacer.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        // VBox.setVgrow(spacer, Priority.ALWAYS);
-        // spacer.setMinSize(1, 10);
-
-        // TODO: Properly scale this with screen resizing
-        // TODO: placement needs to be proper.
-
-        // Sets up the pane that displays the captured pieces.
-        capturedBlackPieces.setMaxSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        capturedBlackPieces.setMinSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        int height = Screen.getMainScreen().getHeight();
-        capturedBlackPieces.setPrefTileHeight((height / 12));
-
-        leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces, /* spacer, */ showMoves);
+        leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces);
         root.setLeft(leftPanel);
     }
 
@@ -355,7 +410,6 @@ public class GameScreen implements EventHandler<ActionEvent>{
      */
     private void setupRight() {
         VBox rightPanel = new VBox();
-        rightPanel.setPadding(new Insets(0, 0, 20, 0));
         rightPanel.setAlignment(Pos.TOP_CENTER);
 
         // Setup Player labels
@@ -364,28 +418,14 @@ public class GameScreen implements EventHandler<ActionEvent>{
         playerTwo.getStyleClass().add("playerLabel");
         playerTwoName.getStyleClass().add("playerLabel");
 
-        // TODO: add functonality for exit button.
+        // Properly scale this left side with screen resizing.
+        VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
+        grid.widthProperty().addListener(e -> {
+            capturedWhitePieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
+            capturedWhitePieces.setMaxWidth(((Pane) grid.getChildrenUnmodifiable().get(0)).getWidth());
+        });
 
-        // Exit button
-        exitButton = new Button("Exit");
-        exitButton.setOnAction(this);
-
-        // Spacer between captured pieces and button.
-        Pane spacer = new Pane();
-        spacer.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        VBox.setVgrow(spacer, Priority.ALWAYS);
-        spacer.setMinSize(1, 10);
-
-        // TODO: Properly scale this with screen resizing.
-        // TODO: placement needs to be proper.
-
-        // Sets up the pane that displays the captured pieces.
-        capturedWhitePieces.setMinSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        capturedWhitePieces.setMaxSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        int height = Screen.getMainScreen().getHeight();
-        capturedWhitePieces.setPrefTileHeight((height / 12));
-
-        rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces, spacer, exitButton);
+        rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces);
         root.setRight(rightPanel);
     }
 
@@ -437,19 +477,17 @@ public class GameScreen implements EventHandler<ActionEvent>{
         ImageFactory factory = new ImageFactory();
         // Holds a temporary reference to a piece.
         PieceIF p;
-        // Size of the square in height or length.
-        int size = squares.length;
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                ((Pane) grid.getChildren().get(i + j * size)).getChildren().clear();
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                ((Pane) grid.getChildren().get(i + j * boardSize)).getChildren().clear();
                 p = squares[i][j].getPiece();
                 if (p != null) {
                     ImageView img = factory.getImage(p.getChessPieceType(), p.getColor());
                     img.getStyleClass().add("piece");
-                    img.fitWidthProperty().bind(grid.widthProperty().divide(size));
-                    img.fitHeightProperty().bind(grid.heightProperty().divide(size));
-                    ((Pane) grid.getChildren().get(i + j * size)).getChildren().add(img);
+                    img.fitWidthProperty().bind(grid.widthProperty().divide(boardSize));
+                    img.fitHeightProperty().bind(grid.heightProperty().divide(boardSize));
+                    ((Pane) grid.getChildren().get(i + j * boardSize)).getChildren().add(img);
                 }
             }
         }
@@ -459,12 +497,10 @@ public class GameScreen implements EventHandler<ActionEvent>{
      * Sets up the initial squares on the board.
      */
     private void setupBoard() {
-        int size = board.getSquares().length;
         int count = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
                 StackPane pane = new StackPane();
-                // pane.setMaxSize(1, 1);
                 pane.setAlignment(Pos.CENTER);
 
                 if (count % 2 == 0)
@@ -485,8 +521,8 @@ public class GameScreen implements EventHandler<ActionEvent>{
     }
 
     /**
-     * Moves the piece visually on the board, and calls upon the controller to
-     * move the piece in it's underlying data structure.
+     * Moves the piece visually on the board, and calls upon the controller to move
+     * the piece in it's underlying data structure.
      * 
      * @param pane - A reference to the specific pane that was clicked.
      * @return - True if a piece was moved, false otherwise.
@@ -497,20 +533,21 @@ public class GameScreen implements EventHandler<ActionEvent>{
         // The current selected position.
         Position curr = board.getSquares()[toRank][toFile].getPostion();
         // The function stops here if it is the first selection.
-        if (last == null) { last = curr; return false; }
+        if (last == null) {
+            last = curr;
+            return false;
+        }
         // The rank and file index of the last selected position.
         int fromRank = last.getRank().getIndex(), fromFile = last.getFile().getIndex();
-        // The size of the board.
-        int size = board.getSquares().length;
         // The piece on the previous selected position.
         PieceIF piece = board.getPiece(fromRank, fromFile);
-        
+
         // Move the piece, if any.
         if (piece != null && gc.move(last, curr)) {
             // The image of the previous selected pane.
-            Node fromImage = ((Pane)grid.getChildren().get(fromRank+fromFile*size)).getChildren().remove(0);
+            Node fromImage = ((Pane) grid.getChildren().get(fromRank + fromFile * boardSize)).getChildren().remove(0);
             // The currently selected pane.
-            Pane selectedPane = ((Pane)grid.getChildren().get(toRank+toFile*size));
+            Pane selectedPane = ((Pane) grid.getChildren().get(toRank + toFile * boardSize));
 
             // Adds the captured piece, and removes it from the board.
             if (selectedPane.getChildren().size() > 0) {
@@ -522,7 +559,10 @@ public class GameScreen implements EventHandler<ActionEvent>{
             }
 
             // Moves the selected piece.
-            ((Pane)grid.getChildren().get(toRank+toFile*size)).getChildren().add(fromImage);
+            if (piece.getChessPieceType().equals(ChessPieceType.PAWN) && selectedPane.getChildren().size() <= 0)
+                drawBoard();
+            else
+                ((Pane) grid.getChildren().get(toRank + toFile * boardSize)).getChildren().add(fromImage);
             last = null;
             return true;
         } else {
@@ -537,23 +577,26 @@ public class GameScreen implements EventHandler<ActionEvent>{
      * @param pane - A reference to the pane that was clicked.
      */
     private void showMoves(Pane pane) {
-        if (!toggleShowMoves) { return; }
+        if (!toggleShowMoves) {
+            removeShowMovesColoring();
+            return;
+        }
         int rowIndex = GridPane.getRowIndex(pane);
         int colIndex = GridPane.getColumnIndex(pane);
-        int size = board.getSquares().length;
         PieceIF piece = board.getPiece(rowIndex, colIndex);
 
         removeShowMovesColoring();
 
         // Outline selected square
-        grid.getChildren().get(rowIndex+colIndex*size).getStyleClass().add("selected");
-        
+        grid.getChildren().get(rowIndex + colIndex * boardSize).getStyleClass().add("selected");
+
         // Show showMoves coloring on selected piece.
         if (piece != null) {
-            Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());   
+            Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());
             for (Position p : pos) {
-                grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*size).getStyleClass().add("showMoves");
-            }     
+                grid.getChildren().get(p.getRank().getIndex() + p.getFile().getIndex() * boardSize).getStyleClass()
+                        .add("showMoves");
+            }
         }
     }
 
@@ -561,12 +604,43 @@ public class GameScreen implements EventHandler<ActionEvent>{
      * Removes any current visible showMovesColoring from the board.
      */
     private void removeShowMovesColoring() {
-        int size = board.getSquares().length;
-
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                grid.getChildren().get(i+j*size).getStyleClass().removeAll("showMoves", "selected");
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                grid.getChildren().get(i + j * boardSize).getStyleClass().removeAll("showMoves", "selected");
             }
         }
+    }
+
+    @Override
+    public void undoUpdate(boolean undo) {
+        this.undo = undo;
+    }
+
+    @Override
+    public void moveUpdate(boolean show) {
+        toggleShowMoves = show;
+    }
+
+    @Override
+    public void maxundoUpdate(int numUndo) {
+        maxUndo = numUndo;
+    }
+
+    public void unlimUpdate(boolean unlimUndo) {
+        this.unlimUndo = unlimUndo;
+    }
+
+    public void colorUpdate(Background white, Background black) {
+
+        int count = 0;
+        for (int i = 0; i < grid.getChildren().size() - 1; i++) {
+            System.out.println(i);
+
+            if (i % 2 == 0)
+                grid.getChildren().get(i).setStyle(/* "-fx-background-color: #ff0000; */" -fx-border-color: #ff0000");
+            else
+                grid.getChildren().get(i).setStyle("-");
+        }
+
     }
 }

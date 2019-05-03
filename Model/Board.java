@@ -1157,7 +1157,7 @@ public class Board implements BoardIF {
                 PieceValidator piece = (PieceValidator) board[i][j].getPiece();
                 if(piece != null){
                     // starting tag to signify a piece
-                    builder.append("\t\t\t<piece>\n");
+                    builder.append("\t\t\t<piece rankIndex=\"" + i + "\" fileIndex = \""+ j +"\"  >\n");
 
                     // gets chess piece type
                     builder.append("\t\t\t\t<pieceType> ");
@@ -1169,15 +1169,15 @@ public class Board implements BoardIF {
                     builder.append(piece.getPiece().getColor());
                     builder.append(" </color>\n");
 
-                    // gets the rank index for the piece
-                    builder.append("\t\t\t\t<rankIndex> ");
-                    builder.append(i);
-                    builder.append(" </rankIndex>\n");
-
-                    // gets the file index for the piece
-                    builder.append("\t\t\t\t<fileIndex> ");
-                    builder.append(j);
-                    builder.append(" </fileIndex>\n");
+//                    // gets the rank index for the piece
+//                    builder.append("\t\t\t\t<rankIndex> ");
+//                    builder.append(i);
+//                    builder.append(" </rankIndex>\n");
+//
+//                    // gets the file index for the piece
+//                    builder.append("\t\t\t\t<fileIndex> ");
+//                    builder.append(j);
+//                    builder.append(" </fileIndex>\n");
 
                     // end tag for the piece
                     builder.append("\t\t\t</piece>\n");

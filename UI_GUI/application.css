@@ -47,14 +47,14 @@
 
 #ranks {
     -fx-background-color: #ffe1b4;
-    -fx-border-width: 0 5 0 0;
+    -fx-border-width: 0 1 0 0;
     -fx-border-color: black;
 }
 
 #files {
     -fx-background-color: #ffe1b4;
-    /*-fx-border-width: 0 0 5 0;*/
-    -fx-border-color: red;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: black;
 }
 
 /**Screen styles */
@@ -63,6 +63,8 @@
 }*/
 
 #board {
+    -fx-border-width: 5 0 0 5;
+    -fx-border-color: black;
     -fx-background-color: black;
 }
 
@@ -139,6 +141,14 @@
 .selected {
     -fx-border-color: #62e43b;
     -fx-border-width: 2;
+}
+
+.inputNameButtonPlay{
+    -fx-border-width: 1px;
+    -fx-border-color: #000000;
+    -fx-background-color: #7d8187;
+    -fx-font-color: #ffffff;
+    -fx-text-fill: #ffffff;
 }
 
 /**Buttton Styles */

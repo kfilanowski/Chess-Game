@@ -172,6 +172,24 @@ public class GameController_GUI {
     }
 
     /**
+     * 
+     * 
+     * 
+     */
+    public void setPlayerOneName(String name) {
+        playerOneName = name;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     */
+    public void setPlayerTwoName(String name) {
+        playerTwoName = name;
+    }
+
+    /**
      * Retrieves the name of the second player.
      * 
      * @return - The name of player two.
@@ -191,6 +209,7 @@ public class GameController_GUI {
             alert("Undo could not occur");
         } else {
             board.restoreState(state);
+            playerTurn = !playerTurn;
             alert("Undo occured");
         }
     }
@@ -207,53 +226,49 @@ public class GameController_GUI {
             alert("Redo could not occur");
         } else {
             board.restoreState(state);
+            playerTurn = !playerTurn;
             alert("Redo occured");
         }
     }
 
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
+     * Method that opens a FileChooser save dialog window and allows the user to save
+     * the chess game as an xml file.
      */
     public void saveAction() {
+        // create and add file extension filters to the dialog window
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showSaveDialog(new Stage());
         if (file != null) {
             try {
+                // we get our history as an xml string and write it to the designated file
                 FileWriter fileWriter = new FileWriter(file);
                 PrintWriter writer = new PrintWriter(fileWriter);
-                writer.print(History.getInstance().toXML());
+                writer.print(History.getInstance().toXML(board));
                 writer.close();
+                // we alert the user that the file was successfully saved
+                alert("File was saved as >>  " + file.toString());
             } catch (IOException ioe) {
-                System.out.println("caught ioe exception");
+                // we alert the user that the file was not saved
+                alert("ERROR! Could not save file.");
             }
+        }else{
+            // alert user that the file was not saved
+            alert("ERROR! Could not save file");
         }
     }
 
     /**
-     * 
-     * 
-     * 
-     * 
+     * Method that opens a open dialog window and allows the user to load a chess game
      */
     public void loadAction() {
+        // create and add file extension filters to the dialog window
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
-            try {
-                FileWriter fileWriter = new FileWriter(file);
-                PrintWriter writer = new PrintWriter(fileWriter);
-                writer.print(History.getInstance().toXML());
-                writer.close();
-            } catch (IOException ioe) {
-                System.out.println("caught ioe exception");
-            }
+            board.restoreState(History.getInstance().loadHistory(file).getState().clone().saveState());
         }
     }
 
