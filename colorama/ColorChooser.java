@@ -195,9 +195,7 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     }//end handle
 
 
-    public void notifyObserver(){
-        sch.switchUI(Board_GUI.Screens.ColorScreen);
-    }
+
 
     private SliderChangeListener scl = new SliderChangeListener() {
         @Override

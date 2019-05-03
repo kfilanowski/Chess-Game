@@ -112,7 +112,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event){
-        if(event.getSource() == exitButton) {
+        if(event.getSource() == buttons[5]) {
             handler.switchScreen(ScreenChangeHandler.SCREENA);
             Board_GUI.boardSettings = 0;
         }else if (event.getSource() == buttons[4]){
@@ -325,7 +325,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         topPanel.setAlignment(Pos.CENTER);
 
         // Create the row of buttons.
-        Button[] buttons = new Button[6];
+        buttons = new Button[6];
 
         buttons[0] = new Button("Load");
         buttons[0].setOnAction(e -> {
