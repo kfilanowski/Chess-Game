@@ -45,6 +45,6 @@ public class ChessRules implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event){
-        handler.switchScreen(ScreenChangeHandler.SCREENA);
+        handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
     }
 }

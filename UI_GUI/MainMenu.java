@@ -33,26 +33,26 @@ public class MainMenu implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event){
         if(event.getSource() == pvp && !InputNameScreen.getScreenHasChanged()){
-            handler.switchScreen(ScreenChangeHandler.SCREENB);
+            handler.switchScreen(ScreenChangeHandler.PLAYERNAMESCREEN);
             //Board_GUI.boardSettings = 1;
         }else{
-            handler.switchScreen(ScreenChangeHandler.SCREENH);
+            handler.switchScreen(ScreenChangeHandler.GAMESCREEN);
             //Board_GUI.boardSettings = 1;
         }
 
         if(event.getSource() == settings){
-            handler.switchScreen(ScreenChangeHandler.SCREENC);
+            handler.switchScreen(ScreenChangeHandler.SETTINGSSCREEN);
             Board_GUI.boardSettings = 0;
         }else if(event.getSource() == exit){
             Board_GUI.getPrimaryStage().close();
         }else if(event.getSource() == playerVsComp){
-            handler.switchScreen(ScreenChangeHandler.SCREEND);
+            handler.switchScreen(ScreenChangeHandler.CPU);
         }else if(event.getSource() == onlinePlay){
-            handler.switchScreen(ScreenChangeHandler.SCREENE);
+            handler.switchScreen(ScreenChangeHandler.ONLINE);
         }else if(event.getSource() == chessRules){
-            handler.switchScreen(ScreenChangeHandler.SCREENF);
+            handler.switchScreen(ScreenChangeHandler.RULES);
         }else if(event.getSource() == tutorial){
-            handler.switchScreen(ScreenChangeHandler.SCREENG);
+            handler.switchScreen(ScreenChangeHandler.TUTORIAL);
         }
     }
 

@@ -122,6 +122,8 @@ public class GameController_GUI {
 
             // moves the piece
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
+            PieceValidator toPiece2 = (PieceValidator) board.getSquares()[toRank][toFile].getPiece();
+            toPiece2.getPiece().setHasMoved(true);
             board.getSquares()[fromRank][fromFile].setPiece(null);
             if (!playerTurn) {
                 // board.draw();
@@ -273,7 +275,7 @@ public class GameController_GUI {
     }
 
     public void settingsAction(){
-        handler.switchScreen(ScreenChangeHandler.SCREENC);
+        handler.switchScreen(ScreenChangeHandler.SETTINGSSCREEN);
     }
 
     /**

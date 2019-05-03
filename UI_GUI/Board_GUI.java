@@ -133,21 +133,21 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
      */
     @Override
     public void switchScreen(int screen){
-        if(screen == ScreenChangeHandler.SCREENA){
+        if(screen == ScreenChangeHandler.MAINSCREEN){
             scene.setRoot(rootA);
-        }else if(screen == ScreenChangeHandler.SCREENB){
+        }else if(screen == ScreenChangeHandler.PLAYERNAMESCREEN){
             scene.setRoot(rootB);
-        }else if(screen == ScreenChangeHandler.SCREENC){
+        }else if(screen == ScreenChangeHandler.SETTINGSSCREEN){
             scene.setRoot(rootC);
-        }else if(screen == ScreenChangeHandler.SCREEND){
+        }else if(screen == ScreenChangeHandler.CPU){
             scene.setRoot(rootD);
-        }else if(screen == ScreenChangeHandler.SCREENE){
+        }else if(screen == ScreenChangeHandler.ONLINE){
             scene.setRoot(rootE);
-        }else if(screen == ScreenChangeHandler.SCREENF){
+        }else if(screen == ScreenChangeHandler.RULES){
             scene.setRoot(rootF);
-        }else if(screen == ScreenChangeHandler.SCREENG){
+        }else if(screen == ScreenChangeHandler.TUTORIAL){
             scene.setRoot(rootG);
-        }else if(screen == ScreenChangeHandler.SCREENH){
+        }else if(screen == ScreenChangeHandler.GAMESCREEN){
             scene.setRoot(rootH);
             boardSettings = 1;
         }

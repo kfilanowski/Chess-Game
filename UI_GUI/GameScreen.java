@@ -74,8 +74,6 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
     Button[] buttons;
 
-    Button exitButton;
-
     boolean undo;
 
     boolean unlimUndo;
@@ -113,10 +111,10 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event){
         if(event.getSource() == buttons[5]) {
-            handler.switchScreen(ScreenChangeHandler.SCREENA);
+            handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
             Board_GUI.boardSettings = 0;
         }else if (event.getSource() == buttons[4]){
-            handler.switchScreen(ScreenChangeHandler.SCREENC);
+            handler.switchScreen(ScreenChangeHandler.SETTINGSSCREEN);
         }
     }
 

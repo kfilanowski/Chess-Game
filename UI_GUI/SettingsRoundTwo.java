@@ -155,11 +155,11 @@ public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
             if((event.getSource() == save || event.getSource() == exit)
                     && Board_GUI.boardSettings == 0){
-                handler.switchScreen(ScreenChangeHandler.SCREENA);
+                handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
             }else if (event.getSource() == userColor){
                 setStage();
             }else{
-                handler.switchScreen(ScreenChangeHandler.SCREENH);
+                handler.switchScreen(ScreenChangeHandler.GAMESCREEN);
             }
 
 
@@ -380,26 +380,8 @@ public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
 
 
 
-    EventHandler<ActionEvent> exitAction = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-
-            if (Board_GUI.boardSettings == 0) {
-                handler.switchScreen(ScreenChangeHandler.SCREENA);
-            } else {
-                handler.switchScreen(ScreenChangeHandler.SCREENB);
-            }
-        }
-
-    };
 
 
     
 
-    EventHandler<ActionEvent> buttonHandler2 = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            setStage();
-        }//end handle
-    };
 }
