@@ -2,8 +2,48 @@
  * The CSS File for styling the application.
  * 
  * @author Kevin Filanowski
+ * @author Jacob Ginn
+ * @author Matt Lutz
  * @version April 20, 2019
  */
+
+ /**Styles for the slider control**/
+ .slider_title, .value_title{
+ 	-fx-font-family:  arial, helvetica, sans-serif;
+ }
+
+ .slider_title{
+ 	-fx-font-size: 27px;
+ 	-fx-padding: 5 5 20 5;
+ }
+
+
+ .value_title, .text_input{
+ 	-fx-border-width: 20px;
+ }
+
+ .value_title{
+ 	-fx-font-size: 14px;
+ }
+
+
+ .text_input{
+ 	-fx-max-width: 50px;
+ }
+
+ /**Styles for ColorChooser */
+ .color{
+ 	-fx-background-color: #000000;
+ 	-fx-border-radius: 0;
+ 	-fx-border-width: 1;
+ 	-fx-background-insets: 10 10 10 10;
+
+ }
+
+ .color_text{
+ 	-fx-font-size: 24px;
+ }
+
 
 #ranks {
     -fx-background-color: #ffe1b4;
@@ -17,9 +57,15 @@
     -fx-border-color: black;
 }
 
+/**Screen styles */
+/*#Screen1{
+	-fx-background-color: linear-gradient(#ffe1b4, #7d3c0e);
+}*/
+
 #board {
     -fx-border-width: 5 0 0 5;
     -fx-border-color: black;
+    -fx-background-color: black;
 }
 
 .toggleButton {
@@ -104,3 +150,175 @@
     -fx-font-color: #ffffff;
     -fx-text-fill: #ffffff;
 }
+
+/**Buttton Styles */
+
+.buttonStyleA{
+     -fx-background-color: linear-gradient(#ffffff, #ffffff);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+
+.buttonStyleA:armed{
+    -fx-background-color: linear-gradient(#ff5400, #0e1d00);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+
+
+.buttonStyleB{
+	-fx-background-color: linear-gradient(#0054ff, #001dbe);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+
+.buttonStyleB:armed{
+	 -fx-background-color: linear-gradient(#0054ff, #001d0e);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+.buttonStyleC{
+	 -fx-background-color: linear-gradient(#54ff54, #1d7e1d);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+
+.buttonStyleC:armed{
+	-fx-background-color: linear-gradient(#54ff54, #0e1d0e);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+
+
+
+.buttonSizeS{
+    -fx-min-width: 100px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 25px;
+}
+
+.buttonSizeS2{
+
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 120px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 50px;
+    -fx-pref-height: 25px;
+}
+
+.buttonSizeM{
+    -fx-min-width: 200px;
+    -fx-min-height: 20px;
+    -fx-max-width: 200px;
+    -fx-max-height: 50px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 40px;
+}
+
+
+.buttonSizeL{
+    -fx-min-width: 300px;
+    -fx-min-height: 40px;
+    -fx-max-width: 300px;
+    -fx-max-height: 80px;
+    -fx-pref-width: 300px;
+    -fx-pref-height: 60px;
+}
+
+/**Label styles */
+.screenTitle{
+	-fx-font-size: 50px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #ffffff;
+}
+
+#Screen1{
+    -fx-background-image: url("/images/chessPieces/wood.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2000 2000;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+
+.whiteButton{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #040404;
+}
+
+.blackButton{
+    -fx-background-color: #000000;
+    -fx-border-color: #404040;
+
+}
+
+#pane{
+    -fx-background-image: url("/images.chessPieces/wood.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 2000 2000;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.checkBox{
+
+    -fx-min-width: 25px;
+    -fx-min-height: 25px;
+    -fx-max-width: 20px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 25px;
+}
+
+.textField{
+
+    -fx-min-width: 120px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;
+    -fx-pref-width: 25px;
+    -fx-pref-height: 25px;
+}
+
+/**Text field styles */
+.mainLabel{
+    -fx-font-size: 50px;
+    -fx-font-family: arial, helvetica, sans-serif;
+    -fx-text-fill: #ffffff;
+}
+
+.mediumLabel{
+	-fx-font-size: 25px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #ffffff;
+}
+
+
+.regularLabel{
+	-fx-font-size: 20px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #ffffff;
+}
+
+
+
+
+
+
+

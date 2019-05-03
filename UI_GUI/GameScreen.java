@@ -1,17 +1,19 @@
 package UI_GUI;
 
-import com.sun.glass.ui.Screen;
-
 import Controller.GameController_GUI;
 import Enums.ChessPieceType;
 import Enums.GameColor;
 import Factory.ImageFactory;
+import Handler.SettingsObserver;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
+import Interfaces.ScreenChangeHandler;
 import Interfaces.SquareIF;
 import Model.Position;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -19,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -26,7 +29,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -34,9 +36,9 @@ import javafx.scene.text.Font;
  * The game screen that the two players will play on.
  *
  * @author Kevin Filanowski
- * @version April 21, 2019
+ * @version May 3, 2019
  */
-public class GameScreen {
+public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     /** A static reference to this class for the Singleton pattern. */
     private static GameScreen instance;
 
@@ -59,13 +61,26 @@ public class GameScreen {
     private boolean toggleShowMoves;
 
     /** Displays the white pieces that have been captured. */
-    TilePane capturedWhitePieces;
+    FlowPane capturedWhitePieces;
 
     /** Displays the black pieces that have been captured. */
-    TilePane capturedBlackPieces;
+    FlowPane capturedBlackPieces;
 
     /** The amount of squares in the board. */
     private int boardSize;
+
+    /** ScreenChangeHandler object */
+    ScreenChangeHandler handler;
+
+    Button[] buttons;
+
+    Button exitButton;
+
+    boolean undo;
+
+    boolean unlimUndo;
+
+    int maxUndo;
 
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
@@ -85,9 +100,33 @@ public class GameScreen {
         toggleShowMoves = true;
         root = new BorderPane();
         grid = new GridPane();
-        capturedWhitePieces = new TilePane();
-        capturedBlackPieces = new TilePane();
+        capturedWhitePieces = new FlowPane();
+        capturedBlackPieces = new FlowPane();
         gc = new GameController_GUI(board);
+        undo = false;
+        unlimUndo = false;
+        maxUndo = 1;
+        buttons = new Button[6];
+    }
+
+
+    @Override
+    public void handle(ActionEvent event){
+        if(event.getSource() == exitButton) {
+            handler.switchScreen(ScreenChangeHandler.SCREENA);
+            Board_GUI.boardSettings = 0;
+        }else if (event.getSource() == buttons[4]){
+            handler.switchScreen(ScreenChangeHandler.SCREENC);
+        }
+    }
+
+    /**
+     * Method that sets the screenChangeHandler to a new screenChangeHandler
+     * 
+     * @param sch - new screenChangeHandler that we want to set
+     */
+    public void setScreenChangeHandler(ScreenChangeHandler sch) {
+        this.handler = sch;
     }
 
     /**
@@ -120,7 +159,7 @@ public class GameScreen {
      *
      * @return - The root pane of the screen.
      */
-    public BorderPane getRoot() {
+    public Pane getRoot() {
         return root;
     }
 
@@ -203,37 +242,29 @@ public class GameScreen {
 
         root.heightProperty().addListener(e -> {
             double min = Math.floor(Math.min(
-                    root.getHeight() 
-                        - ((Pane)root.getBottom()).getHeight() 
-                        - ((Pane)root.getTop()).getHeight(), 
-                    root.getWidth() 
-                        - ((Pane)root.getLeft()).getWidth() 
-                        - ((Pane)root.getRight()).getWidth()));
+                    root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth())-10);
             center.setMaxSize(min, min);
         });
         root.widthProperty().addListener(e -> {
             double min = Math.floor(Math.min(
-                    root.getHeight() 
-                        - ((Pane)root.getBottom()).getHeight() 
-                        - ((Pane)root.getTop()).getHeight(), 
-                    root.getWidth() 
-                        - ((Pane)root.getLeft()).getWidth() 
-                        - ((Pane)root.getRight()).getWidth()));
+                    root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth())-10);
             center.setMaxSize(min, min);
         });
 
         grid.heightProperty().addListener(squareSizeListener);
         grid.widthProperty().addListener(squareSizeListener);
-        grid.heightProperty().addListener(e -> {;
+        grid.heightProperty().addListener(e -> {
             double min = Math.min(grid.getHeight(), grid.getWidth());
-            double paneSize = Math.floor(min/boardSize);
+            double paneSize = Math.floor(min / boardSize);
             Pane temp;
-            for (Node p : files.getChildren())  {
+            for (Node p : files.getChildren()) {
                 temp = (Pane) p;
                 temp.setMaxSize(paneSize, paneSize * 0.60);
                 temp.setPrefSize(paneSize, paneSize * 0.60);
             }
-            for (Node p : ranks.getChildren())  {
+            for (Node p : ranks.getChildren()) {
                 temp = (Pane) p;
                 temp.setMaxSize(paneSize * 0.60, paneSize);
                 temp.setPrefSize(paneSize * 0.60, paneSize);
@@ -241,14 +272,14 @@ public class GameScreen {
         });
         root.widthProperty().addListener(e -> {
             double min = Math.min(grid.getHeight(), grid.getWidth());
-            double paneSize = Math.floor(min/boardSize);
+            double paneSize = Math.floor(min / boardSize);
             Pane temp;
-            for (Node p : files.getChildren())  {
+            for (Node p : files.getChildren()) {
                 temp = (Pane) p;
                 temp.setMaxSize(paneSize, paneSize * 0.60);
                 temp.setPrefSize(paneSize, paneSize * 0.60);
             }
-            for (Node p : ranks.getChildren())  {
+            for (Node p : ranks.getChildren()) {
                 temp = (Pane) p;
                 temp.setMaxSize(paneSize * 0.60, paneSize);
                 temp.setPrefSize(paneSize * 0.60, paneSize);
@@ -260,25 +291,24 @@ public class GameScreen {
         center.setLeft(ranks);
         center.setTop(files);
         center.setCenter(grid);
-        root.setCenter(center);        
+        root.setCenter(center);
     }
 
     ChangeListener<Number> squareSizeListener = new ChangeListener<Number>() {
         /**
-         * Adjusts the size of the squares given the amount of space, but
-         * retains the aspect ratio of 1:1.
-         * 
-         * @param observable - Unused, but it is the height/width property of
-         *                      the grid.
-         * @param oldValue - The old value.
-         * @param newValue - The new changed value.
+         * Adjusts the size of the squares given the amount of space, but retains the
+         * aspect ratio of 1:1.
+         *
+         * @param observable - Unused, but it is the height/width property of the grid.
+         * @param oldValue   - The old value.
+         * @param newValue   - The new changed value.
          */
         @Override
         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
             double min = Math.min(grid.getHeight(), grid.getWidth());
-            double paneSize = Math.round(min/boardSize);
+            double paneSize = Math.round(min / boardSize);
             Pane temp;
-            for (Node p : grid.getChildren())  {
+            for (Node p : grid.getChildren()) {
                 temp = (Pane) p;
                 temp.setMaxSize(paneSize, paneSize);
                 temp.setMinSize(paneSize, paneSize);
@@ -294,10 +324,8 @@ public class GameScreen {
         HBox topPanel = new HBox();
         topPanel.setAlignment(Pos.CENTER);
 
-        // TODO: implement settings.
-
         // Create the row of buttons.
-        Button[] buttons = new Button[5];
+        Button[] buttons = new Button[6];
 
         buttons[0] = new Button("Load");
         buttons[0].setOnAction(e -> {
@@ -309,8 +337,14 @@ public class GameScreen {
         buttons[1].setOnAction(e -> gc.saveAction());
 
         buttons[2] = new Button("Undo");
+        // TODO: simplify?
         buttons[2].setOnAction(e -> {
-            gc.undoAction();
+            if (undo) {
+                if (unlimUndo || maxUndo != 0) {
+                    gc.undoAction();
+                    maxUndo--;
+                }
+            }
             drawBoard();
         });
 
@@ -321,7 +355,10 @@ public class GameScreen {
         });
 
         buttons[4] = new Button("Settings");
-        // buttons[4].setOnAction(e -> gc.settingsAction(e));
+        buttons[4].setOnAction(this);
+
+        buttons[5] = new Button("Exit");
+        buttons[5].setOnAction(this);
 
         for (Button b : buttons) {
             b.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -339,7 +376,6 @@ public class GameScreen {
      */
     private void setupLeft() {
         VBox leftPanel = new VBox();
-        leftPanel.setStyle("-fx-background-color:orange");
         leftPanel.setAlignment(Pos.TOP_CENTER);
 
         // Setup Player labels
@@ -348,25 +384,13 @@ public class GameScreen {
         playerOne.getStyleClass().add("playerLabel");
         playerOneName.getStyleClass().add("playerLabel");
 
-        // Properly scale this left side with screen resizing.
         VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
-        capturedBlackPieces.setPrefColumns(2);
-        //capturedBlackPieces.setPrefTileHeight((height / 12));
-
-        root.widthProperty().addListener(e -> {
-            capturedBlackPieces.setMinWidth(2*grid.getWidth()/boardSize);
+        grid.widthProperty().addListener(e -> {
+            capturedBlackPieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
+            capturedBlackPieces.setMaxWidth(((Pane) grid.getChildren().get(0)).getWidth());
         });
 
-        // showMoves toggle button
-        ToggleButton showMoves = new ToggleButton("Show Moves");
-        showMoves.getStyleClass().add("toggleButton");
-        showMoves.setOnAction(e -> {
-            /*toggleShowMoves = !toggleShowMoves*/
-        drawBoard();
-        System.out.println("re-draw board");
-    });
-
-        leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces, showMoves);
+        leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces);
         root.setLeft(leftPanel);
     }
 
@@ -387,8 +411,6 @@ public class GameScreen {
     private void setupRight() {
         VBox rightPanel = new VBox();
         rightPanel.setAlignment(Pos.TOP_CENTER);
-        VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
-        capturedWhitePieces.setPrefColumns(2);
 
         // Setup Player labels
         Label playerTwo = new Label("Player Two");
@@ -396,20 +418,14 @@ public class GameScreen {
         playerTwo.getStyleClass().add("playerLabel");
         playerTwoName.getStyleClass().add("playerLabel");
 
-        // TODO: add functonality for exit button.
+        // Properly scale this left side with screen resizing.
+        VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
+        grid.widthProperty().addListener(e -> {
+            capturedWhitePieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
+            capturedWhitePieces.setMaxWidth(((Pane) grid.getChildrenUnmodifiable().get(0)).getWidth());
+        });
 
-        // Exit button
-        Button exitButton = new Button("Exit");
-
-        // TODO: Properly scale this with screen resizing.
-        // TODO: placement needs to be proper.
-
-        // Sets up the pane that displays the captured pieces.
-        capturedWhitePieces.setMinSize(grid.getMaxWidth() / 4, grid.getMaxWidth() / 4);
-        int height = Screen.getMainScreen().getHeight();
-        capturedWhitePieces.setPrefTileHeight((height / 12));
-
-        rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces, exitButton);
+        rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces);
         root.setRight(rightPanel);
     }
 
@@ -505,8 +521,8 @@ public class GameScreen {
     }
 
     /**
-     * Moves the piece visually on the board, and calls upon the controller to
-     * move the piece in it's underlying data structure.
+     * Moves the piece visually on the board, and calls upon the controller to move
+     * the piece in it's underlying data structure.
      * 
      * @param pane - A reference to the specific pane that was clicked.
      * @return - True if a piece was moved, false otherwise.
@@ -517,18 +533,21 @@ public class GameScreen {
         // The current selected position.
         Position curr = board.getSquares()[toRank][toFile].getPostion();
         // The function stops here if it is the first selection.
-        if (last == null) { last = curr; return false; }
+        if (last == null) {
+            last = curr;
+            return false;
+        }
         // The rank and file index of the last selected position.
         int fromRank = last.getRank().getIndex(), fromFile = last.getFile().getIndex();
         // The piece on the previous selected position.
         PieceIF piece = board.getPiece(fromRank, fromFile);
-        
+
         // Move the piece, if any.
         if (piece != null && gc.move(last, curr)) {
             // The image of the previous selected pane.
-            Node fromImage = ((Pane)grid.getChildren().get(fromRank+fromFile*boardSize)).getChildren().remove(0);
+            Node fromImage = ((Pane) grid.getChildren().get(fromRank + fromFile * boardSize)).getChildren().remove(0);
             // The currently selected pane.
-            Pane selectedPane = ((Pane)grid.getChildren().get(toRank+toFile*boardSize));
+            Pane selectedPane = ((Pane) grid.getChildren().get(toRank + toFile * boardSize));
 
             // Adds the captured piece, and removes it from the board.
             if (selectedPane.getChildren().size() > 0) {
@@ -538,12 +557,12 @@ public class GameScreen {
                     whiteCaptured(selectedPane.getChildren().remove(0));
                 }
             }
-            
+
             // Moves the selected piece.
             if (piece.getChessPieceType().equals(ChessPieceType.PAWN) && selectedPane.getChildren().size() <= 0)
                 drawBoard();
-            else 
-                ((Pane)grid.getChildren().get(toRank+toFile*boardSize)).getChildren().add(fromImage);
+            else
+                ((Pane) grid.getChildren().get(toRank + toFile * boardSize)).getChildren().add(fromImage);
             last = null;
             return true;
         } else {
@@ -558,7 +577,10 @@ public class GameScreen {
      * @param pane - A reference to the pane that was clicked.
      */
     private void showMoves(Pane pane) {
-        if (!toggleShowMoves) { return; }
+        if (!toggleShowMoves) {
+            removeShowMovesColoring();
+            return;
+        }
         int rowIndex = GridPane.getRowIndex(pane);
         int colIndex = GridPane.getColumnIndex(pane);
         PieceIF piece = board.getPiece(rowIndex, colIndex);
@@ -566,14 +588,15 @@ public class GameScreen {
         removeShowMovesColoring();
 
         // Outline selected square
-        grid.getChildren().get(rowIndex+colIndex*boardSize).getStyleClass().add("selected");
-        
+        grid.getChildren().get(rowIndex + colIndex * boardSize).getStyleClass().add("selected");
+
         // Show showMoves coloring on selected piece.
         if (piece != null) {
-            Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());   
+            Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());
             for (Position p : pos) {
-                grid.getChildren().get(p.getRank().getIndex()+p.getFile().getIndex()*boardSize).getStyleClass().add("showMoves");
-            }     
+                grid.getChildren().get(p.getRank().getIndex() + p.getFile().getIndex() * boardSize).getStyleClass()
+                        .add("showMoves");
+            }
         }
     }
 
@@ -583,8 +606,41 @@ public class GameScreen {
     private void removeShowMovesColoring() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                grid.getChildren().get(i+j*boardSize).getStyleClass().removeAll("showMoves", "selected");
+                grid.getChildren().get(i + j * boardSize).getStyleClass().removeAll("showMoves", "selected");
             }
         }
+    }
+
+    @Override
+    public void undoUpdate(boolean undo) {
+        this.undo = undo;
+    }
+
+    @Override
+    public void moveUpdate(boolean show) {
+        toggleShowMoves = show;
+    }
+
+    @Override
+    public void maxundoUpdate(int numUndo) {
+        maxUndo = numUndo;
+    }
+
+    public void unlimUpdate(boolean unlimUndo) {
+        this.unlimUndo = unlimUndo;
+    }
+
+    public void colorUpdate(Background white, Background black) {
+
+        int count = 0;
+        for (int i = 0; i < grid.getChildren().size() - 1; i++) {
+            System.out.println(i);
+
+            if (i % 2 == 0)
+                grid.getChildren().get(i).setStyle(/* "-fx-background-color: #ff0000; */" -fx-border-color: #ff0000");
+            else
+                grid.getChildren().get(i).setStyle("-");
+        }
+
     }
 }
