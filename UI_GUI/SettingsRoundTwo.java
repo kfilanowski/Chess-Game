@@ -23,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class SettingsRoundTwo implements SubjectIF {
     /**The root of the project */
@@ -64,6 +65,18 @@ public class SettingsRoundTwo implements SubjectIF {
     /** a singleton instance of the stage */
     private Stage colorama;
 
+    /** the unlimited undo checkbox. */
+    CheckBox unlimBox;
+
+    /** the unlimited undo checkbox. */
+    CheckBox showBox;
+
+    /** the unlimited undo checkbox. */
+    CheckBox enableUndo;
+
+    /** Text fiels that prompts for the max undos */
+    TextField maxUndo;
+
     /** The arrayList of our observers */
     private ArrayList<SettingsObserver> settingsObservers;
 
@@ -89,6 +102,13 @@ public class SettingsRoundTwo implements SubjectIF {
         colorChooser = new Scene(ColorChooser.getInstance().getRoot(),400,600);
         colorama = null;
         settingsObservers = new ArrayList<>();
+        unlimBox = new CheckBox();
+        showBox = new CheckBox();
+        enableUndo = new CheckBox();
+        maxUndo = new TextField();
+        unlimBox.setOnAction(unlimAction);
+        showBox.setOnAction(showAction);
+        enableUndo.setOnAction(undoAction);
         settingsObservers.add(GameScreen.getInstance());
     }
 
@@ -139,30 +159,31 @@ public class SettingsRoundTwo implements SubjectIF {
         Label wcolor = new Label("White Color:");
         Label bcolor = new Label("Black Color:");
         Label undo = new Label("Undo");
-        
-        //Sets up the buttons
-        Button save = new Button();
-        save.setText("Save");
-        save.setOnAction(saveAction);
+
+
         Button exit = new Button("Exit");
         exit.setOnAction(exitAction);
         exit.setText("Exit");
-        
+
+
+        maxUndo.textProperty().addListener(e -> {
+
+            try {
+                maxundoNotify(Integer.parseInt(maxUndo.getText()));
+            }catch (NumberFormatException n){
+                maxundoNotify(0);
+            }
+
+        });
+
 
         //sets up the Checkboxes on the screen
-        CheckBox enableUndo = new CheckBox();
-        Label unlim = new Label("Unlimited Undo", enableUndo);
+        Label unlim = new Label("Unlimited Undo", unlimBox);
 
-        CheckBox unlimBox = new CheckBox();
-        Label enable = new Label("Enabled",unlimBox);
+        Label enable = new Label("Enabled",enableUndo);
 
-        CheckBox showBox = new CheckBox();
         Label showMoves = new Label("Show Moves", showBox);
 
-        //sets the text field
-        TextField maxUndo = new TextField();
-
-        //maxUndo.setText("Max Undo");
         maxUndo.setPromptText("Set Max Undos");
 
         //sets style sheets
@@ -174,15 +195,13 @@ public class SettingsRoundTwo implements SubjectIF {
         wcolor.getStyleClass().add("regularLabel");
         bcolor.getStyleClass().add("regularLabel");
         exit.getStyleClass().add("buttonSizeS2");
-        save.getStyleClass().add("buttonSizeS2");
+        //save.getStyleClass().add("buttonSizeS2");
         undo.getStyleClass().add("mediumLabel");
         enableUndo.getStyleClass().add("checkBox");
         unlimBox.getStyleClass().add("checkBox");
         unlim.getStyleClass().add("regularLabel");
         enable.getStyleClass().add("regularLabel");
         maxUndo.getStyleClass().add("textField");
-        save.getStyleClass().add("buttonSizeS2");
-        exit.getStyleClass().add("buttonSizeS2");
         showMoves.getStyleClass().add("regularLabel");
         showBox.getStyleClass().add("checkBox");
 
@@ -207,7 +226,7 @@ public class SettingsRoundTwo implements SubjectIF {
         squareColor.getChildren().add(this.bcolor);
 
         //adds the nodes to saveExit
-        saveExit.getChildren().add(save);
+        //saveExit.getChildren().add(save);
         saveExit.getChildren().add(exit);
 
         //sets up colorSet
@@ -239,6 +258,7 @@ public class SettingsRoundTwo implements SubjectIF {
      */
     public void setWhiteColor(String colorSelection){
         wcolor.setStyle("-fx-background-color: #" + colorSelection );
+        colorNotify();
     }//nd setColor
 
     /**
@@ -247,6 +267,7 @@ public class SettingsRoundTwo implements SubjectIF {
      */
     public void setBlackColor(String colorSelection){
         bcolor.setStyle("-fx-background-color: #" + colorSelection );
+        colorNotify();
     }//nd setColor
 
 
@@ -258,11 +279,6 @@ public class SettingsRoundTwo implements SubjectIF {
         settingsObservers.remove(observer);
     }
 
-    public void notifyGame(){
-        for(SettingsObserver sb: settingsObservers){
-            sb.update();
-        }
-    }
 
     public Stage getColorama(){
         if(colorama == null) {
@@ -284,30 +300,81 @@ public class SettingsRoundTwo implements SubjectIF {
 
     }
 
-    EventHandler<ActionEvent> saveAction = new EventHandler<ActionEvent>() {
+    public void showNotify(boolean show){
+        for (SettingsObserver s: settingsObservers){
+            s.moveUpdate(show);
+            //System.out.println("show moves updated");
+        }
+    }
+
+    public void undoNotify(boolean undo){
+        for (SettingsObserver s: settingsObservers){
+            s.undoUpdate(undo);
+        }
+    }
+
+    public void maxundoNotify(int numUndo){
+        for (SettingsObserver s: settingsObservers){
+            s.maxundoUpdate(numUndo);
+        }
+    }
+
+    public void unlimNotify(boolean unlimUndo){
+        for (SettingsObserver s: settingsObservers){
+            s.unlimUpdate(unlimUndo);
+        }
+    }
+
+    @Override
+    public void colorNotify() {
+        for (SettingsObserver s: settingsObservers){
+            s.colorUpdate(wcolor.getBackground(),bcolor.getBackground());
+        }
+    }
+
+    EventHandler<ActionEvent> showAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            if(Board_GUI.boardSettings == 0){
-                handler.switchScreen(ScreenChangeHandler.SCREENA);
-                notifyGame();
-            }else{
-                handler.switchScreen(ScreenChangeHandler.SCREENB);
-                notifyGame();
-            }
+            showNotify(showBox.isSelected());
+
         }
     };
+
+    EventHandler<ActionEvent> unlimAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            unlimNotify(unlimBox.isSelected());
+
+        }
+    };
+
+
+
+
+    EventHandler<ActionEvent> undoAction = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            undoNotify(enableUndo.isSelected());
+
+        }
+    };
+
 
 
     EventHandler<ActionEvent> exitAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            if(Board_GUI.boardSettings == 0){
+
+            if (Board_GUI.boardSettings == 0) {
                 handler.switchScreen(ScreenChangeHandler.SCREENA);
-            }else{
+            } else {
                 handler.switchScreen(ScreenChangeHandler.SCREENB);
             }
         }
+
     };
+
+
     
 
     EventHandler<ActionEvent> buttonHandler2 = new EventHandler<ActionEvent>() {

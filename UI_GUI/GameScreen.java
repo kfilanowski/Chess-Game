@@ -22,14 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
 /**
@@ -69,6 +62,15 @@ public class GameScreen implements SettingsObserver {
     /** ScreenChangeHandler object */
     ScreenChangeHandler handler;
 
+    /** The undo funtion is enabled or disabled. */
+    boolean undo;
+
+    /** The undo function has unlimited times it can be implemented */
+    boolean unlimUndo;
+
+    /** The max number of undos that are allowed */
+    int maxUndo;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
@@ -83,12 +85,15 @@ public class GameScreen implements SettingsObserver {
      */
     private GameScreen(BoardIF board) {
         this.board = board;
-        toggleShowMoves = true;
+        toggleShowMoves = false;
         root = new BorderPane();
         grid = new GridPane();
         capturedWhitePieces = new TilePane();
         capturedBlackPieces = new TilePane();
         gc = new GameController_GUI(board);
+        undo = false;
+        unlimUndo = false;
+        maxUndo = 1;
     }
 
     EventHandler<ActionEvent> buttonHandlerA = new EventHandler<ActionEvent>() {
@@ -278,7 +283,12 @@ public class GameScreen implements SettingsObserver {
 
         buttons[2] = new Button("Undo");
         buttons[2].setOnAction(e -> {
-            gc.undoAction();
+            if(undo) {
+                if(unlimUndo || maxUndo != 0) {
+                    gc.undoAction();
+                    maxUndo--;
+                }
+            }
             drawBoard();
         });
 
@@ -305,7 +315,7 @@ public class GameScreen implements SettingsObserver {
     /**
      * Sets up the left side of the border pane. The left side of the border pane
      * will display images of the black pieces captured.
-     */
+     *///    public void maxUpdate();
     private void setupLeft() {
         VBox leftPanel = new VBox();
         leftPanel.setAlignment(Pos.TOP_CENTER);
@@ -539,7 +549,10 @@ public class GameScreen implements SettingsObserver {
      * @param pane - A reference to the pane that was clicked.
      */
     private void showMoves(Pane pane) {
-        if (!toggleShowMoves) { return; }
+        if (!toggleShowMoves) {
+            removeShowMovesColoring();
+            return;
+        }
         int rowIndex = GridPane.getRowIndex(pane);
         int colIndex = GridPane.getColumnIndex(pane);
         int size = board.getSquares().length;
@@ -572,8 +585,37 @@ public class GameScreen implements SettingsObserver {
         }
     }
 
+
     @Override
-    public void update() {
+    public void undoUpdate(boolean undo) {
+        this.undo = undo;
+    }
+
+    @Override
+    public void moveUpdate(boolean show) {
+        toggleShowMoves = show;
+    }
+
+    @Override
+    public void maxundoUpdate(int numUndo) {
+        maxUndo = numUndo;
+    }
+
+    public void unlimUpdate(boolean unlimUndo){
+        this.unlimUndo = unlimUndo;
+    }
+
+    public void colorUpdate(Background white, Background black){
+
+        int count = 0;
+        for(int i = 0; i < grid.getChildren().size()-1; i++){
+            System.out.println(i);
+
+            if(i % 2 == 0)
+                grid.getChildren().get(i).setStyle(/*"-fx-background-color: #ff0000;*/" -fx-border-color: #ff0000");
+            else
+                grid.getChildren().get(i).setStyle("-");
+        }
 
     }
 }
