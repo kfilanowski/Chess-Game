@@ -12,6 +12,7 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Board;
 import Model.Position;
+import Validator.PawnValidator;
 import Validator.PieceValidator;
 import History.State;
 
@@ -109,6 +110,19 @@ public class GameController_CLI {
 
         // If the move is valid
         if (validMove && (whiteTurn || blackTurn)) {
+            boolean deleteEnPassPiece = false;
+            Position enPassPos = null;
+            PieceValidator beforeSave = (PieceValidator) board.getSquares()[fromRank][fromFile].getPiece();
+            // for en passante so board state is saved correctly
+            if(beforeSave.getPiece().getChessPieceType() == ChessPieceType.PAWN){
+                PawnValidator pawn = (PawnValidator) board.getSquares()[fromRank][fromFile].getPiece();
+                enPassPos = pawn.isItEnPassante(new
+                                Position(Rank.getRankFromIndex(fromRank), Enums.File.getFileFromIndex(fromFile)),
+                        beforeSave.getPiece().getColor());
+                if(enPassPos != null){
+                    deleteEnPassPiece = true;
+                }
+            }
             History.getInstance().add(board.saveState());
             getTakenPiece(board, to);
             // the following is the implementation for checking for the fifty
@@ -141,6 +155,11 @@ public class GameController_CLI {
             // moves the piece
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
+
+            if(deleteEnPassPiece){
+                board.getSquares()[enPassPos.getRank().getIndex()][enPassPos.getFile().getIndex()].setPiece(null);
+            }
+
             if (!playerTurn) {
                 // board.draw();
                 playerTurn = true;

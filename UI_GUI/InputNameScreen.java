@@ -52,6 +52,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         //create labels and text field inputs
         Label p1 = new Label("Player 1 Name");
         Label p2 = new Label("Player 2 Name");
+        p1.getStyleClass().add("inputNameLabel");
+        p2.getStyleClass().add("inputNameLabel");
 
         tf1 = new TextField("Player 1");
         tf1.setMaxSize(250, 20);
@@ -69,6 +71,7 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         this.play.setPrefSize(100, 50);
         this.exit = new Button("Exit");
         this.exit.setPrefSize(100, 50);
+        this.exit.getStyleClass().add("inputNameButtonExit");
 
         // set up event handlers for the buttons
         play.setOnAction(this);
@@ -130,8 +133,6 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             if(getPlayer2Name().equals("")){
                 this.tf2.setText("Black");
             }
-            gc.setPlayerOneName(getPlayer1Name());
-            gc.setPlayerTwoName(getPlayer2Name());
             //TODO: call switch screens somewhere
         }else if(event.getSource() == exit){
             handler.switchScreen(ScreenChangeHandler.SCREENA);

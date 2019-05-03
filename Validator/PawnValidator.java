@@ -150,7 +150,6 @@ public class PawnValidator extends PieceValidator {
                         board.restoreState(history.redo());
                         result = true;
                         squares = board.getSquares();
-                        squares[fromRank][fromFile - 1].setPiece(null);
                     }else {
                         board.restoreState(history.redo());
                     }
@@ -179,7 +178,6 @@ public class PawnValidator extends PieceValidator {
                         board.restoreState(history.redo());
                         result = true;
                         squares = board.getSquares();
-                        squares[fromRank][fromFile + 1].setPiece(null);
                     }else {
                         board.restoreState(history.redo());
                     }
@@ -233,7 +231,6 @@ public class PawnValidator extends PieceValidator {
                         board.restoreState(history.redo());
                         result = true;
                         squares = board.getSquares();
-                        squares[fromRank][fromFile - 1].setPiece(null);
                     }else {
                         board.restoreState(history.redo());
                     }
@@ -262,7 +259,6 @@ public class PawnValidator extends PieceValidator {
                         board.restoreState(history.redo());
                         result = true;
                         squares = board.getSquares();
-                        squares[fromRank][fromFile + 1].setPiece(null);
                     }else{
                         board.restoreState(history.redo());
                     }
@@ -594,4 +590,30 @@ public class PawnValidator extends PieceValidator {
         }
         return false;
     }
+
+
+    /**
+     * This method detects if there is an en passante move viable for the user.
+     * @param pos The position of the pawn that can take en passantely
+     * @param color the color of the pawn that can take en passantely
+     * @return the position of the opponents piece that will be removed from the board
+     */
+    public Position isItEnPassante(Position pos, GameColor color){
+        Position[] positions = this.showMoves(pos);
+        Position enPass = null;
+        for(int i = 0; i < positions.length; i++){
+            Position sub = positions[i];
+            int rankDiff = Math.abs(sub.getRank().getIndex() - pos.getRank().getIndex());
+            int fileDiff = Math.abs(sub.getFile().getIndex() - pos.getFile().getIndex());
+            if(rankDiff == 1 && fileDiff == 1 && board.getSquares()[sub.getRank().getIndex()][sub.getFile().getIndex()].getPiece() == null){
+                if(color == GameColor.BLACK){
+                    enPass = new Position(Rank.getRankFromIndex(sub.getRank().getIndex() - 1), sub.getFile());
+                }else{
+                    enPass = new Position(Rank.getRankFromIndex(sub.getRank().getIndex() + 1), sub.getFile());
+                }
+            }
+        }
+        return enPass;
+    }
+
 }
