@@ -2,20 +2,15 @@ package UI_GUI;
 
 import Interfaces.BoardIF;
 import Interfaces.BoardStrategy;
-import colorama.VolumeControl;
+import Interfaces.ScreenChangeHandler;
 import Model.Position;
 import colorama.ColorChooser;
 import colorama.ColorScene;
-import com.sun.scenario.Settings;
+import colorama.VolumeControl;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import Interfaces.*;
-
-import java.awt.*;
-
-import java.util.Set;
 
 
 public class Board_GUI extends Application implements BoardStrategy, ScreenChangeHandler {
@@ -92,8 +87,6 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         settings.setScreenChangeHandler(this);
         menu.setup();
 
-        primaryStage.setMinHeight(700);
-        primaryStage.setMinWidth(900);
         rootA = menu.getRoot();
         rootB = game.getRoot();
         rootC = settings.getRoot();
