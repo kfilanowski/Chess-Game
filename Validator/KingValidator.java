@@ -47,18 +47,23 @@ public class KingValidator extends PieceValidator {
         int toFile = to.getFile().getIndex();
         int toRank = to.getRank().getIndex();
 
+        SquareIF[][] boardSquares = board.getSquares();
+        PieceIF fromPiece = boardSquares[fromRank][fromFile].getPiece();
+        PieceIF toPiece = boardSquares[toRank][toFile].getPiece();
+        ArrayList<Position> validMoves = new ArrayList<>(Arrays.asList(showMoves(from)));
 
-        if(Math.abs(toRank - fromRank) > 1 || Math.abs(toFile - fromFile) > 1){
+
+        if((Math.abs(toRank - fromRank) > 1 || Math.abs(toFile - fromFile) > 1) &&
+                !castleValidation(fromPiece.getColor(), from, validMoves)){
             return false;
+        }else if(castleValidation(fromPiece.getColor(), from, validMoves)){
+            return true;
         }
 
         // Check to see if the positions are the same
         if (fromFile == toFile && fromRank == toRank) { return false; }
 
-        SquareIF[][] boardSquares = board.getSquares();
-        PieceIF fromPiece = boardSquares[fromRank][fromFile].getPiece();
-        PieceIF toPiece = boardSquares[toRank][toFile].getPiece();
-        ArrayList<Position> validMoves = new ArrayList<>(Arrays.asList(showMoves(from)));
+
 
 
 

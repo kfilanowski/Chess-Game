@@ -104,6 +104,7 @@ public class GameController_GUI {
             // move rule
             PieceValidator toPiece = (PieceValidator) board.getSquares()[toRank][toFile].getPiece();
             PieceValidator fromPiece = (PieceValidator) board.getSquares()[fromRank][fromFile].getPiece();
+
             if (fromPiece.getPiece().getChessPieceType() != ChessPieceType.PAWN && toPiece == null) {
                 this.counter++;
                 // if counter == 50 then it is a draw
