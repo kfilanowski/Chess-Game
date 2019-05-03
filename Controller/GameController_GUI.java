@@ -51,6 +51,8 @@ public class GameController_GUI {
     /** A list of alertHandlers to notify if there is some kind of alert. */
     ArrayList<AlertHandler> ahList;
 
+    FileChooser fileChooser;
+
     /**
      * Constructor for a GUI GameController. This controller is for a chess
      * game, and requires a chess board.
@@ -63,6 +65,8 @@ public class GameController_GUI {
         whiteTakenPiece = new ArrayList<>();
         blackTakenPiece = new ArrayList<>();
         ahList = new ArrayList<>();
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
     }
 
     /**
@@ -229,8 +233,6 @@ public class GameController_GUI {
      */
     public void saveAction() {
         // create and add file extension filters to the dialog window
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showSaveDialog(new Stage());
         if (file != null) {
             try {
@@ -256,8 +258,6 @@ public class GameController_GUI {
      */
     public void loadAction() {
         // create and add file extension filters to the dialog window
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             board.restoreState(History.getInstance().loadHistory(file).getState().clone().saveState());
