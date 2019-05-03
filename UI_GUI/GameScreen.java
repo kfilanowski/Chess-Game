@@ -76,6 +76,12 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
     Button exitButton;
 
+    boolean undo;
+
+    boolean unlimUndo;
+
+    int maxUndo;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
@@ -102,6 +108,8 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         maxUndo = 1;
         buttons = new Button[6];
     }
+
+
     @Override
     public void handle(ActionEvent event){
         if(event.getSource() == exitButton) {
@@ -350,7 +358,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         buttons[4].setOnAction(this);
 
         buttons[5] = new Button("Exit");
-        buttons[5].setOnAction(buttonHandlerA);
+        buttons[5].setOnAction(this);
 
         for (Button b : buttons) {
             b.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);

@@ -166,8 +166,4 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         this.handler = sch;
     }
 
-    public VBox getRoot(){
-        return screen;
-    }
-
 }
