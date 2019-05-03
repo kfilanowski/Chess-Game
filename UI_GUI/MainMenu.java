@@ -1,6 +1,7 @@
 package UI_GUI;
 
 import Interfaces.*;
+import Model.Board;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -31,10 +32,17 @@ public class MainMenu implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event){
-        if(event.getSource() == pvp){
+        if(event.getSource() == pvp && !InputNameScreen.getScreenHasChanged()){
             handler.switchScreen(ScreenChangeHandler.SCREENB);
-        }else if(event.getSource() == settings){
+            //Board_GUI.boardSettings = 1;
+        }else{
+            handler.switchScreen(ScreenChangeHandler.SCREENH);
+            //Board_GUI.boardSettings = 1;
+        }
+
+        if(event.getSource() == settings){
             handler.switchScreen(ScreenChangeHandler.SCREENC);
+            Board_GUI.boardSettings = 0;
         }else if(event.getSource() == exit){
             Board_GUI.getPrimaryStage().close();
         }else if(event.getSource() == playerVsComp){
@@ -120,7 +128,6 @@ public class MainMenu implements EventHandler<ActionEvent> {
         root.setCenter(vbox);
         root.setRight(king);
         BorderPane.setAlignment(lab1, Pos.CENTER);
-        BorderPane.setAlignment(king, Pos.CENTER_RIGHT);
         root.setId("Screen1");
         //root.getStyleClass().add("Screen1");
 
@@ -130,8 +137,6 @@ public class MainMenu implements EventHandler<ActionEvent> {
     public Pane getRoot(){
         return this.root;
     }
-
-
 
     /**
      * Method that sets the screenChangeHandler to a new screenChangeHandler

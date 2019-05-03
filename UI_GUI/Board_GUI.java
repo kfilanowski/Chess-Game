@@ -28,7 +28,7 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
     private Scene scene;
 
     /**The root of scene A and scene B**/
-    private Pane rootA, rootB, rootC, rootD, rootE, rootF, rootG;
+    private Pane rootA, rootB, rootC, rootD, rootE, rootF, rootG, rootH;
 
     /**Get the instance of this application**/
     private static Board_GUI instance;
@@ -99,16 +99,19 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         rules.setScreenChangeHandler(this);
         Tutorial tutorial = new Tutorial();
         tutorial.setScreenChangeHandler(this);
+        InputNameScreen nameScreen = InputNameScreen.getInstance();
+        nameScreen.setScreenChangeHandler(this);
 
         primaryStage.setMinHeight(700);
         primaryStage.setMinWidth(900);
         rootA = menu.getRoot();
-        rootB = game.getRoot();
+        rootB = nameScreen.getRoot();
         rootC = settings.getRoot();
         rootD = cpu.getRoot();
         rootE = online.getRoot();
         rootF = rules.getRoot();
         rootG = tutorial.getRoot();
+        rootH = game.getRoot();
         this.primaryStage = primaryStage;
         scene = new Scene(menu.getRoot());
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -139,7 +142,6 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
             scene.setRoot(rootA);
         }else if(screen == ScreenChangeHandler.SCREENB){
             scene.setRoot(rootB);
-            boardSettings = 1;
         }else if(screen == ScreenChangeHandler.SCREENC){
             scene.setRoot(rootC);
         }else if(screen == ScreenChangeHandler.SCREEND){
@@ -150,6 +152,9 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
             scene.setRoot(rootF);
         }else if(screen == ScreenChangeHandler.SCREENG){
             scene.setRoot(rootG);
+        }else if(screen == ScreenChangeHandler.SCREENH){
+            scene.setRoot(rootH);
+            boardSettings = 1;
         }
     }
 

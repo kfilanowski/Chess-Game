@@ -1,4 +1,5 @@
 package UI_GUI;
+import Interfaces.ScreenChangeHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -27,13 +28,17 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     /** the screen that contains everything for the input name screen */
     VBox screen;
 
+    private ScreenChangeHandler handler;
+
+    private static boolean screenHasChanged;
+
 
     /**
      * Creates an input name screen object
      */
     private InputNameScreen(){
         super();
-
+        screenHasChanged = false;
         // create screen
         screen = new VBox();
         screen.setAlignment(Pos.CENTER);
@@ -78,6 +83,7 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
 
         screen.setMinSize(200, 400);
         screen.setMaxSize(200, 400);
+        screen.setId("Screen1");
     }
 
     /**
@@ -101,6 +107,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         if(event.getSource() == play){
             // if the players do not enter a name, then the default names are set
             // to white and black
+            handler.switchScreen(ScreenChangeHandler.SCREENH);
+            screenHasChanged = true;
             if(getPlayer1Name().equals("")){
                 this.tf1.setText("White");
             }
@@ -109,7 +117,7 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             }
             //TODO: call switch screens somewhere
         }else if(event.getSource() == exit){
-            //TODO: call switch screens somewhere
+            handler.switchScreen(ScreenChangeHandler.SCREENA);
         }
     }
 
@@ -125,8 +133,24 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
      * Gets the second player's name
      * @return the second player's inputted name
      */
-    public String getPlayer2Name(){
+    public String getPlayer2Name() {
         return this.tf2.getText();
+    }
+
+    public static boolean getScreenHasChanged(){
+        return screenHasChanged;
+    }
+
+    /**
+     * Method that sets the screenChangeHandler to a new screenChangeHandler
+     * @param sch - new screenChangeHandler that we want to set
+     */
+    public void setScreenChangeHandler(ScreenChangeHandler sch){
+        this.handler = sch;
+    }
+
+    public VBox getRoot(){
+        return screen;
     }
 
 }

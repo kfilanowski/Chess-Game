@@ -143,7 +143,7 @@ public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
             }else if (event.getSource() == userColor){
                 setStage();
             }else{
-                handler.switchScreen(ScreenChangeHandler.SCREENB);
+                handler.switchScreen(ScreenChangeHandler.SCREENH);
             }
 
 
@@ -237,13 +237,6 @@ public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
         vbox2.getChildren().add(hbox3);
 
     }
-
-    EventHandler<ActionEvent> buttonHandler2 = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-
-        }//end handle
-    };
 
     /**
      * Set the white spaces color and display the result
