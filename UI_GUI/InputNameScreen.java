@@ -37,11 +37,13 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     private static boolean screenHasChanged;
 
 
+
     /**
      * Creates an input name screen object
      */
-    private InputNameScreen(){
+    private InputNameScreen(GameController_GUI gc){
         super();
+        this.gc = gc;
         screenHasChanged = false;
         // create screen
         screen = new VBox();
@@ -109,7 +111,18 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
      */
     public static InputNameScreen getInstance(){
         if(inputScreen == null){
-            inputScreen = new InputNameScreen();
+            inputScreen = new InputNameScreen(null);
+        }
+        return inputScreen;
+    }
+
+     /**
+     * Uses the singleton pattern to return a single instance of input name screen
+     * @return the single instance of an input name screen
+     */
+    public static InputNameScreen getInstance(GameController_GUI gc){
+        if(inputScreen == null){
+            inputScreen = new InputNameScreen(gc);
         }
         return inputScreen;
     }
@@ -132,6 +145,7 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             if(getPlayer2Name().equals("")){
                 this.tf2.setText("Black");
             }
+            handler.switchScreen(ScreenChangeHandler.GAMESCREEN);
         }else if(event.getSource() == exit){
             handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
         }

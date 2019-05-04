@@ -339,7 +339,7 @@ public class GameController_GUI {
      * @return - The name of player one.
      */
     public String getPlayerOneName() {
-        return playerOneName;
+        return InputNameScreen.getInstance().getPlayer1Name();
     }
 
     /**
@@ -364,7 +364,7 @@ public class GameController_GUI {
      * @return - The name of player two.
      */
     public String getPlayerTwoName() {
-        return playerTwoName;
+        return InputNameScreen.getInstance().getPlayer2Name();
     }
 
     /**
@@ -469,7 +469,7 @@ public class GameController_GUI {
      * 
      * @param alert - A message related to the alert.
      */
-    private void alert(String alert) {
+    public void alert(String alert) {
         for (AlertHandler a : ahList) {
             a.handle(alert);
         }
