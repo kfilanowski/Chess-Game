@@ -76,10 +76,13 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
     Button exitButton;
 
+    /** true for performing undo, false for not being able to perform undos */
     boolean undo;
 
+    /** true for unlimited undo, false for no unlimited undo */
     boolean unlimUndo;
 
+    /** The max number of undos that can be performed in a game */
     int maxUndo;
 
     /**
@@ -594,7 +597,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         if (piece != null) {
             Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());
             for (Position p : pos) {
-                grid.getChildren().get(p.getRank().getIndex() + p.getFile().getIndex() * boardSize).setStyle("-fx-background-color: #62e43b; -fx-border-color: #62e43b");
+                grid.getChildren().get(p.getRank().getIndex() + p.getFile().getIndex() * boardSize).getStyleClass().add("showMoves");
             }
         }
     }
@@ -610,25 +613,43 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         }
     }
 
-    @Override
+    /**
+     * Updates whether Undos can be performed or not
+     * @param undo - true to perform; false not to perform
+     */
     public void undoUpdate(boolean undo) {
         this.undo = undo;
     }
 
-    @Override
+    /**
+     * Updates the showMoves on whether to display or not
+     * @param show - true to show; false to hide
+     */
     public void moveUpdate(boolean show) {
         toggleShowMoves = show;
     }
 
-    @Override
+    /**
+     * Updates the max number of undos that can be performed
+     * @param numUndo - the number of undos that can be performed
+     */
     public void maxundoUpdate(int numUndo) {
         maxUndo = numUndo;
     }
 
+    /**
+     * Updates whether the user can undo unlimited undos
+     * @param unlimUndo - boolean value true for unlimited; false for limited undos
+     */
     public void unlimUpdate(boolean unlimUndo) {
         this.unlimUndo = unlimUndo;
     }
 
+    /**
+     * updates the color of the background of the board.
+     * @param white - The hex string of the color that the user wants to have the white squares be
+     * @param black - The hex string of the color that the user wants to have the black squares be.
+     */
     public void colorUpdate(String white, String black) {
         int count = 0;
         boolean flippity = true;

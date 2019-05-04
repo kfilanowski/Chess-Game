@@ -49,7 +49,7 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     /**The singleton instance of this class**/
     private static ColorChooser instance;
 
-    /** **/
+    /** The Screen Change Handler **/
     private ScreenChangeHandler sch;
 
 
@@ -195,10 +195,9 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     }//end handle
 
 
-    public void notifyObserver(){
-        sch.switchUI(Board_GUI.Screens.ColorScreen);
-    }
-
+    /**
+     * Listens for when the slider has changed. When it has it gets the value ad updates the color.
+     */
     private SliderChangeListener scl = new SliderChangeListener() {
         @Override
         public void notifyChangeListener(SliderPane pane, int color) {
@@ -207,15 +206,19 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
 
     };
 
+    /**
+     * Gets the root of this scene
+     * @return - the root of the scene
+     */
     public Pane getRoot(){
         return this;
     }
 
 
-
-
-
-
+    /**
+     * Sets the screenChangeHangler for switching the screens
+     * @param sch - the Screen Change Handler
+     */
     public void setScreenChangeHandler(ScreenChangeHandler sch){
         this.sch = sch;
     }

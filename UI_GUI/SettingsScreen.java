@@ -23,6 +23,9 @@ import java.util.ArrayList;
 /**
  * The settings screen of ChessMeister that can be accessed at the main screen
  * or the game screen.
+ *
+ * @author Jacob Ginn (100%)
+ * @version 05/03/2019
  */
 public class SettingsScreen implements SubjectIF, EventHandler<ActionEvent> {
 
