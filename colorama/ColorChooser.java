@@ -2,7 +2,7 @@ package colorama;
 
 import Interfaces.*;
 import UI_GUI.Board_GUI;
-import UI_GUI.SettingsRoundTwo;
+import UI_GUI.SettingsScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -49,7 +49,7 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     /**The singleton instance of this class**/
     private static ColorChooser instance;
 
-    /** **/
+    /** The Screen Change Handler **/
     private ScreenChangeHandler sch;
 
 
@@ -184,19 +184,20 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     @Override
     public void handle(ActionEvent event) {
         if(event.getSource() == setBlack){
-            SettingsRoundTwo.getInstance().setBlackColor(selectedColor);
-            SettingsRoundTwo.getInstance().getColorama().close();
+            SettingsScreen.getInstance().setBlackColor(selectedColor);
+            SettingsScreen.getInstance().getColorama().close();
         } else if(event.getSource() == setWhite){
-            SettingsRoundTwo.getInstance().setWhiteColor(selectedColor);
-            SettingsRoundTwo.getInstance().getColorama().close();
+            SettingsScreen.getInstance().setWhiteColor(selectedColor);
+            SettingsScreen.getInstance().getColorama().close();
         } else if(event.getSource() == cancel){
-            SettingsRoundTwo.getInstance().getColorama().close();
+            SettingsScreen.getInstance().getColorama().close();
         }
     }//end handle
 
 
-
-
+    /**
+     * Listens for when the slider has changed. When it has it gets the value ad updates the color.
+     */
     private SliderChangeListener scl = new SliderChangeListener() {
         @Override
         public void notifyChangeListener(SliderPane pane, int color) {
@@ -205,15 +206,19 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
 
     };
 
+    /**
+     * Gets the root of this scene
+     * @return - the root of the scene
+     */
     public Pane getRoot(){
         return this;
     }
 
 
-
-
-
-
+    /**
+     * Sets the screenChangeHangler for switching the screens
+     * @param sch - the Screen Change Handler
+     */
     public void setScreenChangeHandler(ScreenChangeHandler sch){
         this.sch = sch;
     }
