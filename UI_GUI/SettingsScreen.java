@@ -139,6 +139,7 @@ public class SettingsScreen implements SubjectIF, EventHandler<ActionEvent> {
         CheckBox unlimBox = new CheckBox("Unlimited Undo");
 
         //Sets what the button does
+        showBox.setSelected(true);
         enableUndo.setOnAction(this);
         showBox.setOnAction(this);
         unlimBox.setOnAction(this);
@@ -146,8 +147,8 @@ public class SettingsScreen implements SubjectIF, EventHandler<ActionEvent> {
         //Sets up the Labels that are used
         Label color = new Label("Color");
         Label boardColor = new Label("Choose Square Colors: ");
-        Label wcolor = new Label("White Color: ");
-        Label bcolor = new Label("   Black Color: ");
+        Label wcolor = new Label("  White Color: ");
+        Label bcolor = new Label(" Black Color: ");
         Label undo = new Label("Undo");
 
 
@@ -204,10 +205,10 @@ public class SettingsScreen implements SubjectIF, EventHandler<ActionEvent> {
         selectColor.getChildren().add(userColor);
 
         //adds the nodes to squareColor
-        squareColor.getChildren().add(wcolor);
-        squareColor.getChildren().add(wcolorB);
         squareColor.getChildren().add(bcolor);
         squareColor.getChildren().add(bcolorB);
+        squareColor.getChildren().add(wcolor);
+        squareColor.getChildren().add(wcolorB);
 
         //sets up colorSet
         colorSet.getChildren().add(color);
