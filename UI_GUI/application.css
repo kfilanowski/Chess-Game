@@ -94,12 +94,12 @@
 .gameScreenTopButtons {
     -fx-border-radius: 0;
     -fx-background-radius : 0;
-    -fx-background-color: rgb(230, 230, 230);
+    -fx-background-color: rgb(225, 225, 225);
 
 }
 
 .gameScreenTopButtons:hover {
-    -fx-background-color: rgb(220, 220, 220);
+    -fx-background-color: rgb(205, 205, 205);
 }
 
 

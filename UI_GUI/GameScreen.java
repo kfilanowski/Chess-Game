@@ -235,7 +235,6 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
         grid.setMinSize(350, 350);
-        //grid.setPrefSize(400, 400);
         files.setMinWidth(grid.getMinWidth());
         ranks.setMinHeight(grid.getMinHeight());
 
@@ -342,6 +341,10 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
                 if (unlimUndo || maxUndo != 0) {
                     gc.undoAction();
                     maxUndo--;
+                    if (gc.getPlayerTurn() && capturedBlackPieces.getChildren().size() > 0)
+                        capturedBlackPieces.getChildren().remove(capturedBlackPieces.getChildren().size()-1);
+                    else if (!gc.getPlayerTurn() && capturedWhitePieces.getChildren().size() > 0)
+                        capturedWhitePieces.getChildren().remove(capturedWhitePieces.getChildren().size()-1);
                 }
             }
             drawBoard();
@@ -384,11 +387,11 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         playerOneName.getStyleClass().add("playerLabel");
 
         VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
-        root.widthProperty().addListener(e -> {
-            capturedBlackPieces.setMinWidth(2.2*grid.getWidth()/boardSize);
-            capturedBlackPieces.setMaxWidth(2.2*grid.getWidth()/boardSize);
-            leftPanel.setMaxWidth(2.5*grid.getWidth()/boardSize);
+        grid.widthProperty().addListener(e -> {
+            capturedBlackPieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
+            capturedBlackPieces.setMaxWidth(((Pane) grid.getChildren().get(0)).getWidth());
         });
+        leftPanel.setPrefWidth(135);
         leftPanel.setMinSize(playerOne.getWidth(), grid.getMinHeight());
         leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces);
         root.setLeft(leftPanel);
@@ -421,7 +424,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
         // Properly scale this left side with screen resizing.
         VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
-        root.widthProperty().addListener(e -> {
+        grid.widthProperty().addListener(e -> {
             capturedWhitePieces.setMinWidth(2.2*((Pane)grid.getChildren().get(0)).getWidth());
             rightPanel.setMaxWidth(3.0*((Pane)grid.getChildren().get(0)).getWidth());
         });
@@ -466,7 +469,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         setupCenter();
         setupBottom();
         setupLeft();
-        //setupRight();
+        setupRight();
     }
 
     /**

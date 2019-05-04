@@ -202,8 +202,6 @@ public class GameController_GUI {
      * Handles an undo action triggered by some event such as a button press.
      */
     public void undoAction() {
-        // TODO: Adjust player turn
-
         State<BoardIF> state = History.getInstance().undo(board);
         if (state == null) {
             alert("Undo could not occur");
@@ -219,8 +217,6 @@ public class GameController_GUI {
      * Handles a redo action triggered by some event such as a button press.
      */
     public void redoAction() {
-        // TODO: Adjust player turn
-
         State<BoardIF> state = History.getInstance().redo();
         if (state == null) {
             alert("Redo could not occur");
@@ -283,6 +279,15 @@ public class GameController_GUI {
      */
 	public void registerAlertHandler(AlertHandler ah) {
         ahList.add(ah);
+    }
+
+    /**
+     * Return the boolean value determining the player's turn.
+     * 
+     * @return - True if it is the white player's turn, false otherwise.
+     */
+    public boolean getPlayerTurn() {
+        return playerTurn;
     }
     
     /**
