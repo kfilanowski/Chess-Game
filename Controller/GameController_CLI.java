@@ -156,9 +156,11 @@ public class GameController_CLI {
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
 
+            // en passante
             if(deleteEnPassPiece){
                 board.getSquares()[enPassPos.getRank().getIndex()][enPassPos.getFile().getIndex()].setPiece(null);
             }
+            // end en passante
 
             if (!playerTurn) {
                 // board.draw();
