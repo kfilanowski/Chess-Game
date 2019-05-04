@@ -73,7 +73,6 @@ public class SettingsScreen implements SubjectIF, EventHandler<ActionEvent> {
         blackColor = "000000";
     }
 
-
     /**
      * gets the singleton instance of this class
      * @return - the instance of this class

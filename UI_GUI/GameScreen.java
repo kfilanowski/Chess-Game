@@ -1,5 +1,8 @@
 package UI_GUI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Controller.GameController_GUI;
 import Enums.ChessPieceType;
 import Enums.GameColor;
@@ -80,11 +83,17 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     /** The max number of undos that can be performed in a game */
     int maxUndo;
 
+    /** The list of captured nodes that were removed in an undo. */
+    List<Node> redoBlackCaptured;
+
+    /** The list of captured nodes that were removed in an undo. */
+    List<Node> redoWhiteCaptured;
+
     /**
      * Private Constructor a GameScreen instance using the Singleton pattern.
      */
     private GameScreen() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -92,7 +101,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      *
      * @param board - A reference to the game board.
      */
-    private GameScreen(BoardIF board) {
+    private GameScreen(BoardIF board, GameController_GUI gc) {
         this.board = board;
         boardSize = board.getSquares().length;
         toggleShowMoves = true;
@@ -100,7 +109,9 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         grid = new GridPane();
         capturedWhitePieces = new FlowPane();
         capturedBlackPieces = new FlowPane();
-        gc = new GameController_GUI(board);
+        redoBlackCaptured = new ArrayList<>();
+        redoWhiteCaptured = new ArrayList<>();
+        this. gc = gc;
         undo = false;
         unlimUndo = false;
         maxUndo = 1;
@@ -137,7 +148,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      * @return - An instance of the GameScreen class.
      */
     public static GameScreen getInstance() {
-        return getInstance(null);
+        return getInstance(null, null);
     }
 
     /**
@@ -148,9 +159,9 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      * @param board - A reference to the game board.
      * @return - An instance of the GameScreen class.
      */
-    public static GameScreen getInstance(BoardIF board) {
+    public static GameScreen getInstance(BoardIF board, GameController_GUI gc) {
         if (instance == null)
-            instance = new GameScreen(board);
+            instance = new GameScreen(board, gc);
         return instance;
     }
 
@@ -243,14 +254,18 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
         root.heightProperty().addListener(e -> {
             double min = Math.floor(Math.min(
-                    root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
-                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth()));
+                    root.getHeight() - ((Pane) root.getBottom()).getHeight() 
+                    - ((Pane) root.getTop()).getHeight(),
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() 
+                    - ((Pane) root.getRight()).getWidth()));
             center.setMaxSize(min, min);
         });
         root.widthProperty().addListener(e -> {
             double min = Math.floor(Math.min(
-                    root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
-                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth()));
+                    root.getHeight() - ((Pane) root.getBottom()).getHeight() 
+                    - ((Pane) root.getTop()).getHeight(),
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() 
+                    - ((Pane) root.getRight()).getWidth()));
             center.setMaxSize(min, min);
         });
 
@@ -344,10 +359,13 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
                 if (unlimUndo || maxUndo != 0) {
                     gc.undoAction();
                     maxUndo--;
+                    //FIXME: Not always correct.
                     if (gc.getPlayerTurn() && capturedBlackPieces.getChildren().size() > 0)
-                        capturedBlackPieces.getChildren().remove(capturedBlackPieces.getChildren().size()-1);
+                        redoBlackCaptured.add(capturedBlackPieces
+                            .getChildren().remove(capturedBlackPieces.getChildren().size()-1));
                     else if (!gc.getPlayerTurn() && capturedWhitePieces.getChildren().size() > 0)
-                        capturedWhitePieces.getChildren().remove(capturedWhitePieces.getChildren().size()-1);
+                        redoWhiteCaptured.add(capturedWhitePieces
+                            .getChildren().remove(capturedWhitePieces.getChildren().size()-1));
                 }
             }
             drawBoard();
@@ -356,6 +374,11 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         buttons[3] = new Button("Redo");
         buttons[3].setOnAction(e -> {
             gc.redoAction();
+            //FIXME: Not always correct.
+            if (!gc.getPlayerTurn() && redoBlackCaptured.size() > 0)
+                capturedBlackPieces.getChildren().add(redoBlackCaptured.remove(redoBlackCaptured.size() - 1));
+            else if (gc.getPlayerTurn() && redoWhiteCaptured.size() > 0)
+                capturedWhitePieces.getChildren().add(redoWhiteCaptured.remove(redoWhiteCaptured.size() - 1));
             drawBoard();
         });
 
@@ -370,7 +393,6 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
             HBox.setHgrow(b, Priority.ALWAYS);
             b.getStyleClass().add("gameScreenTopButtons");
         }
-
         topPanel.getChildren().addAll(buttons);
         root.setTop(topPanel);
     }
@@ -385,12 +407,13 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
         // Setup Player labels
         Label playerOne = new Label("Player One");
-        Label playerOneName = new Label(gc.getPlayerOneName());
+        Label playerOneName = new Label();
         playerOne.getStyleClass().add("playerLabel");
         playerOneName.getStyleClass().add("playerLabel");
 
         VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
         grid.widthProperty().addListener(e -> {
+            playerOneName.setText(InputNameScreen.getInstance().getPlayer1Name());
             capturedBlackPieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
             capturedBlackPieces.setMaxWidth(((Pane) grid.getChildren().get(0)).getWidth());
         });
@@ -428,6 +451,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         // Properly scale this left side with screen resizing.
         VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
         grid.widthProperty().addListener(e -> {
+            playerTwoName.setText(InputNameScreen.getInstance().getPlayer2Name());
             capturedWhitePieces.setMinWidth(2.2*((Pane)grid.getChildren().get(0)).getWidth());
             rightPanel.setMaxWidth(3.0*((Pane)grid.getChildren().get(0)).getWidth());
         });
@@ -456,7 +480,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         bottomPanel.setPrefWidth(640);
         bottomPanel.setAlignment(Pos.CENTER);
 
-        InfoLabel info = new InfoLabel(gc.getPlayerOneName() + "'s turn!");
+        InfoLabel info = new InfoLabel();
         info.getStyleClass().add("playerLabel");
         gc.registerAlertHandler(info);
 
@@ -564,6 +588,15 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
                 } else {
                     whiteCaptured(selectedPane.getChildren().remove(0));
                 }
+            }
+
+            redoBlackCaptured.clear();
+            redoWhiteCaptured.clear();
+
+            if (gc.getPlayerTurn()) {
+                gc.alert(gc.getPlayerOneName() + "'s turn!");
+            } else {
+                gc.alert(gc.getPlayerTwoName() + "'s turn!");
             }
 
             // Moves the selected piece.
