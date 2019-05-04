@@ -143,14 +143,6 @@
     -fx-border-width: 2;
 }
 
-.inputNameButtonPlay{
-    -fx-border-width: 1px;
-    -fx-border-color: #000000;
-    -fx-background-color: #7d8187;
-    -fx-font-color: #ffffff;
-    -fx-text-fill: #ffffff;
-}
-
 /**Buttton Styles */
 
 .buttonStyleA{
@@ -316,6 +308,47 @@
 	-fx-text-fill: #ffffff;
 }
 
+
+/** Styles for input name screen
+*/
+.inputNameLabel{
+	-fx-font-size: 25px;
+	-fx-font-family: arial, helvetica, sans-serif;
+	-fx-text-fill: #ffffff;
+}
+
+
+.inputNameButtonPlay{
+    -fx-border-width: 1px;
+    -fx-border-color: #000000;
+    -fx-background-color: linear-gradient(#7d8187, #5b5f66) ;
+    -fx-font-color: #ffffff;
+    -fx-text-fill: #ffffff;
+}
+
+.inputNameButtonPlay:armed{
+    -fx-border-width: 1px;
+    -fx-border-color: #000000;
+    -fx-background-color: #3faa54;
+    -fx-font-color: #000000;
+    -fx-text-fill: #000000;
+}
+
+.inputNameButtonExit{
+    -fx-border-width: 1px;
+    -fx-border-color: #000000;
+    -fx-background-color: linear-gradient(#7d8187, #5b5f66) ;
+    -fx-font-color: #ffffff;
+    -fx-text-fill: #ffffff;
+}
+
+.inputNameButtonExit:armed{
+    -fx-border-width: 1px;
+    -fx-border-color: #000000;
+    -fx-background-color: #bc4732;
+    -fx-font-color: #000000;
+    -fx-text-fill: #000000;
+}
 
 
 

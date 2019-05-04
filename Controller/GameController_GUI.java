@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import ChessExceptions.GameOverStaleMateException;
 import Enums.ChessPieceType;
 import Enums.GameColor;
+import Enums.Rank;
 import Handler.AlertHandler;
 import Interfaces.BoardIF;
 import Interfaces.PieceIF;
 import Interfaces.ScreenChangeHandler;
 import Model.Position;
 import UI_GUI.Board_GUI;
+import UI_GUI.InputNameScreen;
+import Validator.PawnValidator;
 import Validator.PieceValidator;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -56,6 +59,8 @@ public class GameController_GUI {
     ScreenChangeHandler handler;
 
 
+    Stage stage;
+    FileChooser fileChooser;
 
     /**
      * Constructor for a GUI GameController. This controller is for a chess
@@ -69,6 +74,8 @@ public class GameController_GUI {
         whiteTakenPiece = new ArrayList<>();
         blackTakenPiece = new ArrayList<>();
         ahList = new ArrayList<>();
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
     }
 
     /**
@@ -98,6 +105,22 @@ public class GameController_GUI {
                                 && !playerTurn);
 
         if (validMove && (whiteTurn || blackTurn)) {
+            // For en passante checking
+            boolean deleteEnPassPiece = false;
+            Position enPassPos = null;
+            PieceValidator beforeSave = (PieceValidator) board.getSquares()[fromRank][fromFile].getPiece();
+            // for en passante so board state is saved correctly
+            if(beforeSave.getPiece().getChessPieceType() == ChessPieceType.PAWN){
+                PawnValidator pawn = (PawnValidator) board.getSquares()[fromRank][fromFile].getPiece();
+                enPassPos = pawn.isItEnPassante(new
+                                Position(Rank.getRankFromIndex(fromRank), Enums.File.getFileFromIndex(fromFile)),
+                        beforeSave.getPiece().getColor());
+                if(enPassPos != null){
+                    deleteEnPassPiece = true;
+                }
+            }
+            // end en passante movement
+
             History.getInstance().add(board.saveState());
             getTakenPiece(to);
             // the following is the implementation for checking for the fifty
@@ -120,9 +143,16 @@ public class GameController_GUI {
                 counter = 0;
             }
 
+
             // moves the piece
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
             board.getSquares()[fromRank][fromFile].setPiece(null);
+
+            // deletes the en passante movement
+            if(deleteEnPassPiece){
+                board.getSquares()[enPassPos.getRank().getIndex()][enPassPos.getFile().getIndex()].setPiece(null);
+            }
+
             if (!playerTurn) {
                 // board.draw();
                 playerTurn = true;
@@ -177,7 +207,7 @@ public class GameController_GUI {
      * 
      */
     public void setPlayerOneName(String name) {
-        playerOneName = name;
+        playerOneName = InputNameScreen.getInstance().getPlayer1Name();
     }
 
     /**
@@ -186,7 +216,7 @@ public class GameController_GUI {
      * 
      */
     public void setPlayerTwoName(String name) {
-        playerTwoName = name;
+        playerTwoName = InputNameScreen.getInstance().getPlayer2Name();
     }
 
     /**
@@ -233,8 +263,6 @@ public class GameController_GUI {
      */
     public void saveAction() {
         // create and add file extension filters to the dialog window
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showSaveDialog(new Stage());
         if (file != null) {
             try {
@@ -260,8 +288,6 @@ public class GameController_GUI {
      */
     public void loadAction() {
         // create and add file extension filters to the dialog window
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             board.restoreState(History.getInstance().loadHistory(file).getState().clone().saveState());
