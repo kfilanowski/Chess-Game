@@ -22,7 +22,7 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
     /**The scene of the stage**/
     private Scene scene;
 
-    /**The root of scene A and scene B**/
+    /**The root of scene A and scene H**/
     private Pane rootA, rootB, rootC, rootD, rootE, rootF, rootG, rootH;
 
     /**Get the instance of this application**/

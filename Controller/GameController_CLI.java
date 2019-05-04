@@ -12,6 +12,7 @@ import Interfaces.PieceIF;
 import Interfaces.SquareIF;
 import Model.Board;
 import Model.Position;
+import Validator.HorizVertValidator;
 import Validator.PieceValidator;
 import History.State;
 
@@ -140,7 +141,22 @@ public class GameController_CLI {
 
             // moves the piece
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
+            PieceValidator toPiece2 = (PieceValidator) board.getSquares()[toRank][toFile].getPiece();
             board.getSquares()[fromRank][fromFile].setPiece(null);
+
+            //This block of code is for the King's castle movement
+            if(toPiece2.getPiece().getChessPieceType() == ChessPieceType.KING
+                    && (fromFile - toFile) == 2){
+                HorizVertValidator rook = (HorizVertValidator)board.getSquares()[fromRank][fromFile - 4].getPiece();
+                board.getSquares()[fromRank][toFile + 1].setPiece(rook);
+                board.getSquares()[fromRank][fromFile - 4].setPiece(null);
+            }else if(toPiece2.getPiece().getChessPieceType() == ChessPieceType.KING
+                    && (toFile - fromFile) == 2){
+                HorizVertValidator rook = (HorizVertValidator)board.getSquares()[fromRank][fromFile  + 3].getPiece();
+                board.getSquares()[fromRank][toFile - 1].setPiece(rook);
+                board.getSquares()[fromRank][fromFile + 3].setPiece(null);
+            }
+
             if (!playerTurn) {
                 // board.draw();
                 playerTurn = true;

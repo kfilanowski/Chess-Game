@@ -75,15 +75,15 @@ public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
     /** the unlimited undo checkbox. */
     CheckBox enableUndo;
 
-    /** Text fiels that prompts for the max undos */
+    /** Text fields that prompts for the max undos */
     TextField maxUndo;
 
     /** The arrayList of our observers */
     private ArrayList<SettingsObserver> settingsObservers;
 
-
-
+    /** The Button that exits the screen **/
     private Button exit;
+
     /**
      * the constructor for the settings screen
      */
@@ -124,7 +124,6 @@ public class SettingsRoundTwo implements SubjectIF, EventHandler<ActionEvent> {
         if(instance == null) instance = new SettingsRoundTwo();
         return instance;
     }
-
 
 
     public void settingSetup(){

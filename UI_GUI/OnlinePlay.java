@@ -7,13 +7,19 @@ import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-
+/**
+ * Class that models the Online Play screen
+ * @author Matthew Lutz 100%
+ */
 public class OnlinePlay implements EventHandler<ActionEvent> {
     private BorderPane root;
     private ScreenChangeHandler handler;
     private AnchorPane anchorPane;
     private Button exit;
 
+    /**
+     * Contructor for the Online Play class
+     */
     public OnlinePlay(){
         root = new BorderPane();
         anchorPane = new AnchorPane();
@@ -30,6 +36,10 @@ public class OnlinePlay implements EventHandler<ActionEvent> {
         root.setId("Screen1");
     }
 
+    /**
+     * Method that gets the root
+     * @return - BorderPane that represents the root pane
+     */
     public Pane getRoot(){
         return root;
     }
@@ -42,6 +52,10 @@ public class OnlinePlay implements EventHandler<ActionEvent> {
         this.handler = sch;
     }
 
+    /**
+     * Handle method that handles the screen changing
+     * @param event - Action event that represents the button press
+     */
     @Override
     public void handle(ActionEvent event){
         handler.switchScreen(ScreenChangeHandler.MAINSCREEN);

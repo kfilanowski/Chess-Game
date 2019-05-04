@@ -9,12 +9,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * This class models the Tutorial screen for the GUI
+ * @author Matthew Lutz 100%
+ */
 public class Tutorial implements EventHandler<ActionEvent> {
     private BorderPane root;
     private ScreenChangeHandler handler;
     private AnchorPane anchorPane;
     private Button exit;
 
+    /**
+     * Contructor for the Tutorial class
+     */
     public Tutorial(){
         root = new BorderPane();
         anchorPane = new AnchorPane();
@@ -31,6 +38,10 @@ public class Tutorial implements EventHandler<ActionEvent> {
         root.setId("Screen1");
     }
 
+    /**
+     * Method that gets the root
+     * @return - BorderPane that represents the root pane
+     */
     public Pane getRoot(){
         return root;
     }
@@ -43,6 +54,10 @@ public class Tutorial implements EventHandler<ActionEvent> {
         this.handler = sch;
     }
 
+    /**
+     * Handle method that handles the screen changing
+     * @param event - Action event that represents the button press
+     */
     @Override
     public void handle(ActionEvent event){
         handler.switchScreen(ScreenChangeHandler.MAINSCREEN);

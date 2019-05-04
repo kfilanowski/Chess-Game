@@ -12,24 +12,43 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import com.sun.javafx.css.StyleManager;
+
+/**
+ * This class models the Main Menu screen for the GUI
+ * @author Matthew Lutz 100%
+ */
 public class MainMenu implements EventHandler<ActionEvent> {
 
-    private static MainMenu instance;
+
 
     /** ScreenChangeHandler object */
     private ScreenChangeHandler handler;
+    /** Player vs Player Button **/
     private Button pvp;
+    /** Player vs Computer Button **/
     private Button playerVsComp;
+    /** Online Play Button **/
     private Button onlinePlay;
+    /** Rules of Chess Button **/
     private Button chessRules;
+    /** Tutorial Button **/
     private Button tutorial;
+    /** Settings Button **/
     private Button settings;
+    /** Exit Button **/
     private Button exit;
+    /** BorderPane that is the root of the Main Menu Screen**/
     private BorderPane root;
+    /** Vbox that formats the buttons on the screen **/
     private VBox vbox;
-    private HBox hbox;
+    /** Anchor pane that anchors the settings button and exit button **/
     private AnchorPane anchorPane;
 
+    /**
+     *  Method that handles changing to all of
+     *  the screens that this screen can change too*
+     * @param event - Action event that represents the button press
+     */
     @Override
     public void handle(ActionEvent event){
         if(event.getSource() == pvp && !InputNameScreen.getScreenHasChanged()){
@@ -57,7 +76,9 @@ public class MainMenu implements EventHandler<ActionEvent> {
     }
 
 
-
+    /**
+     * Contructor for the MainMenu class
+     */
     public MainMenu(){
         super();
         root = new BorderPane();
@@ -65,11 +86,12 @@ public class MainMenu implements EventHandler<ActionEvent> {
 
     }
 
+    /**
+     * Method that sets up the layout of the Main Menu screen
+     */
     public void setup(){
         vbox.setAlignment(Pos.CENTER);//SET the alignment of the  layout.
         vbox.setSpacing(20);
-
-
         pvp = new Button("Player vs Player");
         //pvp.getStyleClass().add("buttonStyleA");
         pvp.getStyleClass().add("buttonSizeL");
@@ -134,9 +156,14 @@ public class MainMenu implements EventHandler<ActionEvent> {
         root.setMinSize(900.0, 700.0);
     }
 
+    /**
+     * Method that gets the root
+     * @return - BorderPane that represents the root pane
+     */
     public Pane getRoot(){
         return this.root;
     }
+
 
     /**
      * Method that sets the screenChangeHandler to a new screenChangeHandler

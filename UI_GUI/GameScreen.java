@@ -107,7 +107,10 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         buttons = new Button[6];
     }
 
-
+    /**
+     * Handle method that handles the screen changing
+     * @param event - Action event that represents the button press
+     */
     @Override
     public void handle(ActionEvent event){
         if(event.getSource() == buttons[5]) {
@@ -557,7 +560,8 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
             }
 
             // Moves the selected piece.
-            if (piece.getChessPieceType().equals(ChessPieceType.PAWN) && selectedPane.getChildren().size() <= 0)
+            if ((piece.getChessPieceType().equals(ChessPieceType.PAWN) || piece.getChessPieceType().equals(ChessPieceType.KING))
+                    && selectedPane.getChildren().size() <= 0)
                 drawBoard();
             else
                 ((Pane) grid.getChildren().get(toRank + toFile * boardSize)).getChildren().add(fromImage);
