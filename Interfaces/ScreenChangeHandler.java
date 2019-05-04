@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 
 import java.util.Stack;
 
+/**
+ * Interface that handles screen changing
+ */
 public interface ScreenChangeHandler {
     public static final int MAINSCREEN = 1;
     public static final int PLAYERNAMESCREEN = 2;

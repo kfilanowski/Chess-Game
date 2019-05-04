@@ -12,7 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
+/**
+ * Class that sets up the Graphical User Interface for the whole project
+ */
 public class Board_GUI extends Application implements BoardStrategy, ScreenChangeHandler {
 
     public static int boardSettings;
@@ -37,13 +39,17 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
 
     boolean  runOnce = true;
 
+    /**
+     * Not used
+     * @param board - The board to display.
+     */
     @Override
     public void draw(BoardIF board) {
 
     }
 
     /**
-     * 
+     * Go method that calls launch
      */
     @Override
     public void go(BoardIF board) {
@@ -51,28 +57,46 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         launch();
     }
 
+    /**
+     * Not used
+     * @param board - The board that the game is being played on.
+     * @param pos   - The position array that holds the valid position.
+     */
     @Override
     public void draw(BoardIF board, Position[] pos) {
 
     }
 
+    /**
+     * Not used
+     * @param board - The board that the game is being played on.
+     */
     @Override
     public void revDraw(BoardIF board) {
 
     }
 
+    /**
+     * Not used
+     */
     @Override
     public void getNames() {
 
     }
 
+    /**
+     * Not used
+     * @param board - The board that the game is being played on.
+     * @param pos-  The position array that holds the valid position.
+     */
     @Override
     public void revDraw(BoardIF board, Position[] pos) {
 
     }
 
     /**
-     * 
+     * The start method that sets up all the Screens for the gui
+     * @param primaryStage - The primary stage for the Board_GUI
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -81,6 +105,8 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         menu.setScreenChangeHandler(this);
         GameScreen game = GameScreen.getInstance();
         game.setup();
+        InputNameScreen nameScreen = InputNameScreen.getInstance();
+        nameScreen.setScreenChangeHandler(this);
         game.setScreenChangeHandler(this);
         SettingsScreen settings = SettingsScreen.getInstance();
         settings.settingScene();
@@ -94,8 +120,7 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         rules.setScreenChangeHandler(this);
         Tutorial tutorial = new Tutorial();
         tutorial.setScreenChangeHandler(this);
-        InputNameScreen nameScreen = InputNameScreen.getInstance();
-        nameScreen.setScreenChangeHandler(this);
+
 
         rootA = menu.getRoot();
         rootB = nameScreen.getRoot();
@@ -154,12 +179,12 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
     }
 
 
-
+    /**
+     * Switch the root pane of this screen to change scenes
+     * @param screen The choise of screen
+     */
     public void switchUI(Screens screen){
-        /**Switch the root pane of this screen to change scenes
-         * @param screen The choise of screen*/
-
-            switch(screen){
+        switch(screen){
                 case ColorScreen:
                     root = ColorScene.getInstance();
                     break;
@@ -184,10 +209,18 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
             runOnce = false;
         }//end switchUI
 
+    /**
+     * Gets an instance of the Board_GUI since its a singleton
+     * @return - Board_GUI instance
+     */
     public static Board_GUI getInstance() {
         return instance;
     }//end getInstance
 
+    /**
+     * Gets the primary stage
+     * @return - The stage
+     */
     public static Stage getPrimaryStage(){
         return primaryStage;
     }
