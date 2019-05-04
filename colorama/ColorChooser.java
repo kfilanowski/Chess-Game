@@ -2,7 +2,7 @@ package colorama;
 
 import Interfaces.*;
 import UI_GUI.Board_GUI;
-import UI_GUI.SettingsRoundTwo;
+import UI_GUI.SettingsScreen;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -184,13 +184,13 @@ public class ColorChooser extends GridPane implements EventHandler<ActionEvent> 
     @Override
     public void handle(ActionEvent event) {
         if(event.getSource() == setBlack){
-            SettingsRoundTwo.getInstance().setBlackColor(selectedColor);
-            SettingsRoundTwo.getInstance().getColorama().close();
+            SettingsScreen.getInstance().setBlackColor(selectedColor);
+            SettingsScreen.getInstance().getColorama().close();
         } else if(event.getSource() == setWhite){
-            SettingsRoundTwo.getInstance().setWhiteColor(selectedColor);
-            SettingsRoundTwo.getInstance().getColorama().close();
+            SettingsScreen.getInstance().setWhiteColor(selectedColor);
+            SettingsScreen.getInstance().getColorama().close();
         } else if(event.getSource() == cancel){
-            SettingsRoundTwo.getInstance().getColorama().close();
+            SettingsScreen.getInstance().getColorama().close();
         }
     }//end handle
 

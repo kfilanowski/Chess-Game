@@ -13,5 +13,5 @@ public interface SettingsObserver {
 
     public void unlimUpdate(boolean unlimUndo);
 
-    public void colorUpdate(Background white, Background black);
+    public void colorUpdate(String white, String black);
 }

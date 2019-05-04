@@ -130,8 +130,6 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             if(getPlayer2Name().equals("")){
                 this.tf2.setText("Black");
             }
-            gc.setPlayerOneName(getPlayer1Name());
-            gc.setPlayerTwoName(getPlayer2Name());
             //TODO: call switch screens somewhere
         }else if(event.getSource() == exit){
             handler.switchScreen(ScreenChangeHandler.SCREENA);

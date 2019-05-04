@@ -35,7 +35,7 @@ import javafx.scene.text.Font;
 /**
  * The game screen that the two players will play on.
  *
- * @author Kevin Filanowski
+ * @author Kevin Filanowski (100%)
  * @version May 3, 2019
  */
 public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
@@ -112,7 +112,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event){
-        if(event.getSource() == exitButton) {
+        if(event.getSource() == buttons[5]) {
             handler.switchScreen(ScreenChangeHandler.SCREENA);
             Board_GUI.boardSettings = 0;
         }else if (event.getSource() == buttons[4]){
@@ -325,7 +325,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         topPanel.setAlignment(Pos.CENTER);
 
         // Create the row of buttons.
-        Button[] buttons = new Button[6];
+        buttons = new Button[6];
 
         buttons[0] = new Button("Load");
         buttons[0].setOnAction(e -> {
@@ -594,8 +594,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         if (piece != null) {
             Position[] pos = piece.showMoves(board.getSquares()[rowIndex][colIndex].getPostion());
             for (Position p : pos) {
-                grid.getChildren().get(p.getRank().getIndex() + p.getFile().getIndex() * boardSize).getStyleClass()
-                        .add("showMoves");
+                grid.getChildren().get(p.getRank().getIndex() + p.getFile().getIndex() * boardSize).setStyle("-fx-background-color: #62e43b; -fx-border-color: #62e43b");
             }
         }
     }
@@ -630,16 +629,27 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         this.unlimUndo = unlimUndo;
     }
 
-    public void colorUpdate(Background white, Background black) {
-
+    public void colorUpdate(String white, String black) {
         int count = 0;
-        for (int i = 0; i < grid.getChildren().size() - 1; i++) {
-            System.out.println(i);
+        boolean flippity = true;
+        for (int i = 0; i <= grid.getChildren().size() - 1; i++) {
 
-            if (i % 2 == 0)
-                grid.getChildren().get(i).setStyle(/* "-fx-background-color: #ff0000; */" -fx-border-color: #ff0000");
-            else
-                grid.getChildren().get(i).setStyle("-");
+            if(count == 8){
+                flippity = !flippity;
+                count = 0;
+            }
+
+            if(flippity){
+                grid.getChildren().get(i).setStyle( "-fx-background-color: #" + white + ";  -fx-border-color: #" + white +
+                                                     ";");
+                flippity = false;
+            }else{
+                grid.getChildren().get(i).setStyle( "-fx-background-color: #" + black + ";  -fx-border-color: #" + black +
+                                                      ";");
+                flippity = true;
+            }
+
+            count++;
         }
 
     }

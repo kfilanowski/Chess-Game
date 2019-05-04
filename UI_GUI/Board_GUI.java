@@ -82,8 +82,8 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         GameScreen game = GameScreen.getInstance();
         game.setup();
         game.setScreenChangeHandler(this);
-        SettingsRoundTwo settings = SettingsRoundTwo.getInstance();
-        settings.settingSetup();
+        SettingsScreen settings = SettingsScreen.getInstance();
+        settings.settingScene();
         settings.setScreenChangeHandler(this);
         menu.setup();
         OnlinePlay online = new OnlinePlay();
