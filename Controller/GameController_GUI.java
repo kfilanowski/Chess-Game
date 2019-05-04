@@ -34,7 +34,9 @@ import History.State;
  * Game controller conducts chess game logic for a chess game and certain
  * detections necessary to ensure a proper game of chess is played.
  * 
- * @author Kevin Filanowski
+ * @author Kevin Filanowski (33%)
+ * @author Jeriah Caplinger (33%)
+ * @author Matt Lutz (33%)
  * @version April 28, 2019
  */
 public class GameController_GUI {
@@ -62,10 +64,16 @@ public class GameController_GUI {
     ArrayList<AlertHandler> ahList;
     /** The screen change handler that handles changing the screens. */
     ScreenChangeHandler handler;
-
-
-    Stage stage;
-    FileChooser fileChooser;
+    /** ArrayList that contains a copy of the history list */
+    ArrayList<State<BoardIF>> copyOfHistory;
+    /** ArrayList that keeps track of three fold repetition */
+    ArrayList<State<BoardIF>> threeFold;
+    /** file chooser object for opening a save and load dialog box */
+    private FileChooser fileChooser;
+    /** boolean for determiniing if the 50 move draw has been reached */
+    private boolean continueGame;
+    /** boolean for determining if the game can continue using the three fold repitition */
+    private boolean continueThreeFold;
 
     /**
      * Constructor for a GUI GameController. This controller is for a chess
@@ -78,9 +86,13 @@ public class GameController_GUI {
         playerTurn = true;
         whiteTakenPiece = new ArrayList<>();
         blackTakenPiece = new ArrayList<>();
+        copyOfHistory = new ArrayList<>();
+        threeFold = new ArrayList<>();
         ahList = new ArrayList<>();
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
+        continueGame = true;
+        continueThreeFold = true;
     }
 
     /**
@@ -89,9 +101,7 @@ public class GameController_GUI {
      *
      * @param from - The position to move from.
      * @param to   - The position to move to.
-     * @throws GameOverCheckMateException - If the game is over by CheckMate.
-     * @throws GameOverStaleMateException - If the game is over by StaleMate.
-     * @return - //TODO: 
+     * @return - if the move moved successfully
      */
     public boolean move(Position from, Position to) {
         int fromFile = from.getFile().getIndex(); 
@@ -109,7 +119,7 @@ public class GameController_GUI {
                                 .getPiece().getColor() == GameColor.BLACK
                                 && !playerTurn);
 
-        if (validMove && (whiteTurn || blackTurn)) {
+        if (validMove && (whiteTurn || blackTurn) && continueGame && continueThreeFold) {
             // For en passante checking
             boolean deleteEnPassPiece = false;
             Position enPassPos = null;
@@ -143,6 +153,7 @@ public class GameController_GUI {
                     } else {
                         playerTurn = false;
                     }
+                    continueGame = false;
                 }
             } else {
                 counter = 0;
@@ -179,19 +190,47 @@ public class GameController_GUI {
             if (!playerTurn) {
                 // board.draw();
                 playerTurn = true;
-                // detects check mate and stale mate
-                //this.endGameHelp(board, GameColor.WHITE);
-                //this.threeFoldRep(board);
-                alert(playerTwoName + "'s turn!");
+                //detects check mate and stale mate
+                boolean isItCheckMate = this.endGameHelpCheckMate(board, GameColor.WHITE);
+                boolean isItStaleMate = this.endGameHelpStaleMate(board, GameColor.WHITE);
+                boolean isItThreeFold = this.threeFoldRep(board);
+                if(isItCheckMate){
+                    alert("CHECKMATE! " + InputNameScreen.getInstance().getPlayer2Name() + " wins!");
+                }else if(isItStaleMate){
+                    alert("STALEMATE! " + InputNameScreen.getInstance().getPlayer1Name() +
+                            " draws with " + InputNameScreen.getInstance().getPlayer2Name());
+                }else if (!continueGame){
+                    this.alert("DRAW! 50 moves draw rule has been reached!");
+                }else if(isItThreeFold){
+                    this.continueThreeFold = false;
+                    alert("DRAW! Three fold repetition has been reached!");
+                }
+                else {
+                    alert(InputNameScreen.getInstance().getPlayer1Name() + "'s turn!");
+                }
                 board.draw();
                 playerTurn = true;
             } else {
                 // board.revDraw(board);
                 playerTurn = false;
                 // detects check mate and stale mate
-                //this.endGameHelp(board, GameColor.BLACK);
-                //this.threeFoldRep(board);
-                alert(playerTwoName + "'s turn!");
+                boolean isItCheckMate = this.endGameHelpCheckMate(board, GameColor.BLACK);
+                boolean isItStaleMate = this.endGameHelpStaleMate(board, GameColor.BLACK);
+                boolean isItThreeFold = this.threeFoldRep(board);
+                if(isItCheckMate){
+                    alert("CHECKMATE! " + InputNameScreen.getInstance().getPlayer1Name() + " wins!");
+                }else if(isItStaleMate){
+                    alert("STALEMATE! " + InputNameScreen.getInstance().getPlayer1Name() +
+                            " draws with " + InputNameScreen.getInstance().getPlayer2Name());
+                }else if (!continueGame){
+                    this.alert("DRAW! 50 moves draw rule has been reached!");
+                }else if(isItThreeFold){
+                    this.continueThreeFold = false;
+                    alert("DRAW! Three fold repetition has been reached!");
+                }
+                else {
+                    alert(InputNameScreen.getInstance().getPlayer2Name() + "'s turn!");
+                }
                 board.revDraw(board);
                 playerTurn = false;
             }
@@ -199,6 +238,85 @@ public class GameController_GUI {
         }
         return false;
     }
+
+
+    /**
+     * Detects if the game is over by either a checkmate or a stalemate
+     *
+     * @param board the chess board
+     * @param color the color we are checking for checkmate or stalemate
+     */
+    private boolean endGameHelpCheckMate(BoardIF board, GameColor color) {
+        boolean result = false;
+        if (((Board) board).checkForCheck(color)) {
+            if(GameColor.WHITE == color){
+                alert(InputNameScreen.getInstance().getPlayer1Name() + " is in CHECK!");
+            }else if(color == GameColor.BLACK){
+                alert(InputNameScreen.getInstance().getPlayer2Name() + " is in CHECK!");
+            }
+            if ((((Board) board).checkForCheckMate(color))) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * Helper method that determines if the game has ended in stalemate
+     * @param board the chess board
+     * @param color the color to check for
+     * @return true if it is in stalemate
+     */
+    private boolean endGameHelpStaleMate(BoardIF board, GameColor color){
+        boolean result = false;
+        if ( !((Board) board).checkForCheck(color)) {
+            if ((((Board) board).checkForStaleMate(color))) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+
+
+    /**
+     * Detects three fold repetition for the game to end in a draw
+     *
+     * @param board the board we are using
+     * @return returns true if there is a three fold repetition.
+     */
+    private boolean threeFoldRep(BoardIF board) {
+        boolean result = false;
+        int counter = 0;
+        History<BoardIF> history = History.getInstance();
+        State<BoardIF> state = board.saveState();
+        this.copyOfHistory.addAll(history.getList());
+
+        // this is for after three fold repetition occurs, if the players decide
+        // to continue we need to take out the board states so we can count a
+        // new set of 3 fold repetitions.
+        for (State<BoardIF> st : this.threeFold) {
+            for (int i = 0; i < 3; i++) {
+                this.copyOfHistory.remove(st);
+            }
+        }
+
+        // detects equality and if we find three occurrences its 3 fold
+        // repetition
+        for (State<BoardIF> s : this.copyOfHistory) {
+            if (s.getState().equals(state.getState())) {
+                counter++;
+                if (counter == 3) {
+                    this.threeFold.add(s);
+                    result = true;
+                }
+            }
+        }
+        this.copyOfHistory.clear();
+        return result;
+    }
+
 
     /**
      * Adds the piece that was taken to the Arraylist of the player that took it.
@@ -225,18 +343,16 @@ public class GameController_GUI {
     }
 
     /**
-     * 
-     * 
-     * 
+     * Sets the player's name
+     * @param name the player name to be set
      */
     public void setPlayerOneName(String name) {
         playerOneName = InputNameScreen.getInstance().getPlayer1Name();
     }
 
     /**
-     * 
-     * 
-     * 
+     * Sets the players name
+     * @param name the players name to be set
      */
     public void setPlayerTwoName(String name) {
         playerTwoName = InputNameScreen.getInstance().getPlayer2Name();
@@ -262,6 +378,12 @@ public class GameController_GUI {
             board.restoreState(state);
             playerTurn = !playerTurn;
             alert("Undo occured");
+            this.continueThreeFold = true;
+            counter--;
+            if(!continueGame) {
+                this.continueGame = true;
+                playerTurn = !playerTurn;
+            }
         }
     }
 
@@ -317,6 +439,9 @@ public class GameController_GUI {
         }
     }
 
+    /**
+     * The settings screen action that can switch the screen
+     */
     public void settingsAction(){
         handler.switchScreen(ScreenChangeHandler.SETTINGSSCREEN);
     }

@@ -79,6 +79,9 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         boardSettings = 0;
         MainMenu menu = new MainMenu();
         menu.setScreenChangeHandler(this);
+
+        InputNameScreen nameScreen = InputNameScreen.getInstance();
+        nameScreen.setScreenChangeHandler(this);
         GameScreen game = GameScreen.getInstance();
         game.setup();
         game.setScreenChangeHandler(this);
@@ -94,8 +97,6 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         rules.setScreenChangeHandler(this);
         Tutorial tutorial = new Tutorial();
         tutorial.setScreenChangeHandler(this);
-        InputNameScreen nameScreen = InputNameScreen.getInstance();
-        nameScreen.setScreenChangeHandler(this);
 
         rootA = menu.getRoot();
         rootB = nameScreen.getRoot();
