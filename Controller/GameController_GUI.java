@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import Model.*;
 
 import ChessExceptions.GameOverStaleMateException;
 import Enums.ChessPieceType;
@@ -18,6 +21,8 @@ import Model.Position;
 import UI_GUI.Board_GUI;
 import UI_GUI.InputNameScreen;
 import Validator.PawnValidator;
+import Validator.HorizVertValidator;
+import Validator.KingValidator;
 import Validator.PieceValidator;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -146,7 +151,25 @@ public class GameController_GUI {
 
             // moves the piece
             board.getSquares()[toRank][toFile].setPiece(board.getSquares()[fromRank][fromFile].getPiece());
+            PieceValidator toPiece2 = (PieceValidator) board.getSquares()[toRank][toFile].getPiece();
+
+
+            toPiece2.getPiece().setHasMoved(true);
             board.getSquares()[fromRank][fromFile].setPiece(null);
+
+            //This block of code is for the King's castle movement
+            if(toPiece2.getPiece().getChessPieceType() == ChessPieceType.KING
+                    && (fromFile - toFile) == 2){
+                HorizVertValidator rook = (HorizVertValidator)board.getSquares()[fromRank][fromFile - 4].getPiece();
+                board.getSquares()[fromRank][toFile + 1].setPiece(rook);
+                board.getSquares()[fromRank][fromFile - 4].setPiece(null);
+            }else if(toPiece2.getPiece().getChessPieceType() == ChessPieceType.KING
+                    && (toFile - fromFile) == 2){
+                HorizVertValidator rook = (HorizVertValidator)board.getSquares()[fromRank][fromFile  + 3].getPiece();
+                board.getSquares()[fromRank][toFile - 1].setPiece(rook);
+                board.getSquares()[fromRank][fromFile + 3].setPiece(null);
+            }
+
 
             // deletes the en passante movement
             if(deleteEnPassPiece){
@@ -295,7 +318,7 @@ public class GameController_GUI {
     }
 
     public void settingsAction(){
-        handler.switchScreen(ScreenChangeHandler.SCREENC);
+        handler.switchScreen(ScreenChangeHandler.SETTINGSSCREEN);
     }
 
     /**

@@ -73,8 +73,6 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
     Button[] buttons;
 
-    Button exitButton;
-
     /** true for performing undo, false for not being able to perform undos */
     boolean undo;
 
@@ -571,7 +569,8 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
             }
 
             // Moves the selected piece.
-            if (piece.getChessPieceType().equals(ChessPieceType.PAWN) && selectedPane.getChildren().size() <= 0)
+            if ((piece.getChessPieceType().equals(ChessPieceType.PAWN) || piece.getChessPieceType().equals(ChessPieceType.KING))
+                    && selectedPane.getChildren().size() <= 0)
                 drawBoard();
             else
                 ((Pane) grid.getChildren().get(toRank + toFile * boardSize)).getChildren().add(fromImage);

@@ -56,7 +56,8 @@ public class KingValidator extends PieceValidator {
         if((Math.abs(toRank - fromRank) > 1 || Math.abs(toFile - fromFile) > 1) &&
                 !castleValidation(fromPiece.getColor(), from, validMoves)){
             return false;
-        }else if(castleValidation(fromPiece.getColor(), from, validMoves)){
+        }else if(castleValidation(fromPiece.getColor(), from, validMoves) && Math.abs(toRank - fromRank) == 1 &&
+        validMoves.contains(to)){
             return true;
         }
 
@@ -651,8 +652,15 @@ public class KingValidator extends PieceValidator {
      * @param validMoves - Array of valid movement options for the king
      * @return - An updated array of valid moves if the king can castle
      */
-	private boolean castleValidation(GameColor color, Position kingPos, ArrayList<Position> validMoves){
-        return (checkLeftKingCastle(color, kingPos, validMoves) || checkRightKingCastle(color, kingPos, validMoves));
+	public boolean castleValidation(GameColor color, Position kingPos, ArrayList<Position> validMoves){
+	    boolean result = false;
+
+	    if (checkLeftKingCastle(color, kingPos, validMoves) && checkRightKingCastle(color, kingPos, validMoves)){
+	        result = true;
+        }else if (checkLeftKingCastle(color, kingPos, validMoves) || checkRightKingCastle(color, kingPos, validMoves)){
+	        result = true;
+        }
+        return result;
 
     }
 
@@ -663,7 +671,7 @@ public class KingValidator extends PieceValidator {
      * @param validMoves - Array of valid movement options for the king
      * @return - True if the king can castle left, false if not
      */
-    private boolean checkLeftKingCastle(GameColor color, Position kingPos, ArrayList<Position> validMoves){
+    public boolean checkLeftKingCastle(GameColor color, Position kingPos, ArrayList<Position> validMoves){
 	    int kingRank = kingPos.getRank().getIndex();
 	    int kingFile = kingPos.getFile().getIndex();
 	    SquareIF[][] squares = board.getSquares();
@@ -675,9 +683,11 @@ public class KingValidator extends PieceValidator {
             if(gottenPiece != null) {
                 if (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK
                       && gottenPiece.getColor() == color && (!king.getPiece().getHasMoved() &&
-                        !gottenPiece.getPiece().getHasMoved())) {
+                        !gottenPiece.getPiece().getHasMoved()) && !((Board)board).checkForCheck(color)) {
                     validMoves.add(new Position(kingPos.getRank(), File.getFileFromIndex(kingFile - 2)));
                     return true;
+                }else if(gottenPiece.getPiece().getChessPieceType() != ChessPieceType.ROOK){
+                    return false;
                 }
             }
             i--;
@@ -692,19 +702,26 @@ public class KingValidator extends PieceValidator {
      * @param validMoves - Array of valid movement options for the king
      * @return - True if the king can castle right, false if not
      */
-    private boolean checkRightKingCastle(GameColor color, Position kingPos, ArrayList<Position> validMoves){
+    public boolean checkRightKingCastle(GameColor color, Position kingPos, ArrayList<Position> validMoves){
         int kingRank = kingPos.getRank().getIndex();
         int kingFile = kingPos.getFile().getIndex();
         SquareIF[][] squares = board.getSquares();
-
+        PieceValidator king = (PieceValidator) squares[kingRank][kingFile].getPiece();
         //check to the left of the king
-        int i = kingFile;
-        while (i <= File.getMaxIndex() && squares[kingRank][++i].getPiece() == null) {
-            if(i == File.getMaxIndex() && squares[kingRank][i].getPiece().getChessPieceType() == ChessPieceType.ROOK
-                    && squares[kingRank][i].getPiece().getColor() == color){
-                validMoves.add(new Position(kingPos.getRank(), File.getFileFromIndex(kingFile + 2)));
-                return true;
+        int i = kingFile + 1;
+        while (i <= File.getMaxIndex()) {
+            PieceValidator gottenPiece = (PieceValidator) squares[kingRank][i].getPiece();
+            if(gottenPiece != null) {
+                if (gottenPiece.getPiece().getChessPieceType() == ChessPieceType.ROOK
+                        && gottenPiece.getColor() == color && (!king.getPiece().getHasMoved() &&
+                        !gottenPiece.getPiece().getHasMoved()) && !((Board)board).checkForCheck(color)) {
+                    validMoves.add(new Position(kingPos.getRank(), File.getFileFromIndex(kingFile + 2)));
+                    return true;
+                }else if(gottenPiece.getPiece().getChessPieceType() != ChessPieceType.ROOK){
+                    return false;
+                }
             }
+            i++;
         }
         return false;
     }

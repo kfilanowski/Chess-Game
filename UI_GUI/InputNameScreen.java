@@ -125,7 +125,7 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
         if(event.getSource() == play){
             // if the players do not enter a name, then the default names are set
             // to white and black
-            handler.switchScreen(ScreenChangeHandler.SCREENH);
+            handler.switchScreen(ScreenChangeHandler.GAMESCREEN);
             screenHasChanged = true;
             if(getPlayer1Name().equals("")){
                 this.tf1.setText("White");
@@ -133,9 +133,10 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             if(getPlayer2Name().equals("")){
                 this.tf2.setText("Black");
             }
+
             //TODO: call switch screens somewhere
         }else if(event.getSource() == exit){
-            handler.switchScreen(ScreenChangeHandler.SCREENA);
+            handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
         }
     }
 
