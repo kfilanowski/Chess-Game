@@ -71,8 +71,6 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     /** ScreenChangeHandler object */
     ScreenChangeHandler handler;
 
-    Button[] buttons;
-
     /** true for performing undo, false for not being able to perform undos */
     boolean undo;
 
@@ -329,7 +327,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         topPanel.setAlignment(Pos.CENTER);
 
         // Create the row of buttons.
-        buttons = new Button[6];
+        Button[] buttons = new Button[6];
 
         buttons[0] = new Button("Load");
         buttons[0].setOnAction(e -> {
