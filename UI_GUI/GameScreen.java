@@ -114,10 +114,10 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource().toString().contains("Exit")) {
-            handler.switchScreen(ScreenChangeHandler.SCREENA);
+            handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
             Board_GUI.boardSettings = 0;
         } else if (event.getSource().toString().contains("Settings")) {
-            handler.switchScreen(ScreenChangeHandler.SCREENC);
+            handler.switchScreen(ScreenChangeHandler.SETTINGSSCREEN);
         }
     }
 
