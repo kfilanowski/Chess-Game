@@ -475,7 +475,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      * pane will display the player's currently selected piece, and potentially
      * other types of information.
      */
-    private void setupBottom() {
+    public void setupBottom() {
         HBox bottomPanel = new HBox();
         bottomPanel.setPrefWidth(640);
         bottomPanel.setAlignment(Pos.CENTER);

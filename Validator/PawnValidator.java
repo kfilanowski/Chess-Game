@@ -542,9 +542,6 @@ public class PawnValidator extends PieceValidator {
                     posArr.add(new Position(Rank.getRankFromIndex(fromRank + move_pos), File.getFileFromIndex(fromFile - 1)));
                 }
             }
-
-            //TODO: check for stillCheckAfterMove() with en passante
-            //TODO: fix en passante for showmoves, validate moves works.
             if(fromPiece.getColor() == GameColor.BLACK) {
                 showEnPassanteBlack(fromRank, fromFile, squares, posArr);
             }else if(fromPiece.getColor() == GameColor.WHITE){

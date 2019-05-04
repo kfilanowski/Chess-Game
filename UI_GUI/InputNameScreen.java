@@ -160,6 +160,14 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     }
 
     /**
+     * Sets the first player's name
+     * @param name the name to set the player
+     */
+    public void setPlayer1Name(String name){
+        this.tf1.setText(name);
+    }
+
+    /**
      * Gets the second player's name
      * @return the second player's inputted name
      */

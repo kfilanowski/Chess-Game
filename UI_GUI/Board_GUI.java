@@ -111,7 +111,6 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
         Tutorial tutorial = new Tutorial();
         tutorial.setScreenChangeHandler(this);
         
-
         rootA = menu.getRoot();
         rootB = nameScreen.getRoot();
         rootC = settings.getRoot();
