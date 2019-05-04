@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 /**
  * A factory class for returning an ImageView node for a specified chess piece.
  *
- * @author Kevin Filanowski
+ * @author Kevin Filanowski - 100%
  * @version April 19, 2019
  */
 public class ImageFactory {

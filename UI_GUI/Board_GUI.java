@@ -13,10 +13,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * The Board strategy that is called upon for the board.
+ * 
+ * @author Kevin Filanowski 30%
+ */
 public class Board_GUI extends Application implements BoardStrategy, ScreenChangeHandler {
 
     public static int boardSettings;
 
+    /** The main window of the program. */
     private static Stage primaryStage;
 
     /** The scene of the stage **/
@@ -48,7 +54,9 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
     }
 
     /**
+     * Begins the drawing of the GUI.
      * 
+     * @param board - A reference to the board.
      */
     @Override
     public void go(BoardIF board) {
