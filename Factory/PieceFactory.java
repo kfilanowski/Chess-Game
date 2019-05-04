@@ -8,11 +8,28 @@ import Interfaces.SquareIF;
 import Model.Piece;
 import Validator.*;
 
+
+/**
+ * Factory class that builds chess pieces
+ * @author Jeriah Caplinger (100%)
+ * @versioin 5/3/2019
+ */
 public class PieceFactory {
 
+    /**
+     * Constructor for piece factory
+     */
     public PieceFactory(){
     }
 
+    /**
+     * Sets a piece on the given board and builds a specific piece
+     * @param color the color of the chess piece
+     * @param type the type of the chess piece
+     * @param board the board to set it on
+     * @param rankIndex the rank index on the chess board
+     * @param fileIndex the file index on the chess board
+     */
     public void setPieceIF(GameColor color, ChessPieceType type, BoardIF board, int rankIndex, int fileIndex){
         switch (type) {
             case ROOK: {

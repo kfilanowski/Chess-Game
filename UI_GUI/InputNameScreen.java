@@ -31,9 +31,9 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     private VBox screen;
     /** Handles game logic that is detached from a GUI. */
     private GameController_GUI gc;
-
+    /** the screen change handler for this class */
     private ScreenChangeHandler handler;
-
+    /** boolean that tells if the screen has changed or not */
     private static boolean screenHasChanged;
 
 
@@ -96,9 +96,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
     }
 
     /**
-     * 
-     * 
-     * 
+     * Gets the root for this screen
+     * @return the root for this screen
      */
     public VBox getRoot() {
         return screen;
@@ -133,8 +132,6 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
             if(getPlayer2Name().equals("")){
                 this.tf2.setText("Black");
             }
-
-            //TODO: call switch screens somewhere
         }else if(event.getSource() == exit){
             handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
         }
