@@ -244,7 +244,7 @@ public class SettingsScreen implements SubjectIF, EventHandler<ActionEvent> {
 
         if((event.getSource().toString().contains("Exit"))
                 && Board_GUI.boardSettings == 0){
-            handler.switchScreen(ScreenChangeHandler.SCREENA);
+            handler.switchScreen(ScreenChangeHandler.MAINSCREEN);
         }else if (event.getSource().toString().contains("Pick Color")) {
             setStage();
         } else if(event.getSource().toString().contains("Enabled Undo")){
@@ -254,7 +254,7 @@ public class SettingsScreen implements SubjectIF, EventHandler<ActionEvent> {
         } else if(event.getSource().toString().contains("Unlimited Undo")){
             unlimNotify(((CheckBox)event.getSource()).isSelected());
         } else{
-            handler.switchScreen(ScreenChangeHandler.SCREENH);
+            handler.switchScreen(ScreenChangeHandler.GAMESCREEN);
         }
 
 
