@@ -177,7 +177,7 @@ public class Board_GUI extends Application implements BoardStrategy, ScreenChang
 
             //Change the screen
             if(scene == null)
-                scene = new Scene(root,400,600);
+                scene = new Scene(root, 675, 500);
             else
                 scene.setRoot(root);
 

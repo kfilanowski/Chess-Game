@@ -131,7 +131,6 @@ public class MainMenu implements EventHandler<ActionEvent> {
         root.setId("Screen1");
         //root.getStyleClass().add("Screen1");
 
-        root.setMinSize(900.0, 700.0);
     }
 
     public Pane getRoot(){

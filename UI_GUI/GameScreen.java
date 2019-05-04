@@ -19,7 +19,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
@@ -72,10 +71,6 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     /** ScreenChangeHandler object */
     ScreenChangeHandler handler;
 
-    Button[] buttons;
-
-    Button exitButton;
-
     boolean undo;
 
     boolean unlimUndo;
@@ -106,16 +101,19 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         undo = false;
         unlimUndo = false;
         maxUndo = 1;
-        buttons = new Button[6];
     }
 
-
+    /**
+     * Handles the possible screens that the GameScreen can switch to.
+     * 
+     * @param event - The event that called this method.
+     */
     @Override
-    public void handle(ActionEvent event){
-        if(event.getSource() == buttons[5]) {
+    public void handle(ActionEvent event) {
+        if (event.getSource().toString().contains("Exit")) {
             handler.switchScreen(ScreenChangeHandler.SCREENA);
             Board_GUI.boardSettings = 0;
-        }else if (event.getSource() == buttons[4]){
+        } else if (event.getSource().toString().contains("Settings")) {
             handler.switchScreen(ScreenChangeHandler.SCREENC);
         }
     }
@@ -148,9 +146,8 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      * @return - An instance of the GameScreen class.
      */
     public static GameScreen getInstance(BoardIF board) {
-        if (instance == null) {
+        if (instance == null)
             instance = new GameScreen(board);
-        }
         return instance;
     }
 
@@ -222,6 +219,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      */
     private void setupCenter() {
         BorderPane center = new BorderPane();
+        //center.setPrefSize(450, 450);
         BorderPane.setAlignment(grid, Pos.TOP_LEFT);
 
         // Create the rank and files.
@@ -237,19 +235,20 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         grid.setAlignment(Pos.CENTER);
         grid.setId("board");
         grid.setMinSize(350, 350);
+        //grid.setPrefSize(400, 400);
         files.setMinWidth(grid.getMinWidth());
         ranks.setMinHeight(grid.getMinHeight());
 
         root.heightProperty().addListener(e -> {
             double min = Math.floor(Math.min(
                     root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
-                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth())-10);
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth()));
             center.setMaxSize(min, min);
         });
         root.widthProperty().addListener(e -> {
             double min = Math.floor(Math.min(
                     root.getHeight() - ((Pane) root.getBottom()).getHeight() - ((Pane) root.getTop()).getHeight(),
-                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth())-10);
+                    root.getWidth() - ((Pane) root.getLeft()).getWidth() - ((Pane) root.getRight()).getWidth()));
             center.setMaxSize(min, min);
         });
 
@@ -322,10 +321,11 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      */
     private void setupTop() {
         HBox topPanel = new HBox();
+        topPanel.setPrefWidth(640);
         topPanel.setAlignment(Pos.CENTER);
 
         // Create the row of buttons.
-        buttons = new Button[6];
+        Button[] buttons = new Button[6];
 
         buttons[0] = new Button("Load");
         buttons[0].setOnAction(e -> {
@@ -337,7 +337,6 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         buttons[1].setOnAction(e -> gc.saveAction());
 
         buttons[2] = new Button("Undo");
-        // TODO: simplify?
         buttons[2].setOnAction(e -> {
             if (undo) {
                 if (unlimUndo || maxUndo != 0) {
@@ -385,14 +384,16 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
         playerOneName.getStyleClass().add("playerLabel");
 
         VBox.setVgrow(capturedBlackPieces, Priority.ALWAYS);
-        grid.widthProperty().addListener(e -> {
-            capturedBlackPieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
-            capturedBlackPieces.setMaxWidth(((Pane) grid.getChildren().get(0)).getWidth());
+        root.widthProperty().addListener(e -> {
+            capturedBlackPieces.setMinWidth(2.2*grid.getWidth()/boardSize);
+            capturedBlackPieces.setMaxWidth(2.2*grid.getWidth()/boardSize);
+            leftPanel.setMaxWidth(2.5*grid.getWidth()/boardSize);
         });
-
+        leftPanel.setMinSize(playerOne.getWidth(), grid.getMinHeight());
         leftPanel.getChildren().addAll(playerOne, playerOneName, capturedBlackPieces);
         root.setLeft(leftPanel);
     }
+
 
     /**
      * Tells the root pane's left node to add the passed in node as a child. This
@@ -420,11 +421,11 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
 
         // Properly scale this left side with screen resizing.
         VBox.setVgrow(capturedWhitePieces, Priority.ALWAYS);
-        grid.widthProperty().addListener(e -> {
-            capturedWhitePieces.setMinWidth(2.1 * grid.getWidth() / boardSize);
-            capturedWhitePieces.setMaxWidth(((Pane) grid.getChildrenUnmodifiable().get(0)).getWidth());
+        root.widthProperty().addListener(e -> {
+            capturedWhitePieces.setMinWidth(2.2*((Pane)grid.getChildren().get(0)).getWidth());
+            rightPanel.setMaxWidth(3.0*((Pane)grid.getChildren().get(0)).getWidth());
         });
-
+        rightPanel.setMinSize(playerTwo.getWidth(), grid.getMinHeight());
         rightPanel.getChildren().addAll(playerTwo, playerTwoName, capturedWhitePieces);
         root.setRight(rightPanel);
     }
@@ -446,6 +447,7 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
      */
     private void setupBottom() {
         HBox bottomPanel = new HBox();
+        bottomPanel.setPrefWidth(640);
         bottomPanel.setAlignment(Pos.CENTER);
 
         InfoLabel info = new InfoLabel(gc.getPlayerOneName() + "'s turn!");
@@ -462,9 +464,9 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
     public void setup() {
         setupTop();
         setupCenter();
-        setupLeft();
-        setupRight();
         setupBottom();
+        setupLeft();
+        //setupRight();
     }
 
     /**
@@ -641,6 +643,5 @@ public class GameScreen implements SettingsObserver, EventHandler<ActionEvent> {
             else
                 grid.getChildren().get(i).setStyle("-");
         }
-
     }
 }

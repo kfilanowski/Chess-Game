@@ -20,6 +20,4 @@ public interface ScreenChangeHandler {
     /**Sub screens must call this to switch screen.
      * @param screen The screen to show**/
     public void switchScreen(int screen);
-
-
 }
