@@ -40,6 +40,8 @@ public class InputNameScreen implements EventHandler<ActionEvent> {
 
     /**
      * Creates an input name screen object
+     *
+     * @param gc the game controller gui object
      */
     private InputNameScreen(GameController_GUI gc){
         super();
